@@ -77,7 +77,7 @@ Item {
 
         readonly property bool skipped: !d.mobileScenario || d.haveShown("top")
         readonly property bool shown: item && item.shown
-        active: !skipped || (item && item.visible)
+        active: !skipped
         onSkippedChanged: if (skipped && shown) item.hide()
 
         sourceComponent: TutorialTop {
@@ -85,7 +85,7 @@ Item {
             objectName: "tutorialTop"
             anchors.fill: parent
             panel: root.panel
-            hides: [launcher, panel.indicators]
+            hides: [root.launcher, panel.indicators]
             paused: root.paused
 
             skipped: tutorialTopLoader.skipped
@@ -111,7 +111,7 @@ Item {
 
         readonly property bool skipped: !d.mobileScenario || d.haveShown("left")
         readonly property bool shown: item && item.shown
-        active: !skipped || (item && item.visible)
+        active: !skipped
         onSkippedChanged: if (skipped && shown) item.hide()
 
         sourceComponent: TutorialLeft {
@@ -119,7 +119,7 @@ Item {
             objectName: "tutorialLeft"
             anchors.fill: parent
             launcher: root.launcher
-            hides: [launcher, panel.indicators]
+            hides: [launcher, root.panel.indicators]
             paused: root.paused
 
             isReady: !tutorialLeftLoader.skipped
@@ -151,7 +151,7 @@ Item {
 
         readonly property bool skipped: !d.mobileScenario || d.haveShown("left-drawer")
         readonly property bool shown: item && item.shown
-        active: !skipped || (item && item.visible)
+        active: !skipped
         onSkippedChanged: if (skipped && shown) item.hide()
 
         sourceComponent: TutorialLeftLong {
@@ -159,7 +159,7 @@ Item {
             objectName: "tutorialLeftLong"
             anchors.fill: parent
             launcher: root.launcher
-            hides: [launcher, panel.indicators]
+            hides: [launcher, root.panel.indicators]
             paused: root.paused
 
             skipped: tutorialLeftLongLoader.skipped
@@ -189,7 +189,7 @@ Item {
 
         readonly property bool skipped: d.haveShown("right")
         readonly property bool shown: item && item.shown
-        active: !skipped || (item && item.visible)
+        active: !skipped
         onSkippedChanged: if (skipped && shown) item.hide()
 
         sourceComponent: TutorialRight {
@@ -198,7 +198,7 @@ Item {
             anchors.fill: parent
             stage: root.stage
             usageScenario: root.usageScenario
-            hides: [launcher, panel.indicators]
+            hides: [root.launcher, panel.indicators]
             paused: root.paused
 
             skipped: tutorialRightLoader.skipped

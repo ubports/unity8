@@ -40,7 +40,7 @@ Item {
         menuModel: unityMenuModel
         submenuIndex: 0
 
-        factory: Object {
+        factory: Item {
             function load(model) {
                return standardMenuComponent;
             }

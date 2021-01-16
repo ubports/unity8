@@ -37,7 +37,6 @@ Item {
 
     readonly property int effectiveHeight: Math.cos(angle * Math.PI / 180) * itemHeight
     readonly property real foldedHeight: Math.cos(maxAngle * Math.PI / 180) * itemHeight
-    readonly property alias wiggling: wiggleAnim.running
 
     property int itemWidth
     property int itemHeight
@@ -56,8 +55,7 @@ Item {
         property real wiggleAngle: 0
     }
 
-    SequentialAnimation {
-        id: wiggleAnim
+    readonly property var wiggleAnim: SequentialAnimation {
 
         running: alerting
         loops: 1

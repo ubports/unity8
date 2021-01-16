@@ -41,7 +41,7 @@ void MockApplicationMenuRegistry::RegisterSurfaceMenu(const QString &surface,
                                                  service);
 }
 
-void MockApplicationMenuRegistry::UnregisterSurfaceMenu(const QString &surfaceId, const QDBusObjectPath &menuObjectPath)
+void MockApplicationMenuRegistry::UnregisterSurfaceMenu(const QString &surfaceId, const QString &menuObjectPath)
 {
-    ApplicationMenuRegistry::UnregisterSurfaceMenu(surfaceId, menuObjectPath);
+    ApplicationMenuRegistry::UnregisterSurfaceMenu(surfaceId, QDBusObjectPath(menuObjectPath));
 }

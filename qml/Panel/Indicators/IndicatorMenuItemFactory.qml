@@ -25,7 +25,7 @@ import Ubuntu.Components 1.3
 import Unity.Session 0.1
 import Unity.Platform 1.0
 
-Object {
+Item {
     id: menuFactory
 
     property string indicator
@@ -964,8 +964,8 @@ Object {
             QDBusActionGroup {
                 id: actionGroup
                 busType: 1
-                busName: rootModel.busName
-                objectPath: rootModel.actions["indicator"]
+                busName: menuFactory.rootModel.busName
+                objectPath: menuFactory.rootModel.actions["indicator"]
 
                 property var activateAction: action("activate-transfer")
                 property var cancelAction: action("cancel-transfer")

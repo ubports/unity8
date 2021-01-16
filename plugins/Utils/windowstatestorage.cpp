@@ -18,7 +18,6 @@
 
 #include <QtConcurrent>
 #include <QDebug>
-#include <QFutureSynchronizer>
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QSqlResult>
@@ -33,24 +32,23 @@ inline QString sanitiseString(QString string) {
                  .remove(QLatin1Char('\\'));
 }
 
-WindowStateStorage::WindowStateStorage(QObject *parent):
+WindowStateStorage::WindowStateStorage(const QString& dbName, QObject *parent):
     QObject(parent)
 {
     const QString dbPath = QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation) + QStringLiteral("/unity8/");
     m_db = QSqlDatabase::addDatabase(QStringLiteral("QSQLITE"));
     QDir dir;
     dir.mkpath(dbPath);
-    m_db.setDatabaseName(dbPath + "windowstatestorage.sqlite");
+    if (dbName != nullptr) {
+        m_db.setDatabaseName(dbName);
+    } else {
+        m_db.setDatabaseName(dbPath + "windowstatestorage.sqlite");
+    }
     initdb();
 }
 
 WindowStateStorage::~WindowStateStorage()
 {
-    QFutureSynchronizer<void> futureSync;
-    for (int i = 0; i < m_asyncQueries.count(); ++i) {
-        futureSync.addFuture(m_asyncQueries[i]);
-    }
-    futureSync.waitForFinished();
     m_db.close();
 }
 
@@ -110,19 +108,6 @@ int WindowStateStorage::getStage(const QString &appId, int defaultValue) const
     return query.value("stage").toInt();
 }
 
-void WindowStateStorage::executeAsyncQuery(const QString &queryString)
-{
-    QMutexLocker l(&s_mutex);
-    QSqlQuery query;
-
-    bool ok = query.exec(queryString);
-    if (!ok) {
-        qWarning() << "Error executing query" << queryString
-                   << "Driver error:" << query.lastError().driverText()
-                   << "Database error:" << query.lastError().databaseText();
-    }
-}
-
 QRect WindowStateStorage::getGeometry(const QString &windowId, const QRect &defaultValue) const
 {
     QString queryString = QStringLiteral("SELECT * FROM geometry WHERE windowId = '%1';")
@@ -171,16 +156,13 @@ void WindowStateStorage::initdb()
 void WindowStateStorage::saveValue(const QString &queryString)
 {
     QMutexLocker mutexLocker(&s_mutex);
-
-    QFuture<void> future = QtConcurrent::run(&m_threadPool, executeAsyncQuery, queryString);
-    m_asyncQueries.append(future);
-
-    QFutureWatcher<void> *futureWatcher = new QFutureWatcher<void>();
-    futureWatcher->setFuture(future);
-    connect(futureWatcher, &QFutureWatcher<void>::finished,
-            this,
-            [=](){ m_asyncQueries.removeAll(futureWatcher->future());
-        futureWatcher->deleteLater(); });
+    QSqlQuery query;
+    auto ok = query.exec(queryString);
+    if (!ok) {
+        qWarning() << "Error executing query" << queryString
+                   << "Driver error:" << query.lastError().driverText()
+                   << "Database error:" << query.lastError().databaseText();
+    }
 }
 
 QSqlQuery WindowStateStorage::getValue(const QString &queryString) const

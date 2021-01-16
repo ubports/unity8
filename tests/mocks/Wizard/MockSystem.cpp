@@ -21,7 +21,8 @@
 
 MockSystem::MockSystem()
     : QObject(),
-      m_wizardEnabled(false)
+      m_wizardEnabled(false),
+      m_version("Lomiri 17.04.12")
 {
 }
 
@@ -45,6 +46,11 @@ void MockSystem::setIsUpdate(bool update)
 {
     m_isUpdate = update;
     Q_EMIT isUpdateChanged();
+}
+
+QString MockSystem::version() const
+{
+    return m_version;
 }
 
 void MockSystem::updateSessionLocale(const QString &locale)

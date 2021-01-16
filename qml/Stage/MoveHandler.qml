@@ -47,13 +47,13 @@ QtObject {
         property bool moving
 
         readonly property int triggerArea: units.gu(8)
-        property bool nearLeftEdge: target.maximizedLeft
-        property bool nearTopEdge: target.maximized
-        property bool nearRightEdge: target.maximizedRight
-        property bool nearTopLeftCorner: target.maximizedTopLeft
-        property bool nearTopRightCorner: target.maximizedTopRight
-        property bool nearBottomLeftCorner: target.maximizedBottomLeft
-        property bool nearBottomRightCorner: target.maximizedBottomRight
+        property bool nearLeftEdge: target && target.maximizedLeft
+        property bool nearTopEdge: target && target.maximized
+        property bool nearRightEdge: target && target.maximizedRight
+        property bool nearTopLeftCorner: target && target.maximizedTopLeft
+        property bool nearTopRightCorner: target && target.maximizedTopRight
+        property bool nearBottomLeftCorner: target && target.maximizedBottomLeft
+        property bool nearBottomRightCorner: target && target.maximizedBottomRight
 
         property Timer mouseDownTimer: Timer {
             interval: 175

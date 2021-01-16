@@ -21,7 +21,7 @@ import QMenuModel 0.1
 import Utils 0.1 as Utils
 import Ubuntu.Components 1.3
 
-Object {
+Item {
     id: menuFactory
 
     property string context
@@ -45,7 +45,7 @@ Object {
 
             Action {
                 id: action
-                text: menuData && menuData.label.replace("_", "&") || ""
+                text: menuData ? menuData.label.replace("_", "&") : ""
             }
 
             ListItemLayout {
@@ -53,13 +53,13 @@ Object {
                 title.text: action.text
 
                 Icon {
-                    source: menuData && menuData.icon || ""
+                    source: menuData ? menuData.icon : ""
                     SlotsLayout.position: SlotsLayout.Leading
                     height: units.gu(3)
                 }
 
                 Label {
-                    text: menuData && menuData.shortcut || ""
+                    text: menuData ? menuData.shortcut : ""
                     visible: menuData && menuData.shortcut && QuickUtils.keyboardAttached
                     SlotsLayout.position: SlotsLayout.Trailing
                     color: enabled ? theme.palette.normal.backgroundSecondaryText :
@@ -86,7 +86,7 @@ Object {
 
             Action {
                 id: action
-                text: menuData && menuData.label.replace("_", "&") || ""
+                text: menuData ? menuData.label.replace("_", "&") : ""
             }
 
             ListItemLayout {
@@ -94,7 +94,7 @@ Object {
                 title.text: action.text
 
                 Icon {
-                    source: menuData && menuData.icon || ""
+                    source: menuData ? menuData.icon : ""
                     SlotsLayout.position: SlotsLayout.Leading
                     height: units.gu(3)
                 }

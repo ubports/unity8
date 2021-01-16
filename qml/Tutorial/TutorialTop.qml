@@ -28,11 +28,11 @@ TutorialPage {
     QtObject {
         id: d
         readonly property bool landscape: root.width > units.gu(50)
-        readonly property real columnWidth: landscape ? panel.indicators.width : root.width
+        readonly property real columnWidth: landscape ? root.panel.indicators.width : root.width
     }
 
     mouseArea {
-        anchors.topMargin: panel.indicators.minimizedPanelHeight
+        anchors.topMargin: root.panel.indicators.minimizedPanelHeight
     }
 
     background {

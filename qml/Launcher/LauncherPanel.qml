@@ -260,6 +260,7 @@ Rectangle {
 
                         SequentialAnimation {
                             id: peekingAnimation
+                            objectName: "peekingAnimation" + index
 
                             // revealing
                             PropertyAction { target: root; property: "visible"; value: (launcher.visibleWidth === 0) ? 1 : 0 }
@@ -285,7 +286,7 @@ Rectangle {
                             }
 
                             PropertyAction { target: launcherListViewItem; property: "clip"; value: 1 }
-                            PropertyAction { target: root; property: "visible"; value: (launcher.visibleWidth === 0) ? 0 : 1 }
+                            PropertyAction { target: root; property: "visible"; value: (launcher.visibleWidth === 0) ? 1 : 0 }
                             PropertyAction { target: launcherListView; property: "peekingIndex"; value: -1 }
                         }
 
@@ -556,7 +557,7 @@ Rectangle {
 
                         function processPositionChanged(mouse) {
                             if (draggedIndex >= 0) {
-                                if (!selectedItem.dragging) {
+                                if (selectedItem && !selectedItem.dragging) {
                                     var distance = Math.max(Math.abs(mouse.x - startX), Math.abs(mouse.y - startY))
                                     if (!preDragging && distance > units.gu(1.5)) {
                                         preDragging = true;
@@ -566,8 +567,6 @@ Rectangle {
                                         selectedItem.dragging = true
                                         preDragging = false;
                                     }
-                                }
-                                if (!selectedItem.dragging) {
                                     return
                                 }
 
