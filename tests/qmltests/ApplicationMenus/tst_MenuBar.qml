@@ -349,7 +349,7 @@ Item {
             var menu = { "rowData": { "label": "Short" } };
             tryCompareFunction(function() {
                 menuBackend.insertRow(0, menu);
-                wait(1);
+                waitForRendering(menuBar);
                 if (overflow.visible) {
                     return true;
                 }
@@ -368,7 +368,7 @@ Item {
 
             tryCompareFunction(function() {
                 menuBackend.removeRow(0);
-                wait(1);
+                waitForRendering(menuBar);
                 if (!overflow.visible) {
                     return true;
                 }

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2020-06-10 18:24+0000\n"
+"PO-Revision-Date: 2020-11-23 19:37+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish <https://translate.ubports.com/projects/unity8/unity8/"
 "fi/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.8\n"
+"X-Generator: Weblate 3.11.3\n"
 "X-Launchpad-Export-Date: 2016-11-23 06:35+0000\n"
 
 #: plugins/LightDM/Greeter.cpp:199
@@ -219,10 +219,8 @@ msgid "Super + A"
 msgstr "Super + A"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:195
-#, fuzzy
-#| msgid "Open the launcher"
 msgid "Opens the Application Drawer."
-msgstr "Avaa käynnistin"
+msgstr "Avaa sovelluskäynnistimen."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:207
 msgid "Scopes"
@@ -371,22 +369,20 @@ msgstr ""
 "kosketuslevynä hiiren osoittimen liikuttamiseksi."
 
 #: qml/Components/VirtualTouchPad.qml:327
-#, fuzzy
-#| msgid "Tap to return to call..."
 msgid "Tap left button to click."
-msgstr "Napauta palataksesi puheluun..."
+msgstr "Napauta vasenta painiketta napsauttaaksesi."
 
 #: qml/Components/VirtualTouchPad.qml:339
 msgid "Tap right button to right click."
-msgstr ""
+msgstr "Napauta oikeaa painiketta napsauttaaksesi oikealla."
 
 #: qml/Components/VirtualTouchPad.qml:351
 msgid "Swipe with two fingers to scroll."
-msgstr ""
+msgstr "Vieritä pyyhkäisemällä kahdella sormella."
 
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
-msgstr ""
+msgstr "Löydät lisää asetuksia järjestelmän asetuksista."
 
 #: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
@@ -417,16 +413,12 @@ msgid "Try again"
 msgstr "Yritä uudelleen"
 
 #: qml/Greeter/Greeter.qml:551
-#, fuzzy
-#| msgid "Enter passphrase"
 msgid "Enter passphrase to unlock"
-msgstr "Anna tunnuslause"
+msgstr "Avaa lukitus antamalla tunnuslause"
 
 #: qml/Greeter/Greeter.qml:552
-#, fuzzy
-#| msgid "Enter passcode"
 msgid "Enter passcode to unlock"
-msgstr "Anna suojakoodi"
+msgstr "Avaa lukitus antamalla suojakoodi"
 
 #: qml/Greeter/NarrowView.qml:235
 msgid "Emergency"
@@ -548,10 +540,8 @@ msgid "No running apps"
 msgstr "Ei käynnissä olevia sovelluksia"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
-#, fuzzy
-#| msgid "Long swipe from the left edge to open the Today scope"
 msgid "Long swipe from the left edge to open the Application Drawer"
-msgstr "Tee pitkä veto vasemmasta reunasta avataksesi Tänään-näkymän"
+msgstr "Tee pitkä veto vasemmasta reunasta avataksesi sovelluskäynnistimen"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"

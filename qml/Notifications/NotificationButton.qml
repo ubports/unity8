@@ -38,7 +38,8 @@ Rectangle {
         fontSize: "medium"
         font.weight: Font.Light
         anchors.centerIn: root
-        color: outline ? theme.palette.normal.backgroundSecondaryText : "white"
+        color: theme.name == "Ubuntu.Components.Themes.SuruDark" ? "#111"
+                                                                 : "white"
         visible: text !== ""
     }
 

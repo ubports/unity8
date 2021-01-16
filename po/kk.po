@@ -1,139 +1,137 @@
-# Danish translation for unity8
-# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Canonical Ltd.
 # This file is distributed under the same license as the unity8 package.
-#
-# Ask Hjorth Larsen <asklarsen@gmail.com>, 2014.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2020-08-31 14:47+0000\n"
-"Last-Translator: Bjørn curtis Knutson <b.knutson@tutanota.com>\n"
-"Language-Team: Danish <https://translate.ubports.com/projects/unity8/unity8/"
-"da/>\n"
-"Language: da\n"
+"PO-Revision-Date: 2020-12-03 09:42+0000\n"
+"Last-Translator: Seiwer121 <vladimir_seiwer@yahoo.com>\n"
+"Language-Team: Kazakh <https://translate.ubports.com/projects/unity8/unity8/"
+"kk/>\n"
+"Language: kk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 3.11.3\n"
-"X-Launchpad-Export-Date: 2016-11-23 06:35+0000\n"
 
 #: plugins/LightDM/Greeter.cpp:199
 msgid "Password: "
-msgstr "Adgangskode: "
+msgstr "Пароль "
 
 #: plugins/LightDM/Greeter.cpp:214
 msgid "Username"
-msgstr "Bruger navn"
+msgstr "Қолданушының аты"
 
 #: plugins/LightDM/Greeter.cpp:258
 msgid "Failed to authenticate"
-msgstr "Kunne ikke godkende"
+msgstr "Авторизация қатесі"
 
 #: plugins/LightDM/Greeter.cpp:260
 msgid "Invalid password, please try again"
-msgstr "Forkert kodeord, prøv igen tak"
+msgstr "Құпия сөз дұрыс емес, қайталап көріңіз"
 
 #: plugins/LightDM/Greeter.cpp:270
 msgid "Log In"
-msgstr "Log ind"
+msgstr "Кіру"
 
 #: plugins/LightDM/Greeter.cpp:270
 msgid "Retry"
-msgstr "Forsøg igen"
+msgstr "Қайталаңыз"
 
 #: plugins/LightDM/UsersModel.cpp:157
 msgid "Login"
-msgstr "Logind"
+msgstr "Кіру"
 
 #: plugins/LightDM/UsersModel.cpp:165
 msgid "Guest Session"
-msgstr "Gæste Session"
+msgstr "Қонақ сессиясы"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:49
 #: plugins/Unity/Launcher/launcheritem.cpp:123
 msgid "Pin shortcut"
-msgstr "Fastgør genvej"
+msgstr "Бекітпе сілтемесі"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:55
 msgid "Quit"
-msgstr "Log ud."
+msgstr "Шығу"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
-msgstr "Gør genvej flytbar"
+msgstr "Төте жолды босату"
 
 #: qml/Components/Dialogs.qml:176
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
-msgstr "Log af"
+msgstr "Шығу"
 
 #: qml/Components/Dialogs.qml:177
 msgid "Are you sure you want to log out?"
-msgstr "Vil du logge ud?"
+msgstr "Сіз шынымен кеткіңіз келе ме?"
 
 #: qml/Components/Dialogs.qml:180
 msgctxt "Button: Lock the system"
 msgid "Lock"
-msgstr "Lås"
+msgstr "Блок"
 
 #: qml/Components/Dialogs.qml:191
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
-msgstr "Log af"
+msgstr "Шығу"
 
 #: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
 #: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
-msgstr "Annullér"
+msgstr "Бас тарту"
 
 #: qml/Components/Dialogs.qml:211
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
-msgstr "Genstart"
+msgstr "Қайта жүктеңіз"
 
 #: qml/Components/Dialogs.qml:212
 msgid "Are you sure you want to reboot?"
-msgstr "Er du sikker på du vil genstarte?"
+msgstr "Қайта жүктегіңіз келе ме?"
 
 #: qml/Components/Dialogs.qml:215
 msgid "No"
-msgstr "Nej"
+msgstr "Жоқ"
 
 #: qml/Components/Dialogs.qml:223
 msgid "Yes"
-msgstr "Ja"
+msgstr "Иә"
 
 #: qml/Components/Dialogs.qml:243
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
-msgstr "Sluk/genstart"
+msgstr "Энергия"
 
 #: qml/Components/Dialogs.qml:244
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr ""
-"Er du sikker på at du vil\n"
-"slukke enheden?"
+"Сіз қалайсыз ба\n"
+"өшіру?"
 
 #: qml/Components/Dialogs.qml:248
 msgctxt "Button: Power off the system"
 msgid "Power off"
-msgstr "Luk ned"
+msgstr "Өшіру"
 
 #: qml/Components/Dialogs.qml:263
 msgctxt "Button: Restart the system"
 msgid "Restart"
-msgstr "Genstart"
+msgstr "Қайта жүктеңіз"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
-msgstr "Keyboard gennemveje"
+msgstr "Жылдам пернелер"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
 msgid "Unity 8"
@@ -141,439 +139,432 @@ msgstr "Unity 8"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
-msgstr "PrtScr"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:67
 msgid "Takes a screenshot."
-msgstr "Tag et skærmbillede ."
+msgstr "Скриншот алыңыз."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:75
 msgid "Alt + PrtScr"
-msgstr "Alt + PrtScr"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
-#, fuzzy
-#| msgid "Takes a screenshot of a window."
 msgid "Takes a screenshot of the current window."
-msgstr "tag et skærmbillede af vinduet."
+msgstr "Ағымдағы терезенің скриншотын түсіріңіз."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
-msgstr "Super + Space"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:93
 msgid "Switches to next keyboard layout."
-msgstr "Skift til næste keyboard layout."
+msgstr "Пернетақтаның келесі орналасуына ауысыңыз."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:101
 msgid "Super + Shift + Space"
-msgstr "Super + Shift + Space"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:106
 msgid "Switches to previous keyboard layout."
-msgstr "Skift til forrige keyboard layout."
+msgstr "Алдыңғы пернетақта орналасуына көшу."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:114
-#, fuzzy
-#| msgid "Ctrl + Super + D"
 msgid "Ctrl + Alt + T"
-msgstr "Ctrl + Super + D"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:119
 msgid "Starts the Terminal application."
-msgstr "Starter terminal App."
+msgstr "Терминал қосымшасын іске қосыңыз."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:131
 msgid "Launcher"
-msgstr "Launcher"
+msgstr "Іске қосқыш"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:138
 msgid "Super (Hold)"
-msgstr "Super (Hold)"
+msgstr "Super (Ұстау)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:143
 msgid "Opens the launcher, displays shortcuts."
-msgstr "Åben Launcheren, viser gennemvej."
+msgstr "Іске қосқышты ашыңыз, төте жолдарды көрсетіңіз."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:151
 msgid "Alt + F1"
-msgstr "Alt + F1"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:156
 msgid "Opens launcher keyboard navigation mode."
-msgstr "Åbener  keyboard Launcher navigations tilstand."
+msgstr "Іске қосу пернетақтасын пайдаланып навигация режимін ашыңыз."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:164
 msgid "Super + Tab"
-msgstr "Super + Tab"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:169
 msgid "Switches applications via the launcher."
-msgstr "Skifter applikation igennem launcheren."
+msgstr "Іске қосу арқылы қосымшаларды ауыстырыңыз."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:177
 msgid "Super + 1 to 0"
-msgstr "Super + 1 to 0"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:182
 msgid "Same as clicking on a launcher icon."
-msgstr "Det samme som at klikke på launcher ikonet."
+msgstr "Іске қосу белгішесін басумен бірдей."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:190
 msgid "Super + A"
-msgstr "Super + A"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:195
 msgid "Opens the Application Drawer."
-msgstr "Åbner Applikations skuffe."
+msgstr "Бағдарлама мәзірін ашыңыз."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:207
 msgid "Scopes"
-msgstr "Scopes"
+msgstr "Қолдану саласы"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:214
 msgid "Super (Tap)"
-msgstr "Super (Tap)"
+msgstr "Super (нұқыңыз)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:219
 msgid "Opens the Scopes home."
-msgstr "Åbner scopes hjem."
+msgstr "Іске қосқышты ашыңыз Scopes."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
-msgstr "Skifter"
+msgstr "Ауыстыру"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:242
 msgid "Alt + Tab"
-msgstr "Alt + Tab"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:247
 msgid "Switches between applications."
-msgstr "Skifter imellem applikationer."
+msgstr "Қолданбалар арасында ауысу."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:255
 msgid "Super + W"
-msgstr "Super + W"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:260
 msgid "Opens the desktop spread."
-msgstr "Åbner desktop spread."
+msgstr "Жұмыс үстелінің таралуын ашыңыз."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:268
 msgid "Cursor Left or Right"
-msgstr "Markør til venstre eller højre"
+msgstr "Солға немесе оңға жүгіргі"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:273
 msgid "Moves the focus."
-msgstr "Flytter focus."
+msgstr "Фокусты ауыстыру."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:285
 msgid "Windows"
-msgstr "Winduer"
+msgstr "Терезе"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:292
 msgid "Ctrl + Super + D"
-msgstr "Ctrl + Super + D"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:297
 msgid "Minimizes all windows."
-msgstr "Minimere alle vinduer."
+msgstr "Барлық терезелерді кішірейту."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:305
 msgid "Ctrl + Super + Up"
-msgstr "Ctrl + Super + D"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:310
 msgid "Maximizes the current window."
-msgstr "Maximere det nuværende vindue."
+msgstr "Барлық терезелерді үлкейту."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:318
 msgid "Ctrl + Super + Down"
-msgstr "Ctrl + Super + Down"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:323
 msgid "Minimizes or restores the current window."
-msgstr "Minimere eller genskaber nuværende vindue."
+msgstr "Ағымдағы терезені кішірейту немесе қалпына келтіру."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:331
 msgid "Ctrl + Super + Left or Right"
-msgstr "Ctrl + Super + Left or Right"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:336
 msgid "Semi-maximizes the current window."
-msgstr ""
+msgstr "Ағымдағы терезені жартылай үлкейту."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:344
 msgid "Alt + F4"
-msgstr "Alt + F4"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:349
 msgid "Closes the current window."
-msgstr "Lukker nuværende vindue."
+msgstr "Ағымдағы терезені жабады."
 
 #: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:235
 msgid "Return to Call"
-msgstr "Vend tilbage til opkald"
+msgstr "Қоңырауға оралу"
 
 #: qml/Components/Lockscreen.qml:212
 msgid "Emergency Call"
-msgstr "Nødopkald"
+msgstr "Жедел шақыру"
 
 #: qml/Components/Lockscreen.qml:245
 msgid "OK"
-msgstr "Ok"
+msgstr "Жақсы"
 
 #: qml/Components/MediaServices/VideoPlayerControls.qml:44
 #, qt-format
 msgid "%1:%2:%3"
-msgstr "%1:%2:%3"
+msgstr ""
 
 #: qml/Components/MediaServices/VideoPlayerControls.qml:49
 #, qt-format
 msgid "%1:%2"
-msgstr "%1%2"
+msgstr ""
 
 #: qml/Components/ModeSwitchWarningDialog.qml:33
 msgid "Apps may have unsaved data:"
-msgstr "App kan have ikke gemt data:"
+msgstr "Қолданбаларда сақталмаған деректер болуы мүмкін:"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:60
 msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
-msgstr "Gen indsæt enhed, gem dit arbejde og luk disse apps for at fortsætte."
+msgstr "Жалғастыру үшін жұмысыңызды сақтаңыз және жабыңыз."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:67
 msgid "Or force close now (unsaved data will be lost)."
-msgstr "Eller tving for at lukke nu (ikke gemt data vil gå tabt)."
+msgstr "Немесе қазір күшпен жабыңыз (сақталмаған деректер жоғалады)."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:80
 msgid "OK, I will reconnect"
-msgstr "Ok, jeg vil gen tilslutte"
+msgstr "Жарайды, мен қайта қосыламын"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:81
 msgid "Reconnect now!"
-msgstr "Gen tilslut nu!"
+msgstr "Қазір қайта қосылыңыз!"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:94
 msgid "Close all"
-msgstr "Luk alle"
+msgstr "Барлығын жабыңыз"
 
 #: qml/Components/SharingPicker.qml:54
 msgid "Preview Share Item"
-msgstr "Vis eksempel på delelement"
+msgstr "Элементті алдын-ала бөлісу"
 
 #: qml/Components/VirtualTouchPad.qml:317
 msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the pointer."
 msgstr ""
-"Din enhed er nu tilsluttet til en ekstern skærmviser. Brug denne skærm som "
-"touch pad til at interagere med pegern."
+"Енді сіздің құрылғыңыз сыртқы дисплейге қосылған. Бұл экранды сенсорлық "
+"тақта ретінде меңзермен өзара әрекеттесу үшін пайдаланыңыз."
 
 #: qml/Components/VirtualTouchPad.qml:327
 msgid "Tap left button to click."
-msgstr "Tryk venstre knap for at klikke."
+msgstr "Басу үшін сол жақ батырманы басыңыз."
 
 #: qml/Components/VirtualTouchPad.qml:339
 msgid "Tap right button to right click."
-msgstr "Tryk højre knap for at højre klikke."
+msgstr "Тінтуірдің оң жақ түймешігімен нұқыңыз."
 
 #: qml/Components/VirtualTouchPad.qml:351
 msgid "Swipe with two fingers to scroll."
-msgstr "Swipe med to fingre for at scrolle."
+msgstr "Жылжу үшін екі саусағыңызбен сырғытыңыз."
 
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
-msgstr "Find flere indstillinger i system instillinger."
+msgstr "Жүйе параметрлерінен қосымша параметрлерді табыңыз."
 
 #: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
-msgstr "Lås op"
+msgstr "Бұғаттан шығару"
 
 #: qml/Greeter/DelayedLockscreen.qml:43
 msgid "Device Locked"
-msgstr "Enheden er låst"
+msgstr "Құрылғы құлыптаулы"
 
 #: qml/Greeter/DelayedLockscreen.qml:58
 msgid "You have been locked out due to too many failed passphrase attempts."
-msgstr ""
-"Du er blevet låst ude på grund af for mange fejlslagne forsøg på at angive "
-"adgangskode."
+msgstr "Құпия сөздің тым көп сәтсіз орындалуына байланысты сіз бұғатталдыңыз."
 
 #: qml/Greeter/DelayedLockscreen.qml:59
 msgid "You have been locked out due to too many failed passcode attempts."
-msgstr ""
-"Du er blevet låst ude på grund af for mange fejlslagne forsøg på at angive "
-"adgangskode."
+msgstr "Құпия сөздің тым көп сәтсіз орындалуына байланысты сіз бұғатталдыңыз."
 
 #: qml/Greeter/DelayedLockscreen.qml:68
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] "Vent venligst %1 minut og prøv igen..."
-msgstr[1] "Vent venligst %1 minutter og prøv igen..."
+msgstr[0] "%1 минут күтіп, қайталап көріңіз…"
+msgstr[1] "%1 хатты күтіп, қайталап көріңіз…"
 
 #: qml/Greeter/Greeter.qml:550
 msgid "Try again"
-msgstr "Prøv igen"
+msgstr "Кағы да қайталап көріңіз"
 
 #: qml/Greeter/Greeter.qml:551
 msgid "Enter passphrase to unlock"
-msgstr "Angiv adgangskode for at låse op"
+msgstr "Құлпын ашу үшін құпия фразаны енгізіңіз"
 
 #: qml/Greeter/Greeter.qml:552
 msgid "Enter passcode to unlock"
-msgstr "Indtast adgangskode for at låse op"
+msgstr "Құлпын ашу үшін пароль енгізіңіз"
 
 #: qml/Greeter/NarrowView.qml:235
 msgid "Emergency"
-msgstr "Nødsituation"
+msgstr "Төтенше жағдай"
 
 #: qml/Greeter/PromptList.qml:126
 msgid "Passphrase"
-msgstr "Kodeord"
+msgstr "Құпия фраза"
 
 #: qml/Greeter/PromptList.qml:126
 msgid "Passcode"
-msgstr "Kodeord"
+msgstr "Пароль"
 
 #: qml/Greeter/SessionsList.qml:124
 msgid "Select desktop environment"
-msgstr "Vælg skrivebords miljø"
+msgstr "Жұмыс үстелінің ортасын таңдаңыз"
 
 #: qml/Launcher/Drawer.qml:249
 msgid "Search…"
-msgstr "Søg…"
+msgstr "Іздеу…"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
-msgstr "Vis adgangskode"
+msgstr "Құпия сөзді көрсету"
 
 #: qml/Panel/ActiveCallHint.qml:79
 msgid "Tap to return to call..."
-msgstr "Tryk for at vende tilbage til opkaldet..."
+msgstr "Қоңырауға оралу үшін басыңыз..."
 
 #: qml/Panel/ActiveCallHint.qml:92
 msgid "Conference"
-msgstr "Konference"
+msgstr "Конференция"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:869
 msgid "Nothing is playing"
-msgstr "Intet afspilles"
+msgstr "Ештеңе ойнамайды"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:997
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
-msgstr[0] "%1 time"
-msgstr[1] "%1 timer"
+msgstr[0] "%1 сағат"
+msgstr[1] "%1 сағатын"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1001
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
-msgstr[0] "%1 minut"
-msgstr[1] "%1 minutter"
+msgstr[0] "%1 минута"
+msgstr[1] "%1 минут"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1006
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
-msgstr[0] "%1 sekund"
-msgstr[1] "%1 sekunder"
+msgstr[0] "%1 секунда"
+msgstr[1] "%1 секунд"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1009
 msgid "0 seconds"
-msgstr "0 sekunder"
+msgstr "0 секунд"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1011
 #, qt-format
 msgid "%1 remaining"
-msgstr "%1 tilbage"
+msgstr "%1 қалды"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1017
 msgid "In queue…"
-msgstr "I kø…"
+msgstr "Кезек…"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1021
 msgid "Downloading"
-msgstr "Henter"
+msgstr "Жүктеу"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1023
 msgid "Paused, tap to resume"
-msgstr "På pause - tryk for at fortsætte"
+msgstr "Кідіртілді, жалғастыру үшін басыңыз"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1025
 msgid "Canceled"
-msgstr "Annulleret"
+msgstr "Бас тартылды"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1027
 msgid "Finished"
-msgstr "Færdig"
+msgstr "Бұл жасалды"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1029
 msgid "Failed, tap to retry"
-msgstr "Mislykkedes - tryk for at prøve igen"
+msgstr "Қате. Әрекетті қайталау үшін басыңыз"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:151
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:210
 msgctxt "Button: Send a reply message"
 msgid "Send"
-msgstr "Send"
+msgstr "Хат жіберу"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:152
 msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
-msgstr "Svar"
+msgstr "Жауап беру"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:209
 msgctxt "Button: Call back on phone"
 msgid "Call back"
-msgstr "Ring tilbage"
+msgstr "Қайта телефон соғу"
 
 #: qml/Panel/PanelMenuPage.qml:92
 msgid "Back"
-msgstr "Tilbage"
+msgstr "Оралу"
 
 #: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
-msgstr ""
-"Træk ved brug af 3 fingere enhver applikation fra et vindue til et andet"
+msgstr "Кез-келген қосымшаны бір саусақтан екінші саусаққа 3 саусақпен сүйреңіз"
 
 #: qml/Stage/Stage.qml:668
 msgid "No running apps"
-msgstr "Ingen kørende apps"
+msgstr "Іске қосылған қолданбалар жоқ"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
 msgid "Long swipe from the left edge to open the Application Drawer"
-msgstr "Et lang strøg fra den venstre kant for at tilgå applikation skuffe"
+msgstr "Сол жақ шетінен сырғытыңыз және қолданбаның тартпасын ашыңыз"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
-msgstr "Kort strøg fra venstre kant for at åbne starter"
+msgstr "Іске қосқышты ашу үшін сол жақ жиектен қысқа сырғытыңыз"
 
 #: qml/Tutorial/TutorialRight.qml:54
 msgid "Push your mouse against the right edge to view your open apps"
-msgstr "Pres din mus imod den højre kant for at se dine åbne apps"
+msgstr "Ашық қосымшаларды көру үшін тінтуірді оң жақ шетіне қарай ұстаңыз"
 
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Swipe from the right edge to view your open apps"
-msgstr ""
+msgstr "Ашық қолданбаларды көру үшін оң жақ шетінен сырғытыңыз"
 
 #: qml/Tutorial/TutorialTop.qml:53
 msgid "Swipe from the top edge to access notifications and quick settings"
 msgstr ""
+"Хабарландырулар мен жылдам параметрлерге қол жеткізу үшін жоғарыдан "
+"сырғытыңыз"
 
 #: qml/Wizard/Page.qml:59
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
-msgstr "Tilbage"
+msgstr "Оралу"
 
 #: qml/Wizard/Pages/10-welcome.qml:29
 msgid "Language"
-msgstr "Sprog"
+msgstr "Тіл"
 
 #: qml/Wizard/Pages/10-welcome.qml:176
 #: qml/Wizard/Pages/10-welcome-update.qml:126
@@ -583,626 +574,253 @@ msgstr "Sprog"
 #: qml/Wizard/Pages/passcode-desktop.qml:154
 #: qml/Wizard/Pages/password-set.qml:153
 msgid "Next"
-msgstr "Næste"
+msgstr "Әрі қарай"
 
 #: qml/Wizard/Pages/10-welcome-update.qml:91
 msgid "Welcome to "
-msgstr "Velkommen til "
+msgstr "Қош келдіңіз "
 
 #: qml/Wizard/Pages/10-welcome-update.qml:106
 msgid "We will make sure your device is ready to use "
-msgstr ""
+msgstr "Біз сіздің құрылғыңыздың пайдалануға дайын екендігіне көз жеткіземіз "
 
 #: qml/Wizard/Pages/11-changelog.qml:28
 msgid "What's new"
-msgstr ""
+msgstr "Не жаңалық"
 
 #: qml/Wizard/Pages/11-changelog.qml:74
 msgid "Loading..."
-msgstr "Indlæser..."
+msgstr "Жүктелуде..."
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
-msgstr ""
+msgstr "Пернетақтаны таңдаңыз"
 
 #: qml/Wizard/Pages/20-keyboard.qml:71
 msgid "Keyboard language"
-msgstr ""
+msgstr "Пернетақта тілі"
 
 #: qml/Wizard/Pages/20-keyboard.qml:93
 msgid "Keyboard layout"
-msgstr ""
+msgstr "Пернетақтаның орналасуы"
 
 #: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:214
 #: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/79-system-update.qml:144
 #: qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
-msgstr "Spring over"
+msgstr "Өткізіп жіберу"
 
 #: qml/Wizard/Pages/30-wifi.qml:31
 msgid "Connect to Wi‑Fi"
-msgstr "Tilslut til Wi-Fi"
+msgstr "Wi-Fi желісіне қосылыңыз"
 
 #: qml/Wizard/Pages/30-wifi.qml:139
 msgid "Connected"
-msgstr ""
+msgstr "Қосылды"
 
 #: qml/Wizard/Pages/30-wifi.qml:172
 msgid "Available Wi-Fi networks"
-msgstr ""
+msgstr "Қол жетімді Wi-Fi желілері"
 
 #: qml/Wizard/Pages/30-wifi.qml:173
 msgid "No available Wi-Fi networks"
-msgstr ""
+msgstr "Wi-Fi желілері жоқ"
 
 #: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
-msgstr ""
+msgstr "Сағаттық белдеу"
 
 #: qml/Wizard/Pages/50-timezone.qml:183
 msgid "Enter your city"
-msgstr ""
+msgstr "Қалаңызға кіріңіз"
 
 #: qml/Wizard/Pages/60-account.qml:24
 msgid "Personalize Your Device"
-msgstr ""
+msgstr "Құрылғыны жекелендіріңіз"
 
 #: qml/Wizard/Pages/60-account.qml:54
 msgid "Preferred Name"
-msgstr ""
+msgstr "Қалаулы ат"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:40
 msgid "Lock Screen"
-msgstr ""
+msgstr "Экранды құлыптау"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Create new password"
-msgstr ""
+msgstr "Жаңа пароль жасаңыз"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
-msgstr ""
+msgstr "Кіру кодын жасаңыз (тек нөмірлерде)"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:107
 msgctxt "Label: Type of security method"
 msgid "No lock code"
-msgstr ""
+msgstr "Құлыптау коды жоқ"
 
 #: qml/Wizard/Pages/79-system-update.qml:28
 msgid "Update Device"
-msgstr ""
+msgstr "Құрылғыны жаңартыңыз"
 
 #: qml/Wizard/Pages/79-system-update.qml:55
 msgid ""
 "There is a system update available and ready to install. Afterwards, the "
 "device will automatically restart."
 msgstr ""
+"Орнатуға дайын жүйелік жаңарту бар. Осыдан кейін құрылғы автоматты түрде "
+"қайта жүктеледі."
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
 msgid "Ubuntu Touch system"
-msgstr ""
+msgstr "Ubuntu Touch жүйесі"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
 msgctxt "version of the system update"
 msgid "Version %1"
-msgstr ""
+msgstr "Нұсқа %1"
 
 #: qml/Wizard/Pages/79-system-update.qml:95
 msgid "This could take a few minutes..."
-msgstr ""
+msgstr "Бұл бірнеше минутты алуы мүмкін..."
 
 #: qml/Wizard/Pages/79-system-update.qml:109
 msgid "Install and restart now"
-msgstr ""
+msgstr "Қазір орнатыңыз және қайта бастаңыз"
 
 #: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome Back"
-msgstr ""
+msgstr "қайта келуінмен"
 
 #: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome to Ubuntu"
-msgstr ""
+msgstr "Ubuntu-ға қош келдіңіз"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
-msgstr ""
+msgstr "Сіз қазір құрылғыңызды пайдалануға дайынсыз"
 
 #: qml/Wizard/Pages/80-finished.qml:126
 msgid "Continue"
-msgstr "Fortsæt"
+msgstr "Жалғастыру"
 
 #: qml/Wizard/Pages/80-finished.qml:126
 msgid "Get Started"
-msgstr ""
+msgstr "Бастау"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
 #: qml/Wizard/Pages/passcode-desktop.qml:104
 msgid "Confirm passcode"
-msgstr "Bekræft adgangskode"
+msgstr "Кіру кодын растаңыз"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgid "Incorrect passcode."
-msgstr ""
+msgstr "Қате құпия сөз."
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgctxt "Enter the passcode again"
 msgid "Please re-enter."
-msgstr ""
+msgstr "Қайта енгізіңіз."
 
 #: qml/Wizard/Pages/passcode-desktop.qml:31
 msgid "Lock Screen Passcode"
-msgstr ""
+msgstr "Экранның құпия сөзі"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:68
 msgid "Enter 4 numbers to setup your passcode"
-msgstr ""
+msgstr "Құпия сөзді орнату үшін 4 сан енгізіңіз"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:84
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
-msgstr ""
+msgstr "Құпия сөзді таңдаңыз"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:139
 msgid "Passcode too short"
-msgstr ""
+msgstr "Пароль тым қысқа"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:141
 msgid "Passcodes match"
-msgstr ""
+msgstr "Құпия сөздер сәйкес келеді"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:143
 msgid "Passcodes do not match"
-msgstr ""
+msgstr "Кіру кодтары сәйкес келмейді"
 
 #: qml/Wizard/Pages/passcode-set.qml:62
 msgid "Passcode must be 4 characters long"
-msgstr ""
+msgstr "Құпия сөз 4 таңбадан тұруы керек"
 
 #: qml/Wizard/Pages/password-set.qml:31
 msgid "Lock Screen Password"
-msgstr ""
+msgstr "Экранның құпия сөзі"
 
 #: qml/Wizard/Pages/password-set.qml:68
 msgid "Enter at least 8 characters"
-msgstr ""
+msgstr "Кемінде 8 таңба енгізіңіз"
 
 #: qml/Wizard/Pages/password-set.qml:80
 msgid "Choose password"
-msgstr ""
+msgstr "Құпия сөзді таңдаңыз"
 
 #: qml/Wizard/Pages/password-set.qml:110
 msgid "Confirm password"
-msgstr ""
+msgstr "Құпия сөзді растаңыз"
 
 #: qml/Wizard/Pages/sim.qml:27
 msgid "No SIM card installed"
-msgstr ""
+msgstr "SIM картасы орнатылмаған"
 
 #: qml/Wizard/Pages/sim.qml:54
 msgid "SIM card added"
-msgstr ""
+msgstr "SIM картасы қосылды"
 
 #: qml/Wizard/Pages/sim.qml:55
 msgid "You must restart the device to access the mobile network."
-msgstr ""
+msgstr "Ұялы желіге кіру үшін құрылғыны қайта қосу керек."
 
 #: qml/Wizard/Pages/sim.qml:59
 msgid "Restart"
-msgstr ""
+msgstr "Қайтадан қосу"
 
 #: qml/Wizard/Pages/sim.qml:78
 msgid "You won’t be able to make calls or use text messaging without a SIM."
 msgstr ""
+"SIM картасыз сіз қоңырау шала алмайсыз немесе мәтіндік хабарларды пайдалана "
+"алмайсыз."
 
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
-msgstr ""
+msgstr "SIM картасыз жалғастыру үшін Өткізіп жіберіңіз."
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
-msgstr ""
+msgstr "Құпия сөз тым қысқа"
 
 #: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords match"
-msgstr ""
+msgstr "Құпия сөздер сәйкес келеді"
 
 #: qml/Wizard/PasswordMeter.qml:91
 msgid "Passwords do not match"
-msgstr ""
+msgstr "Құпия сөздер сәйкес келмейді"
 
 #: qml/Wizard/PasswordMeter.qml:95
 msgid "Strong password"
-msgstr ""
+msgstr "Күшті пароль"
 
 #: qml/Wizard/PasswordMeter.qml:97
 msgid "Fair password"
-msgstr ""
+msgstr "Адал пароль"
 
 #: qml/Wizard/PasswordMeter.qml:99
 msgid "Weak password"
-msgstr ""
+msgstr "Әлсіз пароль"
 
 #: qml/Wizard/PasswordMeter.qml:101
 msgid "Very weak password"
-msgstr ""
-
-#~ msgctxt "Button: Open the Ubuntu Store"
-#~ msgid "Store"
-#~ msgstr "Butik"
-
-#~ msgctxt "Button: Start a search in the current dash scope"
-#~ msgid "Search"
-#~ msgstr "Søg"
-
-#~ msgctxt "Button: Show the current dash scope settings"
-#~ msgid "Settings"
-#~ msgstr "Indstillinger"
-
-#~ msgid "Remove from Favorites"
-#~ msgstr "Fjern fra Favoritter"
-
-#~ msgid "Add to Favorites"
-#~ msgstr "Tilføj til Favoritter"
-
-#~ msgctxt "Label: Hint for dash search line edit"
-#~ msgid "Search"
-#~ msgstr "Søg"
-
-#~ msgid "More..."
-#~ msgstr "Mere..."
-
-#~ msgid "Less..."
-#~ msgstr "Mindre..."
-
-#~ msgid "Send"
-#~ msgstr "Send"
-
-#~ msgid "Rate this"
-#~ msgstr "Bedøm dette"
-
-#~ msgid "Add a review"
-#~ msgstr "Tilføj en anmeldelse"
-
-#~ msgid "Pull to refresh…"
-#~ msgstr "Træk ned for at genindlæse..."
-
-#~ msgid "Release to refresh…"
-#~ msgstr "Giv slip for at genindlæse..."
-
-#~ msgid "Enable location data"
-#~ msgstr "Aktivér lokationsdata"
-
-#~ msgid "Manage"
-#~ msgstr "Administrér"
-
-#~ msgid "Home"
-#~ msgstr "Hjem"
-
-#~ msgid "Also installed"
-#~ msgstr "Også installeret"
-
-#~ msgid "This device is not connected to the internet."
-#~ msgstr "Dette apparat er ikke opkoblet , til internettet."
-
-#~ msgid "Please wait..."
-#~ msgstr "Vent venligst..."
-
-#~ msgid "Update all"
-#~ msgstr "Opdatere alle"
-
-#~ msgid "Download"
-#~ msgstr "Henter"
-
-#~ msgid "Downloaded"
-#~ msgstr "Henter"
-
-#~ msgid "Installed"
-#~ msgstr "Indstalleret"
-
-#~ msgid "Terms & Conditions"
-#~ msgstr "Betingelser og vilkår"
-
-#~ msgid "Close"
-#~ msgstr "Luk"
-
-#~ msgid "Left edge"
-#~ msgstr "Venstre kant"
-
-#~ msgid "Try swiping from the right edge to unlock the phone"
-#~ msgstr "Prøv at stryge fra højre kant for at låse telefonen op"
-
-#~ msgid "Right edge"
-#~ msgstr "Højre kant"
-
-#~ msgid "Confirm"
-#~ msgstr "Bekræft"
-
-#~ msgid "Skip intro"
-#~ msgstr "Spring intro over"
-
-#~ msgid "Top edge"
-#~ msgstr "Øvre kant"
-
-#~ msgid "Swipe up again to close the settings screen"
-#~ msgstr "Stryg op igen for at låse indstillingsskærmen"
-
-#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
-#~ msgstr ""
-#~ "Stryg fra venstre for at vise opstarteren med hurtig adgang til apps"
-
-#~ msgid "Well done"
-#~ msgstr "Godt gjort"
-
-#~ msgid "See less"
-#~ msgstr "Vis mindre"
-
-#~ msgid "Type or say a command"
-#~ msgstr "Skriv eller indtal en kommando"
-
-#~ msgid "Speak Now..."
-#~ msgstr "Tal nu..."
-
-#~ msgid ""
-#~ "You have now mastered the edge gestures and can start using the "
-#~ "phone<br><br>Tap on the screen to start"
-#~ msgstr ""
-#~ "Du mestrer nu kantbevægelserne og kan begynde at bruge "
-#~ "telefonen<br><br>Tryk på skærmen for at starte"
-
-#~ msgid "See all"
-#~ msgstr "Se alle"
-
-#~ msgid "Are you sure you want to shut down?"
-#~ msgstr "Er du sikker på du vil lukke ned?"
-
-#~ msgid "Unlock SIM"
-#~ msgstr "Lås SIM-kort op"
-
-#~ msgid "Sorry, incorrect passphrase"
-#~ msgstr "Beklager, forkert adgangsfrase"
-
-#~ msgid "Sorry, incorrect %1"
-#~ msgstr "Beklager, forkert %1"
-
-#~ msgid "Enter %1"
-#~ msgstr "Indtast %1"
-
-#~ msgid "This action does different things for different apps"
-#~ msgstr "Denne handling gør forskellige ting i forskellige apps"
-
-#~ msgid "Please re-enter"
-#~ msgstr "Vær venlig at genindtaste"
-
-#~ msgid "Sorry, incorrect passcode"
-#~ msgstr "Beklager, forkert adgangskode"
-
-#~ msgid ""
-#~ "If passcode is entered incorrectly, your phone will conduct a factory "
-#~ "reset and all personal data will be deleted."
-#~ msgstr ""
-#~ "Hvis adgangskoden er forkert, vil telefonen blive gendannet til "
-#~ "fabriksindstillinger og al personlig data vil blive slettet."
-
-#~ msgid ""
-#~ "If passphrase is entered incorrectly, your phone will conduct a factory "
-#~ "reset and all personal data will be deleted."
-#~ msgstr ""
-#~ "Hvis adgangsfrasen er forkert, vil telefonen blive gendannet til "
-#~ "fabriksindstillinger og al personlig data vil blive slettet."
-
-#~ msgid "To view open apps"
-#~ msgstr "For at se åbne apps"
-
-#~ msgid "You almost got it!"
-#~ msgstr "Du havde den næsten!"
-
-#~ msgid "Please select how you’d like to unlock your phone."
-#~ msgstr "Vælg venligst hvordan du ønsker at låse din telefon op."
-
-#~ msgid "Available networks…"
-#~ msgstr "Tilgængelige netværk..."
-
-#~ msgid "No available networks."
-#~ msgstr "Ingen tilgængelige netværk."
-
-#~ msgid "Improving your experience"
-#~ msgstr "Forbedrer din oplevelse"
-
-#~ msgid ""
-#~ "Your phone is set up to automatically report errors to Canonical and its "
-#~ "partners, the makers of the operating system."
-#~ msgstr ""
-#~ "Din telefon er sat op til automatisk at rapportere fejl til Canonical og "
-#~ "deres partnere, skaberne af operativsystemet."
-
-#~ msgid "All done"
-#~ msgstr "Helt færdig"
-
-#~ msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
-#~ msgstr ""
-#~ "Ved brug af GPS, anonymiseret Wi-Fi og telenetværksinformation (anbefalet)"
-
-#~ msgid "Using GPS only (less accurate)"
-#~ msgstr "Kun ved brug af GPS (mindre præcis)"
-
-#~ msgid "Nice work!"
-#~ msgstr "Godt arbejde!"
-
-#~ msgid "Your phone is now ready to use."
-#~ msgstr "Din telefon er nu klar til brug."
-
-#~ msgid ""
-#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms "
-#~ "and conditions</a>."
-#~ msgstr ""
-#~ "Ved at vælge dette siger du ja til Nokia HERE's <a href='#'>betingelser "
-#~ "og vilkår</a>."
-
-#~ msgid "Choose your passcode"
-#~ msgstr "Vælg din adgangskode"
-
-#~ msgid "%1  〉"
-#~ msgstr "%1 〉"
-
-#~ msgid "〈  %1"
-#~ msgstr "〈 %1"
-
-#~ msgid "Sorry, incorrect passphrase."
-#~ msgstr "Beklager, forkert adgangsfrase."
-
-#~ msgid "Sorry, incorrect passcode."
-#~ msgstr "Beklager, forkert adgangskode."
-
-#~ msgid "This will be your last attempt."
-#~ msgstr "Dette er dit sidste forsøg."
-
-#~ msgid "Swipe up from the bottom edge."
-#~ msgstr "Swipe op fra den nedre kant."
-
-#~ msgid "Short swipe from the left edge."
-#~ msgstr "Kort swipe fra den venstre kant."
-
-#~ msgid "Tap here to continue."
-#~ msgstr "Tryk her for at fortsætte."
-
-#~ msgid "These are the shortcuts to favorite apps"
-#~ msgstr "Disse er genveje til favorit-apps"
-
-#~ msgid "Open special menus"
-#~ msgstr "Åben specialmenuer"
-
-#~ msgid "Tap here to finish."
-#~ msgstr "Tryk her for at afslutte."
-
-#~ msgid "Add a SIM card and restart your device"
-#~ msgstr "Indsæt et SIM-kort og genstart din enhed"
-
-#~ msgid "Long swipe from the right edge."
-#~ msgstr "Langt swipe fra den højre kant."
-
-#~ msgid "View all your running tasks."
-#~ msgstr "Se alle dine kørende opgaver."
-
-#~ msgid "Try again."
-#~ msgstr "Prøv igen."
-
-#~ msgid "Let’s get started."
-#~ msgstr "Lad os komme i gang."
-
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Velkommen til din Ubuntu-telefon."
-
-#~ msgid "You can change your mind later in <b>System Settings</b>."
-#~ msgstr "Du kan fortryde senere i <b>Systemindstillinger</b>."
-
-#~ msgid "Let the phone detect your location:"
-#~ msgstr "Lad telefonen bestemme din placering:"
-
-#~ msgid ""
-#~ "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
-#~ "Privacy</b>"
-#~ msgstr ""
-#~ "Dette kan slås fra i <b>Systemindstillinger</b> under <b>Sikkerhed &amp; "
-#~ "privatliv</b>"
-
-#~ msgctxt "Button: Shut down the system"
-#~ msgid "Shut down"
-#~ msgstr "Luk ned"
-
-#~ msgctxt "Title: Reboot/Shut down dialog"
-#~ msgid "Shut down"
-#~ msgstr "Luk ned"
-
-#~ msgctxt "Button: Reboot the system"
-#~ msgid "Reboot"
-#~ msgstr "Genstart"
-
-#~ msgid "Tap to unlock"
-#~ msgstr "Tap for at låse op"
-
-#~ msgid "Roaming"
-#~ msgstr "Roaming"
-
-#~ msgctxt "Label: Type of security method"
-#~ msgid "Passcode"
-#~ msgstr "Adgangskode"
-
-#~ msgid "Lock security"
-#~ msgstr "Låsesikkerhed"
-
-#~ msgctxt "Label: Description of security method"
-#~ msgid "No security"
-#~ msgstr "Ingen sikkerhed"
-
-#~ msgctxt "Label: Type of security method"
-#~ msgid "Swipe"
-#~ msgstr "Swipe"
-
-#~ msgid "Hi!"
-#~ msgstr "Hej!"
-
-#~ msgid "Finish"
-#~ msgstr "Afslut"
-
-#~ msgid "Confirm passphrase"
-#~ msgstr "Bekæft adgangsfrase"
-
-#~ msgctxt "Label: Description of security method"
-#~ msgid "4 digits only"
-#~ msgstr "Kun 4 tal"
-
-#~ msgid "Location"
-#~ msgstr "Placering"
-
-#~ msgid "Passphrase must be 4 characters long"
-#~ msgstr "Adgangsfrasen skal være mindst 4 tegn"
-
-#~ msgid "Please try again."
-#~ msgstr "Forsøg venligst igen."
-
-#~ msgctxt "Label: Type of security method"
-#~ msgid "Passphrase"
-#~ msgstr "Adgangsfrase"
-
-#~ msgctxt "Label: Description of security method"
-#~ msgid "Numbers and letters"
-#~ msgstr "Tal og bogstaver"
-
-#~ msgid "Without it, you won’t be able to make calls or use text messaging."
-#~ msgstr ""
-#~ "Uden denne vil du ikke være i stand til at foretage opkald eller sende "
-#~ "tekstbeskeder."
-
-#~ msgid "%a %d %b %H:%M"
-#~ msgstr "%a %b. %d %H:%M"
-
-#~ msgid "%a %H:%M"
-#~ msgstr "%a %H:%M"
-
-#~ msgid "%a %l:%M %p"
-#~ msgstr "%a %l:%M %p"
-
-#~ msgid "Tomorrow %l:%M %p"
-#~ msgstr "I morgen %l:%M %p"
-
-#~ msgid "%l:%M %p"
-#~ msgstr "%l:%M %p"
-
-#~ msgid "Yesterday %l:%M %p"
-#~ msgstr "Igår %l:%M %p"
-
-#~ msgid "Tomorrow %H:%M"
-#~ msgstr "I morgen %H:%M"
-
-#~ msgid "Yesterday %H:%M"
-#~ msgstr "Igår %H:%M"
-
-#~ msgid "%a %d %b %l:%M %p"
-#~ msgstr "%a %b. %d %l:%M %p"
-
-#~ msgid "%H:%M"
-#~ msgstr "%H:%M"
+msgstr "Құпия сөз өте әлсіз"

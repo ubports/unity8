@@ -444,9 +444,7 @@ Item {
             var dataCircle = findChild(view, "dataCircle");
             verify(dataCircle);
 
-            tap(dataCircle);
-            wait(1);
-            tap(dataCircle);
+            mouseDoubleClickSequence(dataCircle);
 
             // TMP Somethings wrong with infographic on edge
             //tryCompare(infographicDataChangedSpy, "count", 1);

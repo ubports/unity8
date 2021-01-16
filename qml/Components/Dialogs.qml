@@ -273,6 +273,14 @@ MouseArea {
             }
             Button {
                 width: parent.width
+                text: i18n.tr("Screenshot")
+                onClicked: {
+                    powerDialog.hide();
+                    itemGrabber.capture(shell);
+                }
+            }
+            Button {
+                width: parent.width
                 text: i18n.tr("Cancel")
                 onClicked: {
                     powerDialog.hide();
