@@ -71,6 +71,9 @@ StyledItem {
     property bool hasTouchscreen: false
     property bool supportsMultiColorLed: true
 
+    // Used by tests
+    property bool lightIndicators: false
+
     // to be read from outside
     readonly property int mainAppWindowOrientationAngle: stage.mainAppWindowOrientationAngle
 
@@ -539,6 +542,7 @@ StyledItem {
                     // involve taking the url-dispatcher dbus name and using
                     // SessionBroadcast to tell the session.
                     profile: shell.mode === "greeter" ? "desktop_greeter" : "phone"
+                    light: root.lightIndicators
                     Component.onCompleted: load();
                 }
             }

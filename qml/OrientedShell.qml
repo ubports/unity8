@@ -40,6 +40,7 @@ Item {
     }
 
     property alias orientations: d.orientations
+    property bool lightIndicators: false
 
     Item {
         id: d
@@ -276,6 +277,7 @@ Item {
         hasKeyboard: keyboardsModel.count > 0
         hasTouchscreen: touchScreensModel.count > 0
         supportsMultiColorLed: deviceConfiguration.supportsMultiColorLed
+        lightIndicators: root.lightIndicators
 
         // Since we dont have proper multiscreen support yet
         // hardcode screen count to only show osk on this screen
