@@ -21,11 +21,3 @@ ApplicationArguments::ApplicationArguments(QCoreApplication *app)
     , UnityCommandLineParser(*app)
 {
 }
-
-void ApplicationArguments::setDeviceName(const QString &deviceName)
-{
-    if (deviceName != m_deviceName) {
-        m_deviceName = deviceName;
-        Q_EMIT deviceNameChanged(m_deviceName);
-    }
-}
