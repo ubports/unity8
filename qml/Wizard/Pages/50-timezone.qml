@@ -174,10 +174,9 @@ LocalComponents.Page {
         width: Math.min(parent.width, units.gu(34))
 
         LocalComponents.WizardTextField {
+            Layout.fillWidth: true
             id: searchField
             objectName: "tzFilter"
-            anchors.left: parent.left
-            anchors.right: parent.right
             anchors.leftMargin: !showingMap && !wideMode ? staticMargin : undefined
             anchors.rightMargin: !showingMap && !wideMode ? staticMargin : undefined
             placeholderText: i18n.tr("Enter your city")
@@ -186,12 +185,11 @@ LocalComponents.Page {
         }
 
         ListView {
+            Layout.fillWidth: true
             Layout.fillHeight: true
             id: tzList
             objectName: "tzList"
             clip: true
-            anchors.left: parent.left
-            anchors.right: parent.right
             currentIndex: -1
             model: TimeZoneModel {
                 id: timeZoneModel
@@ -199,14 +197,14 @@ LocalComponents.Page {
                 country: i18n.language.split('_')[1].split('.')[0]
             }
             delegate: tzComponent
-        }
 
-        ActivityIndicator {
-            anchors.centerIn: tzList
-            running: tzList.count == 0 &&
-                     searchField.length > 0 &&
-                     timeZoneModel.listUpdating
-            visible: running
+            ActivityIndicator {
+                anchors.centerIn: parent
+                running: tzList.count == 0 &&
+                    searchField.length > 0 &&
+                    timeZoneModel.listUpdating
+                visible: running
+            }
         }
     }
 

@@ -154,7 +154,8 @@ Item {
                 Label {
                     color: "black"
                     text: "Window loader active"
-                    anchors.verticalCenter: parent.verticalCenter
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
                 }
             }
             Label {

@@ -149,7 +149,8 @@ Item {
                     }
                     Label {
                         text: "With fake mouse"
-                        anchors.verticalCenter: parent.verticalCenter
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
                     }
                 }
 

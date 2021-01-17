@@ -251,10 +251,11 @@ Item {
             var appsToTest = 6;
             var apps = new Array();
             for (var i = 0; i < appsToTest; i++) {
-                var item = new Object();
-                item.tag = "App " + i;
-                item.index = i;
-                item.total = appsToTest;
+                var item = {
+                    tag: "App " + i,
+                    index: i,
+                    total: appsToTest
+                };
                 apps.push(item)
             }
             return apps;

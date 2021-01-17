@@ -58,7 +58,7 @@ class GSettingsQml: public QObject, public QQmlParserStatus
     Q_PROPERTY(QVariant launcherWidth READ launcherWidth WRITE setLauncherWidth NOTIFY launcherWidthChanged)
     Q_PROPERTY(QVariant edgeDragWidth READ edgeDragWidth WRITE setEdgeDragWidth NOTIFY edgeDragWidthChanged)
     Q_PROPERTY(QVariant enableIndicatorMenu READ enableIndicatorMenu WRITE setEnableIndicatorMenu NOTIFY enableIndicatorMenuChanged)
-    Q_PROPERTY(QVariant appstoreUri READ appstoreUri NOTIFY appstoreUriChanged)
+    Q_PROPERTY(QVariant oskSwitchVisible READ oskSwitchVisible WRITE setOskSwitchVisible NOTIFY oskSwitchVisibleChanged)
 
 public:
     GSettingsQml(QObject *parent = nullptr);
@@ -76,7 +76,7 @@ public:
     QVariant launcherWidth() const;
     QVariant edgeDragWidth() const;
     QVariant enableIndicatorMenu() const;
-    QVariant appstoreUri() const;
+    QVariant oskSwitchVisible() const;
 
     void setDisableHeight(const QVariant &val);
     void setPictureUri(const QVariant &str);
@@ -87,6 +87,7 @@ public:
     void setLauncherWidth(const QVariant &launcherWidth);
     void setEdgeDragWidth(const QVariant &edgeDragWidth);
     void setEnableIndicatorMenu(const QVariant &enableIndicatorMenu);
+    void setOskSwitchVisible(const QVariant &oskSwitchVisible);
 
 Q_SIGNALS:
     void disableHeightChanged();
@@ -99,7 +100,7 @@ Q_SIGNALS:
     void launcherWidthChanged();
     void edgeDragWidthChanged();
     void enableIndicatorMenuChanged();
-    void appstoreUriChanged();
+    void oskSwitchVisibleChanged();
 
 private:
     GSettingsSchemaQml* m_schema;
@@ -143,7 +144,8 @@ public:
     bool enableIndicatorMenu() const;
     Q_INVOKABLE void setEnableIndicatorMenu(bool enableIndicatorMenu);
 
-    QString appstoreUri() const;
+    bool oskSwitchVisible() const;
+    Q_INVOKABLE void setOskSwitchVisible(bool oskSwitchVisible);
 
 Q_SIGNALS:
     void disableHeightChanged();
@@ -155,7 +157,7 @@ Q_SIGNALS:
     void launcherWidthChanged(int launcherWidth);
     void edgeDragWidthChanged(uint edgeDragWidth);
     void enableIndicatorMenuChanged(bool enableIndicatorMenu);
-    void appstoreUriChanged(const QString &appstoreUri);
+    void oskSwitchVisibleChanged(bool oskSwitchVisible);
 
 private:
     GSettingsControllerQml();
@@ -169,7 +171,7 @@ private:
     int m_launcherWidth;
     uint m_edgeDragWidth;
     bool m_enableIndicatorMenu;
-    QString m_appstoreUri;
+    bool m_oskSwitchVisible;
 
     static GSettingsControllerQml* s_controllerInstance;
     QList<GSettingsQml *> m_registeredGSettings;

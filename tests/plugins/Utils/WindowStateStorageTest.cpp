@@ -30,7 +30,7 @@ private Q_SLOTS:
 
     void init()
     {
-        storage = new WindowStateStorage(this);
+        storage = new WindowStateStorage(":memory:", this);
     }
 
     void cleanup()

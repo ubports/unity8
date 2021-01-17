@@ -99,8 +99,9 @@ Rectangle {
                     }
                 }
                 Label {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
                     text: "Surface"
-                    anchors.verticalCenter: parent.verticalCenter
                 }
             }
 
@@ -123,8 +124,8 @@ Rectangle {
 
             ListItem.ItemSelector {
                 id: appStateSelector
+                Layout.fillWidth: true
                 activeFocusOnPress: false
-                anchors { left: parent.left; right: parent.right }
                 text: "Application state"
                 model: ["Starting",
                         "Running",

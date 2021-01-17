@@ -95,11 +95,12 @@ Column {
             }
         }
         Label {
+            Layout.alignment: Qt.AlignVCenter
             id: appIdLabel
             text: root.appId
-            anchors.verticalCenter: parent.verticalCenter
         }
         Rectangle {
+            Layout.alignment: Qt.AlignVCenter
             color: {
                 if (d.application) {
                     if (d.application.state === ApplicationInfoInterface.Starting) {
@@ -117,13 +118,12 @@ Column {
             }
             width: height
             height: appIdLabel.height * 0.7
-            anchors.verticalCenter: parent.verticalCenter
         }
 
         MouseArea {
+            Layout.alignment: Qt.AlignVCenter
             width: height
             height: appIdLabel.height * 0.7
-            anchors.verticalCenter: parent.verticalCenter
             onClicked: root.createSurface()
             enabled: d.application && d.application.state === ApplicationInfoInterface.Running
             visible: enabled
@@ -146,16 +146,16 @@ Column {
             text: promptCount + " prompts"
         }
         MouseArea {
+            Layout.alignment: Qt.AlignVCenter
             width: height
             height: promptsLabel.height * 0.7
-            anchors.verticalCenter: parent.verticalCenter
             onClicked: d.application.createPromptSurface()
             Label { text: "➕"; anchors.centerIn: parent }
         }
         MouseArea {
+            Layout.alignment: Qt.AlignVCenter
             width: height
             height: promptsLabel.height * 0.7
-            anchors.verticalCenter: parent.verticalCenter
             onClicked: d.application.promptSurfaceList.get(0).close()
             enabled: d.application && d.application.promptSurfaceList.count > 0
             Label { text: "➖"; anchors.centerIn: parent; enabled: parent.enabled }
@@ -173,9 +173,9 @@ Column {
                 text: "- " + model.surface.name
             }
             MouseArea {
+                Layout.alignment: Qt.AlignVCenter
                 width: height
                 height: appIdLabel.height * 0.7
-                anchors.verticalCenter: parent.verticalCenter
                 enabled: model.surface.live
                 visible: enabled
                 onClicked: model.surface.setLive(false);

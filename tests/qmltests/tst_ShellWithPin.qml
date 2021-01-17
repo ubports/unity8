@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2014-2016 Canonical, Ltd.
+ * Copyright (C) 2021 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,7 +37,6 @@ Item {
     Component.onCompleted: {
         // must set the mock mode before loading the Shell
         LightDMController.userMode = "single-pin";
-        shellLoader.active = true;
     }
 
     QtObject {
@@ -55,35 +55,43 @@ Item {
         }
     }
 
+    property var tryShell: null
+
+    Component {
+        id: shellComponent
+        Shell {
+            anchors.fill: parent
+            hasTouchscreen: true
+        }
+    }
+
     Row {
         id: contentRow
 
-        Loader {
-            id: shellLoader
-            active: false
-
+        Rectangle {
+            id: shellRect
+            color: "black"
             width: units.gu(40)
             height: units.gu(71)
-
-            property bool itemDestroyed: false
-            sourceComponent: Component {
-                Shell {
-                    hasTouchscreen: true
-                    Component.onDestruction: {
-                        shellLoader.itemDestroyed = true
-                    }
-                }
-            }
         }
 
         Rectangle {
             color: "white"
             width: units.gu(30)
-            height: shellLoader.height
+            height: shellRect.height
 
             Column {
                 anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
                 spacing: units.gu(1)
+                Button {
+                    anchors { left: parent.left; right: parent.right }
+                    text: "Load shell"
+                    onClicked: {
+                        if (root.tryShell === null) {
+                            root.tryShell = shellComponent.createObject(shellRect);
+                        }
+                    }
+                }
                 Button {
                     anchors { left: parent.left; right: parent.right }
                     text: "Show Greeter"
@@ -122,13 +130,13 @@ Item {
         name: "ShellWithPin"
         when: windowShown
 
-        property Item shell: shellLoader.status === Loader.Ready ? shellLoader.item : null
-
-        function init() {
+        function createShell() {
+            var shell = createTemporaryObject(shellComponent, shellRect);
+            removeTimeConstraintsFromSwipeAreas(shell);
             tryCompare(shell, "waitingOnGreeter", false); // will be set when greeter is all ready
             var greeter = findChild(shell, "greeter");
             sessionSpy.target = greeter;
-            swipeAwayGreeter(true);
+            swipeAwayGreeter(true, shell);
             greeter.failedLoginsDelayAttempts = -1;
 
             var launcher = findChild(shell, "launcher");
@@ -140,44 +148,20 @@ Item {
             stage = findChild(shell, "stage");
             topLevelSurfaceList = findInvisibleChild(shell, "topLevelSurfaceList");
             verify(topLevelSurfaceList);
+            return shell;
         }
 
         function cleanup() {
-            tryCompare(shell, "waitingOnGreeter", false); // make sure greeter didn't leave us in disabled state
-
             topLevelSurfaceList = null;
-
-            shellLoader.itemDestroyed = false
-
-            shellLoader.active = false
-
-            tryCompare(shellLoader, "status", Loader.Null)
-            tryCompare(shellLoader, "item", null)
-            // Loader.status might be Loader.Null and Loader.item might be null but the Loader
-            // item might still be alive. So if we set Loader.active back to true
-            // again right now we will get the very same Shell instance back. So no reload
-            // actually took place. Likely because Loader waits until the next event loop
-            // iteration to do its work. So to ensure the reload, we will wait until the
-            // Shell instance gets destroyed.
-            tryCompare(shellLoader, "itemDestroyed", true)
-
-            // kill all (fake) running apps
-            killApps()
-
-            AccountsService.enableLauncherWhileLocked = true
-            AccountsService.enableIndicatorsWhileLocked = true
-            AccountsService.demoEdges = false
-            callManager.foregroundCall = null
+            killApps();
+            AccountsService.enableLauncherWhileLocked = true;
+            AccountsService.enableIndicatorsWhileLocked = true;
+            AccountsService.demoEdges = false;
+            callManager.foregroundCall = null;
             LightDM.Greeter.authenticate(""); // reset greeter
-
-            // reload our test subject to get it in a fresh state once again
-            shellLoader.active = true
-
-            tryCompare(shellLoader, "status", Loader.Ready)
-            removeTimeConstraintsFromSwipeAreas(shellLoader.item)
         }
 
-        function swipeAwayGreeter(waitForCoverPage) {
+        function swipeAwayGreeter(waitForCoverPage, shell) {
             var greeter = findChild(shell, "greeter");
             waitForRendering(greeter)
             var coverPage = findChild(shell, "coverPage");
@@ -198,7 +182,7 @@ Item {
             typeString(pin);
         }
 
-        function showGreeter() {
+        function showGreeter(shell) {
             LightDM.Greeter.showGreeter();
             tryCompare(shell, "waitingOnGreeter", false);
             var coverPage = findChild(shell, "coverPage");
@@ -206,7 +190,7 @@ Item {
             removeTimeConstraintsFromSwipeAreas(shell);
         }
 
-        function confirmLockedApp(app) {
+        function confirmLockedApp(app, shell) {
             var greeter = findChild(shell, "greeter")
             tryCompare(greeter, "shown", false)
             tryCompare(greeter, "hasLockedApp", true)
@@ -218,13 +202,14 @@ Item {
         function test_greeterChangesIndicatorProfile() {
             skip("Not supported yet, waiting on design for new settings panel");
 
+            var shell = createShell();
             var panel = findChild(shell, "panel");
             tryCompare(panel.indicators.indicatorsModel, "profile", shell.indicatorProfile + "_greeter");
 
             LightDM.Greeter.hideGreeter();
             tryCompare(panel.indicators.indicatorsModel, "profile", shell.indicatorProfile);
 
-            showGreeter();
+            showGreeter(shell);
             tryCompare(panel.indicators.indicatorsModel, "profile", shell.indicatorProfile + "_greeter");
 
             LightDM.Greeter.hideGreeter();
@@ -232,6 +217,7 @@ Item {
         }
 
         function test_login() {
+            var shell = createShell();
             sessionSpy.clear()
             tryCompare(sessionSpy, "count", 0)
             enterPin("1234")
@@ -239,6 +225,7 @@ Item {
         }
 
         function test_disabledEdges() {
+            var shell = createShell();
             var launcher = findChild(shell, "launcher")
             tryCompare(launcher, "available", true)
             AccountsService.enableLauncherWhileLocked = false
@@ -251,6 +238,7 @@ Item {
         }
 
         function test_emergencyCall() {
+            var shell = createShell();
             var greeter = findChild(shell, "greeter")
             var panel = findChild(shell, "panel")
             var indicators = findChild(shell, "indicators")
@@ -269,7 +257,7 @@ Item {
 
             // Cancel emergency mode, and go back to normal
             waitForRendering(greeter)
-            showGreeter()
+            showGreeter(shell);
 
             tryCompare(greeter, "shown", true)
             tryCompare(greeter, "lockedApp", "")
@@ -282,6 +270,7 @@ Item {
         }
 
         function test_emergencyCallCrash() {
+            var shell = createShell();
             var dialerSurfaceId = topLevelSurfaceList.nextId;
             var greeter = findChild(shell, "greeter");
             var emergencyButton = findChild(greeter, "emergencyCallLabel");
@@ -297,6 +286,7 @@ Item {
         }
 
         function test_emergencyCallAppLaunch() {
+            var shell = createShell();
             var greeter = findChild(shell, "greeter");
             var emergencyButton = findChild(greeter, "emergencyCallLabel");
             tap(emergencyButton)
@@ -307,6 +297,7 @@ Item {
         }
 
         function test_emergencyCallPausesTutorial() {
+            var shell = createShell();
             var greeter = findChild(shell, "greeter");
             var tutorial = findChild(shell, "tutorial");
 
@@ -314,15 +305,16 @@ Item {
             enterPin("1234");
             tryCompare(tutorial, "paused", false);
 
-            showGreeter();
+            showGreeter(shell);
             verify(tutorial.paused);
 
-            swipeAwayGreeter(true);
+            swipeAwayGreeter(true, shell);
             tap(findChild(greeter, "emergencyCallLabel"));
             verify(tutorial.paused);
         }
 
         function test_failedLoginsCount() {
+            var shell = createShell();
             AccountsService.failedLogins = 0
 
             enterPin("1111")
@@ -333,6 +325,7 @@ Item {
         }
 
         function test_wrongEntries() {
+            var shell = createShell();
             var greeter = findChild(shell, "greeter");
             greeter.failedLoginsDelayAttempts = 3;
 
@@ -357,13 +350,14 @@ Item {
             // dialer to a side stage and give access to other apps.  So just
             // confirm that such an attack doesn't work.
 
+            var shell = createShell();
             var stage = findChild(shell, "stage")
 
             // We start in phone mode
             compare(stage.usageScenario, "phone");
 
             tap(findChild(shell, "emergencyCallLabel"));
-            confirmLockedApp("dialer-app")
+            confirmLockedApp("dialer-app", shell);
 
             // OK, we're in. Now try (but fail) to switch to tablet mode
             shell.usageScenario = "tablet";
@@ -377,8 +371,9 @@ Item {
         }
 
         function test_emergencyDialerIncoming() {
+            var shell = createShell();
             callManager.foregroundCall = phoneCall
-            confirmLockedApp("dialer-app")
+            confirmLockedApp("dialer-app", shell);
         }
 
         function test_emergencyDialerActiveCallPanel() {
@@ -388,13 +383,14 @@ Item {
             // - Click on active call panel
             // - Should be back in emergency mode dialer
 
+            var shell = createShell();
             var greeter = findChild(shell, "greeter");
 
             tap(findChild(shell, "emergencyCallLabel"));
-            confirmLockedApp("dialer-app");
+            confirmLockedApp("dialer-app", shell);
             callManager.foregroundCall = phoneCall;
 
-            showGreeter();
+            showGreeter(shell);
             var lockscreen = findChild(shell, "lockscreen");
             tryCompare(lockscreen, "shown", true);
             tryCompare(greeter, "hasLockedApp", false);
@@ -402,7 +398,7 @@ Item {
             // simulate a callHint press, the real thing requires dialer: url support
             ApplicationManager.requestFocusApplication("dialer-app");
 
-            confirmLockedApp("dialer-app");
+            confirmLockedApp("dialer-app", shell);
         }
 
         function test_normalDialerActiveCallPanel() {
@@ -414,6 +410,7 @@ Item {
             // - Should be back in normal dialer
             // (we've had a bug where we locked screen in this case)
 
+            var shell = createShell();
             startApplication("gallery-app");
 
             var greeter = findChild(shell, "greeter");
@@ -431,7 +428,6 @@ Item {
             tryCompare(ApplicationManager, "focusedApplicationId", "gallery-app");
             var callHint = findChild(panel, "callHint");
             tryCompare(callHint, "visible", true);
-            wait(10000)
 
             // simulate a callHint press, the real thing requires dialer: url support
             ApplicationManager.requestFocusApplication("dialer-app");
@@ -442,7 +438,8 @@ Item {
         }
 
         function test_focusRequestedHidesCoverPage() {
-            showGreeter();
+            var shell = createShell();
+            showGreeter(shell);
 
             startApplication("gallery-app");
 
@@ -452,7 +449,7 @@ Item {
             tryCompare(coverPage, "showProgress", 0);
             tryCompare(greeter, "fullyShown", true);
 
-            showGreeter();
+            showGreeter(shell);
 
             // Make sure focusing same app triggers same behavior
             ApplicationManager.requestFocusApplication("gallery-app");
@@ -461,6 +458,7 @@ Item {
         }
 
         function test_suspend() {
+            var shell = createShell();
             var greeter = findChild(shell, "greeter");
             var stage = findChild(shell, "stage")
 
@@ -475,7 +473,7 @@ Item {
             tryCompare(greeter, "fullyShown", true);
 
             // Swipe away greeter to focus app
-            swipeAwayGreeter(true);
+            swipeAwayGreeter(true, shell);
 
             // We have a lockscreen, make sure we're still suspended
             tryCompare(stage, "suspended", true);
@@ -490,14 +488,7 @@ Item {
            loaded, they would be able to get into the session before the
            lockscreen appeared. Make sure that doesn't happen. */
         function test_earlyDisable() {
-            // Kill current shell
-            shellLoader.itemDestroyed = false;
-            shellLoader.active = false;
-            tryCompare(shellLoader, "itemDestroyed", true);
-
-            // Create new shell
-            shellLoader.active = true;
-            tryCompareFunction(function() {return shell !== null}, true);
+            var shell = createTemporaryObject(shellComponent, shellRect);
 
             // Confirm that we start disabled
             compare(LightDM.Prompts.count, 0);
@@ -513,6 +504,7 @@ Item {
         }
 
         function test_bfbOnLockedDevice() {
+            var shell = createShell();
             var launcher = findChild(shell, "launcher");
             touchFlick(shell, units.gu(.5), shell.height / 2, units.gu(10), shell.height / 2);
 
@@ -534,6 +526,7 @@ Item {
            appear over the Greeter. This was caused by logic that would normally
            cause the Launcher to be shown over the empty Background. */
         function test_launcherShowCulledWhenLocked() {
+            var shell = createShell();
             var launcher = findChild(shell, "launcher");
 
             // Ensure the Launcher is sane
@@ -541,9 +534,6 @@ Item {
             tryCompare(launcher, "state", "visible");
             tap(shell);
             tryCompare(launcher, "state", "");
-
-            console.log("I AM LOGGING NOW");
-            console.log(ApplicationManager.count);
 
             // Start and kill an app to cause the Launcher to be triggered (in error state)
             startApplication("gallery-app");

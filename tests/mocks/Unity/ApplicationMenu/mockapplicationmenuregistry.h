@@ -32,7 +32,7 @@ public:
                                          const QString &service);
 
     Q_INVOKABLE void UnregisterSurfaceMenu(const QString &surfaceId,
-                                           const QDBusObjectPath &menuObjectPath);
+                                           const QString &menuObjectPath);
 
 private:
     MockApplicationMenuRegistry(QObject *parent = 0);
