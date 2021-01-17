@@ -15,18 +15,20 @@
  *
  */
 
-#ifndef LOMIRI_HANDLEMEDIAKEYS_PLUGIN
-#define LOMIRI_HANDLEMEDIAKEYS_PLUGIN
+#include "plugin.h"
+#include "Broadcaster.h"
 
-#include <QQmlExtensionPlugin>
+#include <QtQml/qqml.h>
 
-class HandleMediaKeysPlugin : public QQmlExtensionPlugin
+static QObject *broadcast_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
-    Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+    return new Broadcaster();
+}
 
-public:
-    void registerTypes(const char *uri) override;
-};
-
-#endif
+void BroadcasterPlugin::registerTypes(const char *uri)
+{
+    Q_ASSERT(uri == QLatin1String("Broadcaster"));
+    qmlRegisterSingletonType<Broadcaster>(uri, 0, 1, "Broadcaster", broadcast_provider);
+}

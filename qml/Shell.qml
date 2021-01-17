@@ -30,7 +30,7 @@ import GSettings 1.0
 import Utils 0.1
 import Powerd 0.1
 import SessionBroadcast 0.1
-import HandleMediaKeys 0.1
+import Broadcaster 0.1
 import "Greeter"
 import "Launcher"
 import "Panel"
@@ -238,7 +238,7 @@ StyledItem {
         onVolumeUpTriggered: volumeControl.volumeUp();
         onScreenshotTriggered: itemGrabber.capture(shell);
 
-        onMediaKey: HandleMediaKeys.notifyMediaKey(key);
+        onMediaKey: Broadcaster.notifyMediaKey(keyMsg);
     }
 
     GlobalShortcut {

@@ -1,3 +1,0 @@
-module HandleMediaKeys
-plugin HandleMediaKeys-qml
-typeinfo HandleMediaKeys.qmltypes

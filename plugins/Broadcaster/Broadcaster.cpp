@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "HandleMediaKeys.h"
+#include "Broadcaster.h"
 #include <QDBusConnection>
 #include <QDBusConnectionInterface>
 #include <QDBusInterface>
@@ -22,7 +22,7 @@
 
 #include <glib.h>
 
-HandleMediaKeys::HandleMediaKeys(QObject* parent)
+Broadcaster::Broadcaster(QObject* parent)
   : QObject(parent)
 {
 
@@ -35,18 +35,9 @@ HandleMediaKeys::HandleMediaKeys(QObject* parent)
                                        QStringLiteral("com.ubports.Lomiri.Broadcast"),
                                        connection, this);
 
-    connect(m_broadcaster, SIGNAL(MediaKey(int key)),
-            this, SLOT(onMediaKey(int key)));
-
 }
 
-void HandleMediaKeys::notifyMediaKey(int key)
+void Broadcaster::notifyMediaKey(const QString &keyMsg)
 {
-    qDebug() << "notifyMediaKey(" << key << ")";
-    m_broadcaster->asyncCall(QStringLiteral("MediaKey"), key);
-}
-
-void HandleMediaKeys::onMediaKey(int key)
-{
-    Q_EMIT mediaKey(key);
+    m_broadcaster->asyncCall(QStringLiteral("MediaKey"), keyMsg);
 }

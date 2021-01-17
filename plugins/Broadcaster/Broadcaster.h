@@ -14,28 +14,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef LOMIRI_HANDLEMEDIAKEYS_H
-#define LOMIRI_HANDLEMEDIAKEYS_H
+#ifndef LOMIRI_BROADCASTER_H
+#define LOMIRI_BROADCASTER_H
 
 #include <QObject>
 #include <QString>
 
 class QDBusInterface;
 
-class HandleMediaKeys: public QObject
+class Broadcaster: public QObject
 {
     Q_OBJECT
 
 public:
-    explicit HandleMediaKeys(QObject *parent = 0);
+    explicit Broadcaster(QObject *parent = 0);
 
-    Q_INVOKABLE void notifyMediaKey(int key);
-
-Q_SIGNALS:
-    void mediaKey(int key);
-
-private Q_SLOTS:
-    void onMediaKey(int key);
+    Q_INVOKABLE void notifyMediaKey(const QString &keyMsg);
 
 private:
     QDBusInterface *m_broadcaster;
