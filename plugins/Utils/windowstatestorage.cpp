@@ -244,23 +244,32 @@ public Q_SLOTS:
     }
 
 private:
-    const QString m_connectionName = QStringLiteral("WindowStateStorage");
-    const QString m_getStateQuery = QStringLiteral("SELECT state FROM state WHERE windowId = :windowId");
-    const QString m_saveStateQuery = QStringLiteral("INSERT OR REPLACE INTO state (windowId, state) values (:windowId, :state)");
-    const QString m_getGeometryQuery = QStringLiteral("SELECT * FROM geometry WHERE windowId = :windowId");
-    const QString m_saveGeometryQuery = QStringLiteral("INSERT OR REPLACE INTO geometry (windowId, x, y, width, height) values (:windowId, :x, :y, :width, :height)");
-    const QString m_getStageQuery = QStringLiteral("SELECT stage FROM stage WHERE appId = :appId");
-    const QString m_saveStageQuery = QStringLiteral("INSERT OR REPLACE INTO stage (appId, stage) values (:appId, :stage)");
-    QString m_dbName;
-    bool m_ok = false;
+    static const QString m_connectionName;
+    static const QString m_getStateQuery;
+    static const QString m_saveStateQuery;
+    static const QString m_getGeometryQuery;
+    static const QString m_saveGeometryQuery;
+    static const QString m_getStageQuery;
+    static const QString m_saveStageQuery;
 
-    void logSqlError(const QSqlQuery query) const
+    static void logSqlError(const QSqlQuery query)
     {
         qWarning() << "Error executing query" << query.lastQuery()
                 << "Driver error:" << query.lastError().driverText()
                 << "Database error:" << query.lastError().databaseText();
     }
+
+    QString m_dbName;
+    bool m_ok = false;
 };
+
+const QString AsyncQuery::m_connectionName = QStringLiteral("WindowStateStorage");
+const QString AsyncQuery::m_getStateQuery = QStringLiteral("SELECT state FROM state WHERE windowId = :windowId");
+const QString AsyncQuery::m_saveStateQuery = QStringLiteral("INSERT OR REPLACE INTO state (windowId, state) values (:windowId, :state)");
+const QString AsyncQuery::m_getGeometryQuery = QStringLiteral("SELECT * FROM geometry WHERE windowId = :windowId");
+const QString AsyncQuery::m_saveGeometryQuery = QStringLiteral("INSERT OR REPLACE INTO geometry (windowId, x, y, width, height) values (:windowId, :x, :y, :width, :height)");
+const QString AsyncQuery::m_getStageQuery = QStringLiteral("SELECT stage FROM stage WHERE appId = :appId");
+const QString AsyncQuery::m_saveStageQuery = QStringLiteral("INSERT OR REPLACE INTO stage (appId, stage) values (:appId, :stage)");
 
 WindowStateStorage::WindowStateStorage(const QString& dbName, QObject *parent):
     QObject(parent),
