@@ -25,38 +25,7 @@
 // unity-api
 #include <unity/shell/application/Mir.h>
 
-class AsyncQuery: public QObject
-{
-    Q_OBJECT
-
-public:
-    AsyncQuery(const QString& dbName);
-    ~AsyncQuery();
-
-    Q_PROPERTY (const QString dbName READ getDbName)
-
-    Q_INVOKABLE const QString getDbName();
-    Q_INVOKABLE bool initdb();
-    Q_INVOKABLE int getState(const QString &windowId) const;
-    Q_INVOKABLE QRect getGeometry(const QString &windowId) const;
-    Q_INVOKABLE int getStage(const QString &appId) const;
-
-public Q_SLOTS:
-    void saveState(const QString &windowId, int state);
-    void saveGeometry(const QString &windowId, const QRect &rect);
-    void saveStage(const QString &appId, int stage);
-
-private:
-    const QString m_connectionName = QStringLiteral("WindowStateStorage");
-    const QString m_getStateQuery = QStringLiteral("SELECT state FROM state WHERE windowId = :windowId");
-    const QString m_saveStateQuery = QStringLiteral("INSERT OR REPLACE INTO state (windowId, state) values (:windowId, :state)");
-    const QString m_getGeometryQuery = QStringLiteral("SELECT * FROM geometry WHERE windowId = :windowId");
-    const QString m_saveGeometryQuery = QStringLiteral("INSERT OR REPLACE INTO geometry (windowId, x, y, width, height) values (:windowId, :x, :y, :width, :height)");
-    const QString m_getStageQuery = QStringLiteral("SELECT stage FROM stage WHERE appId = :appId");
-    const QString m_saveStageQuery = QStringLiteral("INSERT OR REPLACE INTO stage (appId, stage) values (:appId, :stage)");
-    void logSqlError(const QSqlQuery) const;
-    QString m_dbName;
-};
+class AsyncQuery;
 
 class WindowStateStorage: public QObject
 {
