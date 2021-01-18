@@ -34,7 +34,7 @@ class AsyncQuery: public QObject
     Q_OBJECT
 
 public:
-    AsyncQuery(const QString& dbName):
+    AsyncQuery(const QString &dbName):
         m_dbName(dbName)
     {
     }
@@ -269,7 +269,7 @@ const QString AsyncQuery::m_saveGeometryQuery = QStringLiteral("INSERT OR REPLAC
 const QString AsyncQuery::m_getStageQuery = QStringLiteral("SELECT stage FROM stage WHERE appId = :appId");
 const QString AsyncQuery::m_saveStageQuery = QStringLiteral("INSERT OR REPLACE INTO stage (appId, stage) values (:appId, :stage)");
 
-WindowStateStorage::WindowStateStorage(const QString& dbName, QObject *parent):
+WindowStateStorage::WindowStateStorage(const QString &dbName, QObject *parent):
     QObject(parent),
     m_thread()
 {
