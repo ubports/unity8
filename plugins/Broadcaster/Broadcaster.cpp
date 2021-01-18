@@ -22,22 +22,47 @@
 
 #include <glib.h>
 
+#define BROADCAST_SERVICE   "com.ubports.Lomiri.Broadcast"
+#define BROADCAST_PATH      "/com/ubports/Lomiri/Broadcast"
+#define BROADCAST_INTERFACE "com.ubports.Lomiri.Broadcast"
+
+//#define BROADCAST_SERVICE   "com.canonical.Unity.Broadcast"
+//#define BROADCAST_SERVICE   "com.canonical.Unity"
+//#define BROADCAST_PATH      "/com/canonical/Unity/Broadcast"
+//#define BROADCAST_INTERFACE "com.canonical.Unity.Broadcast"
+
 Broadcaster::Broadcaster(QObject* parent)
   : QObject(parent)
 {
 
     auto connection = QDBusConnection::SM_BUSNAME();
-    auto interface = connection.interface();
-    interface->startService(QStringLiteral("com.ubports.Lomiri.Broadcast"));
+    //auto interface = connection.interface();
+    //auto reply = interface->startService(QStringLiteral(BROADCAST_INTERFACE));
+    //if(!reply.isValid())
+    //    qWarning() << "Failed to start DBus service " << BROADCAST_SERVICE << ": " << reply.error().message();
 
-    m_broadcaster = new QDBusInterface(QStringLiteral("com.ubports.Lomiri.Broadcast"),
-                                       QStringLiteral("/com/ubports/Lomiri/Broadcast"),
-                                       QStringLiteral("com.ubports.Lomiri.Broadcast"),
+    /*m_broadcaster = new QDBusInterface(QStringLiteral(BROADCAST_SERVICE),
+                                       QStringLiteral(BROADCAST_PATH),
+                                       QStringLiteral(BROADCAST_INTERFACE),
                                        connection, this);
-
+    */
 }
 
 void Broadcaster::notifyMediaKey(const QString &keyMsg)
 {
-    m_broadcaster->asyncCall(QStringLiteral("MediaKey"), keyMsg);
+
+    auto connection = QDBusConnection::SM_BUSNAME();
+    QDBusMessage msg = QDBusMessage::createSignal("/com/ubports/Lomiri/Broadcast", "com.ubports.Lomiri.Broadcast", "MediaKey");
+
+    QVariantMap args;
+    args.insert("key-msg", keyMsg);
+    msg << args; // keyMsg;
+
+    connection.send(msg);
+
+    //m_broadcaster->asyncCall(QStringLiteral("MediaKey"), args);
+    /*QDBusReply<void> reply = m_broadcaster->call(QStringLiteral("MediaKey"), args);
+    if(!reply.isValid())
+        qWarning() << "Failed to signal MediaKey: " << reply.error().message();
+    */
 }
