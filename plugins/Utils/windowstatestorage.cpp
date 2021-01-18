@@ -56,6 +56,7 @@ public:
     {
         QSqlDatabase connection = QSqlDatabase::addDatabase(QStringLiteral("QSQLITE"), m_connectionName);
         connection.setDatabaseName(m_dbName);
+        connection.setConnectOptions(QStringLiteral("QSQLITE_BUSY_TIMEOUT=1000"));
         if (!connection.open()) {
             qWarning() << "Error opening state database " << m_dbName << connection.lastError().driverText() << connection.lastError().databaseText();
             return false;
