@@ -44,8 +44,6 @@ public:
         QSqlDatabase::removeDatabase(m_connectionName);
     }
 
-    Q_PROPERTY (const QString dbName READ getDbName)
-
     Q_INVOKABLE const QString getDbName()
     {
         if (!m_ok) {
