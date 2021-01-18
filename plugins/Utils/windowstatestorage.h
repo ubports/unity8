@@ -73,5 +73,4 @@ Q_SIGNALS:
 private:
     QThread m_thread;
     AsyncQuery *m_asyncQuery;
-    bool m_asyncOk;
 };

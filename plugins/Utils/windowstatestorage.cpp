@@ -48,17 +48,23 @@ public:
 
     Q_INVOKABLE const QString getDbName()
     {
+        if (!m_ok) {
+            return "ERROR";
+        }
         QSqlDatabase connection = QSqlDatabase::database(m_connectionName);
         return connection.databaseName();
     }
 
     Q_INVOKABLE bool initdb()
     {
+        if (m_ok) {
+            return true;
+        }
         QSqlDatabase connection = QSqlDatabase::addDatabase(QStringLiteral("QSQLITE"), m_connectionName);
         connection.setDatabaseName(m_dbName);
         connection.setConnectOptions(QStringLiteral("QSQLITE_BUSY_TIMEOUT=1000"));
         if (!connection.open()) {
-            qWarning() << "AsyncQuery::initdb: Error opening state database " << m_dbName << connection.lastError().driverText() << connection.lastError().databaseText();
+            qWarning() << "AsyncQuery::initdb: Error opening state database. Window positions will not be saved or restored." << m_dbName << connection.lastError().driverText() << connection.lastError().databaseText();
             return false;
         }
         QSqlQuery query(connection);
@@ -86,11 +92,15 @@ public:
                 return false;
             }
         }
+        m_ok = true;
         return true;
     }
 
     Q_INVOKABLE int getState(const QString &windowId) const
     {
+        if (!m_ok) {
+            return -1;
+        }
         QSqlDatabase connection = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(connection);
         query.prepare(m_getStateQuery);
@@ -116,6 +126,9 @@ public:
 
     Q_INVOKABLE QRect getGeometry(const QString &windowId) const
     {
+        if (!m_ok) {
+            return QRect();
+        }
         QSqlDatabase connection = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(connection);
         query.prepare(m_getGeometryQuery);
@@ -154,6 +167,9 @@ public:
 
     Q_INVOKABLE int getStage(const QString &appId) const
     {
+        if (!m_ok) {
+            return -1;
+        }
         QSqlDatabase connection = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(connection);
         query.prepare(m_getStageQuery);
@@ -181,6 +197,9 @@ public Q_SLOTS:
 
     void saveState(const QString &windowId, WindowStateStorage::WindowState state)
     {
+        if (!m_ok) {
+            return;
+        }
         QSqlDatabase connection = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(connection);
         query.prepare(m_saveStateQuery);
@@ -193,6 +212,9 @@ public Q_SLOTS:
 
     void saveGeometry(const QString &windowId, const QRect &rect)
     {
+        if (!m_ok) {
+            return;
+        }
         QSqlDatabase connection = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(connection);
         query.prepare(m_saveGeometryQuery);
@@ -208,6 +230,9 @@ public Q_SLOTS:
 
     void saveStage(const QString &appId, int stage)
     {
+        if (!m_ok) {
+            return;
+        }
         QSqlDatabase connection = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(connection);
         query.prepare(m_saveStageQuery);
@@ -227,6 +252,7 @@ private:
     const QString m_getStageQuery = QStringLiteral("SELECT stage FROM stage WHERE appId = :appId");
     const QString m_saveStageQuery = QStringLiteral("INSERT OR REPLACE INTO stage (appId, stage) values (:appId, :stage)");
     QString m_dbName;
+    bool m_ok = false;
 
     void logSqlError(const QSqlQuery query) const
     {
@@ -254,20 +280,14 @@ WindowStateStorage::WindowStateStorage(const QString& dbName, QObject *parent):
     m_asyncQuery->moveToThread(&m_thread);
     connect(&m_thread, &QThread::finished, m_asyncQuery, &QObject::deleteLater);
     m_thread.start();
-    bool queryInitSuccessful;
+    // Note that we're relying on initdb being called before any other methods
+    // on AsyncQuery. Given the current behavior of QueuedConnection (slots
+    // invoked in the order they are received), this is fine.
     QMetaObject::invokeMethod(m_asyncQuery, "initdb",
-                              Qt::BlockingQueuedConnection,
-                              Q_RETURN_ARG(bool, queryInitSuccessful));
-    if (!queryInitSuccessful) {
-        qWarning() << "WindowStateStorage Failed to initialize AsyncQuery! Windows will not be restored to their previous location.";
-        m_asyncOk = false;
-        m_thread.quit();
-    } else {
-        connect(this, &WindowStateStorage::saveState, m_asyncQuery, &AsyncQuery::saveState);
-        connect(this, &WindowStateStorage::saveGeometry, m_asyncQuery, &AsyncQuery::saveGeometry);
-        connect(this, &WindowStateStorage::saveStage, m_asyncQuery, &AsyncQuery::saveStage);
-        m_asyncOk = true;
-    }
+                              Qt::QueuedConnection);
+    connect(this, &WindowStateStorage::saveState, m_asyncQuery, &AsyncQuery::saveState);
+    connect(this, &WindowStateStorage::saveGeometry, m_asyncQuery, &AsyncQuery::saveGeometry);
+    connect(this, &WindowStateStorage::saveStage, m_asyncQuery, &AsyncQuery::saveStage);
 }
 
 WindowStateStorage::~WindowStateStorage()
@@ -278,9 +298,6 @@ WindowStateStorage::~WindowStateStorage()
 
 WindowStateStorage::WindowState WindowStateStorage::getState(const QString &windowId, WindowStateStorage::WindowState defaultValue) const
 {
-    if (!m_asyncOk) {
-        return defaultValue;
-    }
     int state;
 
     QMetaObject::invokeMethod(m_asyncQuery, "getState", Qt::BlockingQueuedConnection,
@@ -297,9 +314,6 @@ WindowStateStorage::WindowState WindowStateStorage::getState(const QString &wind
 
 int WindowStateStorage::getStage(const QString &appId, int defaultValue) const
 {
-    if (!m_asyncOk) {
-        return defaultValue;
-    }
     int stage;
 
     QMetaObject::invokeMethod(m_asyncQuery, "getStage", Qt::BlockingQueuedConnection,
@@ -316,9 +330,6 @@ int WindowStateStorage::getStage(const QString &appId, int defaultValue) const
 
 QRect WindowStateStorage::getGeometry(const QString &windowId, const QRect &defaultValue) const
 {
-    if (!m_asyncOk) {
-        return defaultValue;
-    }
     QRect geometry;
     QMetaObject::invokeMethod(m_asyncQuery, "getGeometry", Qt::BlockingQueuedConnection,
                             Q_RETURN_ARG(QRect, geometry),
@@ -332,9 +343,6 @@ QRect WindowStateStorage::getGeometry(const QString &windowId, const QRect &defa
 
 const QString WindowStateStorage::getDbName()
 {
-    if (!m_asyncOk) {
-        return QStringLiteral("ERROR");
-    }
     QString dbName;
     QMetaObject::invokeMethod(m_asyncQuery, "getDbName", Qt::BlockingQueuedConnection,
                               Q_RETURN_ARG(QString, dbName)
