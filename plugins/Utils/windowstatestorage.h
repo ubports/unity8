@@ -53,7 +53,6 @@ public:
     WindowStateStorage(const QString& dbName = nullptr, QObject *parent = nullptr);
     virtual ~WindowStateStorage();
 
-    Q_INVOKABLE void saveState(const QString &windowId, WindowStateStorage::WindowState state);
     Q_INVOKABLE WindowState getState(const QString &windowId, WindowState defaultValue) const;
 
     Q_INVOKABLE QRect getGeometry(const QString &windowId, const QRect &defaultValue) const;
@@ -69,6 +68,7 @@ public:
 Q_SIGNALS:
     void saveStage(const QString &appId, int stage);
     void saveGeometry(const QString &windowId, const QRect &rect);
+    void saveState(const QString &windowId, WindowStateStorage::WindowState state);
 
 private:
     QThread m_thread;

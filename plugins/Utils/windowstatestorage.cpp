@@ -179,13 +179,13 @@ public:
 
 public Q_SLOTS:
 
-    void saveState(const QString &windowId, int state)
+    void saveState(const QString &windowId, WindowStateStorage::WindowState state)
     {
         QSqlDatabase connection = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(connection);
         query.prepare(m_saveStateQuery);
         query.bindValue(":windowId", windowId);
-        query.bindValue(":state", state);
+        query.bindValue(":state", (int)state);
         if (!query.exec()) {
             logSqlError(query);
         }
@@ -240,6 +240,7 @@ WindowStateStorage::WindowStateStorage(const QString& dbName, QObject *parent):
     QObject(parent),
     m_thread()
 {
+    qRegisterMetaType<WindowStateStorage::WindowState>("WindowStateStorage::WindowState");
     QString dbFile;
     if (dbName == nullptr) {
         const QString dbPath = QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation) + QStringLiteral("/unity8/");
@@ -262,6 +263,7 @@ WindowStateStorage::WindowStateStorage(const QString& dbName, QObject *parent):
         m_asyncOk = false;
         m_thread.quit();
     } else {
+        connect(this, &WindowStateStorage::saveState, m_asyncQuery, &AsyncQuery::saveState);
         connect(this, &WindowStateStorage::saveGeometry, m_asyncQuery, &AsyncQuery::saveGeometry);
         connect(this, &WindowStateStorage::saveStage, m_asyncQuery, &AsyncQuery::saveStage);
         m_asyncOk = true;
@@ -272,20 +274,6 @@ WindowStateStorage::~WindowStateStorage()
 {
     m_thread.quit();
     m_thread.wait();
-}
-
-void WindowStateStorage::saveState(const QString &windowId, WindowStateStorage::WindowState windowState)
-{
-    if (!m_asyncOk) {
-        return;
-    }
-    // This could be a simple connection like all the other save* methods
-    // on AsyncQuery, but WindowStateStorage::WindowState can't be used
-    // on it directly.
-    QMetaObject::invokeMethod(m_asyncQuery, "saveState", Qt::QueuedConnection,
-                        Q_ARG(const QString&, windowId),
-                        Q_ARG(int, (int)windowState)
-                        );
 }
 
 WindowStateStorage::WindowState WindowStateStorage::getState(const QString &windowId, WindowStateStorage::WindowState defaultValue) const
