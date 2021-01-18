@@ -61,8 +61,6 @@ public:
 
     Q_INVOKABLE Mir::State toMirState(WindowState state) const;
 
-    Q_PROPERTY (const QString dbName READ getDbName)
-
     const QString getDbName();
 
 Q_SIGNALS:
