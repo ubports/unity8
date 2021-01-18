@@ -59,6 +59,8 @@ private Q_SLOTS:
         WindowStateStorage::WindowState defaultState{WindowStateStorage::WindowState::WindowStateMaximizedBottomRight};
 
         delete storage;
+        QTest::ignoreMessage(QtWarningMsg, "AsyncQuery::initdb: Error opening state database  \"/nonexistent/there/is/no/way/this/exists/\" \"Error opening database\" \"unable to open database file\"");
+        QTest::ignoreMessage(QtWarningMsg, "WindowStateStorage Failed to initialize AsyncQuery! Windows will not be restored to their previous location.");
         storage = new WindowStateStorage(QStringLiteral("/nonexistent/there/is/no/way/this/exists/"), this);
         QCOMPARE(storage->getDbName(), QStringLiteral("ERROR"));
 

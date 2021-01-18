@@ -58,7 +58,7 @@ public:
         connection.setDatabaseName(m_dbName);
         connection.setConnectOptions(QStringLiteral("QSQLITE_BUSY_TIMEOUT=1000"));
         if (!connection.open()) {
-            qWarning() << "Error opening state database " << m_dbName << connection.lastError().driverText() << connection.lastError().databaseText();
+            qWarning() << "AsyncQuery::initdb: Error opening state database " << m_dbName << connection.lastError().driverText() << connection.lastError().databaseText();
             return false;
         }
         QSqlQuery query(connection);
@@ -259,7 +259,7 @@ WindowStateStorage::WindowStateStorage(const QString& dbName, QObject *parent):
                               Qt::BlockingQueuedConnection,
                               Q_RETURN_ARG(bool, queryInitSuccessful));
     if (!queryInitSuccessful) {
-        qWarning() << "Failed to initialize WindowStateStorage! Windows will not be restored to their previous location.";
+        qWarning() << "WindowStateStorage Failed to initialize AsyncQuery! Windows will not be restored to their previous location.";
         m_asyncOk = false;
         m_thread.quit();
     } else {
