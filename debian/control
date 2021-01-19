@@ -75,7 +75,7 @@ Build-Depends:
  ttf-ubuntu-font-family,
  ubports-wallpapers,
  xvfb,
- # mirtest pkgconfig requires these, but doesn't have a deb dependency. Bug lp:1633537
+# mirtest pkgconfig requires these, but doesn't have a deb dependency. Bug lp:1633537
  libboost-filesystem-dev,
  libboost-system-dev,
 Standards-Version: 3.9.4
