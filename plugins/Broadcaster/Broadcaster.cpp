@@ -26,43 +26,20 @@
 #define BROADCAST_PATH      "/com/ubports/Lomiri/Broadcast"
 #define BROADCAST_INTERFACE "com.ubports.Lomiri.Broadcast"
 
-//#define BROADCAST_SERVICE   "com.canonical.Unity.Broadcast"
-//#define BROADCAST_SERVICE   "com.canonical.Unity"
-//#define BROADCAST_PATH      "/com/canonical/Unity/Broadcast"
-//#define BROADCAST_INTERFACE "com.canonical.Unity.Broadcast"
-
 Broadcaster::Broadcaster(QObject* parent)
   : QObject(parent)
 {
-
-    auto connection = QDBusConnection::SM_BUSNAME();
-    //auto interface = connection.interface();
-    //auto reply = interface->startService(QStringLiteral(BROADCAST_INTERFACE));
-    //if(!reply.isValid())
-    //    qWarning() << "Failed to start DBus service " << BROADCAST_SERVICE << ": " << reply.error().message();
-
-    /*m_broadcaster = new QDBusInterface(QStringLiteral(BROADCAST_SERVICE),
-                                       QStringLiteral(BROADCAST_PATH),
-                                       QStringLiteral(BROADCAST_INTERFACE),
-                                       connection, this);
-    */
 }
 
 void Broadcaster::notifyMediaKey(const QString &keyMsg)
 {
 
     auto connection = QDBusConnection::SM_BUSNAME();
-    QDBusMessage msg = QDBusMessage::createSignal("/com/ubports/Lomiri/Broadcast", "com.ubports.Lomiri.Broadcast", "MediaKey");
+    QDBusMessage msg = QDBusMessage::createSignal(BROADCAST_PATH, BROADCAST_INTERFACE, "MediaKey");
 
     QVariantMap args;
     args.insert("key-msg", keyMsg);
-    msg << args; // keyMsg;
+    msg << args;
 
     connection.send(msg);
-
-    //m_broadcaster->asyncCall(QStringLiteral("MediaKey"), args);
-    /*QDBusReply<void> reply = m_broadcaster->call(QStringLiteral("MediaKey"), args);
-    if(!reply.isValid())
-        qWarning() << "Failed to signal MediaKey: " << reply.error().message();
-    */
 }

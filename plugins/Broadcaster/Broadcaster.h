@@ -31,8 +31,6 @@ public:
 
     Q_INVOKABLE void notifyMediaKey(const QString &keyMsg);
 
-private:
-    QDBusInterface *m_broadcaster;
 };
 
 #endif
