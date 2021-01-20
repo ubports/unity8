@@ -50,7 +50,7 @@ public:
     Q_DECLARE_FLAGS(WindowStates, WindowState)
     Q_FLAG(WindowStates)
 
-    WindowStateStorage(const QString &dbName = nullptr, QObject *parent = nullptr);
+    WindowStateStorage(const QString &dbName = QString(), QObject *parent = nullptr);
     virtual ~WindowStateStorage();
 
     Q_INVOKABLE WindowState getState(const QString &windowId, WindowState defaultValue) const;
