@@ -275,7 +275,7 @@ WindowStateStorage::WindowStateStorage(const QString &dbName, QObject *parent):
 {
     qRegisterMetaType<WindowStateStorage::WindowState>("WindowStateStorage::WindowState");
     QString dbFile;
-    if (dbName == nullptr) {
+    if (dbName.isEmpty()) {
         const QString dbPath = QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation) + QStringLiteral("/unity8/");
         QDir dir;
         dir.mkpath(dbPath);

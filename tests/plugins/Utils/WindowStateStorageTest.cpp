@@ -46,7 +46,7 @@ private Q_SLOTS:
     // copy the old database or risk the wrath of long-time users.
     void testDbNameDefault() {
         delete storage;
-        storage = new WindowStateStorage(nullptr, this);
+        storage = new WindowStateStorage(QString(), this);
         QCOMPARE(storage->getDbName(), QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation) + QStringLiteral("/unity8/windowstatestorage.sqlite"));
     }
 
