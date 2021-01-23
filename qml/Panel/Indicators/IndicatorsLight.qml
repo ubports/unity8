@@ -187,9 +187,8 @@ console.log("no support for Multicolor LED. " + indicatorState)
         actionGroup: _actionGroup
         actionName: "messages"
         Component.onCompleted: actionGroup.start()
-        property bool hasMessages: valid && (String(icons).indexOf("indicator-messages-new") != -1)
-        onHasMessagesChanged: {
-            root.hasMessages = hasMessages
+        onIconsChanged: {
+            root.hasMessages = valid && String(icons).indexOf("indicator-messages-new") > -1
             updateLightState("onHasMessagesChanged")
         }
     }
