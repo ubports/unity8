@@ -102,7 +102,7 @@ FocusScope {
         id: settings
         schema.id: "com.canonical.Unity8"
     }
-    
+
     property int launcherLeftMargin : 0
 
     Binding {

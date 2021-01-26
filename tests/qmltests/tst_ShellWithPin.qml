@@ -136,7 +136,10 @@ Item {
 
             // from StageTestCase
             stage = findChild(shell, "stage");
+            topLevelSurfaceList = shell.topLevelSurfaceList;
             verify(shell.topLevelSurfaceList);
+            verify(stage);
+
             return shell;
         }
 

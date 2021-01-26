@@ -521,8 +521,8 @@ Rectangle {
 
         function test_appSupportingOnlyPrimaryOrientationMakesPhoneShellStayPut() {
             var orientedShell = loadShell("mako");
-            var topLevelSurfaceList = shell.topLevelSurfaceList;
             var shell = findChild(orientedShell, "shell");
+            var topLevelSurfaceList = shell.topLevelSurfaceList;
 
             var primarySurfaceId = topLevelSurfaceList.nextId;
             var primaryApp = ApplicationManager.startApplication("primary-oriented-app");
@@ -1001,6 +1001,7 @@ Rectangle {
         }
         function test_launchedAppHasActiveFocus(data) {
             var orientedShell = loadShell(data.deviceName);
+            var shell = findChild(orientedShell, "shell");
             var topLevelSurfaceList = shell.topLevelSurfaceList;
 
             var gmailSurfaceId = topLevelSurfaceList.nextId;
@@ -1257,8 +1258,8 @@ Rectangle {
          */
         function test_lockPhoneAfterClosingAppInSpreadThenUnlockAndRotate() {
             var orientedShell = loadShell("mako");
-            var topLevelSurfaceList = shell.topLevelSurfaceList;
             var shell = findChild(orientedShell, "shell");
+            var topLevelSurfaceList = shell.topLevelSurfaceList;
 
             var primarySurfaceId = topLevelSurfaceList.nextId;
             var primaryApp = ApplicationManager.startApplication("primary-oriented-app");
@@ -1335,8 +1336,8 @@ Rectangle {
         }
         function test_portraitOnlyAppInLandscapeDesktop(data) {
             var orientedShell = loadShell(data.deviceName);
-            var topLevelSurfaceList = shell.topLevelSurfaceList;
             var shell = findChild(orientedShell, "shell");
+            var topLevelSurfaceList = shell.topLevelSurfaceList;
 
             ////
             // setup preconditions (put shell in Desktop mode and landscape)
@@ -1441,8 +1442,9 @@ Rectangle {
         }
 
         function performEdgeSwipeToSwitchToPreviousApp(orientedShell) {
-            var topLevelSurfaceList = shell.topLevelSurfaceList;
             var shell = findChild(orientedShell, "shell");
+            var topLevelSurfaceList = shell.topLevelSurfaceList;
+
             // swipe just enough to ensure an app switch action.
             // If we swipe too much we will trigger the spread mode
             // and we don't want that.
@@ -1507,7 +1509,7 @@ Rectangle {
 
             var shell = findChild(orientedShell, "shell");
             verify(shell);
-            verify(shell.topLevelSurfaceList);        
+            verify(shell.topLevelSurfaceList);
 
             tryCompare(shell, "waitingOnGreeter", false); // reset by greeter when ready
 
@@ -1584,6 +1586,7 @@ Rectangle {
         }
 
         function swipeToCloseCurrentAppInSpread(orientedShell) {
+            var shell = findChild(orientedShell, "shell");
             var topLevelSurfaceList = shell.topLevelSurfaceList;
             var delegateToClose = findChild(orientedShell, "appDelegate_" + topLevelSurfaceList.idAt(0));
             verify(delegateToClose);
@@ -1659,6 +1662,7 @@ Rectangle {
 
         function test_focusOnShutdownDialogClose() {
             var orientedShell = loadShell("manta");
+            var shell = findChild(orientedShell, "shell");
             var topLevelSurfaceList = shell.topLevelSurfaceList;
             usageModeSelector.selectWindowed();
 
