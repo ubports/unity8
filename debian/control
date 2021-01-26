@@ -5,7 +5,7 @@ Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
 Build-Depends:
  android-headers,
  cmake,
- cmake-extras,
+ cmake-extras (>= 0.10),
  dbus-test-runner,
  debhelper (>= 9),
  dh-apparmor,

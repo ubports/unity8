@@ -23,7 +23,7 @@ if(cmake_build_type_lower MATCHES "debug")
     add_definitions(-DQT_QML_DEBUG)
 endif()
 
-include(EnableCoverageReport)
+find_package(CoverageReport)
 #####################################################################
 # Enable code coverage calculation with gcov/gcovr/lcov
 # Usage:
