@@ -446,8 +446,7 @@ Item {
 
             mouseDoubleClickSequence(dataCircle);
 
-            // TMP Somethings wrong with infographic on edge
-            //tryCompare(infographicDataChangedSpy, "count", 1);
+            tryCompare(infographicDataChangedSpy, "count", 1);
         }
 
         function test_movesBackIntoPlaceWhenNotDraggedFarEnough() {
