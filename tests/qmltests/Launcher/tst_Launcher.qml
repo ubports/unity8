@@ -1619,5 +1619,38 @@ Rectangle {
             waitForRendering(launcherPanel);
             compare(launcherPanel.visible, true);
         }
+
+        // Regression test for https://github.com/ubports/unity8/issues/361
+        // After introduction of the app drawer, the peeking animation was
+        // still being used while the drawer is open, causing the launcher
+        // to be hidden, and in some cases not reappear. Ensure that instead
+        // of the peeking animation, we use the wiggle here.
+        function test_peekNotRunWhenDrawerOpen() {
+            var launcherPanel = findChild(launcher, "launcherPanel");
+            verify(launcherPanel);
+            var peekingAnimation = findInvisibleChild(launcherPanel, "peekingAnimation5");
+            verify(peekingAnimation);
+            var appIcon5 = findChild(launcher, "launcherDelegate5")
+            verify(appIcon5 !== undefined);
+
+            startedSpy.target = peekingAnimation;
+
+            // Open the drawer and wait for the launcher to be rendered
+            launcher.toggleDrawer(false, true)
+            waitForRendering(launcherPanel);
+            tryCompare(launcherPanel, "visible", true, 5000, "Launcher should be visible");
+            tryCompare(launcher, "state", "drawer");
+
+            // Verify the wiggle happens
+            LauncherModel.setAlerting(LauncherModel.get(5).appId, true);
+            tryCompare(appIcon5, "alerting", true);
+            LauncherModel.setAlerting(LauncherModel.get(5).appId, false);
+            tryCompare(appIcon5, "alerting", false);
+
+            // Ensure peekingAnimation was not started
+            compare(startedSpy.count, 0);
+            // Ensure launcher remains visible
+            tryCompare(launcherPanel, "visible", true, 5000, "Launcher should remain visible");
+        }
     }
 }
