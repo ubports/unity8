@@ -58,6 +58,9 @@ void GlobalShortcut::setActive(bool active)
 
 void GlobalShortcut::componentComplete()
 {
+    if (this->window()) {
+        QMetaObject::invokeMethod(this, "setupFilterOnWindow", Q_ARG(QQuickWindow*, this->window()));
+    }
     connect(this, &QQuickItem::windowChanged, this, &GlobalShortcut::setupFilterOnWindow);
 }
 
