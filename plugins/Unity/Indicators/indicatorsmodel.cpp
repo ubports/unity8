@@ -103,6 +103,19 @@ void IndicatorsModel::setProfile(const QString &profile)
     m_manager->setProfile(profile);
 }
 
+bool IndicatorsModel::light() const
+{
+    return m_light;
+}
+
+void IndicatorsModel::setLight(const bool &light)
+{
+    if (m_light != light) {
+        m_light = light;
+        Q_EMIT lightChanged();
+    }
+}
+
 /*!
     \qmlmethod IndicatorsModel::unload()
 

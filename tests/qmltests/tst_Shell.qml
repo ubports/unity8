@@ -87,6 +87,7 @@ Rectangle {
             }
             mode: shellRect.mode
             hasTouchscreen: true
+            lightIndicators: true
         }
     }
 

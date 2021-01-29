@@ -105,6 +105,7 @@ Rectangle {
                 primary: shellRect.primaryOrientation
             }
             hasTouchscreen: true
+            lightIndicators: true
         }
     }
 
