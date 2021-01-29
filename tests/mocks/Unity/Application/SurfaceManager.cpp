@@ -35,9 +35,6 @@ SurfaceManager *SurfaceManager::m_instance = nullptr;
 
 SurfaceManager *SurfaceManager::instance()
 {
-    if (m_instance == nullptr) {
-        auto inst = new SurfaceManager();
-    }
     return m_instance;
 }
 
