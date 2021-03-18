@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2020-07-26 19:34+0000\n"
-"Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
-"Language-Team: Catalan <https://translate.ubports.com/projects/unity8/unity8/"
-"ca/>\n"
+"PO-Revision-Date: 2021-02-02 17:32+0000\n"
+"Last-Translator: Joan CiberSheep <cibersheep@gmail.com>\n"
+"Language-Team: Catalan <https://translate.ubports.com/projects/ubports/"
+"lomiri/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -508,7 +508,7 @@ msgstr "S'ha cancel·lat"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1027
 msgid "Finished"
-msgstr "S'ha finalitzat"
+msgstr "Fet"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1029
 msgid "Failed, tap to retry"
@@ -586,7 +586,7 @@ msgstr "Llengua"
 #: qml/Wizard/Pages/passcode-desktop.qml:154
 #: qml/Wizard/Pages/password-set.qml:153
 msgid "Next"
-msgstr "Següent"
+msgstr "Seg."
 
 #: qml/Wizard/Pages/10-welcome-update.qml:91
 msgid "Welcome to "

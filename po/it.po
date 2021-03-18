@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2020-04-17 23:23+0000\n"
-"Last-Translator: Federico Turbino <bisio.97@gmail.com>\n"
-"Language-Team: Italian <https://translate.ubports.com/projects/unity8/unity8/"
-"it/>\n"
+"PO-Revision-Date: 2021-03-02 13:39+0000\n"
+"Last-Translator: Mike <miguel2000@livecom.it>\n"
+"Language-Team: Italian <https://translate.ubports.com/projects/ubports/"
+"lomiri/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.8\n"
+"X-Generator: Weblate 3.11.3\n"
 "X-Launchpad-Export-Date: 2016-11-23 06:35+0000\n"
 
 #: plugins/LightDM/Greeter.cpp:199
@@ -321,7 +321,7 @@ msgstr "OK"
 #: qml/Components/MediaServices/VideoPlayerControls.qml:44
 #, qt-format
 msgid "%1:%2:%3"
-msgstr "%1.%2.%3"
+msgstr "%1:%2:%3"
 
 #: qml/Components/MediaServices/VideoPlayerControls.qml:49
 #, qt-format
@@ -625,7 +625,7 @@ msgstr "Connetti al Wi-Fi"
 
 #: qml/Wizard/Pages/30-wifi.qml:139
 msgid "Connected"
-msgstr "Connessi"
+msgstr "Connesso"
 
 #: qml/Wizard/Pages/30-wifi.qml:172
 msgid "Available Wi-Fi networks"
