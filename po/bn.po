@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2020-12-11 16:51+0000\n"
-"Last-Translator: Pavel Sayekat <pavelsayekat@gmail.com>\n"
-"Language-Team: Bengali <https://translate.ubports.com/projects/unity8/unity8/"
-"bn/>\n"
+"PO-Revision-Date: 2021-02-01 21:06+0000\n"
+"Last-Translator: imrufbd <imrufbd@gmail.com>\n"
+"Language-Team: Bengali <https://translate.ubports.com/projects/ubports/"
+"lomiri/bn/>\n"
 "Language: bn\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,7 +30,7 @@ msgstr "ইউজারনেম"
 
 #: plugins/LightDM/Greeter.cpp:258
 msgid "Failed to authenticate"
-msgstr ""
+msgstr "যাচাই করা যায়নি"
 
 #: plugins/LightDM/Greeter.cpp:260
 msgid "Invalid password, please try again"
@@ -63,7 +63,7 @@ msgstr "বাহির"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
-msgstr "শর্টকাট সরিয়ে ফেলুন"
+msgstr "শর্টকাট সরান"
 
 #: qml/Components/Dialogs.qml:176
 msgctxt "Title: Lock/Log out dialog"
@@ -110,7 +110,7 @@ msgstr "হ্যাঁ"
 #: qml/Components/Dialogs.qml:243
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
-msgstr ""
+msgstr "বন্ধ/চালু"
 
 #: qml/Components/Dialogs.qml:244
 msgid ""
@@ -144,7 +144,7 @@ msgstr "প্রিন্টস্ক্রিন"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:67
 msgid "Takes a screenshot."
-msgstr "স্ক্রীনশট নেয়।"
+msgstr "স্ক্রীনশট নেওয়া।"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:75
 msgid "Alt + PrtScr"
@@ -152,7 +152,7 @@ msgstr "অল্টার কী + প্রিন্টস্ক্রীন �
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
 msgid "Takes a screenshot of the current window."
-msgstr "দৃশ্যমান উইন্ডো এর স্ক্রীনশট নেয়।"
+msgstr "দৃশ্যমান উইন্ডো এর স্ক্রীনশট।"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
@@ -160,7 +160,7 @@ msgstr "সুপার কী + স্পেস কী"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:93
 msgid "Switches to next keyboard layout."
-msgstr "পরবর্তী কিবোর্ড লেআউট নির্বাচন করে।"
+msgstr "পরবর্তী কিবোর্ড নকশা নির্বাচন।"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:101
 msgid "Super + Shift + Space"
@@ -168,7 +168,7 @@ msgstr "সুপার কী + শিফট্ কী + স্পেস কী
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:106
 msgid "Switches to previous keyboard layout."
-msgstr "পূর্ববর্তী কিবোর্ড লেআউট নির্বাচন করে।"
+msgstr "পূর্ববর্তী কিবোর্ড নকশা নির্বাচন।"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:114
 msgid "Ctrl + Alt + T"
@@ -176,7 +176,7 @@ msgstr "কন্ট্রোল কী + অল্টার কী + T"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:119
 msgid "Starts the Terminal application."
-msgstr "টার্মিনাল এপ্লিকেশন চালু করে।"
+msgstr "টার্মিনাল এপ্লিকেশন চালু।"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:131
 msgid "Launcher"
@@ -188,7 +188,7 @@ msgstr "সুপার কী (কিছুক্ষণ চেপে ধরে 
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:143
 msgid "Opens the launcher, displays shortcuts."
-msgstr "লঞ্চার চালু করে, শর্টকাট প্রদর্শন করে।"
+msgstr "লঞ্চারে প্রবেশ, শর্টকাট প্রদর্শন।"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:151
 msgid "Alt + F1"
@@ -196,7 +196,7 @@ msgstr "অল্টার কী + F1 কী"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:156
 msgid "Opens launcher keyboard navigation mode."
-msgstr "লঞ্চার কিবোর্ড নেভিগেশন মোড চালু করে।"
+msgstr "লঞ্চার কিবোর্ড নেভিগেশন মোড চালু ।"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:164
 msgid "Super + Tab"
@@ -204,7 +204,7 @@ msgstr "সুপার কী + ট্যাব কী"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:169
 msgid "Switches applications via the launcher."
-msgstr "লঞ্চারের মাধ্যমে এপ্লিকেশন পরিবর্তন করে।"
+msgstr "লঞ্চারের মাধ্যমে এপ্লিকেশন পরিবর্তন।"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:177
 msgid "Super + 1 to 0"
@@ -220,11 +220,11 @@ msgstr "সুপার কী + A"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:195
 msgid "Opens the Application Drawer."
-msgstr "এপ্লিকেশন ড্রয়ার চালু করে।"
+msgstr "এপ্লিকেশন ড্রয়ারে প্রবেশ।"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:207
 msgid "Scopes"
-msgstr ""
+msgstr "প্রাচুর্য"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:214
 msgid "Super (Tap)"
@@ -232,7 +232,7 @@ msgstr "সুপার কী (ট্যাপ করুন)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:219
 msgid "Opens the Scopes home."
-msgstr ""
+msgstr "প্রাচুর্য নীড়পাতায় প্রবেশ।"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
@@ -252,7 +252,7 @@ msgstr "সুপার কী + W"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:260
 msgid "Opens the desktop spread."
-msgstr ""
+msgstr "ডেস্কটপের প্রসারণে প্রবেশ।"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:268
 msgid "Cursor Left or Right"
@@ -260,7 +260,7 @@ msgstr "কার্সর বাম থেকে ডানে"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:273
 msgid "Moves the focus."
-msgstr ""
+msgstr "ফোকাস সরায়।"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:285
 msgid "Windows"
@@ -272,7 +272,7 @@ msgstr "কন্ট্রোল কী + সুপার কী + D"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:297
 msgid "Minimizes all windows."
-msgstr "সব উইন্ডোগুলোকে লুকিয়ে ফেলে।"
+msgstr "সব উইন্ডোকে লঘু করে।"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:305
 msgid "Ctrl + Super + Up"
@@ -288,7 +288,7 @@ msgstr "কন্ট্রোল কী + সুপার কী + ডাউন 
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:323
 msgid "Minimizes or restores the current window."
-msgstr "বর্তমান উইন্ডোটিকে লুকিয়ে ফেলে অথবা পূ্র্বাবস্থায় ফিরিয়ে নিয়ে যায়।"
+msgstr "বর্তমান উইন্ডোটিকে লঘু করে অথবা পূ্র্বাবস্থায় ফিরিয়ে নিয়ে যায়।"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:331
 msgid "Ctrl + Super + Left or Right"
@@ -296,7 +296,7 @@ msgstr "কন্ট্রোল কী + সুপার কী + বাম এ
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:336
 msgid "Semi-maximizes the current window."
-msgstr ""
+msgstr "বর্তমান উইন্ডোটিকে অর্ধ-বর্ধিত করে।"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:344
 msgid "Alt + F4"
@@ -304,7 +304,7 @@ msgstr "অল্টার কী + F4 কী"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:349
 msgid "Closes the current window."
-msgstr "বর্তমান উইন্ডোটি বন্ধ করুন।"
+msgstr "বর্তমান উইন্ডোটি বন্ধ করে।"
 
 #: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:235
 msgid "Return to Call"
@@ -321,12 +321,12 @@ msgstr "ঠিক আছে"
 #: qml/Components/MediaServices/VideoPlayerControls.qml:44
 #, qt-format
 msgid "%1:%2:%3"
-msgstr ""
+msgstr "%1:%2:%3"
 
 #: qml/Components/MediaServices/VideoPlayerControls.qml:49
 #, qt-format
 msgid "%1:%2"
-msgstr ""
+msgstr "%1:%2"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:33
 msgid "Apps may have unsaved data:"
@@ -337,16 +337,16 @@ msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
-"পূনসংযুক্ত করুন এবং আপনার কাজ সংরক্ষণ করার পর এ্যাপগুলি বন্ধ করে আপনার "
-"প্রক্রিয়া চলমান রাখুন।"
+"পূনসংযুক্ত করুন, প্রক্রিয়া চলমান রাখার জন্য কাজগুলি সংরক্ষণ করে অ্যাপগুলি বন্"
+"ধ করুন।"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:67
 msgid "Or force close now (unsaved data will be lost)."
-msgstr "অথবা বাধ্যতামূলক এখনি বন্ধ করুন (আপনার অসংরক্ষিত তথ্য হারিয়ে যাবে)।"
+msgstr "অথবা জোরপূর্বক এখনি বন্ধ করুন (আপনার অসংরক্ষিত তথ্য হারিয়ে যাবে)।"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:80
 msgid "OK, I will reconnect"
-msgstr "ঠিক আছে, আমি পূনসংযুক্ত করব"
+msgstr "ঠিক আছে, আমি পূনঃসংযুক্ত করব"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:81
 msgid "Reconnect now!"
@@ -358,92 +358,86 @@ msgstr "সবগুলো বন্ধ করুন"
 
 #: qml/Components/SharingPicker.qml:54
 msgid "Preview Share Item"
-msgstr ""
+msgstr "বিনিময় তালিকা অবলোকন"
 
 #: qml/Components/VirtualTouchPad.qml:317
 msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the pointer."
 msgstr ""
+"আপনার ডিভাইস অন্য পর্দার সাথে সংযুক্ত হয়েছে। মাউসের জন্য এই পর্দাটি টাচপ্যাড "
+"হিসেবে ব্যবহার করুন।"
 
 #: qml/Components/VirtualTouchPad.qml:327
-#, fuzzy
-#| msgid "Tap to return to call..."
 msgid "Tap left button to click."
-msgstr "কলে ফিরে যেতে চাপ দিন..."
+msgstr "ক্লিক করার জন্য বাম বোতাম চাপুন..."
 
 #: qml/Components/VirtualTouchPad.qml:339
 msgid "Tap right button to right click."
-msgstr ""
+msgstr "ডান ক্লিকের জন্য ডান বোতাম চাপুন।"
 
 #: qml/Components/VirtualTouchPad.qml:351
 msgid "Swipe with two fingers to scroll."
-msgstr ""
+msgstr "স্ক্রলের জন্য আঙুল চালান।"
 
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
-msgstr ""
+msgstr "সিস্টেম সেটিংসে আরও সেটিংস খুজুন।"
 
 #: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
-msgstr "লক খুলুন"
+msgstr "তালা খুলুন"
 
 #: qml/Greeter/DelayedLockscreen.qml:43
 msgid "Device Locked"
-msgstr "ডিভাইসটি লক করা"
+msgstr "ডিভাইসটি তালা দেওয়া"
 
 #: qml/Greeter/DelayedLockscreen.qml:58
 msgid "You have been locked out due to too many failed passphrase attempts."
-msgstr "অধিকবার পাসফ্রেজ ভুল দেওয়ার কারনে আপনার আইডি লক করা হয়েছে"
+msgstr "অনেকবেশিবার ভুল পাসফ্রেজ চেষ্টা করায় আপনাকে প্রবেশ হতে বিরত রাখা হল।"
 
 #: qml/Greeter/DelayedLockscreen.qml:59
 msgid "You have been locked out due to too many failed passcode attempts."
-msgstr "অধিকবার পাসকোড ভুল করার কারনে আপনার আইডি লক করা হয়েছে"
+msgstr "অনেকবেশিবার ভুল পাসকোড চেষ্টা করায় আপনাকে প্রবেশ হতে বিরত রাখা হল।"
 
 #: qml/Greeter/DelayedLockscreen.qml:68
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] "অনুগ্রহ করে %1 মিনিট অপেক্ষা করুন এবং পরবর্তীতে চেষ্টা করুন..."
-msgstr[1] "অনুগ্রহ করে %1 মিনিট অপেক্ষা করুন এবং পরবর্তীতে চেষ্টা করুন..."
+msgstr[0] "অনুগ্রহ করে %1 মিনিট অপেক্ষা করুন এবং পরবর্তীতে আবার চেষ্টা করুন …"
+msgstr[1] "অনুগ্রহ করে %1 মিনিটের মত অপেক্ষা করুন এবং পরবর্তীতে চেষ্টা করুন …"
 
 #: qml/Greeter/Greeter.qml:550
 msgid "Try again"
-msgstr ""
+msgstr "আবার চেষ্টা করুন"
 
 #: qml/Greeter/Greeter.qml:551
-#, fuzzy
-#| msgid "Enter passphrase"
 msgid "Enter passphrase to unlock"
-msgstr "পাসওয়ার্ড লিখুন"
+msgstr "তালা খোলার জন্য পাসফ্রেজ লিখুন"
 
 #: qml/Greeter/Greeter.qml:552
-#, fuzzy
-#| msgid "Enter passcode"
 msgid "Enter passcode to unlock"
-msgstr "পাসকোড লিখুন"
+msgstr "তালা খোলার জন্য পাসকোড লিখুন"
 
 #: qml/Greeter/NarrowView.qml:235
 msgid "Emergency"
-msgstr ""
+msgstr "জরুরী"
 
 #: qml/Greeter/PromptList.qml:126
 msgid "Passphrase"
-msgstr ""
+msgstr "পাসফ্রেজ"
 
 #: qml/Greeter/PromptList.qml:126
 msgid "Passcode"
-msgstr ""
+msgstr "পাসকোড"
 
 #: qml/Greeter/SessionsList.qml:124
 msgid "Select desktop environment"
-msgstr ""
+msgstr "ডেস্কটপ বাতাবরণ নির্বাচন করুন"
 
 #: qml/Launcher/Drawer.qml:249
-#, fuzzy
-#| msgid "Search"
 msgid "Search…"
-msgstr "খুঁজুন"
+msgstr "অনুসন্ধান …"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -459,28 +453,28 @@ msgstr "কনফারেন্স"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:869
 msgid "Nothing is playing"
-msgstr "কোন কিছু বাজছে না।"
+msgstr "কোনকিছু প্লে হচ্ছেনা"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:997
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
-msgstr[0] "%1 ঘণ্টা"
-msgstr[1] "%1 ঘণ্টা"
+msgstr[0] "%1 ঘন্টা"
+msgstr[1] "%1 ঘন্টায়"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1001
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 মিনিট"
-msgstr[1] "%1 মিনিট"
+msgstr[1] "%1 মিনিটে"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1006
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1 সেকেন্ড"
-msgstr[1] "%1 সেকেন্ড"
+msgstr[1] "%1 সেকেন্ডে"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1009
 msgid "0 seconds"
@@ -494,7 +488,7 @@ msgstr "%1 বাকি"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1017
 msgid "In queue…"
-msgstr "অপেক্ষায় রয়েছে..."
+msgstr "অপেক্ষমান…"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1021
 msgid "Downloading"
@@ -502,7 +496,7 @@ msgstr "ডাউনলোড হচ্ছে"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1023
 msgid "Paused, tap to resume"
-msgstr "থামানো, শুরু করতে চাপ দিন"
+msgstr "থেমে আছে, শুরু করতে চাপ দিন"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1025
 msgid "Canceled"
@@ -520,7 +514,7 @@ msgstr "ব্যার্থ হয়েছে, পুনরায় চেষ্�
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:210
 msgctxt "Button: Send a reply message"
 msgid "Send"
-msgstr ""
+msgstr "পাঠান"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:152
 msgctxt "Label: Hint in message indicator line edit"
@@ -534,46 +528,44 @@ msgstr "কল ব্যাক"
 
 #: qml/Panel/PanelMenuPage.qml:92
 msgid "Back"
-msgstr ""
+msgstr "পূর্বপাতা"
 
 #: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
-msgstr ""
+msgstr "তিন আঙুল দিয়ে ধরে যেকোন অ্যাপ্লিকেেশন এক উইন্ডো থেকে অন্যটিতে নিয়ে আসুন"
 
 #: qml/Stage/Stage.qml:668
 msgid "No running apps"
-msgstr ""
+msgstr "কোন অ্যাপ চলমান নেই"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
-#, fuzzy
-#| msgid "Try swiping from the right edge to unlock the phone"
 msgid "Long swipe from the left edge to open the Application Drawer"
-msgstr "ফোনটির লক খুলতে ডান প্রান্ত থেকে সোয়াইপ করুন"
+msgstr "অ্যাপ্লিকেশন দেরাজ খুলতে বামদিক হতে সজোরে আঙুল চালান"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
-msgstr ""
+msgstr "লঞ্চার খুলতে বামদিক হতে আঙুল চালান"
 
 #: qml/Tutorial/TutorialRight.qml:54
 msgid "Push your mouse against the right edge to view your open apps"
-msgstr ""
+msgstr "চলমান অ্যাপগুলি দেখতে ডানপান্তের দিকে মাউস চাপুন"
 
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Swipe from the right edge to view your open apps"
-msgstr ""
+msgstr "চলমান অ্যাপগুলি দেখতে ডানপ্রান্ত হতে আঙুল চালান"
 
 #: qml/Tutorial/TutorialTop.qml:53
 msgid "Swipe from the top edge to access notifications and quick settings"
-msgstr ""
+msgstr "বার্তাসমূহ এবং তড়িৎ সেটিংস দেখতে উপরের প্রান্ত হতে আঙুল চালান"
 
 #: qml/Wizard/Page.qml:59
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
-msgstr ""
+msgstr "পূর্বপাতা"
 
 #: qml/Wizard/Pages/10-welcome.qml:29
 msgid "Language"
-msgstr ""
+msgstr "ভাষা"
 
 #: qml/Wizard/Pages/10-welcome.qml:176
 #: qml/Wizard/Pages/10-welcome-update.qml:126
@@ -583,36 +575,35 @@ msgstr ""
 #: qml/Wizard/Pages/passcode-desktop.qml:154
 #: qml/Wizard/Pages/password-set.qml:153
 msgid "Next"
-msgstr ""
+msgstr "পরবর্তী"
 
 #: qml/Wizard/Pages/10-welcome-update.qml:91
 msgid "Welcome to "
-msgstr ""
+msgstr "স্বাগতম "
 
 #: qml/Wizard/Pages/10-welcome-update.qml:106
 msgid "We will make sure your device is ready to use "
-msgstr ""
+msgstr "আপনার ডিভাইসটির ব্যবহার উপযোগিতা আমরা নিশ্চিত করব "
 
 #: qml/Wizard/Pages/11-changelog.qml:28
 msgid "What's new"
-msgstr ""
+msgstr "যা কিছু নতুন"
 
 #: qml/Wizard/Pages/11-changelog.qml:74
-#, fuzzy
 msgid "Loading..."
-msgstr "বলা হচ্ছে..."
+msgstr "লোড হচ্ছে..."
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
-msgstr ""
+msgstr "কিবোর্ড নির্বাচন করুন"
 
 #: qml/Wizard/Pages/20-keyboard.qml:71
 msgid "Keyboard language"
-msgstr ""
+msgstr "কিবোর্ডের ভাষা"
 
 #: qml/Wizard/Pages/20-keyboard.qml:93
 msgid "Keyboard layout"
-msgstr ""
+msgstr "কিবোর্ডের নকশা"
 
 #: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:214
 #: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/79-system-update.qml:144
@@ -622,174 +613,176 @@ msgstr "এড়িয়ে যান"
 
 #: qml/Wizard/Pages/30-wifi.qml:31
 msgid "Connect to Wi‑Fi"
-msgstr ""
+msgstr "ওযাই-ফাইতে সংযুক্ত হোন"
 
 #: qml/Wizard/Pages/30-wifi.qml:139
 msgid "Connected"
-msgstr ""
+msgstr "সংযুক্ত"
 
 #: qml/Wizard/Pages/30-wifi.qml:172
 msgid "Available Wi-Fi networks"
-msgstr ""
+msgstr "লব্দ ওয়াই-ফাই নেটওয়ার্ক"
 
 #: qml/Wizard/Pages/30-wifi.qml:173
 msgid "No available Wi-Fi networks"
-msgstr ""
+msgstr "কোন ওয়াই-ফাই নেটওয়ার্ক পাওয়া যায়নি"
 
 #: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
-msgstr ""
+msgstr "সময় অঞ্চল"
 
 #: qml/Wizard/Pages/50-timezone.qml:183
 msgid "Enter your city"
-msgstr ""
+msgstr "আপনার শহরের নাম লিখুন"
 
 #: qml/Wizard/Pages/60-account.qml:24
 msgid "Personalize Your Device"
-msgstr ""
+msgstr "আপনার ডিভাইসে নিজস্বতা আনুন"
 
 #: qml/Wizard/Pages/60-account.qml:54
 msgid "Preferred Name"
-msgstr ""
+msgstr "পছন্দসই নাম"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:40
 msgid "Lock Screen"
-msgstr ""
+msgstr "তালাপর্দা"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Create new password"
-msgstr ""
+msgstr "নতুন পাসওয়ার্ড"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
-msgstr ""
+msgstr "নতুন পাসকোড (শুধুমাত্র সংখ্যা)"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:107
 msgctxt "Label: Type of security method"
 msgid "No lock code"
-msgstr ""
+msgstr "কোডবিহীন তালা"
 
 #: qml/Wizard/Pages/79-system-update.qml:28
 msgid "Update Device"
-msgstr ""
+msgstr "ডিভাইসের আধুনিকায়ন"
 
 #: qml/Wizard/Pages/79-system-update.qml:55
 msgid ""
 "There is a system update available and ready to install. Afterwards, the "
 "device will automatically restart."
 msgstr ""
+"একটি সিস্টেম সংযোজন ইন্সটলের জন্য প্রস্তুত। ইন্সটল শেষে ডিভাইসটি নিজেই পুনরা"
+"য় চালু হবে।"
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
 msgid "Ubuntu Touch system"
-msgstr ""
+msgstr "উবুন্টু টাচ সিস্টেম"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
 msgctxt "version of the system update"
 msgid "Version %1"
-msgstr ""
+msgstr "সংস্করণ %1"
 
 #: qml/Wizard/Pages/79-system-update.qml:95
 msgid "This could take a few minutes..."
-msgstr ""
+msgstr "সম্পন্ন হতে কিছু সময় লাগতে পারে ..."
 
 #: qml/Wizard/Pages/79-system-update.qml:109
 msgid "Install and restart now"
-msgstr ""
+msgstr "এখনি ইন্সটল এবং পুনরায় চালু করুন"
 
 #: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome Back"
-msgstr ""
+msgstr "ফিরে আসায় স্বাগতম"
 
 #: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome to Ubuntu"
-msgstr ""
+msgstr "উবুন্টুতে স্বাগতম"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
-msgstr ""
+msgstr "আপনার ডিভাইসটি এখন ব্যবহারের জন্য প্রস্তুত"
 
 #: qml/Wizard/Pages/80-finished.qml:126
 msgid "Continue"
-msgstr "পরবর্তী"
+msgstr "এগিয়ে যান"
 
 #: qml/Wizard/Pages/80-finished.qml:126
 msgid "Get Started"
-msgstr ""
+msgstr "চলুন শুরু করি"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
 #: qml/Wizard/Pages/passcode-desktop.qml:104
 msgid "Confirm passcode"
-msgstr ""
+msgstr "পাসকোড নিশ্চিত করুন"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgid "Incorrect passcode."
-msgstr ""
+msgstr "ভুল পাসকোড।"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgctxt "Enter the passcode again"
 msgid "Please re-enter."
-msgstr ""
+msgstr "পুনরায় লিখুন।"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:31
 msgid "Lock Screen Passcode"
-msgstr ""
+msgstr "তালাপর্দার পাসকোড"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:68
 msgid "Enter 4 numbers to setup your passcode"
-msgstr ""
+msgstr "পাসকোডের জন্য ৪ টি সংখ্যা লিখুন"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:84
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
-msgstr ""
+msgstr "পাসকোড নির্বাচন করুন"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:139
 msgid "Passcode too short"
-msgstr ""
+msgstr "পাসকোড নির্ধারিত সংখ্যার চেয়ে কম"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:141
 msgid "Passcodes match"
-msgstr ""
+msgstr "অনুরূপ পাসকোড"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:143
 msgid "Passcodes do not match"
-msgstr ""
+msgstr "পাসকোড মিলেনি"
 
 #: qml/Wizard/Pages/passcode-set.qml:62
 msgid "Passcode must be 4 characters long"
-msgstr ""
+msgstr "পাসকোড কমপক্ষে ৪ সংখ্যার হতে হবে"
 
 #: qml/Wizard/Pages/password-set.qml:31
 msgid "Lock Screen Password"
-msgstr ""
+msgstr "তালাপর্দার পাসওয়ার্ড"
 
 #: qml/Wizard/Pages/password-set.qml:68
 msgid "Enter at least 8 characters"
-msgstr ""
+msgstr "কমপক্ষে ৮ টি বর্ণ লিখুন"
 
 #: qml/Wizard/Pages/password-set.qml:80
 msgid "Choose password"
-msgstr ""
+msgstr "পাসওয়ার্ড নির্বাচন করুন"
 
 #: qml/Wizard/Pages/password-set.qml:110
 msgid "Confirm password"
-msgstr ""
+msgstr "পাসওয়ার্ড নিশ্চিত করুন"
 
 #: qml/Wizard/Pages/sim.qml:27
 msgid "No SIM card installed"
-msgstr ""
+msgstr "কোন সিমকার্ড প্রবেশ করানো হয়নি"
 
 #: qml/Wizard/Pages/sim.qml:54
 msgid "SIM card added"
-msgstr ""
+msgstr "সিমকার্ড যুক্ত করা হয়েছে"
 
 #: qml/Wizard/Pages/sim.qml:55
 msgid "You must restart the device to access the mobile network."
-msgstr ""
+msgstr "মোবাইল নেটওয়ার্কে সংযুক্তির জন্য ডিভাইসটি পুনারায় চালু করুন।"
 
 #: qml/Wizard/Pages/sim.qml:59
 msgid "Restart"
@@ -797,39 +790,39 @@ msgstr "পুনরায় চালু"
 
 #: qml/Wizard/Pages/sim.qml:78
 msgid "You won’t be able to make calls or use text messaging without a SIM."
-msgstr ""
+msgstr "সিম কার্ড ছাড়া আপনি কল করা বা টেক্সট মেসেজ পাঠাতে পারবেন না।"
 
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
-msgstr ""
+msgstr "সিমবিহীন ব্যবহারের জন্য এড়িয়ে যান চাপুন।"
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
-msgstr ""
+msgstr "পাসওয়ার্ড নির্ধারিত বর্ণসংখ্যার চেয়ে কম"
 
 #: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords match"
-msgstr ""
+msgstr "অনুরূপ পাসওয়ার্ড"
 
 #: qml/Wizard/PasswordMeter.qml:91
 msgid "Passwords do not match"
-msgstr ""
+msgstr "পাসওয়ার্ড মিলেনি"
 
 #: qml/Wizard/PasswordMeter.qml:95
 msgid "Strong password"
-msgstr ""
+msgstr "জটিল পাসওয়ার্ড"
 
 #: qml/Wizard/PasswordMeter.qml:97
 msgid "Fair password"
-msgstr ""
+msgstr "মাঝারি পাসওয়ার্ড"
 
 #: qml/Wizard/PasswordMeter.qml:99
 msgid "Weak password"
-msgstr ""
+msgstr "দুর্বল পাসওয়ার্ড"
 
 #: qml/Wizard/PasswordMeter.qml:101
 msgid "Very weak password"
-msgstr ""
+msgstr "অত্যন্ত দুর্বল পাসওয়ার্ড"
 
 #~ msgctxt "Button: Open the Ubuntu Store"
 #~ msgid "Store"

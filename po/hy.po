@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2020-11-09 23:00+0000\n"
+"PO-Revision-Date: 2021-03-08 10:42+0000\n"
 "Last-Translator: TigranKhachatryan0 <tigrank2008@gmail.com>\n"
-"Language-Team: Armenian <https://translate.ubports.com/projects/unity8/"
-"unity8/hy/>\n"
+"Language-Team: Armenian <https://translate.ubports.com/projects/ubports/"
+"lomiri/hy/>\n"
 "Language: hy\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +26,7 @@ msgstr "Գաղտնաբառ: "
 
 #: plugins/LightDM/Greeter.cpp:214
 msgid "Username"
-msgstr "Ծածկանուն"
+msgstr "Օգտանուն"
 
 #: plugins/LightDM/Greeter.cpp:258
 msgid "Failed to authenticate"
@@ -50,7 +50,7 @@ msgstr "Մուտք"
 
 #: plugins/LightDM/UsersModel.cpp:165
 msgid "Guest Session"
-msgstr "Հյուրի սեսիա"
+msgstr "Հյուրի սեանս"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:49
 #: plugins/Unity/Launcher/launcheritem.cpp:123
@@ -59,7 +59,7 @@ msgstr "Փակցնել պիտակը"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:55
 msgid "Quit"
-msgstr "Լքել"
+msgstr "Ելք"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
@@ -72,12 +72,12 @@ msgstr "Դուրս գալ"
 
 #: qml/Components/Dialogs.qml:177
 msgid "Are you sure you want to log out?"
-msgstr "Դուք համոզվա՞ծ եք, որ ցանկանում եք դուրս գալ համակարգից։"
+msgstr "Համոզվա՞ծ եք, որ ցանկանում եք դուրս գալ։"
 
 #: qml/Components/Dialogs.qml:180
 msgctxt "Button: Lock the system"
 msgid "Lock"
-msgstr "Կողպեքի ռեժիմ"
+msgstr "Կողպել"
 
 #: qml/Components/Dialogs.qml:191
 msgctxt "Button: Log out from the system"
@@ -168,7 +168,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:106
 msgid "Switches to previous keyboard layout."
-msgstr "Անցնում է նախորդ ստեղնաշարի դասավորություն։"
+msgstr "Անցնում է նախորդ ստեղնաշարի դասավորությանը։"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:114
 msgid "Ctrl + Alt + T"
@@ -184,7 +184,7 @@ msgstr "Ծրագրերի պանել"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:138
 msgid "Super (Hold)"
-msgstr "Super (երկար պահած)"
+msgstr "Super (Պահված)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:143
 msgid "Opens the launcher, displays shortcuts."
@@ -208,11 +208,11 @@ msgstr "Փոխում է ծրագրերը օգտվելով ծրագրերի պա�
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:177
 msgid "Super + 1 to 0"
-msgstr "Super + 1 to 0"
+msgstr "Super + 1֊ից 0"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:182
 msgid "Same as clicking on a launcher icon."
-msgstr "Նույնը, ինչ սեղմելը ծրագրերի պանելի կոճգամի վրա։"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:190
 msgid "Super + A"
@@ -244,7 +244,7 @@ msgstr "Alt + Tab"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:247
 msgid "Switches between applications."
-msgstr "Անցնել ծրագրերի միջև:"
+msgstr "Անցնում է ծրագրերի միջև:"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:255
 msgid "Super + W"
@@ -288,7 +288,7 @@ msgstr "Ctrl + Super + ↓"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:323
 msgid "Minimizes or restores the current window."
-msgstr "Շրջում է կամ փոքրացնում տվյալ պատուհանը։"
+msgstr "Շրջել/վերականգնել այս պատուհանը։"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:331
 msgid "Ctrl + Super + Left or Right"
@@ -525,7 +525,7 @@ msgstr ""
 
 #: qml/Panel/PanelMenuPage.qml:92
 msgid "Back"
-msgstr ""
+msgstr "Հետ"
 
 #: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
@@ -572,7 +572,7 @@ msgstr ""
 #: qml/Wizard/Pages/passcode-desktop.qml:154
 #: qml/Wizard/Pages/password-set.qml:153
 msgid "Next"
-msgstr ""
+msgstr "Առաջ"
 
 #: qml/Wizard/Pages/10-welcome-update.qml:91
 msgid "Welcome to "
@@ -587,9 +587,8 @@ msgid "What's new"
 msgstr ""
 
 #: qml/Wizard/Pages/11-changelog.qml:74
-#, fuzzy
 msgid "Loading..."
-msgstr "Խոսում եմ..."
+msgstr "Բեռնում…"
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
@@ -703,7 +702,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:126
 msgid "Continue"
-msgstr ""
+msgstr "Շարունակել"
 
 #: qml/Wizard/Pages/80-finished.qml:126
 msgid "Get Started"
@@ -782,7 +781,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/sim.qml:59
 msgid "Restart"
-msgstr "Վերագործարկել"
+msgstr "Վերաբեռնել"
 
 #: qml/Wizard/Pages/sim.qml:78
 msgid "You won’t be able to make calls or use text messaging without a SIM."

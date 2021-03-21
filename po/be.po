@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2020-11-09 14:42+0000\n"
+"PO-Revision-Date: 2021-03-07 20:28+0000\n"
 "Last-Translator: Zmicer <nashtlumach@gmail.com>\n"
-"Language-Team: Belarusian <https://translate.ubports.com/projects/unity8/"
-"unity8/be/>\n"
+"Language-Team: Belarusian <https://translate.ubports.com/projects/ubports/"
+"lomiri/be/>\n"
 "Language: be\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,7 +51,7 @@ msgstr "Увайсці"
 
 #: plugins/LightDM/UsersModel.cpp:165
 msgid "Guest Session"
-msgstr "Сеанс госця"
+msgstr "Гасцявы сеанс"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:49
 #: plugins/Unity/Launcher/launcheritem.cpp:123
@@ -622,7 +622,7 @@ msgstr "Раскладка клавіятуры"
 #: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/79-system-update.qml:144
 #: qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
-msgstr "Прамінуць"
+msgstr "Мінуць"
 
 #: qml/Wizard/Pages/30-wifi.qml:31
 msgid "Connect to Wi‑Fi"

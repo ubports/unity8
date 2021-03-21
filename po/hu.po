@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2020-02-09 01:01+0000\n"
-"Last-Translator: Bence László <bencelaszlo@protonmail.com>\n"
-"Language-Team: Hungarian <https://translate.ubports.com/projects/unity8/"
-"unity8/hu/>\n"
+"PO-Revision-Date: 2021-03-17 10:43+0000\n"
+"Last-Translator: David Farkas <dvdfrks@gmail.com>\n"
+"Language-Team: Hungarian <https://translate.ubports.com/projects/ubports/"
+"lomiri/hu/>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.8\n"
+"X-Generator: Weblate 3.11.3\n"
 "X-Launchpad-Export-Date: 2016-11-23 06:35+0000\n"
 
 #: plugins/LightDM/Greeter.cpp:199
@@ -26,15 +26,15 @@ msgstr "Jelszó: "
 
 #: plugins/LightDM/Greeter.cpp:214
 msgid "Username"
-msgstr ""
+msgstr "Felhasználónév"
 
 #: plugins/LightDM/Greeter.cpp:258
 msgid "Failed to authenticate"
-msgstr ""
+msgstr "Sikertelen azonosítás"
 
 #: plugins/LightDM/Greeter.cpp:260
 msgid "Invalid password, please try again"
-msgstr ""
+msgstr "Hibás jelszó. Próbálja újra"
 
 #: plugins/LightDM/Greeter.cpp:270
 msgid "Log In"
@@ -46,11 +46,11 @@ msgstr "Újra"
 
 #: plugins/LightDM/UsersModel.cpp:157
 msgid "Login"
-msgstr ""
+msgstr "Belépés"
 
 #: plugins/LightDM/UsersModel.cpp:165
 msgid "Guest Session"
-msgstr ""
+msgstr "Vendég munkamenet"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:49
 #: plugins/Unity/Launcher/launcheritem.cpp:123
@@ -88,7 +88,7 @@ msgstr "Kijelentkezés"
 #: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
-msgstr "Mégse"
+msgstr "Mégsem"
 
 #: qml/Components/Dialogs.qml:211
 msgctxt "Title: Reboot dialog"
@@ -110,7 +110,7 @@ msgstr "Igen"
 #: qml/Components/Dialogs.qml:243
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
-msgstr "Menü"
+msgstr "Leállítás"
 
 #: qml/Components/Dialogs.qml:244
 msgid ""
@@ -144,15 +144,13 @@ msgstr "PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:67
 msgid "Takes a screenshot."
-msgstr "Képernyő képkészítése."
+msgstr "Képernyőkép készítése."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:75
 msgid "Alt + PrtScr"
 msgstr "Alt + PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
-#, fuzzy
-#| msgid "Takes a screenshot of a window."
 msgid "Takes a screenshot of the current window."
 msgstr "Képernyőkép készítése az ablakról."
 
@@ -173,16 +171,12 @@ msgid "Switches to previous keyboard layout."
 msgstr "Az előző billentyűzetkiosztására váltás."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:114
-#, fuzzy
-#| msgid "Ctrl + Super + D"
 msgid "Ctrl + Alt + T"
-msgstr "Ctrl + Szuper + D"
+msgstr "Ctrl + Alt + T"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:119
-#, fuzzy
-#| msgid "Switches between applications."
 msgid "Starts the Terminal application."
-msgstr "Váltás az alkalmazások között."
+msgstr "Terminal indítása."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:131
 msgid "Launcher"
@@ -210,29 +204,23 @@ msgstr "Super + Tab"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:169
 msgid "Switches applications via the launcher."
-msgstr "Alkalmazás váltás az indítóval"
+msgstr "Alkalmazás váltás az indítóval."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:177
-#, fuzzy
-#| msgid "Super + 0 to 9"
 msgid "Super + 1 to 0"
-msgstr "Super + 0-9"
+msgstr "Super + 0-tól 9-ig"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:182
 msgid "Same as clicking on a launcher icon."
 msgstr "Az adott számú alkalmazás indítása."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:190
-#, fuzzy
-#| msgid "Super + W"
 msgid "Super + A"
-msgstr "Super + W"
+msgstr "Super + A"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:195
-#, fuzzy
-#| msgid "Open the launcher"
 msgid "Opens the Application Drawer."
-msgstr "Indító megnyitása"
+msgstr "Alkalmazáslista megnyitása."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:207
 msgid "Scopes"
@@ -240,11 +228,11 @@ msgstr "Lencsék"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:214
 msgid "Super (Tap)"
-msgstr "Super (Tap)"
+msgstr "Szuper"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:219
 msgid "Opens the Scopes home."
-msgstr "Lencsék kezdőlapjának megnyitása"
+msgstr "Lencsék kezdőlapjának megnyitása."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
@@ -260,11 +248,11 @@ msgstr "Váltás az alkalmazások között."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:255
 msgid "Super + W"
-msgstr "Super + W"
+msgstr "Szuper + W"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:260
 msgid "Opens the desktop spread."
-msgstr "Az asztal ablakainak szétterítése."
+msgstr "Ablakok szétterítése."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:268
 msgid "Cursor Left or Right"
@@ -342,7 +330,7 @@ msgstr "%1:%2"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:33
 msgid "Apps may have unsaved data:"
-msgstr "Alkalmazások mentetlen adattal:"
+msgstr "Alkalmazások nem mentett adatokkal:"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:60
 msgctxt ""
@@ -354,7 +342,7 @@ msgstr ""
 
 #: qml/Components/ModeSwitchWarningDialog.qml:67
 msgid "Or force close now (unsaved data will be lost)."
-msgstr "Vagy kényszerítse ki a bezárást (minden mentetlen adat elveszik)."
+msgstr "Vagy kényszerített kilépés most (a nem mentett adatok elvesznek)."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:80
 msgid "OK, I will reconnect"
@@ -381,22 +369,20 @@ msgstr ""
 "kijelzőt érintőtáblaként, melynek segítéségével irányíthatja a mutatót."
 
 #: qml/Components/VirtualTouchPad.qml:327
-#, fuzzy
-#| msgid "Tap to return to call..."
 msgid "Tap left button to click."
-msgstr "Ide koppintva visszatérhet a híváshoz"
+msgstr "Bal gombnyomás kattintáshoz."
 
 #: qml/Components/VirtualTouchPad.qml:339
 msgid "Tap right button to right click."
-msgstr ""
+msgstr "Jobb gombnyomás jobbklikkhez."
 
 #: qml/Components/VirtualTouchPad.qml:351
 msgid "Swipe with two fingers to scroll."
-msgstr ""
+msgstr "Kétujjas húzás a görgetéshez."
 
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
-msgstr ""
+msgstr "További beállítások a rendszerbeállítások alatt."
 
 #: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
@@ -419,21 +405,17 @@ msgstr "A túl sok hibás jelkód próbálkozás miatt az eszköz zárolva lett.
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "Várjon %1 percet és próbálja újra…"
-msgstr[1] "Várjon %1 percet és próbálja újra…"
+msgstr[1] "Várjon %1 percet majd próbálja újra…"
 
 #: qml/Greeter/Greeter.qml:550
 msgid "Try again"
 msgstr "Próbálja újra"
 
 #: qml/Greeter/Greeter.qml:551
-#, fuzzy
-#| msgid "Enter passphrase"
 msgid "Enter passphrase to unlock"
 msgstr "Jelmondat megadása"
 
 #: qml/Greeter/Greeter.qml:552
-#, fuzzy
-#| msgid "Enter passcode"
 msgid "Enter passcode to unlock"
 msgstr "Jelkód megadása"
 
@@ -451,13 +433,11 @@ msgstr "Jelkód"
 
 #: qml/Greeter/SessionsList.qml:124
 msgid "Select desktop environment"
-msgstr "Asztali-környezet kiválasztása"
+msgstr "Asztali környezet kiválasztása"
 
 #: qml/Launcher/Drawer.qml:249
-#, fuzzy
-#| msgid "Search"
 msgid "Search…"
-msgstr "Keresés"
+msgstr "Keresés…"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -465,7 +445,7 @@ msgstr "Jelszó megjelenítése"
 
 #: qml/Panel/ActiveCallHint.qml:79
 msgid "Tap to return to call..."
-msgstr "Ide koppintva visszatérhet a híváshoz"
+msgstr "Ide koppintva visszatérhet a híváshoz..."
 
 #: qml/Panel/ActiveCallHint.qml:92
 msgid "Conference"
@@ -508,7 +488,7 @@ msgstr "%1 van hátra"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1017
 msgid "In queue…"
-msgstr "Sorban…"
+msgstr "Várakozik…"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1021
 msgid "Downloading"
@@ -547,9 +527,6 @@ msgid "Call back"
 msgstr "Visszahívás"
 
 #: qml/Panel/PanelMenuPage.qml:92
-#, fuzzy
-#| msgctxt "Button: Go back one page in the Wizard"
-#| msgid "Back"
 msgid "Back"
 msgstr "Vissza"
 
@@ -559,13 +536,11 @@ msgstr "Az alkalmazások 3 ujjal megragadva húzhatóak egyik ablakból a másik
 
 #: qml/Stage/Stage.qml:668
 msgid "No running apps"
-msgstr ""
+msgstr "Nincs futó alkalmazás"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
-#, fuzzy
-#| msgid "Long swipe from the left edge to open the Today scope"
 msgid "Long swipe from the left edge to open the Application Drawer"
-msgstr "Hosszan csúsztasson balról a Ma lencse eléréséhez"
+msgstr "Hosszan csúsztasson balról az alkalmazáslista eléréséhez"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
@@ -701,12 +676,9 @@ msgstr ""
 "automatikusan újraindul."
 
 #: qml/Wizard/Pages/79-system-update.qml:76
-#, fuzzy
-#| msgctxt "string identifying name of the update"
-#| msgid "Ubuntu system"
 msgctxt "string identifying name of the update"
 msgid "Ubuntu Touch system"
-msgstr "Ubuntu rendszer"
+msgstr "Ubuntu Touch rendszer"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -783,7 +755,7 @@ msgstr "A jelkódok nem egyeznek"
 
 #: qml/Wizard/Pages/passcode-set.qml:62
 msgid "Passcode must be 4 characters long"
-msgstr "A jelkód legalább 4 karakterhosszú legyen"
+msgstr "A jelkód legalább 4 karakter hosszúságú legyen"
 
 #: qml/Wizard/Pages/password-set.qml:31
 msgid "Lock Screen Password"
@@ -803,7 +775,7 @@ msgstr "Jelszó megerősítése"
 
 #: qml/Wizard/Pages/sim.qml:27
 msgid "No SIM card installed"
-msgstr "Nem található SIM kártya"
+msgstr "Nincs SIM kártya"
 
 #: qml/Wizard/Pages/sim.qml:54
 msgid "SIM card added"
@@ -811,7 +783,7 @@ msgstr "SIM kártya hozzáadva"
 
 #: qml/Wizard/Pages/sim.qml:55
 msgid "You must restart the device to access the mobile network."
-msgstr "A mobilhálózathoz hozzáféréshez először indítsa új az eszközt."
+msgstr "Az eszközt újra kell indítani a mobilhálózathoz való hozzáféréshez."
 
 #: qml/Wizard/Pages/sim.qml:59
 msgid "Restart"
@@ -825,7 +797,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
-msgstr "Válassza a Kihagyás lehetőséget a SIM kártya nélküli folytatáshoz"
+msgstr "Koppintson a Kihagyás lehetőségre a SIM kártya nélküli folytatáshoz."
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
