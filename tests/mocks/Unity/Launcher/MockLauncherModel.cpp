@@ -135,7 +135,7 @@ QVariant MockLauncherModel::data(const QModelIndex& index, int role) const
     return QVariant();
 }
 
-unity::shell::launcher::LauncherItemInterface *MockLauncherModel::get(int index) const
+lomiri::shell::launcher::LauncherItemInterface *MockLauncherModel::get(int index) const
 {
     if (index < 0 || index >= m_list.count())
     {
@@ -255,7 +255,7 @@ QString MockLauncherModel::getUrlForAppId(const QString &appId) const
     return "application:///" + appId + ".desktop";
 }
 
-void MockLauncherModel::setApplicationManager(unity::shell::application::ApplicationManagerInterface *applicationManager)
+void MockLauncherModel::setApplicationManager(lomiri::shell::application::ApplicationManagerInterface *applicationManager)
 {
     Q_UNUSED(applicationManager)
 }
@@ -295,7 +295,7 @@ void MockLauncherModel::setCountVisible(const QString &appId, bool countVisible)
     }
 }
 
-unity::shell::application::ApplicationManagerInterface *MockLauncherModel::applicationManager() const
+lomiri::shell::application::ApplicationManagerInterface *MockLauncherModel::applicationManager() const
 {
     return nullptr;
 }

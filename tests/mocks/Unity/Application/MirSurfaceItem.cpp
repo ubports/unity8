@@ -27,7 +27,7 @@
 
 #include <QDebug>
 
-using namespace unity::shell::application;
+using namespace lomiri::shell::application;
 
 #define MIRSURFACEITEM_DEBUG 0
 

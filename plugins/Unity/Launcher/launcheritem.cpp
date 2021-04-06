@@ -268,7 +268,7 @@ void LauncherItem::setPopularity(uint popularity)
     }
 }
 
-unity::shell::launcher::QuickListModelInterface *LauncherItem::quickList() const
+lomiri::shell::launcher::QuickListModelInterface *LauncherItem::quickList() const
 {
     return m_quickList;
 }

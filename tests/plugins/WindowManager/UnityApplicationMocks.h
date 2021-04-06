@@ -17,15 +17,15 @@
 #ifndef UNITYAPPLICATIONMOCKS_H
 #define UNITYAPPLICATIONMOCKS_H
 
-#include <unity/shell/application/ApplicationInfoInterface.h>
-#include <unity/shell/application/ApplicationManagerInterface.h>
-#include <unity/shell/application/MirSurfaceInterface.h>
-#include <unity/shell/application/SurfaceManagerInterface.h>
+#include <lomiri/shell/application/ApplicationInfoInterface.h>
+#include <lomiri/shell/application/ApplicationManagerInterface.h>
+#include <lomiri/shell/application/MirSurfaceInterface.h>
+#include <lomiri/shell/application/SurfaceManagerInterface.h>
 
 // from tests/mocks
 #include <Unity/Application/MirSurfaceListModel.h>
 
-using namespace unity::shell::application;
+using namespace lomiri::shell::application;
 
 class MirSurface : public MirSurfaceInterface
 {
@@ -63,7 +63,7 @@ public:
     QPoint requestedPosition() const override { return QPoint(); }
     void setRequestedPosition(const QPoint &) override {}
     MirSurfaceInterface* parentSurface() const override { return nullptr; }
-    unity::shell::application::MirSurfaceListInterface* childSurfaceList() const override { return nullptr; }
+    lomiri::shell::application::MirSurfaceListInterface* childSurfaceList() const override { return nullptr; }
     void close() override {}
     void forceClose() override {}
     void activate() override {}

@@ -17,7 +17,7 @@
 #ifndef MIR_MOCK_H
 #define MIR_MOCK_H
 
-#include <unity/shell/application/Mir.h>
+#include <lomiri/shell/application/Mir.h>
 
 class MirMock : public ::Mir
 {

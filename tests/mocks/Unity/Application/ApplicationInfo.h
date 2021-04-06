@@ -22,8 +22,8 @@
 class MirSurface;
 
 // unity-api
-#include <unity/shell/application/ApplicationInfoInterface.h>
-#include <unity/shell/application/Mir.h>
+#include <lomiri/shell/application/ApplicationInfoInterface.h>
+#include <lomiri/shell/application/Mir.h>
 
 #include "MirSurfaceListModel.h"
 
@@ -31,7 +31,7 @@ class MirSurface;
 #include <QTimer>
 #include <QUrl>
 
-using namespace unity::shell::application;
+using namespace lomiri::shell::application;
 
 class ApplicationInfo : public ApplicationInfoInterface {
     Q_OBJECT

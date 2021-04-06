@@ -18,7 +18,7 @@
 #include "MockNotificationModel.h"
 #include "MockNotification.h"
 
-#include <unity/shell/notifications/ModelInterface.h>
+#include <lomiri/shell/notifications/ModelInterface.h>
 
 #include <QTimer>
 #include <QList>
@@ -27,7 +27,7 @@
 #include <QStringListModel>
 #include <QQmlEngine>
 
-using namespace unity::shell::notifications;
+using namespace lomiri::shell::notifications;
 
 MockNotificationModel::MockNotificationModel(QObject *parent) : QAbstractListModel(parent) {
 }

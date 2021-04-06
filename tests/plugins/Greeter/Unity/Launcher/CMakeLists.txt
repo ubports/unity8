@@ -17,11 +17,11 @@ add_executable(launchermodelastestExec
     ${CMAKE_SOURCE_DIR}/plugins/Greeter/Unity/Launcher/launcheritem.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Greeter/Unity/Launcher/quicklistmodel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Greeter/Unity/Launcher/quicklistentry.cpp
-    ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherItemInterface.h
-    ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherModelInterface.h
-    ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/QuickListModelInterface.h
-    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
-    ${LAUNCHER_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
+    ${LAUNCHER_API_INCLUDEDIR}/lomiri/shell/launcher/LauncherItemInterface.h
+    ${LAUNCHER_API_INCLUDEDIR}/lomiri/shell/launcher/LauncherModelInterface.h
+    ${LAUNCHER_API_INCLUDEDIR}/lomiri/shell/launcher/QuickListModelInterface.h
+    ${APPLICATION_API_INCLUDEDIR}/lomiri/shell/application/ApplicationManagerInterface.h
+    ${LAUNCHER_API_INCLUDEDIR}/lomiri/shell/application/ApplicationInfoInterface.h
     )
 target_link_libraries(launchermodelastestExec
     unity8-private

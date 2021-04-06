@@ -20,11 +20,11 @@
 #ifndef MOCKLAUNCHERMODEL_H
 #define MOCKLAUNCHERMODEL_H
 
-#include <unity/shell/launcher/LauncherModelInterface.h>
+#include <lomiri/shell/launcher/LauncherModelInterface.h>
 
 class MockLauncherItem;
 
-using namespace unity::shell::launcher;
+using namespace lomiri::shell::launcher;
 
 class MockLauncherModel: public LauncherModelInterface
 {
@@ -39,7 +39,7 @@ public:
     QVariant data(const QModelIndex& index, int role) const override;
 
     Q_INVOKABLE void setAlerting(const QString &appId, bool alerting); // Only for testing
-    Q_INVOKABLE unity::shell::launcher::LauncherItemInterface *get(int index) const override;
+    Q_INVOKABLE lomiri::shell::launcher::LauncherItemInterface *get(int index) const override;
     Q_INVOKABLE void move(int oldIndex, int newIndex) override;
     Q_INVOKABLE void pin(const QString &appId, int index = -1) override;
     Q_INVOKABLE void requestRemove(const QString &appId) override;
@@ -47,8 +47,8 @@ public:
     Q_INVOKABLE void setUser(const QString &username) override;
     Q_INVOKABLE QString getUrlForAppId(const QString &appId) const;
 
-    unity::shell::application::ApplicationManagerInterface *applicationManager() const override;
-    void setApplicationManager(unity::shell::application::ApplicationManagerInterface *applicationManager) override;
+    lomiri::shell::application::ApplicationManagerInterface *applicationManager() const override;
+    void setApplicationManager(lomiri::shell::application::ApplicationManagerInterface *applicationManager) override;
 
     bool onlyPinned() const override;
     void setOnlyPinned(bool onlyPinned) override;

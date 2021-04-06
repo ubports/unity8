@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <unity/shell/launcher/AppDrawerModelInterface.h>
+#include <lomiri/shell/launcher/AppDrawerModelInterface.h>
 
 #include "MockLauncherItem.h"
 

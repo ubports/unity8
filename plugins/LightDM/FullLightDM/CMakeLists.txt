@@ -27,6 +27,7 @@ target_link_libraries(FullLightDM-qml
     ${LIBLIGHTDM_LDFLAGS}
     ${LIBUSERMETRICSOUTPUT_LDFLAGS}
     Qt5::DBus Qt5::Gui Qt5::Qml
+    intl
     )
 
 add_unity8_plugin(FullLightDM 0.1 LightDM/FullLightDM TARGETS FullLightDM-qml)

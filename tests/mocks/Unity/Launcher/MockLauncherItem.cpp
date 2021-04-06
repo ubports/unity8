@@ -22,7 +22,7 @@
 
 #include <paths.h>
 
-using namespace unity::shell::launcher;
+using namespace lomiri::shell::launcher;
 
 MockLauncherItem::MockLauncherItem(const QString &appId, const QString& desktopFile, const QString& name, const QString& icon, QObject* parent):
     LauncherItemInterface(parent),
@@ -214,7 +214,7 @@ void MockLauncherItem::setPopularity(uint popularity)
     }
 }
 
-unity::shell::launcher::QuickListModelInterface *MockLauncherItem::quickList() const
+lomiri::shell::launcher::QuickListModelInterface *MockLauncherItem::quickList() const
 {
     return m_quickList;
 }

@@ -17,13 +17,13 @@
 #include "launchermodelas.h"
 #include "launcheritem.h"
 #include "AccountsServiceDBusAdaptor.h"
-#include <unity/shell/application/ApplicationInfoInterface.h>
+#include <lomiri/shell/application/ApplicationInfoInterface.h>
 
 #include <QDesktopServices>
 #include <QDebug>
 #include <QDBusArgument>
 
-using namespace unity::shell::application;
+using namespace lomiri::shell::application;
 
 LauncherModel::LauncherModel(QObject *parent):
     LauncherModelInterface(parent),
@@ -76,7 +76,7 @@ QVariant LauncherModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-unity::shell::launcher::LauncherItemInterface *LauncherModel::get(int index) const
+lomiri::shell::launcher::LauncherItemInterface *LauncherModel::get(int index) const
 {
     if (index < 0 || index >= m_list.count()) {
         return 0;
@@ -157,7 +157,7 @@ ApplicationManagerInterface *LauncherModel::applicationManager() const
     return nullptr;
 }
 
-void LauncherModel::setApplicationManager(unity::shell::application::ApplicationManagerInterface *appManager)
+void LauncherModel::setApplicationManager(lomiri::shell::application::ApplicationManagerInterface *appManager)
 {
     Q_UNUSED(appManager)
     qWarning() << "This plugin syncs all its states from AccountsService. Not using ApplicationManager.";

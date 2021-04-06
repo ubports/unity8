@@ -114,9 +114,9 @@ endfunction()
 # This function wraps add_executable_test, see below for available arguments.
 
 function(add_qml_unittest PATH COMPONENT_NAME)
-    import_executables(qmltestrunner)
+    import_executables(qmltestrunner-qt5)
 
-    add_executable_test(${COMPONENT_NAME} qmltestrunner
+    add_executable_test(${COMPONENT_NAME} qmltestrunner-qt5
         ${ARGN}
         ARGS -input ${CMAKE_CURRENT_SOURCE_DIR}/${PATH}/tst_${COMPONENT_NAME}.qml ${QMLTEST_ARGS}
     )

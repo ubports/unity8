@@ -18,7 +18,7 @@
 #include "InputMethodManager.h"
 #include <QDebug>
 
-#include <unity/shell/application/MirSurfaceInterface.h>
+#include <lomiri/shell/application/MirSurfaceInterface.h>
 
 // local
 #include "Window.h"
@@ -26,7 +26,7 @@
 Q_LOGGING_CATEGORY(INPUTMETHODMANAGER, "InputMethodManager", QtInfoMsg)
 #define DEBUG_MSG qCDebug(INPUTMETHODMANAGER).nospace().noquote() << __func__
 
-namespace unityapi = unity::shell::application;
+namespace unityapi = lomiri::shell::application;
 
 InputMethodManager *InputMethodManager::instance()
 {

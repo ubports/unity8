@@ -15,8 +15,8 @@
  */
 
 // unity-api
-#include <unity/shell/launcher/LauncherModelInterface.h>
-#include <unity/shell/application/ApplicationInfoInterface.h>
+#include <lomiri/shell/launcher/LauncherModelInterface.h>
+#include <lomiri/shell/application/ApplicationInfoInterface.h>
 
 #include "launcheritem.h"
 #include "launchermodelas.h"

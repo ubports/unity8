@@ -48,6 +48,7 @@ target_link_libraries(${SHELL_APP}
     Qt5::DBus Qt5::Gui Qt5::Qml Qt5::Quick Qt5::Test
     ${GSETTINGS_QT_LDFLAGS}
     UbuntuGestures connectivity-qt1 unity8-private
+    intl
     )
 
 if (ENABLE_TOUCH_EMULATION)

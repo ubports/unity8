@@ -23,13 +23,13 @@
 #include <QHash>
 
 // unity-api
-#include <unity/shell/application/MirSurfaceInterface.h>
+#include <lomiri/shell/application/MirSurfaceInterface.h>
 
 #include "MirSurfaceListModel.h"
 
 class MirSurface;
 
-class MirSurface : public unity::shell::application::MirSurfaceInterface
+class MirSurface : public lomiri::shell::application::MirSurfaceInterface
 {
     Q_OBJECT
 
@@ -99,8 +99,8 @@ public:
     QPoint requestedPosition() const override { return m_requestedPosition; }
     void setRequestedPosition(const QPoint &) override;
 
-    unity::shell::application::MirSurfaceInterface* parentSurface() const override;
-    unity::shell::application::MirSurfaceListInterface* childSurfaceList() const override;
+    lomiri::shell::application::MirSurfaceInterface* parentSurface() const override;
+    lomiri::shell::application::MirSurfaceListInterface* childSurfaceList() const override;
 
     Q_INVOKABLE void close() override;
     Q_INVOKABLE void forceClose() override { }
@@ -229,7 +229,7 @@ private:
     QPoint m_position;
     QPoint m_requestedPosition;
 
-    unity::shell::application::MirSurfaceInterface* m_parentSurface;
+    lomiri::shell::application::MirSurfaceInterface* m_parentSurface;
 
     MirSurfaceListModel *m_childSurfaceList;
 };

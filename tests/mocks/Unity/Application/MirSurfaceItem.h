@@ -23,9 +23,9 @@
 #include <QUrl>
 
 // unity-api
-#include <unity/shell/application/MirSurfaceItemInterface.h>
+#include <lomiri/shell/application/MirSurfaceItemInterface.h>
 
-class MirSurfaceItem : public unity::shell::application::MirSurfaceItemInterface
+class MirSurfaceItem : public lomiri::shell::application::MirSurfaceItemInterface
 {
     Q_OBJECT
 
@@ -54,8 +54,8 @@ public:
     Mir::OrientationAngle orientationAngle() const override;
     void setOrientationAngle(Mir::OrientationAngle angle) override;
 
-    unity::shell::application::MirSurfaceInterface* surface() const override { return m_qmlSurface; }
-    void setSurface(unity::shell::application::MirSurfaceInterface*) override;
+    lomiri::shell::application::MirSurfaceInterface* surface() const override { return m_qmlSurface; }
+    void setSurface(lomiri::shell::application::MirSurfaceInterface*) override;
 
     bool consumesInput() const override { return m_consumesInput; }
     void setConsumesInput(bool value) override;

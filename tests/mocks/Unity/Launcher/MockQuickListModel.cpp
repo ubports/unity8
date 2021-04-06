@@ -19,7 +19,7 @@
 
 #include <MockQuickListModel.h>
 
-using namespace unity::shell::launcher;
+using namespace lomiri::shell::launcher;
 
 MockQuickListModel::MockQuickListModel(QObject *parent) :
     QuickListModelInterface(parent)

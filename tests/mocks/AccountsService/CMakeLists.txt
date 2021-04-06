@@ -17,6 +17,7 @@ add_library(MockAccountsService-qml MODULE
 target_link_libraries(MockAccountsService-qml
     Qt5::DBus Qt5::Qml
     MockLightDM
+    intl
     )
 
 add_unity8_mock(AccountsService 0.1 AccountsService

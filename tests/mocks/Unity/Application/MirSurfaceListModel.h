@@ -18,35 +18,35 @@
 #define MIRSURFACELISTMODEL_H
 
 // unity-api
-#include <unity/shell/application/MirSurfaceListInterface.h>
+#include <lomiri/shell/application/MirSurfaceListInterface.h>
 
 #include <QAbstractListModel>
 #include <QList>
 
-class MirSurfaceListModel : public unity::shell::application::MirSurfaceListInterface
+class MirSurfaceListModel : public lomiri::shell::application::MirSurfaceListInterface
 {
     Q_OBJECT
 public:
     explicit MirSurfaceListModel(QObject *parent = 0);
 
-    Q_INVOKABLE unity::shell::application::MirSurfaceInterface *get(int index) override;
-    const unity::shell::application::MirSurfaceInterface *get(int index) const;
+    Q_INVOKABLE lomiri::shell::application::MirSurfaceInterface *get(int index) override;
+    const lomiri::shell::application::MirSurfaceInterface *get(int index) const;
 
     // QAbstractItemModel methods
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex& index, int role) const override;
 
-    void addSurface(unity::shell::application::MirSurfaceInterface *surface);
-    void removeSurface(unity::shell::application::MirSurfaceInterface *surface);
+    void addSurface(lomiri::shell::application::MirSurfaceInterface *surface);
+    void removeSurface(lomiri::shell::application::MirSurfaceInterface *surface);
 
-    bool contains(unity::shell::application::MirSurfaceInterface *surface) const { return m_surfaceList.contains(surface); }
+    bool contains(lomiri::shell::application::MirSurfaceInterface *surface) const { return m_surfaceList.contains(surface); }
 
 private:
-    void raise(unity::shell::application::MirSurfaceInterface *surface);
+    void raise(lomiri::shell::application::MirSurfaceInterface *surface);
     void moveSurface(int from, int to);
-    void connectSurface(unity::shell::application::MirSurfaceInterface *surface);
+    void connectSurface(lomiri::shell::application::MirSurfaceInterface *surface);
 
-    QList<unity::shell::application::MirSurfaceInterface*> m_surfaceList;
+    QList<lomiri::shell::application::MirSurfaceInterface*> m_surfaceList;
 };
 
 Q_DECLARE_METATYPE(MirSurfaceListModel*)

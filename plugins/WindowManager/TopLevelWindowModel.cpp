@@ -18,11 +18,11 @@
 #include "TopLevelWindowModel.h"
 
 // unity-api
-#include <unity/shell/application/ApplicationInfoInterface.h>
-#include <unity/shell/application/ApplicationManagerInterface.h>
-#include <unity/shell/application/MirSurfaceInterface.h>
-#include <unity/shell/application/MirSurfaceListInterface.h>
-#include <unity/shell/application/SurfaceManagerInterface.h>
+#include <lomiri/shell/application/ApplicationInfoInterface.h>
+#include <lomiri/shell/application/ApplicationManagerInterface.h>
+#include <lomiri/shell/application/MirSurfaceInterface.h>
+#include <lomiri/shell/application/MirSurfaceListInterface.h>
+#include <lomiri/shell/application/SurfaceManagerInterface.h>
 
 // Qt
 #include <QGuiApplication>
@@ -37,7 +37,7 @@ Q_LOGGING_CATEGORY(TOPLEVELWINDOWMODEL, "toplevelwindowmodel", QtInfoMsg)
 #define DEBUG_MSG qCDebug(TOPLEVELWINDOWMODEL).nospace().noquote() << __func__
 #define INFO_MSG qCInfo(TOPLEVELWINDOWMODEL).nospace().noquote() << __func__
 
-namespace unityapi = unity::shell::application;
+namespace unityapi = lomiri::shell::application;
 
 TopLevelWindowModel::TopLevelWindowModel()
     : m_nullWindow(createNullWindow()),

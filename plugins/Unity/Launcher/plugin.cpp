@@ -28,7 +28,7 @@
 #include "launcheritem.h"
 #include "appdrawermodel.h"
 
-using namespace unity::shell::launcher;
+using namespace lomiri::shell::launcher;
 
 static QObject* modelProvider(QQmlEngine* /* engine */, QJSEngine* /* scriptEngine */)
 {

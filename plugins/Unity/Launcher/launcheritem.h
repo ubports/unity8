@@ -22,12 +22,12 @@
 
 #include "quicklistmodel.h"
 
-#include <unity/shell/launcher/LauncherItemInterface.h>
-#include <unity/shell/application/MirSurfaceInterface.h>
+#include <lomiri/shell/launcher/LauncherItemInterface.h>
+#include <lomiri/shell/application/MirSurfaceInterface.h>
 
 class QuickListModel;
 
-using namespace unity::shell::launcher;
+using namespace lomiri::shell::launcher;
 
 class LauncherItem: public LauncherItemInterface
 {
@@ -50,7 +50,7 @@ public:
     bool alerting() const override;
     int surfaceCount() const override;
 
-    unity::shell::launcher::QuickListModelInterface *quickList() const override;
+    lomiri::shell::launcher::QuickListModelInterface *quickList() const override;
 
 private:
     void setName(const QString &name);

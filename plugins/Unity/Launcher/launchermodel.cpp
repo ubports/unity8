@@ -21,14 +21,14 @@
 #include "asadapter.h"
 #include "ualwrapper.h"
 
-#include <unity/shell/application/ApplicationInfoInterface.h>
-#include <unity/shell/application/MirSurfaceListInterface.h>
-#include <unity/shell/application/MirSurfaceInterface.h>
+#include <lomiri/shell/application/ApplicationInfoInterface.h>
+#include <lomiri/shell/application/MirSurfaceListInterface.h>
+#include <lomiri/shell/application/MirSurfaceInterface.h>
 
 #include <QDesktopServices>
 #include <QDebug>
 
-using namespace unity::shell::application;
+using namespace lomiri::shell::application;
 
 LauncherModel::LauncherModel(QObject *parent):
     LauncherModelInterface(parent),
@@ -97,7 +97,7 @@ QVariant LauncherModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-unity::shell::launcher::LauncherItemInterface *LauncherModel::get(int index) const
+lomiri::shell::launcher::LauncherItemInterface *LauncherModel::get(int index) const
 {
     if (index < 0 || index >= m_list.count()) {
         return 0;
@@ -254,7 +254,7 @@ ApplicationManagerInterface *LauncherModel::applicationManager() const
     return m_appManager;
 }
 
-void LauncherModel::setApplicationManager(unity::shell::application::ApplicationManagerInterface *appManager)
+void LauncherModel::setApplicationManager(lomiri::shell::application::ApplicationManagerInterface *appManager)
 {
     // Is there already another appmanager set?
     if (m_appManager) {

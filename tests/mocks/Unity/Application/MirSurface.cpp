@@ -69,7 +69,7 @@ const char *stateToStr(Mir::State state)
 #define XDEBUG_MSG(params) ((void)0)
 #endif
 
-using namespace unity::shell::application;
+using namespace lomiri::shell::application;
 
 MirSurface::MirSurface(const QString& name,
         Mir::Type type,
@@ -77,7 +77,7 @@ MirSurface::MirSurface(const QString& name,
         MirSurface *parentSurface,
         const QUrl& screenshot,
         const QUrl &qmlFilePath)
-    : unity::shell::application::MirSurfaceInterface(nullptr)
+    : lomiri::shell::application::MirSurfaceInterface(nullptr)
     , m_name(name)
     , m_type(type)
     , m_state(state)

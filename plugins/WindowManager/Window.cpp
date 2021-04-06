@@ -17,12 +17,12 @@
 #include "Window.h"
 
 // unity-api
-#include <unity/shell/application/MirSurfaceInterface.h>
+#include <lomiri/shell/application/MirSurfaceInterface.h>
 
 #include <QQmlEngine>
 #include <QTextStream>
 
-namespace unityapi = unity::shell::application;
+namespace unityapi = lomiri::shell::application;
 
 Q_LOGGING_CATEGORY(UNITY_WINDOW, "unity.window", QtWarningMsg)
 

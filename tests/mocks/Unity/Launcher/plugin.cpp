@@ -23,13 +23,13 @@
 #include "MockQuickListModel.h"
 #include "MockAppDrawerModel.h"
 
-#include <unity/shell/launcher/LauncherModelInterface.h>
-#include <unity/shell/launcher/LauncherItemInterface.h>
-#include <unity/shell/launcher/AppDrawerModelInterface.h>
+#include <lomiri/shell/launcher/LauncherModelInterface.h>
+#include <lomiri/shell/launcher/LauncherItemInterface.h>
+#include <lomiri/shell/launcher/AppDrawerModelInterface.h>
 
 #include <QtQml/qqml.h>
 
-using namespace unity::shell::launcher;
+using namespace lomiri::shell::launcher;
 
 static QObject* modelProvider(QQmlEngine* /* engine */, QJSEngine* /* scriptEngine */)
 {

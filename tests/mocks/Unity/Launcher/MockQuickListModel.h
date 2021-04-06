@@ -20,9 +20,9 @@
 #ifndef MOCKQUICKLISTMODEL_H
 #define MOCKQUICKLISTMODEL_H
 
-#include <unity/shell/launcher/QuickListModelInterface.h>
+#include <lomiri/shell/launcher/QuickListModelInterface.h>
 
-using namespace unity::shell::launcher;
+using namespace lomiri::shell::launcher;
 
 class MockQuickListModel: public QuickListModelInterface
 {

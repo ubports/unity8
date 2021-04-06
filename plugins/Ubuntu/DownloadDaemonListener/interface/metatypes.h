@@ -20,6 +20,6 @@
 #define DOWNLOADER_LIB_APP_METATYPES_H
 
 // Just include the system file so we're always up to date.
-#include <ubuntu/download_manager/metatypes.h>
+#include <lomiri/download_manager/metatypes.h>
 
 #endif // METATYPES_H

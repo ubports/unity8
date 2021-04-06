@@ -17,7 +17,7 @@
 #include "MirSurfaceListModel.h"
 #include "ApplicationInfo.h"
 
-#include <unity/shell/application/MirSurfaceInterface.h>
+#include <lomiri/shell/application/MirSurfaceInterface.h>
 
 #define MIRSURFACELISTMODEL_DEBUG 0
 
@@ -28,7 +28,7 @@
 #define DEBUG_MSG(params) ((void)0)
 #endif
 
-using namespace unity::shell::application;
+using namespace lomiri::shell::application;
 
 MirSurfaceListModel::MirSurfaceListModel(QObject *parent) :
     MirSurfaceListInterface(parent)
@@ -47,7 +47,7 @@ QVariant MirSurfaceListModel::data(const QModelIndex& index, int role) const
 
     if (role == SurfaceRole) {
         MirSurfaceInterface *surface = m_surfaceList.at(index.row());
-        return QVariant::fromValue(static_cast<unity::shell::application::MirSurfaceInterface*>(surface));
+        return QVariant::fromValue(static_cast<lomiri::shell::application::MirSurfaceInterface*>(surface));
     } else {
         return QVariant();
     }

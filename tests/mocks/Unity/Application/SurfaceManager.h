@@ -19,14 +19,14 @@
 
 #include <QObject>
 
-#include <unity/shell/application/SurfaceManagerInterface.h>
+#include <lomiri/shell/application/SurfaceManagerInterface.h>
 
 #include "MirSurface.h"
 #include "VirtualKeyboard.h"
 
 class ApplicationInfo;
 
-class SurfaceManager : public unity::shell::application::SurfaceManagerInterface
+class SurfaceManager : public lomiri::shell::application::SurfaceManagerInterface
 {
     Q_OBJECT
     Q_PROPERTY(int newSurfaceMinimumWidth READ newSurfaceMinimumWidth WRITE setNewSurfaceMinimumWidth NOTIFY newSurfaceMinimumWidthChanged)
@@ -43,8 +43,8 @@ public:
     static SurfaceManager *instance();
 
     // SurfaceManagerInterface
-    void raise(unity::shell::application::MirSurfaceInterface *surface) override;
-    void activate(unity::shell::application::MirSurfaceInterface *surface) override;
+    void raise(lomiri::shell::application::MirSurfaceInterface *surface) override;
+    void activate(lomiri::shell::application::MirSurfaceInterface *surface) override;
 
     Q_INVOKABLE MirSurface* createSurface(const QString& name,
                                   Mir::Type type,
@@ -54,7 +54,7 @@ public:
                                   const QUrl &qmlFilePath = QUrl());
 
 
-    void notifySurfaceCreated(unity::shell::application::MirSurfaceInterface *);
+    void notifySurfaceCreated(lomiri::shell::application::MirSurfaceInterface *);
 
     int newSurfaceMinimumWidth() const { return m_newSurfaceMinimumWidth; }
     void setNewSurfaceMinimumWidth(int value);
@@ -92,7 +92,7 @@ private Q_SLOTS:
     void onSurfaceDestroyed(MirSurface *surface, const QString& persistentId);
 
 private:
-    void doRaise(unity::shell::application::MirSurfaceInterface *surface);
+    void doRaise(lomiri::shell::application::MirSurfaceInterface *surface);
     void focusFirstAvailableSurface();
     void registerSurface(MirSurface *surface);
 

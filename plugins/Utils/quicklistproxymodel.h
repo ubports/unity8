@@ -16,9 +16,9 @@
 
 #include <QSortFilterProxyModel>
 
-#include <unity/shell/launcher/QuickListModelInterface.h>
+#include <lomiri/shell/launcher/QuickListModelInterface.h>
 
-using namespace unity::shell::launcher;
+using namespace lomiri::shell::launcher;
 
 class QuickListProxyModel: public QSortFilterProxyModel
 {

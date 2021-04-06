@@ -20,13 +20,13 @@
 #ifndef MOCKLAUNCHERITEM_H
 #define MOCKLAUNCHERITEM_H
 
-#include <unity/shell/launcher/LauncherItemInterface.h>
+#include <lomiri/shell/launcher/LauncherItemInterface.h>
 
 #include <QStringList>
 
 class MockQuickListModel;
 
-using namespace unity::shell::launcher;
+using namespace lomiri::shell::launcher;
 
 class MockLauncherItem: public LauncherItemInterface
 {
@@ -52,7 +52,7 @@ public:
     bool alerting() const override;
     int surfaceCount() const override;
 
-    unity::shell::launcher::QuickListModelInterface *quickList() const override;
+    lomiri::shell::launcher::QuickListModelInterface *quickList() const override;
 
 private:
     void setKeywords(const QStringList &keywords);

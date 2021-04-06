@@ -23,7 +23,7 @@
 #include <QThread>
 
 // unity-api
-#include <unity/shell/application/Mir.h>
+#include <lomiri/shell/application/Mir.h>
 
 class AsyncQuery;
 

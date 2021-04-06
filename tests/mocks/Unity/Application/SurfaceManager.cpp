@@ -29,7 +29,7 @@
 #define DEBUG_MSG(params) ((void)0)
 #endif
 
-namespace unityapi = unity::shell::application;
+namespace unityapi = lomiri::shell::application;
 
 SurfaceManager *SurfaceManager::m_instance = nullptr;
 

@@ -18,7 +18,7 @@
 #include "CursorImageProvider.h"
 
 // Unity API
-#include <unity/shell/application/MirPlatformCursor.h>
+#include <lomiri/shell/application/MirPlatformCursor.h>
 
 #include <QQuickWindow>
 #include <QGuiApplication>

@@ -136,7 +136,7 @@ if(DEFINED ENV{DEB_BUILD_MULTIARCH})
 else()
   FIND_PROGRAM(QDBUSXML2CPP_EXECUTABLE qdbusxml2cpp)
 endif()
-
+  set(QDBUSXML2CPP_EXECUTABLE "/usr/lib/qt5/bin/qdbusxml2cpp")
 if(NOT QDBUSXML2CPP_EXECUTABLE)
     message(FATAL_ERROR "qdbusxml2cpp not found")
 endif()

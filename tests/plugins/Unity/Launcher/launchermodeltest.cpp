@@ -15,9 +15,9 @@
  */
 
 // unity-api
-#include <unity/shell/launcher/LauncherModelInterface.h>
-#include <unity/shell/application/ApplicationInfoInterface.h>
-#include <unity/shell/application/MirSurfaceListInterface.h>
+#include <lomiri/shell/launcher/LauncherModelInterface.h>
+#include <lomiri/shell/application/ApplicationInfoInterface.h>
+#include <lomiri/shell/application/MirSurfaceListInterface.h>
 
 #include "launcheritem.h"
 #include "launchermodel.h"
@@ -35,10 +35,10 @@
 #include <glib.h>
 #include <paths.h>
 
-namespace unityapi = unity::shell::application;
+namespace unityapi = lomiri::shell::application;
 
 // This is a mock, specifically to test the LauncherModel
-class MockSurface: public unity::shell::application::MirSurfaceInterface
+class MockSurface: public lomiri::shell::application::MirSurfaceInterface
 {
     Q_OBJECT
 public:
@@ -84,7 +84,7 @@ private:
     QString m_appId;
 };
 
-class MockSurfaceList: public unity::shell::application::MirSurfaceListInterface
+class MockSurfaceList: public lomiri::shell::application::MirSurfaceListInterface
 {
     Q_OBJECT
 public:
@@ -102,7 +102,7 @@ private:
 
 };
 
-class MockApp: public unity::shell::application::ApplicationInfoInterface
+class MockApp: public lomiri::shell::application::ApplicationInfoInterface
 {
     Q_OBJECT
 public:
@@ -146,7 +146,7 @@ private:
 };
 
 // This is a mock, specifically to test the LauncherModel
-class MockAppManager: public unity::shell::application::ApplicationManagerInterface
+class MockAppManager: public lomiri::shell::application::ApplicationManagerInterface
 {
     Q_OBJECT
 public:
@@ -160,8 +160,8 @@ public:
         }
         return QString();
     }
-    unity::shell::application::ApplicationInfoInterface *get(int index) const override { return m_list.at(index); }
-    unity::shell::application::ApplicationInfoInterface *findApplication(const QString &appId) const override {
+    lomiri::shell::application::ApplicationInfoInterface *get(int index) const override { return m_list.at(index); }
+    lomiri::shell::application::ApplicationInfoInterface *findApplication(const QString &appId) const override {
         Q_FOREACH(MockApp* app, m_list) {
             if (app->appId() == appId) {
                 return app;
@@ -172,7 +172,7 @@ public:
     unityapi::ApplicationInfoInterface *findApplicationWithSurface(unityapi::MirSurfaceInterface* /*surface*/) const override {
         return nullptr;
     }
-    unity::shell::application::ApplicationInfoInterface *startApplication(const QString &, const QStringList &) override { return nullptr; }
+    lomiri::shell::application::ApplicationInfoInterface *startApplication(const QString &, const QStringList &) override { return nullptr; }
     bool stopApplication(const QString &appId) override {
         Q_FOREACH(MockApp* app, m_list) {
             if (app->appId() == appId) {

@@ -15,12 +15,12 @@
  */
 
 // unity-api
-#include <unity/shell/application/ApplicationManagerInterface.h>
-#include <unity/shell/application/ApplicationInfoInterface.h>
+#include <lomiri/shell/application/ApplicationManagerInterface.h>
+#include <lomiri/shell/application/ApplicationInfoInterface.h>
 
 #include "applicationsfiltermodel.h"
 
-using namespace unity::shell::application;
+using namespace lomiri::shell::application;
 
 ApplicationsFilterModel::ApplicationsFilterModel(QObject *parent):
     QSortFilterProxyModel(parent),

@@ -28,7 +28,7 @@ Q_DECLARE_LOGGING_CATEGORY(TOPLEVELWINDOWMODEL)
 
 class Window;
 
-namespace unity {
+namespace lomiri {
     namespace shell {
         namespace application {
             class ApplicationInfoInterface;
@@ -67,19 +67,19 @@ class WINDOWMANAGERQML_EXPORT TopLevelWindowModel : public QAbstractListModel
      *
      * The surface of a onscreen keyboard (akak "virtual keyboard") would be kept here and not in the model itself.
      */
-    Q_PROPERTY(unity::shell::application::MirSurfaceInterface* inputMethodSurface READ inputMethodSurface NOTIFY inputMethodSurfaceChanged)
+    Q_PROPERTY(lomiri::shell::application::MirSurfaceInterface* inputMethodSurface READ inputMethodSurface NOTIFY inputMethodSurfaceChanged)
 
     /**
      * @brief The currently focused window, if any
      */
     Q_PROPERTY(Window* focusedWindow READ focusedWindow NOTIFY focusedWindowChanged)
 
-    Q_PROPERTY(unity::shell::application::SurfaceManagerInterface* surfaceManager
+    Q_PROPERTY(lomiri::shell::application::SurfaceManagerInterface* surfaceManager
             READ surfaceManager
             WRITE setSurfaceManager
             NOTIFY surfaceManagerChanged)
 
-    Q_PROPERTY(unity::shell::application::ApplicationManagerInterface* applicationManager
+    Q_PROPERTY(lomiri::shell::application::ApplicationManagerInterface* applicationManager
             READ applicationManager
             WRITE setApplicationManager
             NOTIFY applicationManagerChanged)
@@ -136,14 +136,14 @@ public:
 
     // Own API
 
-    unity::shell::application::MirSurfaceInterface* inputMethodSurface() const;
+    lomiri::shell::application::MirSurfaceInterface* inputMethodSurface() const;
     Window* focusedWindow() const;
 
-    unity::shell::application::ApplicationManagerInterface *applicationManager() const { return m_applicationManager; }
-    void setApplicationManager(unity::shell::application::ApplicationManagerInterface*);
+    lomiri::shell::application::ApplicationManagerInterface *applicationManager() const { return m_applicationManager; }
+    void setApplicationManager(lomiri::shell::application::ApplicationManagerInterface*);
 
-    unity::shell::application::SurfaceManagerInterface *surfaceManager() const { return m_surfaceManager; }
-    void setSurfaceManager(unity::shell::application::SurfaceManagerInterface*);
+    lomiri::shell::application::SurfaceManagerInterface *surfaceManager() const { return m_surfaceManager; }
+    void setSurfaceManager(lomiri::shell::application::SurfaceManagerInterface*);
 
     int nextId() const { return m_nextId.load(); }
 
@@ -156,7 +156,7 @@ public:
      *
      * Same as windowAt(index).surface()
      */
-    Q_INVOKABLE unity::shell::application::MirSurfaceInterface *surfaceAt(int index) const;
+    Q_INVOKABLE lomiri::shell::application::MirSurfaceInterface *surfaceAt(int index) const;
 
     /**
      * @brief Returns the window at the given index
@@ -168,7 +168,7 @@ public:
     /**
      * @brief Returns the application at the given index
      */
-    Q_INVOKABLE unity::shell::application::ApplicationInfoInterface *applicationAt(int index) const;
+    Q_INVOKABLE lomiri::shell::application::ApplicationInfoInterface *applicationAt(int index) const;
 
     /**
      * @brief Returns the unique id of the element at the given index
@@ -202,10 +202,10 @@ public:
 
 Q_SIGNALS:
     void countChanged();
-    void inputMethodSurfaceChanged(unity::shell::application::MirSurfaceInterface* inputMethodSurface);
+    void inputMethodSurfaceChanged(lomiri::shell::application::MirSurfaceInterface* inputMethodSurface);
     void focusedWindowChanged(Window *focusedWindow);
-    void applicationManagerChanged(unity::shell::application::ApplicationManagerInterface*);
-    void surfaceManagerChanged(unity::shell::application::SurfaceManagerInterface*);
+    void applicationManagerChanged(lomiri::shell::application::ApplicationManagerInterface*);
+    void surfaceManagerChanged(lomiri::shell::application::SurfaceManagerInterface*);
 
     /**
      * @brief Emitted when the list changes
@@ -219,8 +219,8 @@ Q_SIGNALS:
     void rootFocusChanged();
 
 private Q_SLOTS:
-    void onSurfaceCreated(unity::shell::application::MirSurfaceInterface *surface);
-    void onSurfacesRaised(const QVector<unity::shell::application::MirSurfaceInterface*> &surfaces);
+    void onSurfaceCreated(lomiri::shell::application::MirSurfaceInterface *surface);
+    void onSurfacesRaised(const QVector<lomiri::shell::application::MirSurfaceInterface*> &surfaces);
 
     void onModificationsStarted();
     void onModificationsEnded();
@@ -231,30 +231,30 @@ private:
     int nextFreeId(int candidateId, const int latestId);
     int nextId(int id) const;
     QString toString();
-    int indexOf(unity::shell::application::MirSurfaceInterface *surface);
+    int indexOf(lomiri::shell::application::MirSurfaceInterface *surface);
 
     void setInputMethodWindow(Window *window);
     void setFocusedWindow(Window *window);
     void removeInputMethodWindow();
-    int findIndexOf(const unity::shell::application::MirSurfaceInterface *surface) const;
+    int findIndexOf(const lomiri::shell::application::MirSurfaceInterface *surface) const;
     void deleteAt(int index);
     void removeAt(int index);
 
-    void addApplication(unity::shell::application::ApplicationInfoInterface *application);
-    void removeApplication(unity::shell::application::ApplicationInfoInterface *application);
+    void addApplication(lomiri::shell::application::ApplicationInfoInterface *application);
+    void removeApplication(lomiri::shell::application::ApplicationInfoInterface *application);
 
-    void prependPlaceholder(unity::shell::application::ApplicationInfoInterface *application);
-    void prependSurface(unity::shell::application::MirSurfaceInterface *surface,
-                        unity::shell::application::ApplicationInfoInterface *application);
-    void prependSurfaceHelper(unity::shell::application::MirSurfaceInterface *surface,
-                              unity::shell::application::ApplicationInfoInterface *application);
-    void prependWindow(Window *window, unity::shell::application::ApplicationInfoInterface *application);
+    void prependPlaceholder(lomiri::shell::application::ApplicationInfoInterface *application);
+    void prependSurface(lomiri::shell::application::MirSurfaceInterface *surface,
+                        lomiri::shell::application::ApplicationInfoInterface *application);
+    void prependSurfaceHelper(lomiri::shell::application::MirSurfaceInterface *surface,
+                              lomiri::shell::application::ApplicationInfoInterface *application);
+    void prependWindow(Window *window, lomiri::shell::application::ApplicationInfoInterface *application);
 
     void connectWindow(Window *window);
-    void connectSurface(unity::shell::application::MirSurfaceInterface *surface);
+    void connectSurface(lomiri::shell::application::MirSurfaceInterface *surface);
 
-    void onSurfaceDied(unity::shell::application::MirSurfaceInterface *surface);
-    void onSurfaceDestroyed(unity::shell::application::MirSurfaceInterface *surface);
+    void onSurfaceDied(lomiri::shell::application::MirSurfaceInterface *surface);
+    void onSurfaceDestroyed(lomiri::shell::application::MirSurfaceInterface *surface);
 
     void move(int from, int to);
 
@@ -262,17 +262,17 @@ private:
 
     void activateTopMostWindowWithoutId(int forbiddenId);
 
-    Window *createWindow(unity::shell::application::MirSurfaceInterface *surface);
-    Window *createWindowWithId(unity::shell::application::MirSurfaceInterface *surface, int id);
+    Window *createWindow(lomiri::shell::application::MirSurfaceInterface *surface);
+    Window *createWindowWithId(lomiri::shell::application::MirSurfaceInterface *surface, int id);
     Window *createNullWindow();
 
     struct ModelEntry {
         ModelEntry() {}
         ModelEntry(Window *window,
-                   unity::shell::application::ApplicationInfoInterface *application)
+                   lomiri::shell::application::ApplicationInfoInterface *application)
             : window(window), application(application) {}
         Window *window{nullptr};
-        unity::shell::application::ApplicationInfoInterface *application{nullptr};
+        lomiri::shell::application::ApplicationInfoInterface *application{nullptr};
         bool removeOnceSurfaceDestroyed{false};
     };
 
@@ -285,8 +285,8 @@ private:
 
     QAtomicInteger<int> m_nextId{1};
 
-    unity::shell::application::ApplicationManagerInterface* m_applicationManager{nullptr};
-    unity::shell::application::SurfaceManagerInterface *m_surfaceManager{nullptr};
+    lomiri::shell::application::ApplicationManagerInterface* m_applicationManager{nullptr};
+    lomiri::shell::application::SurfaceManagerInterface *m_surfaceManager{nullptr};
     bool m_surfaceManagerBusy;
 
     enum ModelState {

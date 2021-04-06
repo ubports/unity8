@@ -17,7 +17,7 @@
 
 #include <memory>
 #include <QFutureWatcher>
-#include <unity/shell/launcher/AppDrawerModelInterface.h>
+#include <lomiri/shell/launcher/AppDrawerModelInterface.h>
 
 #include "launcheritem.h"
 

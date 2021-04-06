@@ -17,8 +17,8 @@
 #ifndef LAUNCHERMODEL_H
 #define LAUNCHERMODEL_H
 
-#include <unity/shell/launcher/LauncherModelInterface.h>
-#include <unity/shell/application/ApplicationManagerInterface.h>
+#include <lomiri/shell/launcher/LauncherModelInterface.h>
+#include <lomiri/shell/application/ApplicationManagerInterface.h>
 
 #include <QAbstractListModel>
 
@@ -26,8 +26,8 @@ class LauncherItem;
 class GSettings;
 class AccountsServiceDBusAdaptor;
 
-using namespace unity::shell::launcher;
-using namespace unity::shell::application;
+using namespace lomiri::shell::launcher;
+using namespace lomiri::shell::application;
 
 class LauncherModel: public LauncherModelInterface
 {
@@ -41,15 +41,15 @@ public:
 
     QVariant data(const QModelIndex &index, int role) const override;
 
-    Q_INVOKABLE unity::shell::launcher::LauncherItemInterface* get(int index) const override;
+    Q_INVOKABLE lomiri::shell::launcher::LauncherItemInterface* get(int index) const override;
     Q_INVOKABLE void move(int oldIndex, int newIndex) override;
     Q_INVOKABLE void pin(const QString &appId, int index = -1) override;
     Q_INVOKABLE void quickListActionInvoked(const QString &appId, int actionIndex) override;
     Q_INVOKABLE void setUser(const QString &username) override;
     Q_INVOKABLE QString getUrlForAppId(const QString &appId) const;
 
-    unity::shell::application::ApplicationManagerInterface* applicationManager() const override;
-    void setApplicationManager(unity::shell::application::ApplicationManagerInterface *appManager) override;
+    lomiri::shell::application::ApplicationManagerInterface* applicationManager() const override;
+    void setApplicationManager(lomiri::shell::application::ApplicationManagerInterface *appManager) override;
 
     bool onlyPinned() const override;
     void setOnlyPinned(bool onlyPinned) override;

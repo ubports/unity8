@@ -40,7 +40,7 @@
 #define XDEBUG_MSG(params) ((void)0)
 #endif
 
-namespace unityapi = unity::shell::application;
+namespace unityapi = lomiri::shell::application;
 
 
 ApplicationManager::ApplicationManager(QObject *parent)
