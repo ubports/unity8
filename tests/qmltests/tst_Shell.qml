@@ -15,7 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.4
+import QtQuick 2.7
+import QtQuick.Window 2.4
 import QtTest 1.0
 import AccountsService 0.1
 import GSettings 1.0
@@ -50,21 +51,13 @@ Rectangle {
     Component.onCompleted: {
         // must set the mock mode before loading the Shell
         LightDMController.userMode = "single";
-        shellLoader.active = true;
     }
 
     ApplicationMenuDataLoader {
         id: appMenuData
     }
 
-    readonly property var shell: shellLoader.item ? shellLoader.item : null
-    onShellChanged: {
-        if (shell) {
-            panelState = testCase.findInvisibleChild(shell, "panelState");
-        } else {
-            panelState = null;
-        }
-    }
+    property var shell: null
     property var panelState: null
     readonly property alias topLevelSurfaceList: testCase.topLevelSurfaceList
 
@@ -74,14 +67,34 @@ Rectangle {
     }
     property alias screenWindow: _screenWindow
 
+    Component {
+        id: shellComponent
+        Shell {
+            id: __shell
+            objectName: "shell"
+            anchors.fill: parent
+            usageScenario: usageScenarioSelector.model[usageScenarioSelector.selectedIndex]
+            nativeWidth: width
+            nativeHeight: height
+            orientation: shellRect.shellOrientation
+            orientations: Orientations {
+                native_: shellRect.nativeOrientation
+                primary: shellRect.primaryOrientation
+            }
+            mode: shellRect.mode
+            hasTouchscreen: true
+            lightIndicators: true
+        }
+    }
+
     Item {
         id: shellContainer
         anchors.left: root.left
         anchors.right: controls.left
         anchors.top: root.top
         anchors.bottom: root.bottom
-        Loader {
-            id: shellLoader
+        Rectangle {
+            id: shellRect
             focus: true
 
             anchors.centerIn: parent
@@ -96,7 +109,7 @@ Rectangle {
                 State {
                     name: "phone"
                     PropertyChanges {
-                        target: shellLoader
+                        target: shellRect
                         width: units.gu(40)
                         height: units.gu(71)
                     }
@@ -104,7 +117,7 @@ Rectangle {
                 State {
                     name: "tablet"
                     PropertyChanges {
-                        target: shellLoader
+                        target: shellRect
                         width: units.gu(100)
                         height: units.gu(71)
                         shellOrientation: Qt.LandscapeOrientation
@@ -115,7 +128,7 @@ Rectangle {
                 State {
                     name: "desktop"
                     PropertyChanges {
-                        target: shellLoader
+                        target: shellRect
                         width: shellContainer.width
                         height: shellContainer.height
                     }
@@ -125,28 +138,6 @@ Rectangle {
                     }
                 }
             ]
-
-            active: false
-            property bool itemDestroyed: false
-            sourceComponent: Component {
-                Shell {
-                    id: __shell
-                    objectName: "shell"
-                    usageScenario: usageScenarioSelector.model[usageScenarioSelector.selectedIndex]
-                    nativeWidth: width
-                    nativeHeight: height
-                    orientation: shellLoader.shellOrientation
-                    orientations: Orientations {
-                        native_: shellLoader.nativeOrientation
-                        primary: shellLoader.primaryOrientation
-                    }
-                    mode: shellLoader.mode
-                    hasTouchscreen: true
-                    Component.onDestruction: {
-                        shellLoader.itemDestroyed = true;
-                    }
-                }
-            }
         }
     }
 
@@ -174,13 +165,24 @@ Rectangle {
                     anchors { left: parent.left; right: parent.right }
 
                     Button {
+                        text: "Load shell"
+                        onClicked: {
+                            if (shell === null) {
+                                shell = shellComponent.createObject(shellRect);
+                                panelState = testCase.findInvisibleChild(shell, "panelState");
+                                shell.focus = true;
+                            }
+                        }
+                    }
+
+                    Button {
                         text: "Show Greeter"
                         activeFocusOnPress: false
                         onClicked: {
-                            if (shellLoader.status !== Loader.Ready)
+                            if (shell === null)
                                 return;
 
-                            var greeter = shellLoader.item.greeter;
+                            var greeter = shell.greeter;
                             if (!greeter.shown) {
                                 LightDM.Greeter.showGreeter();
                             }
@@ -190,10 +192,10 @@ Rectangle {
                         text: "Hide Greeter"
                         activeFocusOnPress: false
                         onClicked: {
-                            if (shellLoader.status !== Loader.Ready)
+                            if (shell === null)
                                 return;
 
-                            var greeter = shellLoader.item.greeter;
+                            var greeter = shell.greeter;
                             if (greeter.shown) {
                                 greeter.hide()
                             }
@@ -203,7 +205,7 @@ Rectangle {
                         text: callManager.foregroundCall ? "Hide Call" : "Show Call"
                         activeFocusOnPress: false
                         onClicked: {
-                            if (shellLoader.status !== Loader.Ready)
+                            if (shell === null)
                                 return;
 
                             callManager.foregroundCall = callManager.foregroundCall ? null : phoneCall;
@@ -213,10 +215,10 @@ Rectangle {
                         text: "Show Launcher"
                         activeFocusOnPress: false
                         onClicked: {
-                            if (shellLoader.status !== Loader.Ready)
+                            if (shell === null)
                                 return;
 
-                            var launcher = testCase.findChild(shellLoader.item, "launcher");
+                            var launcher = testCase.findChild(shell, "launcher");
                             launcher.state = "visible";
                         }
                     }
@@ -225,7 +227,7 @@ Rectangle {
                         activeFocusOnPress: false
                         onClicked: {
                             var childs = new Array(0);
-                            childs.push(shellLoader.item)
+                            childs.push(shell)
                             while (childs.length > 0) {
                                 if (childs[0].activeFocus && childs[0].focus && childs[0].objectName != "shell") {
                                     console.log("Active focus is on item:", childs[0]);
@@ -251,7 +253,7 @@ Rectangle {
                     onSelectedIndexChanged: {
                         testCase.tearDown();
                         LightDMController.userMode = model[selectedIndex];
-                        shellLoader.active = true;
+                        testCase.init();
                     }
                 }
                 Label {
@@ -265,7 +267,7 @@ Rectangle {
                     model: ["phone", "tablet", "desktop"]
                     selectedIndex: 2
                     onSelectedIndexChanged: {
-                        shellLoader.state = model[selectedIndex];
+                        shellRect.state = model[selectedIndex];
                     }
                 }
                 Label {
@@ -424,19 +426,19 @@ Rectangle {
                         if (guard) return;
                         guard = true;
                         testCase.tearDown();
-                        shellLoader.mode = model[selectedIndex];
-                        shellLoader.active = true;
+                        shellRect.mode = model[selectedIndex];
+                        testCase.init();
                         guard = false;
                     }
                     Connections {
-                        target: shellLoader
+                        target: shellRect
                         onModeChanged: {
                             if (shellModeSelector.guard) {
                                 return;
                             }
                             shellModeSelector.guard = true;
                             for (var i = 0; i < 3; i++) {
-                                if (shellModeSelector.model[i] === shellLoader.mode) {
+                                if (shellModeSelector.model[i] === shellRect.mode) {
                                     shellModeSelector.selectedIndex = i;
                                     return;
                                 }
@@ -561,18 +563,29 @@ Rectangle {
         name: "Shell"
         when: windowShown
 
-        property Item shell: shellLoader.status === Loader.Ready ? shellLoader.item : null
+        property var shell: null
         topLevelSurfaceList: shell ? shell.topLevelSurfaceList : null
 
         function initTestCase() {
+            // FIXME: The first shell created in the testcase sometimes doesn't
+            // receive Alt keypresses. Creating and destroying a shell seems
+            // to fix it.
+            var localShell = createTemporaryObject(shellComponent, shellRect);
+            localShell.destroy();
             tearDown();
         }
 
         function init() {
             mouseMove(root, 0, 0);
+            keyRelease(Qt.Key_Alt);
+            keyRelease(Qt.Key_Control);
+            keyRelease(Qt.Key_Super_L);
         }
 
         function cleanup() {
+            var keyMapper = testCase.findChild(shellContainer, "physicalKeysMapper");
+            keyMapper.controlInsteadOfAlt = false;
+            keyMapper.controlInsteadOfSuper = false;
             waitForRendering(shell);
             mouseEmulation.checked = true;
             tryCompare(shell, "waitingOnGreeter", false); // make sure greeter didn't leave us in disabled state
@@ -586,10 +599,10 @@ Rectangle {
                 apps = 0;
             }
 
-            shellLoader.state = formFactor;
-            shellLoader.active = true;
-            tryCompare(shellLoader, "status", Loader.Ready);
-            removeTimeConstraintsFromSwipeAreas(shellLoader.item);
+            shellRect.state = formFactor;
+            shell = createTemporaryObject(shellComponent, shellRect);
+            panelState = testCase.findInvisibleChild(shell, "panelState");
+            removeTimeConstraintsFromSwipeAreas(shell);
             tryCompare(shell, "waitingOnGreeter", false); // reset by greeter when ready
 
             sessionSpy.target = shell.greeter;
@@ -611,6 +624,8 @@ Rectangle {
             stage = findChild(shell, "stage");
 
             addApps(apps);
+            shell.focus = true;
+            waitForRendering(shell);
         }
 
         function addApps(count) {
@@ -641,20 +656,6 @@ Rectangle {
         function tearDown() {
             launcherShowDashHomeSpy.target = null;
 
-            shellLoader.itemDestroyed = false;
-
-            shellLoader.active = false;
-
-            tryCompare(shellLoader, "status", Loader.Null);
-            tryCompare(shellLoader, "item", null);
-            // Loader.status might be Loader.Null and Loader.item might be null but the Loader
-            // item might still be alive. So if we set Loader.active back to true
-            // again right now we will get the very same Shell instance back. So no reload
-            // actually took place. Likely because Loader waits until the next event loop
-            // iteration to do its work. So to ensure the reload, we will wait until the
-            // Shell instance gets destroyed.
-            tryCompare(shellLoader, "itemDestroyed", true);
-
             LightDMController.reset();
             setLightDMMockMode("single"); // these tests default to "single"
 
@@ -662,7 +663,7 @@ Rectangle {
             AccountsService.demoEdgesCompleted = [];
             AccountsService.backgroundFile = "";
             Wizard.System.wizardEnabled = false;
-            shellLoader.mode = "full-greeter";
+            shellRect.mode = "full-greeter";
 
             // kill all (fake) running apps
             killApps();
@@ -1652,8 +1653,9 @@ Rectangle {
 
             var spreadItem = findChild(shell, "spreadItem");
             verify(spreadItem !== null);
+            waitForRendering(shell);
 
-            keyPress(Qt.Key_Alt)
+            keyPress(Qt.Key_Alt);
             keyClick(Qt.Key_Tab);
             tryCompare(spreadItem, "highlightedIndex", 1);
 
@@ -2421,7 +2423,7 @@ Rectangle {
         }
 
         function test_greeterModeBroadcastsApp() {
-            shellLoader.mode = "greeter";
+            shellRect.mode = "greeter";
             setLightDMMockMode("single-pin");
             loadShell("phone");
             waitForRendering(shell);
@@ -2439,7 +2441,7 @@ Rectangle {
         }
 
         function test_greeterModeBroadcastsHome() {
-            shellLoader.mode = "greeter";
+            shellRect.mode = "greeter";
             setLightDMMockMode("single-pin");
             loadShell("phone");
             waitForRendering(shell);
@@ -2460,7 +2462,7 @@ Rectangle {
         }
 
         function test_greeterModeDispatchesURL() {
-            shellLoader.mode = "greeter";
+            shellRect.mode = "greeter";
             setLightDMMockMode("single-pin");
             loadShell("phone");
             waitForRendering(shell);
@@ -2516,7 +2518,7 @@ Rectangle {
             tryCompare(appSurface, "keymap", "fr");
 
             // go to e.g. desktop stage
-            shellLoader.state = "desktop";
+            shellRect.state = "desktop";
             shell.usageScenario = "desktop";
             waitForRendering(shell);
 
@@ -2589,7 +2591,7 @@ Rectangle {
         }
 
         function test_fullShellModeHasNoInitialGreeter() {
-            shellLoader.mode = "full-shell";
+            shellRect.mode = "full-shell";
             loadShell("phone");
             setLightDMMockMode("single-pin");
             waitForRendering(shell);
@@ -3324,7 +3326,7 @@ Rectangle {
         */
         function test_launcherLockedWhenNoAppsRunning(data) {
             loadShell(data.shell, 0);
-            shellLoader.state = data.formFactor;
+            shellRect.state = data.formFactor;
             var launcher = findChild(shell, "launcher");
             var inputMethod = findChild(shell, "inputMethod");
             GSettingsController.setAutohideLauncher(!data.launcherLocked);

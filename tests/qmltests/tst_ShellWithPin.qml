@@ -52,6 +52,7 @@ Item {
         Shell {
             anchors.fill: parent
             hasTouchscreen: true
+            lightIndicators: true
         }
     }
 

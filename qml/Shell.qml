@@ -72,6 +72,9 @@ StyledItem {
     property bool hasTouchscreen: false
     property bool supportsMultiColorLed: true
 
+    // Used by tests
+    property alias lightIndicators: indicatorsModel.light
+
     // to be read from outside
     readonly property int mainAppWindowOrientationAngle: stage.mainAppWindowOrientationAngle
 
@@ -545,6 +548,7 @@ StyledItem {
                         && settings.enableIndicatorMenu
 
                 model: Indicators.IndicatorsModel {
+                    id: indicatorsModel
                     // tablet and phone both use the same profile
                     // FIXME: use just "phone" for greeter too, but first fix
                     // greeter app launching to either load the app inside the
@@ -552,7 +556,9 @@ StyledItem {
                     // involve taking the url-dispatcher dbus name and using
                     // SessionBroadcast to tell the session.
                     profile: shell.mode === "greeter" ? "desktop_greeter" : "phone"
-                    Component.onCompleted: load();
+                    Component.onCompleted: {
+                        load();
+                    }
                 }
             }
 

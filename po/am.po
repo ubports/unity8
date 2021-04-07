@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2020-07-30 08:33+0000\n"
+"PO-Revision-Date: 2021-01-31 01:03+0000\n"
 "Last-Translator: Samson <sambelet@yahoo.com>\n"
 "Language-Team: Amharic <https://translate.ubports.com/projects/unity8/unity8/"
 "am/>\n"
@@ -26,15 +26,15 @@ msgstr "የ መግቢያ ቃል: "
 
 #: plugins/LightDM/Greeter.cpp:214
 msgid "Username"
-msgstr ""
+msgstr "የ ተጠቃሚ ስም"
 
 #: plugins/LightDM/Greeter.cpp:258
 msgid "Failed to authenticate"
-msgstr ""
+msgstr "ማረጋገጥ አልተቻለም"
 
 #: plugins/LightDM/Greeter.cpp:260
 msgid "Invalid password, please try again"
-msgstr ""
+msgstr "ዋጋ የሌለው የ መግቢያ ቃል: እባክዎን እንደገና ይሞክሩ"
 
 #: plugins/LightDM/Greeter.cpp:270
 msgid "Log In"
@@ -46,11 +46,11 @@ msgstr "እንደገና ይሞክሩ"
 
 #: plugins/LightDM/UsersModel.cpp:157
 msgid "Login"
-msgstr ""
+msgstr "መግቢያ"
 
 #: plugins/LightDM/UsersModel.cpp:165
 msgid "Guest Session"
-msgstr ""
+msgstr "የ እንግዳ ክፍለ ጊዜ"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:49
 #: plugins/Unity/Launcher/launcheritem.cpp:123
@@ -151,10 +151,8 @@ msgid "Alt + PrtScr"
 msgstr "Alt + PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
-#, fuzzy
-#| msgid "Takes a screenshot of a window."
 msgid "Takes a screenshot of the current window."
-msgstr "የ መስኮት መመልከቻ ፎቶ ማንሻ"
+msgstr "የ አሁኑን መስኮት መመልከቻ ፎቶ ማንሻ"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
@@ -173,16 +171,12 @@ msgid "Switches to previous keyboard layout."
 msgstr "ወዳለፈው የ ፊደል ገበታ እቅድ መቀየሪያ"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:114
-#, fuzzy
-#| msgid "Ctrl + Super + D"
 msgid "Ctrl + Alt + T"
-msgstr "Ctrl + Super + D"
+msgstr "Ctrl + Alt + T"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:119
-#, fuzzy
-#| msgid "Switches between applications."
 msgid "Starts the Terminal application."
-msgstr "በ መተግበሪያዎች መካከል መቀያየሪያ"
+msgstr "የ ተርሚናል መተግበሪያ ማስጀመሪያ"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:131
 msgid "Launcher"
@@ -213,8 +207,6 @@ msgid "Switches applications via the launcher."
 msgstr "መተግበሪያዎችን በ ማስጀመሪያ መቀየሪያ"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:177
-#, fuzzy
-#| msgid "Super + 0 to 9"
 msgid "Super + 1 to 0"
 msgstr "Super + 0 እስከ 9"
 
@@ -223,16 +215,12 @@ msgid "Same as clicking on a launcher icon."
 msgstr "ተመሳሳይ በ ማስጀመሪያ ምልክት ላይ እንደ መጫን"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:190
-#, fuzzy
-#| msgid "Super + W"
 msgid "Super + A"
-msgstr "Super + W"
+msgstr "Super + A"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:195
-#, fuzzy
-#| msgid "Open the launcher"
 msgid "Opens the Application Drawer."
-msgstr "ማስጀመሪያውን መክፈቻ"
+msgstr "የ መሳያ መተግበሪያ ማስጀመሪያ"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:207
 msgid "Scopes"
@@ -377,22 +365,20 @@ msgid ""
 msgstr "የ እርስዎ አካል አሁን ከ ውጪ ማሳያ ጋር ተገናኝቷል: ይህን መመልከቻ እንደ ተችፓድ መጠቀሚያ"
 
 #: qml/Components/VirtualTouchPad.qml:327
-#, fuzzy
-#| msgid "Tap to return to call..."
 msgid "Tap left button to click."
-msgstr "ወደ ጥሪው ለመመለስ መታ ያድርጉ..."
+msgstr "የ ግራ ቁልፍ መታ ያድርጉ ለ መጫን"
 
 #: qml/Components/VirtualTouchPad.qml:339
 msgid "Tap right button to right click."
-msgstr ""
+msgstr "የ ቀኝ ቁልፍ መታ ያድርጉ በ ቀኝ ለ መጫን"
 
 #: qml/Components/VirtualTouchPad.qml:351
 msgid "Swipe with two fingers to scroll."
-msgstr ""
+msgstr "ለ መሸብለል በ ሁለት ጣቶች ይጥረጉ"
 
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
-msgstr ""
+msgstr "ተጨማሪ ማሰናጃ በ ስርአት ማሰናጃ ውስጥ መፈለጊያ"
 
 #: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
@@ -422,16 +408,12 @@ msgid "Try again"
 msgstr "እንደገና ይሞክሩ"
 
 #: qml/Greeter/Greeter.qml:551
-#, fuzzy
-#| msgid "Enter passphrase"
 msgid "Enter passphrase to unlock"
 msgstr "የ ማለፊያ ሀረግ ያስገቡ"
 
 #: qml/Greeter/Greeter.qml:552
-#, fuzzy
-#| msgid "Enter passcode"
 msgid "Enter passcode to unlock"
-msgstr "የ ማለፊያ ኮድ ያስገቡ"
+msgstr "የ ማለፊያ ኮድ ያስገቡ ለ መክፈት"
 
 #: qml/Greeter/NarrowView.qml:235
 msgid "Emergency"
@@ -450,10 +432,8 @@ msgid "Select desktop environment"
 msgstr "የ ዴስክቶፕ አይነት ይምረጡ"
 
 #: qml/Launcher/Drawer.qml:249
-#, fuzzy
-#| msgid "Search"
 msgid "Search…"
-msgstr "መፈለጊያ"
+msgstr "መፈለጊያ…"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -543,9 +523,6 @@ msgid "Call back"
 msgstr "መልሶ መደወያ"
 
 #: qml/Panel/PanelMenuPage.qml:92
-#, fuzzy
-#| msgctxt "Button: Go back one page in the Wizard"
-#| msgid "Back"
 msgid "Back"
 msgstr "ወደ ኋላ"
 

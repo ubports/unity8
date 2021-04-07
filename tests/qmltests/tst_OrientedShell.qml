@@ -170,6 +170,7 @@ Rectangle {
             physicalOrientation: root.physicalOrientation0
             orientationLocked: orientationLockedCheckBox.checked
             orientationLock: mockOrientationLock
+            lightIndicators: true
         }
     }
 

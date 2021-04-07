@@ -27,7 +27,7 @@ import Wizard 0.1
 
 import "../../.."
 
-QtObject {
+Item {
     id: root
 
     property bool supportsMultiColorLed: true
@@ -40,7 +40,7 @@ QtObject {
 
     property double batteryLevel: 0
     property string deviceState: ""
-    property bool hasMessages: false
+    property alias hasMessages: _rootState.hasMessages
 
     property string batteryIconName: Status.batteryIcon
     property string displayStatus: Powerd.status
@@ -183,15 +183,13 @@ console.log("no support for Multicolor LED. " + indicatorState)
         objectPath: "/com/canonical/indicator/messages"
     }
 
-    property var _rootState: Indicators.ActionRootState {
+    Indicators.ActionRootState {
+        id: _rootState
         actionGroup: _actionGroup
         actionName: "messages"
         Component.onCompleted: actionGroup.start()
-        property bool hasMessages: valid && (String(icons).indexOf("indicator-messages-new") != -1)
-        onHasMessagesChanged: {
-            root.hasMessages = hasMessages
-            updateLightState("onHasMessagesChanged")
-        }
+        property bool hasMessages: (String(icons).indexOf("indicator-messages-new") != -1) && valid
+        onHasMessagesChanged: updateLightState("onHasMessagesChanged")
     }
 
     // Charging state and battery level are determined by listening to dbus signals from upower.

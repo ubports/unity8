@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2020-04-17 23:23+0000\n"
-"Last-Translator: Daniel Frańczak <danielfranczak5@wp.pl>\n"
-"Language-Team: Polish <https://translate.ubports.com/projects/unity8/unity8/"
+"PO-Revision-Date: 2021-02-15 19:43+0000\n"
+"Last-Translator: Carlod <carlod@disroot.org>\n"
+"Language-Team: Polish <https://translate.ubports.com/projects/ubports/lomiri/"
 "pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 3.8\n"
+"X-Generator: Weblate 3.11.3\n"
 "X-Launchpad-Export-Date: 2016-11-23 06:35+0000\n"
 
 #: plugins/LightDM/Greeter.cpp:199
@@ -43,7 +43,7 @@ msgstr "Zaloguj"
 
 #: plugins/LightDM/Greeter.cpp:270
 msgid "Retry"
-msgstr "Ponów"
+msgstr "Spróbuj ponownie"
 
 #: plugins/LightDM/UsersModel.cpp:157
 msgid "Login"
@@ -531,7 +531,7 @@ msgstr "Oddzwoń"
 
 #: qml/Panel/PanelMenuPage.qml:92
 msgid "Back"
-msgstr "Powrót"
+msgstr "Wstecz"
 
 #: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
@@ -696,7 +696,7 @@ msgstr "To może potrwać kilka minut…"
 
 #: qml/Wizard/Pages/79-system-update.qml:109
 msgid "Install and restart now"
-msgstr "Instaluj i uruchom ponownie teraz"
+msgstr "Zainstaluj i uruchom ponownie"
 
 #: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome Back"

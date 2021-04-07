@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2020-04-15 21:56+0000\n"
+"PO-Revision-Date: 2021-03-18 20:39+0000\n"
 "Last-Translator: Anne Onyme <anneonyme017@netcourrier.com>\n"
-"Language-Team: French <https://translate.ubports.com/projects/unity8/unity8/"
+"Language-Team: French <https://translate.ubports.com/projects/ubports/lomiri/"
 "fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.8\n"
+"X-Generator: Weblate 3.11.3\n"
 "X-Launchpad-Export-Date: 2016-11-23 06:35+0000\n"
 
 #: plugins/LightDM/Greeter.cpp:199
@@ -26,7 +26,7 @@ msgstr "Mot de passe : "
 
 #: plugins/LightDM/Greeter.cpp:214
 msgid "Username"
-msgstr "Nom"
+msgstr "Identifiant"
 
 #: plugins/LightDM/Greeter.cpp:258
 msgid "Failed to authenticate"
@@ -224,7 +224,7 @@ msgstr "Ouvre le lanceur d'applications."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:207
 msgid "Scopes"
-msgstr "Moteurs de recherche"
+msgstr "Scopes"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:214
 msgid "Super (Tap)"
@@ -337,8 +337,8 @@ msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
-"Rebranchez sur la station d'accueil, enregistrez votre travail et fermez ces "
-"applications pour continuer."
+"Rebrancher, enregistrez votre travail et fermez ces applications pour "
+"continuer."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:67
 msgid "Or force close now (unsaved data will be lost)."
@@ -384,7 +384,7 @@ msgstr "Balayez avec deux doigts pour faire défiler."
 
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
-msgstr "Trouvez plus de paramètres dans les paramètres du système."
+msgstr "Trouver plus de paramètres dans les paramètres du système."
 
 #: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
@@ -731,7 +731,7 @@ msgstr "Premiers pas"
 #: qml/Wizard/Pages/passcode-confirm.qml:43
 #: qml/Wizard/Pages/passcode-desktop.qml:104
 msgid "Confirm passcode"
-msgstr "Confirmer votre code"
+msgstr "Confirmer le code"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgid "Incorrect passcode."

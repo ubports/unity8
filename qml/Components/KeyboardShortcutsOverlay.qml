@@ -49,10 +49,10 @@ Rectangle {
                 columnSpacing: units.gu(4)
                 Layout.alignment: Qt.AlignTop
 
-                // Unity 8 section
+                // Lomiri section
                 Label {
                     Layout.columnSpan: 2
-                    text: i18n.tr("Unity 8")
+                    text: i18n.tr("Lomiri")
                     font.weight: Font.Light
                     color: theme.palette.normal.baseText
                     lineHeight: 1.3

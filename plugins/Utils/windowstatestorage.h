@@ -1,5 +1,6 @@
 /*
  * Copyright 2015-2016 Canonical Ltd.
+ * Copyright 2021 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -16,10 +17,15 @@
 
 #include <QObject>
 #include <QSqlDatabase>
+#include <QSqlQuery>
 #include <QMutex>
+#include <QFuture>
+#include <QThread>
 
 // unity-api
 #include <unity/shell/application/Mir.h>
+
+class AsyncQuery;
 
 class WindowStateStorage: public QObject
 {
@@ -44,28 +50,25 @@ public:
     Q_DECLARE_FLAGS(WindowStates, WindowState)
     Q_FLAG(WindowStates)
 
-    WindowStateStorage(const QString& dbName = nullptr, QObject *parent = nullptr);
+    WindowStateStorage(const QString &dbName = QString(), QObject *parent = nullptr);
     virtual ~WindowStateStorage();
 
-    Q_INVOKABLE void saveState(const QString &windowId, WindowState state);
     Q_INVOKABLE WindowState getState(const QString &windowId, WindowState defaultValue) const;
 
-    Q_INVOKABLE void saveGeometry(const QString &windowId, const QRect &rect);
     Q_INVOKABLE QRect getGeometry(const QString &windowId, const QRect &defaultValue) const;
 
-    Q_INVOKABLE void saveStage(const QString &appId, int stage);
     Q_INVOKABLE int getStage(const QString &appId, int defaultValue) const;
 
     Q_INVOKABLE Mir::State toMirState(WindowState state) const;
 
+    const QString getDbName();
+
+Q_SIGNALS:
+    void saveStage(const QString &appId, int stage);
+    void saveGeometry(const QString &windowId, const QRect &rect);
+    void saveState(const QString &windowId, WindowStateStorage::WindowState state);
+
 private:
-    void initdb();
-
-    void saveValue(const QString &queryString);
-    QSqlQuery getValue(const QString &queryString) const;
-
-    static QMutex s_mutex;
-
-    // NB: This is accessed from threads. Make sure to mutex it.
-    QSqlDatabase m_db;
+    QThread m_thread;
+    AsyncQuery *m_asyncQuery;
 };

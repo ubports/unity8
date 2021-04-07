@@ -23,6 +23,10 @@ import "fakeindicatorsmodeldata.js" as FakeIndicators
 Indicators.FakeIndicatorsModel {
     id: root
 
+    property var light: false
+
+    onLightChanged: load()
+
     property var originalModelData: [
         {
             "identifier": "indicator-keyboard",
@@ -126,51 +130,65 @@ Indicators.FakeIndicatorsModel {
                                            getUnityMenuModelData("indicator-keyboard",
                                                                  "English (F)",
                                                                  "",
-                                                                 [ "image://theme/input-keyboard-symbolic" ]));
+                                                                 [ "image://theme/input-keyboard-symbolic" ],
+                                                                 root.light));
         Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicators/fake1",
                                            getUnityMenuModelData("fake-indicator-bluetooth",
                                                                  "Bluetooth (F)",
                                                                  "",
-                                                                 [ "image://theme/bluetooth-active" ]));
+                                                                 [ "image://theme/bluetooth-active" ],
+                                                                 root.light));
         Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicators/fake2",
                                            getUnityMenuModelData("fake-indicator-network",
                                                                  "Network (F)",
                                                                  "",
-                                                                 [ "image://theme/simcard-error", "image://theme/wifi-high" ]));
+                                                                 [ "image://theme/simcard-error", "image://theme/wifi-high" ],
+                                                                 root.light));
         Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicators/fake3",
                                            getUnityMenuModelData("fake-indicator-messages",
                                                                  "Messages (F)",
                                                                  "",
-                                                                 [ "image://theme/messages-new" ]));
+                                                                 [ "image://theme/messages-new" ],
+                                                                 root.light));
         Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicators/fake4",
                                            getUnityMenuModelData("fake-indicator-files",
                                                                  "Files (F)",
                                                                  "",
-                                                                 [ "image://theme/transfer-progress" ]));
+                                                                 [ "image://theme/transfer-progress" ],
+                                                                 root.light));
         Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicators/fake5",
                                            getUnityMenuModelData("fake-indicator-sound",
                                                                  "Sound (F)",
                                                                  "",
-                                                                 [ "image://theme/audio-volume-high" ]));
+                                                                 [ "image://theme/audio-volume-high" ],
+                                                                 root.light));
         Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicators/fake6",
                                            getUnityMenuModelData("fake-indicator-power",
                                                                  "Battery (F)",
                                                                  "",
-                                                                 [ "image://theme/battery-020" ]));
+                                                                 [ "image://theme/battery-020" ],
+                                                                 root.light));
         Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicators/fake7",
                                            getUnityMenuModelData("fake-indicator-datetime",
                                                                  "Upcoming Events (F)",
                                                                  "12:04",
-                                                                 []));
+                                                                 [],
+                                                                 root.light));
         Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicators/fake8",
                                            getUnityMenuModelData("fake-indicator-session",
                                                                  "System (F)",
                                                                  "",
-                                                                 ["image://theme/system-devices-panel"]));
+                                                                 ["image://theme/system-devices-panel"],
+                                                                 root.light));
     }
 
-    function getUnityMenuModelData(identifier, title, label, icons) {
-        var menudata = FakeIndicators.fakeMenuData[identifier];
+    function getUnityMenuModelData(identifier, title, label, icons, light) {
+        var menudata = undefined;
+        var maxItems = 1;
+        if (!light) {
+            var menudata = FakeIndicators.fakeMenuData[identifier];
+            maxItems = 8;
+        }
 
         if (menudata !== undefined) {
             var rootState = menudata[0]["rowData"].actionState;
@@ -203,7 +221,7 @@ Indicators.FakeIndicatorsModel {
         }];
 
         var submenus = [];
-        for (var i = 0; i < 8; i++) {
+        for (var i = 0; i < maxItems; i++) {
             var submenu = {
                 "rowData": {                 // 1.1
                     "label": identifier,

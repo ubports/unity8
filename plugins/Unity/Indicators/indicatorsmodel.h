@@ -35,6 +35,9 @@ class UNITYINDICATORS_EXPORT IndicatorsModel : public QAbstractListModel
     Q_PROPERTY(int count READ count NOTIFY countChanged)
     Q_PROPERTY(QString profile READ profile WRITE setProfile NOTIFY profileChanged)
 
+    // Used for tests
+    Q_PROPERTY(bool light READ light WRITE setLight NOTIFY lightChanged)
+
 public:
 
     IndicatorsModel(QObject *parent=nullptr);
@@ -48,6 +51,9 @@ public:
     QString profile() const;
     void setProfile(const QString& profile);
 
+    bool light() const;
+    void setLight(const bool &light);
+
     /* QAbstractItemModel */
     QHash<int, QByteArray> roleNames() const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -60,6 +66,7 @@ Q_SIGNALS:
     void countChanged();
     void profileChanged();
     void indicatorDataChanged(const QVariant& data);
+    void lightChanged();
 
 private Q_SLOTS:
     void onIdentifierChanged();
@@ -74,6 +81,8 @@ private:
 
     void notifyDataChanged(QObject *sender, int role);
     int count() const;
+
+    bool m_light;
 };
 
 #endif // INDICATORSMODEL_H

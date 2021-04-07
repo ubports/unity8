@@ -36,6 +36,8 @@ Rectangle {
     width: units.gu(100) + buttons.width
     height: units.gu(71)
 
+    property var shell: null
+
     QtObject {
         id: _screenWindow
         property bool primary: true
@@ -77,7 +79,24 @@ Rectangle {
     Component.onCompleted: {
         // must set the mock mode before loading the Shell
         LightDMController.userMode = "single-pin";
-        shellLoader.active = true;
+    }
+
+    Component {
+        id: shellComponent
+        Shell {
+            anchors.fill: parent
+            usageScenario: shellRect.state
+            nativeWidth: width
+            nativeHeight: height
+            property string indicatorProfile: "phone"
+            orientation: shellRect.shellOrientation
+            orientations: Orientations {
+                native_: shellRect.nativeOrientation
+                primary: shellRect.primaryOrientation
+            }
+            hasTouchscreen: true
+            lightIndicators: true
+        }
     }
 
     Item {
@@ -87,10 +106,9 @@ Rectangle {
         anchors.top: root.top
         anchors.bottom: root.bottom
 
-        Loader {
-            id: shellLoader
+        Rectangle {
+            id: shellRect
 
-            active: false
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: parent.top
             anchors.bottom: parent.bottom
@@ -104,14 +122,14 @@ Rectangle {
                 State {
                     name: "phone"
                     PropertyChanges {
-                        target: shellLoader
+                        target: shellRect
                         width: units.gu(40)
                     }
                 },
                 State {
                     name: "tablet"
                     PropertyChanges {
-                        target: shellLoader
+                        target: shellRect
                         width: units.gu(100)
                         shellOrientation: Qt.LandscapeOrientation
                         nativeOrientation: Qt.LandscapeOrientation
@@ -121,31 +139,11 @@ Rectangle {
                 State {
                     name: "desktop"
                     PropertyChanges {
-                        target: shellLoader
+                        target: shellRect
                         width: units.gu(100)
                     }
                 }
             ]
-
-            property bool itemDestroyed: false
-            sourceComponent: Component {
-                Shell {
-                    usageScenario: shellLoader.state
-                    nativeWidth: width
-                    nativeHeight: height
-                    property string indicatorProfile: "phone"
-                    orientation: shellLoader.shellOrientation
-                    orientations: Orientations {
-                        native_: shellLoader.nativeOrientation
-                        primary: shellLoader.primaryOrientation
-                    }
-                    hasTouchscreen: true
-
-                    Component.onDestruction: {
-                        shellLoader.itemDestroyed = true;
-                    }
-                }
-            }
         }
     }
 
@@ -163,12 +161,25 @@ Rectangle {
             Row {
                 anchors { left: parent.left; right: parent.right }
                 Button {
+                    text: "Load shell"
+                    onClicked: {
+                        if (shell === null) {
+                            shell = shellComponent.createObject(shellRect);
+                            shell.focus = true;
+                        }
+                    }
+                }
+            }
+
+            Row {
+                anchors { left: parent.left; right: parent.right }
+                Button {
                     text: "Hide Greeter"
                     onClicked: {
-                        if (shellLoader.status !== Loader.Ready)
+                        if (root.shell === null)
                             return;
 
-                        var greeter = testCase.findChild(shellLoader.item, "greeter");
+                        var greeter = testCase.findChild(shell, "greeter");
                         if (greeter.shown) {
                             greeter.hide();
                         }
@@ -181,7 +192,7 @@ Rectangle {
                 Button {
                     text: "Restart Tutorial"
                     onClicked: {
-                        if (shellLoader.status !== Loader.Ready)
+                        if (root.shell === null)
                             return;
 
                         AccountsService.demoEdges = false;
@@ -213,6 +224,7 @@ Rectangle {
                 CheckBox {
                     activeFocusOnPress: false
                     onCheckedChanged: {
+                        var topLevelSurfaceList = findInvisibleChild(shell, "topLevelSurfaceList");
                         var surface = topLevelSurfaceList.inputMethodSurface;
                         if (checked) {
                             surface.requestState(Mir.RestoredState);
@@ -242,13 +254,11 @@ Rectangle {
         name: "Tutorial"
         when: windowShown
 
-        property Item shell: shellLoader.status === Loader.Ready ? shellLoader.item : null
         property real halfWidth: shell ?  shell.width / 2 : 0
         property real halfHeight: shell ? shell.height / 2 : 0
 
-        topLevelSurfaceList: shell ? shell.topLevelSurfaceList : null;
-
         function init() {
+            shell = createTemporaryObject(shellComponent, shellRect);
             prepareShell();
 
             var tutorialTop = findChild(shell, "tutorialTop");
@@ -258,38 +268,14 @@ Rectangle {
         }
 
         function cleanup() {
-            resetLoader("phone");
-        }
-
-        function resetLoader(state) {
-            shellLoader.itemDestroyed = false;
-
-            shellLoader.active = false;
-            shellLoader.state = state;
-
-            tryCompare(shellLoader, "status", Loader.Null);
-            tryCompare(shellLoader, "item", null);
-            // Loader.status might be Loader.Null and Loader.item might be null but the Loader
-            // item might still be alive. So if we set Loader.active back to true
-            // again right now we will get the very same Shell instance back. So no reload
-            // actually took place. Likely because Loader waits until the next event loop
-            // iteration to do its work. So to ensure the reload, we will wait until the
-            // Shell instance gets destroyed.
-            tryCompare(shellLoader, "itemDestroyed", true);
-
-            // kill all (fake) running apps
-            killApps();
-
-            // reload our test subject to get it in a fresh state once again
-            shellLoader.active = true;
-
             mockNotificationsModel.clear();
-            tryCompare(shellLoader, "status", Loader.Ready);
-            removeTimeConstraintsFromSwipeAreas(shellLoader.item);
+            killApps();
+            shellRect.state = "phone";
         }
 
         function prepareShell() {
             tryCompare(shell, "waitingOnGreeter", false); // reset by greeter when ready
+            removeTimeConstraintsFromSwipeAreas(shell);
 
             WindowStateStorage.clear();
             callManager.foregroundCall = null;
@@ -303,11 +289,11 @@ Rectangle {
         }
 
         function loadShell(state) {
-            resetLoader(state);
+            shellRect.state = state;
             prepareShell();
         }
 
-        function ensureInputMethodSurface() {
+        function ensureInputMethodSurface(topLevelSurfaceList) {
             SurfaceManager.createInputMethodSurface();
 
             tryCompareFunction(function() { return topLevelSurfaceList.inputMethodSurface !== null }, true);
@@ -708,10 +694,12 @@ Rectangle {
         }
 
         function test_oskDoesNotHideTutorial() {
+            var topLevelSurfaceList = shell.topLevelSurfaceList;
+            verify(topLevelSurfaceList);
             var tutorialTopLoader = findChild(shell, "tutorialTopLoader");
             verify(tutorialTopLoader.shown);
 
-            ensureInputMethodSurface();
+            ensureInputMethodSurface(topLevelSurfaceList);
             var surface = topLevelSurfaceList.inputMethodSurface;
             surface.requestState(Mir.RestoredState);
 
@@ -722,10 +710,12 @@ Rectangle {
         }
 
         function test_oskDelaysTutorial() {
+            var topLevelSurfaceList = shell.topLevelSurfaceList;
+            verify(topLevelSurfaceList);
             var tutorial = findChild(shell, "tutorial");
             verify(!tutorial.delayed);
 
-            ensureInputMethodSurface();
+            ensureInputMethodSurface(topLevelSurfaceList);
             topLevelSurfaceList.inputMethodSurface.requestState(Mir.RestoredState);
 
             tryCompare(tutorial, "delayed", true);

@@ -294,7 +294,7 @@ Rectangle {
                             if(alerting) {
                                 if (!dragging && (launcherListView.peekingIndex === -1 || launcher.visibleWidth > 0)) {
                                     launcherListView.moveToIndex(index)
-                                    if (!dragging && launcher.state !== "visible") {
+                                    if (!dragging && launcher.state !== "visible" && launcher.state !== "drawer") {
                                         peekingAnimation.start()
                                     }
                                 }

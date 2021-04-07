@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2020-07-14 18:34+0000\n"
+"PO-Revision-Date: 2021-03-17 11:27+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
-"Language-Team: Dutch <https://translate.ubports.com/projects/unity8/unity8/"
+"Language-Team: Dutch <https://translate.ubports.com/projects/ubports/lomiri/"
 "nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
@@ -316,7 +316,7 @@ msgstr "Noodoproep"
 
 #: qml/Components/Lockscreen.qml:245
 msgid "OK"
-msgstr "Oké"
+msgstr "Uitzetten"
 
 #: qml/Components/MediaServices/VideoPlayerControls.qml:44
 #, qt-format
