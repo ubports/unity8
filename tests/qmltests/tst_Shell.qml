@@ -875,7 +875,6 @@ Rectangle {
             // wait until it gets fully extended
             tryCompare(panel, "x", 0);
 
-            expectFailContinue("", "broken after changes done to launcher open/close/autohide")
             tryCompare(launcher, "state", "visibleTemporary");
         }
 
