@@ -16,4 +16,4 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-qdbus com.canonical.Unity.Launcher /com/canonical/Unity/Launcher/$1 com.canonical.Unity.Launcher.Item.Alert
+qdbus com.canonical.Lomiri.Launcher /com/canonical/Lomiri/Launcher/$1 com.canonical.Lomiri.Launcher.Item.Alert

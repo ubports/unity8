@@ -20,7 +20,7 @@ import QtQuick.Layouts 1.1
 import QtTest 1.0
 import "../../../qml/Panel"
 import Lomiri.Components 1.3
-import Unity.Test 0.1 as UT
+import Lomiri.Test 0.1 as UT
 
 PanelTest {
     id: root
@@ -132,7 +132,7 @@ PanelTest {
         }
     }
 
-    UT.UnityTestCase {
+    UT.LomiriTestCase {
         id: testCase
         name: "PanelMenu"
         when: windowShown

@@ -49,7 +49,7 @@ Showable {
     showAnimation: StandardAnimation { property: animatedProp; to: propValueWhenShown }
     hideAnimation: StandardAnimation { property: animatedProp; to: propValueWhenHidden }
 
-    Image { source: "../../UnityLogo.png"; anchors.fill: parent }
+    Image { source: "../../LomiriLogo.png"; anchors.fill: parent }
 
     DragHandle {
         objectName: "leftwardsDragHandle"

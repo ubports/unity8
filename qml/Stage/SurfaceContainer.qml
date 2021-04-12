@@ -18,7 +18,7 @@ import QtQuick 2.4
 import Lomiri.Components 1.3
 import Lomiri.Gestures 0.1 // For TouchGate
 import Utils 0.1 // for InputWatcher
-import Unity.Application 0.1 // for MirSurfaceItem
+import Lomiri.Application 0.1 // for MirSurfaceItem
 
 FocusScope {
     id: root

@@ -22,7 +22,7 @@ import QtQuick 2.4
 import Powerd 0.1
 import Lights 0.1
 import QMenuModel 0.1 as QMenuModel
-import Unity.Indicators 0.1 as Indicators
+import Lomiri.Indicators 0.1 as Indicators
 import Wizard 0.1
 
 import "../../.."

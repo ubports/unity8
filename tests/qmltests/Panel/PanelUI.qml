@@ -18,14 +18,14 @@
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import QtTest 1.0
-import Unity.Test 0.1
+import Lomiri.Test 0.1
 import Lomiri.Components 1.3
 import Lomiri.Components.ListItems 1.3 as ListItem
-import Unity.Application 0.1
+import Lomiri.Application 0.1
 import QMenuModel 0.1
 import Lomiri.Telephony 0.1 as Telephony
 import AccountsService 0.1
-import Unity.InputInfo 0.1
+import Lomiri.InputInfo 0.1
 import "../../../qml/Panel"
 import "../../../qml/Components/PanelState"
 import "../Stage"
@@ -95,7 +95,7 @@ PanelTest {
                     applicationMenus {
                         model: menuData.checked ? menuModel : null
 
-                        readonly property var menuModel: UnityMenuModel {
+                        readonly property var menuModel: LomiriMenuModel {
                             modelData: appMenuData.generateTestData(10, 4, 2, 3, "menu")
                         }
 

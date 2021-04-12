@@ -17,7 +17,7 @@
 import QtQuick 2.4
 import QMenuModel 0.1 as QMenuModel
 import GlobalShortcut 1.0
-import Unity.Platform 1.0
+import Lomiri.Platform 1.0
 
 Item {
     id: root

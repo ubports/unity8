@@ -16,16 +16,16 @@
 
 import QtQuick 2.4
 import QtTest 1.0
-import Unity.Test 0.1 as UT
+import Lomiri.Test 0.1 as UT
 import ".."
 import "../../../qml/Components"
 import "../../../qml/Components/PanelState"
 import "../../../qml/Stage"
 import Lomiri.Components 1.3
 import Lomiri.Components.ListItems 1.3 as ListItem
-import Unity.Application 0.1
-import Unity.ApplicationMenu 0.1
-import Unity.Indicators 0.1 as Indicators
+import Lomiri.Application 0.1
+import Lomiri.ApplicationMenu 0.1
+import Lomiri.Indicators 0.1 as Indicators
 
 Rectangle {
     color: "red"
@@ -184,7 +184,7 @@ Rectangle {
         }
     }
 
-    UT.UnityTestCase {
+    UT.LomiriTestCase {
         id: testCase
         name: "DecoratedWindow"
         when: windowShown

@@ -19,8 +19,8 @@ import QtQuick.Layouts 1.1
 import QtTest 1.0
 import "../../../qml/Panel"
 import Lomiri.Components 1.3
-import Unity.Test 0.1 as UT
-import Unity.Indicators 0.1 as Indicators
+import Lomiri.Test 0.1 as UT
+import Lomiri.Indicators 0.1 as Indicators
 import "../../../qml/Panel/Indicators"
 
 PanelTest {
@@ -135,7 +135,7 @@ PanelTest {
         }
     }
 
-    UT.UnityTestCase {
+    UT.LomiriTestCase {
         name: "IndicatorsBar"
         when: windowShown
 

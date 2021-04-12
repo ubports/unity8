@@ -17,7 +17,7 @@
 import QtQuick 2.4
 import Lomiri.Components 1.3
 import "../Panel/Indicators"
-import Unity.Indicators 0.1 as Indicators
+import Lomiri.Indicators 0.1 as Indicators
 
 Item {
     id: clock
@@ -44,7 +44,7 @@ Item {
         }
     }
 
-    Indicators.SharedUnityMenuModel {
+    Indicators.SharedLomiriMenuModel {
         id: timeModel
         objectName: "timeModel"
 

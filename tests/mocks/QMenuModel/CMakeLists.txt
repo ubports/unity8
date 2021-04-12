@@ -8,7 +8,7 @@ set(QMenuModelQml_SOURCES
   actionstateparser.cpp
   dbus-enums.h
   plugin.cpp
-  unitymenumodel.cpp
+  lomirimenumodel.cpp
 )
 
 add_library(QMenuModelQml SHARED ${QMenuModelQml_SOURCES})

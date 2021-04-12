@@ -19,9 +19,9 @@ import QtQuick.Layouts 1.1
 import Lomiri.Components 1.3
 import ".."
 import "../../../qml/Launcher"
-import Unity.Launcher 0.1
+import Lomiri.Launcher 0.1
 import Utils 0.1 // For EdgeBarrierSettings
-import Unity.Test 0.1
+import Lomiri.Test 0.1
 
 StyledItem {
     id: root
@@ -87,7 +87,7 @@ StyledItem {
         }
     }
 
-    UnityTestCase {
+    LomiriTestCase {
         id: testCase
         when: windowShown
         name: "Drawer"

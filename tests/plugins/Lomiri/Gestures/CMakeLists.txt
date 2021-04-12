@@ -29,15 +29,15 @@ macro(build_gesture_test CLASSNAME)
     set_target_properties(${CLASSNAME}TestExec PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}")
 endmacro()
 
-set(UNITY_IMPORT_PATHS
+set(LOMIRI_IMPORT_PATHS
     ${CMAKE_BINARY_DIR}/tests/utils/modules
-    ${UNITY_PLUGINPATH}
+    ${LOMIRI_PLUGINPATH}
 )
 
 macro(add_gesture_unit_test CLASSNAME)
     build_gesture_test(${CLASSNAME})
     add_lomiri_unittest(${CLASSNAME} ${CLASSNAME}TestExec
-        ENVIRONMENT LD_LIBRARY_PATH=${UNITY_PLUGINPATH}/Lomiri/Gestures
+        ENVIRONMENT LD_LIBRARY_PATH=${LOMIRI_PLUGINPATH}/Lomiri/Gestures
         ${ARGN}
     )
 endmacro()
@@ -45,10 +45,10 @@ endmacro()
 macro(add_gesture_ui_test CLASSNAME)
     build_gesture_test(${CLASSNAME})
     add_lomiri_uitest(${CLASSNAME} ${CLASSNAME}TestExec
-        ENVIRONMENT LD_LIBRARY_PATH=${UNITY_PLUGINPATH}/Lomiri/Gestures
+        ENVIRONMENT LD_LIBRARY_PATH=${LOMIRI_PLUGINPATH}/Lomiri/Gestures
         ${ARGN}
     )
-    add_manual_qml_test(. ${CLASSNAME} IMPORT_PATHS ${UNITY_IMPORT_PATHS})
+    add_manual_qml_test(. ${CLASSNAME} IMPORT_PATHS ${LOMIRI_IMPORT_PATHS})
 endmacro()
 
 add_qml_test_data(. empty.qml)

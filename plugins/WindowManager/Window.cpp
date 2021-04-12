@@ -16,18 +16,18 @@
 
 #include "Window.h"
 
-// unity-api
-#include <unity/shell/application/MirSurfaceInterface.h>
+// lomiri-api
+#include <lomiri/shell/application/MirSurfaceInterface.h>
 
 #include <QQmlEngine>
 #include <QTextStream>
 
-namespace unityapi = unity::shell::application;
+namespace lomiriapi = lomiri::shell::application;
 
-Q_LOGGING_CATEGORY(UNITY_WINDOW, "unity.window", QtWarningMsg)
+Q_LOGGING_CATEGORY(LOMIRI_WINDOW, "lomiri.window", QtWarningMsg)
 
-#define DEBUG_MSG qCDebug(UNITY_WINDOW).nospace() << qPrintable(toString()) << "::" << __func__
-#define WARNING_MSG qCWarning(UNITY_WINDOW).nospace() << qPrintable(toString()) << "::" << __func__
+#define DEBUG_MSG qCDebug(LOMIRI_WINDOW).nospace() << qPrintable(toString()) << "::" << __func__
+#define WARNING_MSG qCWarning(LOMIRI_WINDOW).nospace() << qPrintable(toString()) << "::" << __func__
 
 Window::Window(int id, QObject *parent)
     : QObject(parent)
@@ -109,7 +109,7 @@ int Window::id() const
     return m_id;
 }
 
-unityapi::MirSurfaceInterface* Window::surface() const
+lomiriapi::MirSurfaceInterface* Window::surface() const
 {
     return m_surface;
 }
@@ -144,7 +144,7 @@ void Window::activate()
     }
 }
 
-void Window::setSurface(unityapi::MirSurfaceInterface *surface)
+void Window::setSurface(lomiriapi::MirSurfaceInterface *surface)
 {
     DEBUG_MSG << "(" << surface << ")";
     if (m_surface) {
@@ -154,32 +154,32 @@ void Window::setSurface(unityapi::MirSurfaceInterface *surface)
     m_surface = surface;
 
     if (m_surface) {
-        connect(surface, &unityapi::MirSurfaceInterface::focusRequested, this, [this]() {
+        connect(surface, &lomiriapi::MirSurfaceInterface::focusRequested, this, [this]() {
             Q_EMIT focusRequested();
         });
 
-        connect(surface, &unityapi::MirSurfaceInterface::closeRequested, this, &Window::closeRequested);
+        connect(surface, &lomiriapi::MirSurfaceInterface::closeRequested, this, &Window::closeRequested);
 
-        connect(surface, &unityapi::MirSurfaceInterface::positionChanged, this, [this]() {
+        connect(surface, &lomiriapi::MirSurfaceInterface::positionChanged, this, [this]() {
             updatePosition();
         });
 
-        connect(surface, &unityapi::MirSurfaceInterface::stateChanged, this, [this]() {
+        connect(surface, &lomiriapi::MirSurfaceInterface::stateChanged, this, [this]() {
             updateState();
         });
 
-        connect(surface, &unityapi::MirSurfaceInterface::focusedChanged, this, [this]() {
+        connect(surface, &lomiriapi::MirSurfaceInterface::focusedChanged, this, [this]() {
             updateFocused();
         });
 
-        connect(surface, &unityapi::MirSurfaceInterface::allowClientResizeChanged, this, [this]() {
+        connect(surface, &lomiriapi::MirSurfaceInterface::allowClientResizeChanged, this, [this]() {
             if (m_surface->allowClientResize() != m_allowClientResize) {
                 m_allowClientResize = m_surface->allowClientResize();
                 Q_EMIT allowClientResizeChanged(m_allowClientResize);
             }
         });
 
-        connect(surface, &unityapi::MirSurfaceInterface::liveChanged, this, &Window::liveChanged);
+        connect(surface, &lomiriapi::MirSurfaceInterface::liveChanged, this, &Window::liveChanged);
 
         connect(surface, &QObject::destroyed, this, [this]() {
             setSurface(nullptr);

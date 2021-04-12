@@ -1,3 +1,0 @@
-module Unity.Connectivity
-plugin Connectivity
-typeinfo Connectivity.qmltypes

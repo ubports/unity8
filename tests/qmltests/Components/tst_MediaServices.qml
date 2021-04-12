@@ -17,7 +17,7 @@
 import QtQuick 2.4
 import QtTest 1.0
 import "../../../qml/Components/MediaServices"
-import Unity.Test 0.1 as UT
+import Lomiri.Test 0.1 as UT
 import Lomiri.Components 1.3
 import QtMultimedia 5.0
 
@@ -109,7 +109,7 @@ Rectangle {
         signalName: "close"
     }
 
-    UT.UnityTestCase {
+    UT.LomiriTestCase {
         name: "VideoMediaServices"
         when: windowShown
 

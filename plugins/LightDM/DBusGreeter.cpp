@@ -21,7 +21,7 @@
 #include <QStringList>
 
 DBusGreeter::DBusGreeter(Greeter *greeter, const QString &path)
- : UnityDBusObject(path, QStringLiteral("com.canonical.UnityGreeter"), true, greeter),
+ : LomiriDBusObject(path, QStringLiteral("com.canonical.LomiriGreeter"), true, greeter),
    m_greeter(greeter)
 {
     connect(m_greeter, &Greeter::isActiveChanged,

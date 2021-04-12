@@ -30,7 +30,7 @@ set_target_properties(DragHandleTestExec PROPERTIES
     )
 
 add_lomiri_uitest(DragHandle DragHandleTestExec)
-add_manual_qml_test(. DragHandle IMPORT_PATHS ${UNITY_IMPORT_PATHS})
+add_manual_qml_test(. DragHandle IMPORT_PATHS ${LOMIRI_IMPORT_PATHS})
 add_lomiri_qmltest_data(. tst_DragHandle.qml)
 add_lomiri_qmltest_data(. tst_DragHandle)
 

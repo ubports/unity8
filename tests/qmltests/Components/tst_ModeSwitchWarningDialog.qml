@@ -17,7 +17,7 @@
 import QtQuick 2.4
 import QtTest 1.0
 import "../../../qml/Components"
-import Unity.Test 0.1 as UT
+import Lomiri.Test 0.1 as UT
 import Lomiri.Components 1.3
 import Lomiri.Components.Popups 1.3
 
@@ -50,7 +50,7 @@ Rectangle {
         signalName: "forceClose"
     }
 
-    UT.UnityTestCase {
+    UT.LomiriTestCase {
         name: "ModeSwitchWarning"
         when: windowShown
 

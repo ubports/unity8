@@ -5,7 +5,7 @@ add_subdirectory(Greeter)
 add_subdirectory(LightDM)
 add_subdirectory(SessionBroadcast)
 add_subdirectory(Lomiri)
-add_subdirectory(Unity)
+add_subdirectory(Lomiri)
 add_subdirectory(Utils)
 add_subdirectory(WindowManager)
 #add_subdirectory(Wizard) #FIXME broken

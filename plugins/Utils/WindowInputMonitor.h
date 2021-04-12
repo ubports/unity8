@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef UNITY_WINDOWINPUTMONITOR_H
-#define UNITY_WINDOWINPUTMONITOR_H
+#ifndef LOMIRI_WINDOWINPUTMONITOR_H
+#define LOMIRI_WINDOWINPUTMONITOR_H
 
 #include <QQuickItem>
 #include <QList>
@@ -39,8 +39,8 @@ public:
     WindowInputMonitor(QQuickItem *parent = 0);
 
     // for testing
-    WindowInputMonitor(UnityUtil::AbstractTimer *timer,
-            UnityUtil::AbstractElapsedTimer *elapsedTimer,
+    WindowInputMonitor(LomiriUtil::AbstractTimer *timer,
+            LomiriUtil::AbstractElapsedTimer *elapsedTimer,
             QQuickItem *parent = 0);
 
     virtual ~WindowInputMonitor();
@@ -84,8 +84,8 @@ private Q_SLOTS:
 private:
     QPointer<QQuickWindow> m_filteredWindow;
     bool m_windowBeingTouched;
-    UnityUtil::AbstractElapsedTimer *m_windowLastTouchedTimer;
-    UnityUtil::AbstractTimer *m_activationTimer;
+    LomiriUtil::AbstractElapsedTimer *m_windowLastTouchedTimer;
+    LomiriUtil::AbstractTimer *m_activationTimer;
 
     // Qt::Keys that are mapped to our "home" key.
     QList<int> m_homeKeys{Qt::Key_Super_L, Qt::Key_HomePage};
@@ -94,4 +94,4 @@ private:
     int m_pressedHomeKey{0};
 };
 
-#endif // UNITY_WINDOWINPUTMONITOR_H
+#endif // LOMIRI_WINDOWINPUTMONITOR_H

@@ -33,7 +33,7 @@ class Screen;
 
 namespace miral { class Workspace; }
 
-namespace unity {
+namespace lomiri {
     namespace shell {
         namespace application {
             class MirSurfaceInterface;

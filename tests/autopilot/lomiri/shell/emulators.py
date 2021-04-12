@@ -1,6 +1,6 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
-# Unity Autopilot Test Suite
+# Lomiri Autopilot Test Suite
 # Copyright (C) 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
@@ -36,7 +36,7 @@ __all__ = [
     'greeter',
     'launcher',
     'main_window',
-    'UnityEmulatorException',
+    'LomiriEmulatorException',
 ]
 
 
@@ -45,6 +45,6 @@ from lomiri import (
     dash,
     launcher,
     shell as main_window,
-    UnityException as UnityEmulatorException
+    LomiriException as LomiriEmulatorException
 )
 from lomiri.shell import create_interactive_notification

@@ -1,6 +1,6 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
-# Unity Autopilot Test Suite
+# Lomiri Autopilot Test Suite
 # Copyright (C) 2013, 2014, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
@@ -90,14 +90,14 @@ class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
 
     def test_greeter_hides_on_app_open(self):
         """Greeter should hide when an app is opened"""
-        process_helpers.lock_unity()
+        process_helpers.lock_lomiri()
 
         # FIXME - this is because the device greeter uses a password.
         # Need to be able to selectively enable mocks so that we can use the
         # fake greeter.
         def unlock_thread_worker(greeter):
             greeter.wait_swiped_away()
-            process_helpers.unlock_unity()
+            process_helpers.unlock_lomiri()
             greeter.created.wait_for(False)
 
         greeter = self.main_window.get_greeter()
@@ -117,12 +117,12 @@ class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
         self.main_window.show_dash_swiping()
         self.assert_current_focused_application('lomiri-dash')
 
-        process_helpers.lock_unity()
+        process_helpers.lock_lomiri()
 
         self.launch_upstart_application(application_name, [], _launcher.AlreadyLaunchedUpstartLauncher)
         greeter = self.main_window.get_greeter()
         greeter.wait_swiped_away()
-        process_helpers.unlock_unity()
+        process_helpers.unlock_lomiri()
         self.assert_current_focused_application(application_name)
 
     def test_click_dash_icon_must_unfocus_application(self):

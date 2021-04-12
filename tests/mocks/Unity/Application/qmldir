@@ -1,3 +1,0 @@
-module Unity.Application
-plugin FakeUnityApplicationQml
-typeinfo Application.qmltypes

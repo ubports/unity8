@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef UNITY_ACCOUNTSSERVICE_H
-#define UNITY_ACCOUNTSSERVICE_H
+#ifndef LOMIRI_ACCOUNTSSERVICE_H
+#define LOMIRI_ACCOUNTSSERVICE_H
 
 #include <QHash>
 #include <QObject>
@@ -149,7 +149,7 @@ private:
     typedef QHash< QString, QHash<QString, PropertyInfo> > PropertyHash;
     PropertyHash m_properties;
     AccountsServiceDBusAdaptor *m_service;
-    QDBusInterface *m_unityInput;
+    QDBusInterface *m_lomiriInput;
     QString m_user;
 };
 

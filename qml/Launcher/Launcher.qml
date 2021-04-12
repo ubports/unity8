@@ -18,7 +18,7 @@ import QtQuick 2.4
 import "../Components"
 import Lomiri.Components 1.3
 import Lomiri.Gestures 0.1
-import Unity.Launcher 0.1
+import Lomiri.Launcher 0.1
 import Utils 0.1 as Utils
 
 FocusScope {

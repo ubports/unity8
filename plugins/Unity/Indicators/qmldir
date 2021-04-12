@@ -1,3 +1,0 @@
-module Unity.Indicators
-plugin IndicatorsQml
-typeinfo Indicators.qmltypes

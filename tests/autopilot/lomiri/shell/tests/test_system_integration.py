@@ -1,6 +1,6 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
-# Unity Autopilot Test Suite
+# Lomiri Autopilot Test Suite
 # Copyright (C) 2014, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
@@ -25,10 +25,10 @@ import unittest
 from autopilot import platform
 from lomiriuitoolkit import lomiri_scenarios
 
-from lomiri.shell.tests import UnityTestCase
+from lomiri.shell.tests import LomiriTestCase
 
 
-class SystemIntegrationTests(UnityTestCase):
+class SystemIntegrationTests(LomiriTestCase):
 
     scenarios = lomiri_scenarios.get_device_simulation_scenarios()
 
@@ -36,7 +36,7 @@ class SystemIntegrationTests(UnityTestCase):
         platform.model() == "Desktop",
         "Test is broken on otto, see bug 1281634.")
     def test_networkmanager_integration(self):
-        self.launch_unity()
+        self.launch_lomiri()
 
         # invoke policykit to check permissions
         pid = subprocess.check_output(

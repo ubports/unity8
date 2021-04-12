@@ -16,8 +16,8 @@
  * Authors: Michael Terry <michael.terry@canonical.com>
  */
 
-#ifndef UNITY_MOCK_POWERD_H
-#define UNITY_MOCK_POWERD_H
+#ifndef LOMIRI_MOCK_POWERD_H
+#define LOMIRI_MOCK_POWERD_H
 
 #include <QtCore/QObject>
 

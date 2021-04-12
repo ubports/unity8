@@ -1,6 +1,6 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
-# Unity Autopilot Test Suite
+# Lomiri Autopilot Test Suite
 # Copyright (C) 2012, 2013, 2014, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
@@ -31,14 +31,14 @@ from testtools.matchers import Equals, NotEquals
 from lomiriuitoolkit import lomiri_scenarios
 
 from lomiri import shell
-from lomiri.process_helpers import unlock_unity
-from lomiri.shell.tests import UnityTestCase
+from lomiri.process_helpers import unlock_lomiri
+from lomiri.shell.tests import LomiriTestCase
 
 
 logger = logging.getLogger(__name__)
 
 
-class NotificationsBase(UnityTestCase):
+class NotificationsBase(LomiriTestCase):
     """Base class for all notification tests that provides helper methods."""
 
     scenarios = lomiri_scenarios.get_device_simulation_scenarios(
@@ -119,8 +119,8 @@ class InteractiveNotificationBase(NotificationsBase):
 
     def test_interactive(self):
         """Interactive notification must react upon click on itself."""
-        self.launch_unity()
-        unlock_unity()
+        self.launch_lomiri()
+        unlock_lomiri()
 
         notify_list = self._get_notifications_list()
 
@@ -156,8 +156,8 @@ class InteractiveNotificationBase(NotificationsBase):
         """Snap-decision with three actions should use
            one-over two button layout.
         """
-        self.launch_unity()
-        unlock_unity()
+        self.launch_lomiri()
+        unlock_lomiri()
 
         summary = "Theatre at Ferria Stadium"
         body = "at Ferria Stadium in Bilbao, Spain\n07578545317"
@@ -197,8 +197,8 @@ class InteractiveNotificationBase(NotificationsBase):
         """Snap-decision should block input to shell
            without greeter/lockscreen.
         """
-        self.launch_unity()
-        unlock_unity()
+        self.launch_lomiri()
+        unlock_lomiri()
 
         summary = "Incoming file"
         body = "Frank would like to send you the file: essay.pdf"
@@ -246,7 +246,7 @@ class InteractiveNotificationBase(NotificationsBase):
         """A snap-decision should block input to the
            greeter/lockscreen beneath it.
         """
-        self.launch_unity()
+        self.launch_lomiri()
 
         summary = "Incoming file"
         body = "Frank would like to send you the file: essay.pdf"
@@ -421,8 +421,8 @@ class EphemeralNotificationsTests(NotificationsBase):
 
     def test_icon_summary_body(self):
         """Notification must display the expected summary and body text."""
-        self.launch_unity()
-        unlock_unity()
+        self.launch_lomiri()
+        unlock_lomiri()
 
         notify_list = self._get_notifications_list()
 
@@ -458,8 +458,8 @@ class EphemeralNotificationsTests(NotificationsBase):
     def test_icon_summary(self):
         """Notification must display the expected summary and secondary
         icon."""
-        self.launch_unity()
-        unlock_unity()
+        self.launch_lomiri()
+        unlock_lomiri()
 
         notify_list = self._get_notifications_list()
 
@@ -491,8 +491,8 @@ class EphemeralNotificationsTests(NotificationsBase):
     def test_urgency_order(self):
         """Notifications must be displayed in order according to their
         urgency."""
-        self.launch_unity()
-        unlock_unity()
+        self.launch_lomiri()
+        unlock_lomiri()
 
         notify_list = self._get_notifications_list()
 
@@ -578,8 +578,8 @@ class EphemeralNotificationsTests(NotificationsBase):
 
     def test_summary_and_body(self):
         """Notification must display the expected summary- and body-text."""
-        self.launch_unity()
-        unlock_unity()
+        self.launch_lomiri()
+        unlock_lomiri()
 
         notify_list = self._get_notifications_list()
 
@@ -603,8 +603,8 @@ class EphemeralNotificationsTests(NotificationsBase):
 
     def test_summary_only(self):
         """Notification must display only the expected summary-text."""
-        self.launch_unity()
-        unlock_unity()
+        self.launch_lomiri()
+        unlock_lomiri()
 
         notify_list = self._get_notifications_list()
 
@@ -621,8 +621,8 @@ class EphemeralNotificationsTests(NotificationsBase):
     def test_update_notification_same_layout(self):
         """Notification must allow updating its contents while being
         displayed."""
-        self.launch_unity()
-        unlock_unity()
+        self.launch_lomiri()
+        unlock_lomiri()
 
         notify_list = self._get_notifications_list()
 
@@ -660,8 +660,8 @@ class EphemeralNotificationsTests(NotificationsBase):
     def test_update_notification_layout_change(self):
         """Notification must allow updating its contents and layout while
         being displayed."""
-        self.launch_unity()
-        unlock_unity()
+        self.launch_lomiri()
+        unlock_lomiri()
 
         notify_list = self._get_notifications_list()
 
@@ -709,8 +709,8 @@ class EphemeralNotificationsTests(NotificationsBase):
         """ use the create notification script to get a notification dialog.
         Check that the arguments passed to the script match the fields. """
 
-        self.launch_unity()
-        unlock_unity()
+        self.launch_lomiri()
+        unlock_lomiri()
 
         summary = 'Helper summary'
         body = 'Helper body'

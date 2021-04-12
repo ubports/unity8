@@ -12,7 +12,7 @@ include_directories(
 )
 
 set(QMLPLUGIN_SRC
-    ../Utils/unitysortfilterproxymodelqml.cpp
+    ../Utils/lomirisortfilterproxymodelqml.cpp
     DBusGreeter.cpp
     DBusGreeterList.cpp
     Greeter.cpp

@@ -1,6 +1,6 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
-# Unity Autopilot Test Suite
+# Lomiri Autopilot Test Suite
 # Copyright (C) 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
@@ -18,11 +18,11 @@
 #
 
 from lomiri import shell
-from lomiri.shell.tests import UnityTestCase
+from lomiri.shell.tests import LomiriTestCase
 
 
-class GreeterTestCase(UnityTestCase):
-    def get_shell(self, unity_proxy):
+class GreeterTestCase(LomiriTestCase):
+    def get_shell(self, lomiri_proxy):
         main_window = (
-            unity_proxy.select_single(shell.ShellView))
+            lomiri_proxy.select_single(shell.ShellView))
         return main_window.select_single('Shell')

@@ -50,16 +50,16 @@ msgstr ""
 msgid "Guest Session"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:48
-#: plugins/Unity/Launcher/launcheritem.cpp:122
+#: plugins/Lomiri/Launcher/launcheritem.cpp:48
+#: plugins/Lomiri/Launcher/launcheritem.cpp:122
 msgid "Pin shortcut"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:54
+#: plugins/Lomiri/Launcher/launcheritem.cpp:54
 msgid "Quit"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:122
+#: plugins/Lomiri/Launcher/launcheritem.cpp:122
 msgid "Unpin shortcut"
 msgstr ""
 

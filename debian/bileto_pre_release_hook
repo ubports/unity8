@@ -2,4 +2,4 @@
 
 set -eux
 
-sh ./po/update-unity-pot
+sh ./po/update-lomiri-pot

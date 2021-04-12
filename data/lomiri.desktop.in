@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
-Name=Unity 8
-Comment=The converged Unity shell
+Name=Lomiri 8
+Comment=The converged Lomiri shell
 Exec=@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_BINDIR@/lomiri
 Terminal=false
 Icon=

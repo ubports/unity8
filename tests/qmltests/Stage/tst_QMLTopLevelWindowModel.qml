@@ -17,12 +17,12 @@
 
 import QtQuick 2.4
 import QtTest 1.0
-import Unity.Test 0.1 as UT
+import Lomiri.Test 0.1 as UT
 import ".."
 import "../../../qml/Components"
 import "../../../qml/Stage"
 import Lomiri.Components 1.3
-import Unity.Application 0.1
+import Lomiri.Application 0.1
 import WindowManager 1.0
 
 Item {
@@ -90,7 +90,7 @@ Item {
     property alias stage: loader.item
     property var tlwm: loader.item.topLevelSurfaceList
 
-    UT.UnityTestCase {
+    UT.LomiriTestCase {
         id: testCase
         name: "QMLTopLevelWindowModel"
         when: windowShown

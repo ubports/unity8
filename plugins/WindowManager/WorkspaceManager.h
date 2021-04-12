@@ -24,7 +24,7 @@
 
 class Workspace;
 
-namespace unity {
+namespace lomiri {
     namespace shell {
         namespace application {
             class MirSurfaceInterface;
@@ -50,13 +50,13 @@ public:
 
     void destroyFloatingWorkspaces();
 
-    Q_INVOKABLE void moveSurfaceToWorkspace(unity::shell::application::MirSurfaceInterface* surface,
+    Q_INVOKABLE void moveSurfaceToWorkspace(lomiri::shell::application::MirSurfaceInterface* surface,
                                             Workspace* workspace);
 
     Q_INVOKABLE void moveWorkspaceContentToWorkspace(Workspace* to, Workspace* from);
 
 public Q_SLOTS:
-    void setSurfaceManager(unity::shell::application::SurfaceManagerInterface*);
+    void setSurfaceManager(lomiri::shell::application::SurfaceManagerInterface*);
 
 Q_SIGNALS:
     void activeWorkspaceChanged(Workspace*);
@@ -66,7 +66,7 @@ private:
 
     QSet<Workspace*> m_allWorkspaces;
     Workspace* m_activeWorkspace;
-    unity::shell::application::SurfaceManagerInterface* m_surfaceManager;
+    lomiri::shell::application::SurfaceManagerInterface* m_surfaceManager;
 };
 
 #endif // WORKSPACEMANAGER_H

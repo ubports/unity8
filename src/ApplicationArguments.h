@@ -23,10 +23,10 @@
 #include <QSize>
 #include <QString>
 
-#include "UnityCommandLineParser.h"
+#include "LomiriCommandLineParser.h"
 
 class ApplicationArguments : public QObject,
-                             public UnityCommandLineParser
+                             public LomiriCommandLineParser
 {
     Q_OBJECT
     Q_PROPERTY(QString deviceName READ deviceName NOTIFY deviceNameChanged)

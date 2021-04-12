@@ -26,17 +26,17 @@ import SessionBroadcast 0.1
 import Lomiri.Components 1.3
 import Lomiri.Components.ListItems 1.3 as ListItem
 import Lomiri.Telephony 0.1 as Telephony
-import Unity.Application 0.1
-import Unity.ApplicationMenu 0.1
-import Unity.Connectivity 0.1
-import Unity.Indicators 0.1
-import Unity.Notifications 1.0
-import Unity.Launcher 0.1
-import Unity.Test 0.1
+import Lomiri.Application 0.1
+import Lomiri.ApplicationMenu 0.1
+import Lomiri.Connectivity 0.1
+import Lomiri.Indicators 0.1
+import Lomiri.Notifications 1.0
+import Lomiri.Launcher 0.1
+import Lomiri.Test 0.1
 import Powerd 0.1
 import Wizard 0.1 as Wizard
 import Utils 0.1
-import Unity.Indicators 0.1 as Indicators
+import Lomiri.Indicators 0.1 as Indicators
 
 import "../../qml"
 import "../../qml/Components"
@@ -915,7 +915,7 @@ Rectangle {
 
             notifications.model = mockNotificationsModel;
 
-            // FIXME: Hack: UnitySortFilterProxyModelQML doesn't work with QML ListModels which we use
+            // FIXME: Hack: LomiriSortFilterProxyModelQML doesn't work with QML ListModels which we use
             // for mocking here (RoleType can't be found in the QML model). As we only need to show
             // one SnapDecision lets just disable the filtering and make appear any notification as a
             // SnapDecision.
@@ -2378,28 +2378,28 @@ Rectangle {
                 {tag: "empty", accounts: "", gsettings: "", output: "defaultBackground"},
 
                 {tag: "as-specified",
-                 accounts: Qt.resolvedUrl("../data/unity/backgrounds/blue.png"),
+                 accounts: Qt.resolvedUrl("../data/lomiri/backgrounds/blue.png"),
                  gsettings: "",
-                 output: Qt.resolvedUrl("../data/unity/backgrounds/blue.png")},
+                 output: Qt.resolvedUrl("../data/lomiri/backgrounds/blue.png")},
 
                 {tag: "gs-specified",
                  accounts: "",
-                 gsettings: Qt.resolvedUrl("../data/unity/backgrounds/red.png"),
-                 output: Qt.resolvedUrl("../data/unity/backgrounds/red.png")},
+                 gsettings: Qt.resolvedUrl("../data/lomiri/backgrounds/red.png"),
+                 output: Qt.resolvedUrl("../data/lomiri/backgrounds/red.png")},
 
                 {tag: "both-specified",
-                 accounts: Qt.resolvedUrl("../data/unity/backgrounds/blue.png"),
-                 gsettings: Qt.resolvedUrl("../data/unity/backgrounds/red.png"),
-                 output: Qt.resolvedUrl("../data/unity/backgrounds/blue.png")},
+                 accounts: Qt.resolvedUrl("../data/lomiri/backgrounds/blue.png"),
+                 gsettings: Qt.resolvedUrl("../data/lomiri/backgrounds/red.png"),
+                 output: Qt.resolvedUrl("../data/lomiri/backgrounds/blue.png")},
 
                 {tag: "invalid-as",
-                 accounts: Qt.resolvedUrl("../data/unity/backgrounds/nope.png"),
-                 gsettings: Qt.resolvedUrl("../data/unity/backgrounds/red.png"),
-                 output: Qt.resolvedUrl("../data/unity/backgrounds/red.png")},
+                 accounts: Qt.resolvedUrl("../data/lomiri/backgrounds/nope.png"),
+                 gsettings: Qt.resolvedUrl("../data/lomiri/backgrounds/red.png"),
+                 output: Qt.resolvedUrl("../data/lomiri/backgrounds/red.png")},
 
                 {tag: "invalid-both",
-                 accounts: Qt.resolvedUrl("../data/unity/backgrounds/nope.png"),
-                 gsettings: Qt.resolvedUrl("../data/unity/backgrounds/stillnope.png"),
+                 accounts: Qt.resolvedUrl("../data/lomiri/backgrounds/nope.png"),
+                 gsettings: Qt.resolvedUrl("../data/lomiri/backgrounds/stillnope.png"),
                  output: "defaultBackground"},
             ]
         }

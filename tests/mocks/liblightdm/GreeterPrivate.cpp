@@ -53,15 +53,15 @@ void GreeterPrivate::handleAuthenticate_full()
 
     // Send out any messages we need to
     if (authenticationUser == "info-prompt")
-        Q_EMIT q->showMessage("Welcome to Unity Greeter", Greeter::MessageTypeInfo);
+        Q_EMIT q->showMessage("Welcome to Lomiri Greeter", Greeter::MessageTypeInfo);
     else if (authenticationUser == "wide-info-prompt")
-        Q_EMIT q->showMessage("Welcome to Unity Greeter, the greeteriest greeter that ever did appear in these fine lands", Greeter::MessageTypeInfo);
+        Q_EMIT q->showMessage("Welcome to Lomiri Greeter, the greeteriest greeter that ever did appear in these fine lands", Greeter::MessageTypeInfo);
     else if (authenticationUser == "html-info-prompt")
         Q_EMIT q->showMessage("<b>&</b>", Greeter::MessageTypeInfo);
     else if (authenticationUser == "long-info-prompt")
-        Q_EMIT q->showMessage("Welcome to Unity Greeter\n\nWe like to annoy you with super ridiculously long messages.\nLike this one\n\nThis is the last line of a multiple line message.", Greeter::MessageTypeInfo);
+        Q_EMIT q->showMessage("Welcome to Lomiri Greeter\n\nWe like to annoy you with super ridiculously long messages.\nLike this one\n\nThis is the last line of a multiple line message.", Greeter::MessageTypeInfo);
     else if (authenticationUser == "multi-info-prompt") {
-        Q_EMIT q->showMessage("Welcome to Unity Greeter", Greeter::MessageTypeInfo);
+        Q_EMIT q->showMessage("Welcome to Lomiri Greeter", Greeter::MessageTypeInfo);
         Q_EMIT q->showMessage("This is an error", Greeter::MessageTypeError);
         Q_EMIT q->showMessage("You should have seen three messages", Greeter::MessageTypeInfo);
     }

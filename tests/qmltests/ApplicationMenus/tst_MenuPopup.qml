@@ -18,9 +18,9 @@ import QtQuick 2.4
 import QtTest 1.0
 import Lomiri.Components 1.3
 import Lomiri.Components.ListItems 1.3
-import Unity.Application 0.1
+import Lomiri.Application 0.1
 import QMenuModel 0.1
-import Unity.Test 0.1
+import Lomiri.Test 0.1
 import Utils 0.1
 
 import "../../../qml/ApplicationMenus"
@@ -50,7 +50,7 @@ Item {
                 topMargin: units.gu(3)
             }
 
-            unityMenuModel: UnityMenuModel {
+            lomiriMenuModel: LomiriMenuModel {
                 modelData: [{
                         "rowData": {
                             "label": "Short",
@@ -66,11 +66,11 @@ Item {
 
     SignalSpy {
         id: aboutToShowCalledSpy
-        target: loader.item ? loader.item.unityMenuModel : undefined
+        target: loader.item ? loader.item.lomiriMenuModel : undefined
         signalName: "aboutToShowCalled"
     }
 
-    UnityTestCase {
+    LomiriTestCase {
         id: testCase
         name: "MenuPopup"
         when: windowShown
@@ -129,13 +129,13 @@ Item {
         }
 
         function test_mouseNavigation(data) {
-            menu.unityMenuModel.modelData = data.testData;
+            menu.lomiriMenuModel.modelData = data.testData;
 
             recurseMenuConstruction(data.testData, menu);
         }
 
         function test_checkableMenuTogglesOnClick() {
-            menu.unityMenuModel.modelData = appMenuData.singleCheckable;
+            menu.lomiriMenuModel.modelData = appMenuData.singleCheckable;
 
             var menuItem = findChild(menu, "menu-item0-actionItem");
             verify(menuItem);
@@ -148,7 +148,7 @@ Item {
         }
 
         function test_keyboardNavigation_DownKeySelectsAndOpensNextMenuItemAndRotates() {
-            menu.unityMenuModel.modelData = appMenuData.generateTestData(3,3,0,0,"menu",false);
+            menu.lomiriMenuModel.modelData = appMenuData.generateTestData(3,3,0,0,"menu",false);
 
             var item0 = findChild(menu, "menu-item0"); verify(item0);
             var item1 = findChild(menu, "menu-item1"); verify(item1);
@@ -170,7 +170,7 @@ Item {
         }
 
         function test_keyboardNavigation_UpKeySelectsAndOpensPreviousMenuItemAndRotates() {
-            menu.unityMenuModel.modelData = appMenuData.generateTestData(3,3,0,0,"menu",false);
+            menu.lomiriMenuModel.modelData = appMenuData.generateTestData(3,3,0,0,"menu",false);
 
             var item0 = findChild(menu, "menu-item0"); verify(item0);
             var item1 = findChild(menu, "menu-item1"); verify(item1);
@@ -192,7 +192,7 @@ Item {
         }
 
         function test_aboutToShow() {
-            menu.unityMenuModel.modelData = appMenuData.generateTestData(3,3,1,0,"menu",false);
+            menu.lomiriMenuModel.modelData = appMenuData.generateTestData(3,3,1,0,"menu",false);
 
             var item0 = findChild(menu, "menu-item0");
             var item1 = findChild(menu, "menu-item1");
@@ -223,7 +223,7 @@ Item {
         }
 
         function test_keyboardNavigation_RightKeyEntersSubMenu() {
-            menu.unityMenuModel.modelData = appMenuData.generateTestData(3,3,1,0,"menu",false);
+            menu.lomiriMenuModel.modelData = appMenuData.generateTestData(3,3,1,0,"menu",false);
 
             var menuItem = findChild(menu, "menu-item0");
 
@@ -241,7 +241,7 @@ Item {
         }
 
         function test_keyboardNavigation_LeftKeyClosesSubMenu() {
-            menu.unityMenuModel.modelData = appMenuData.generateTestData(3,3,1,0,"menu",false);
+            menu.lomiriMenuModel.modelData = appMenuData.generateTestData(3,3,1,0,"menu",false);
 
             var menuItem = findChild(menu, "menu-item0"); verify(menuItem);
             mouseClick(menuItem, menuItem.width/2, menuItem.height/2);
@@ -252,7 +252,7 @@ Item {
         }
 
         function test_mouseHoverOpensSubMenu() {
-            menu.unityMenuModel.modelData = appMenuData.generateTestData(3,3,1,0,"menu",false);
+            menu.lomiriMenuModel.modelData = appMenuData.generateTestData(3,3,1,0,"menu",false);
 
             var menuItem = findChild(menu, "menu-item0");
 
@@ -271,7 +271,7 @@ Item {
                 "rowData": { "label": "This is a long menu item which tests width" }
             }];
 
-            menu.unityMenuModel.modelData = differentSizesMenu;
+            menu.lomiriMenuModel.modelData = differentSizesMenu;
 
             // Wait for the two items to be there
             tryCompareFunction(function() { return findChild(menu, "menu-item1") !== null; }, true);
@@ -279,7 +279,7 @@ Item {
 
             // Now pop one item and make sure it's smaller
             differentSizesMenu.pop();
-            menu.unityMenuModel.modelData = differentSizesMenu;
+            menu.lomiriMenuModel.modelData = differentSizesMenu;
 
             tryCompareFunction(function() { return findChild(menu, "menu-item0") !== null; }, true);
             tryCompareFunction(function() { return menu.width < longWidth; }, true);
@@ -289,7 +289,7 @@ Item {
             var shortMenu = [{
                 "rowData": { "label": "Short" }
             }];
-            menu.unityMenuModel.modelData = shortMenu;
+            menu.lomiriMenuModel.modelData = shortMenu;
 
             var priv = findInvisibleChild(menu, "d");
             priv.__minimumWidth = 0;
@@ -309,7 +309,7 @@ Item {
             priv.__minimumWidth = 0;
             priv.__maximumWidth = 100;
 
-            menu.unityMenuModel.modelData = longMenu;
+            menu.lomiriMenuModel.modelData = longMenu;
             tryCompare(menu, "width", priv.__maximumWidth);
 
             priv.__maximumWidth = 200;
@@ -323,7 +323,7 @@ Item {
             var shortMenu = [{
                 "rowData": { "label": "menu1" }
             }];
-            menu.unityMenuModel.modelData = shortMenu;
+            menu.lomiriMenuModel.modelData = shortMenu;
 
             var priv = findInvisibleChild(menu, "d");
             priv.__minimumHeight = 0;
@@ -346,7 +346,7 @@ Item {
                 "rowData": { "label": "menu8" }}, {
                 "rowData": { "label": "menu9" }
             }];
-            menu.unityMenuModel.modelData = shortMenu;
+            menu.lomiriMenuModel.modelData = shortMenu;
 
             var priv = findInvisibleChild(menu, "d");
             priv.__minimumHeight = 0;

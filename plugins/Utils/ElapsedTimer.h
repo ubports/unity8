@@ -16,12 +16,12 @@
  * License along with this program. If not, see <http://www.gnu.org/licenses/>
  */
 
-#ifndef UNITYUTIL_ELAPSEDTIMER_H
-#define UNITYUTIL_ELAPSEDTIMER_H
+#ifndef LOMIRIUTIL_ELAPSEDTIMER_H
+#define LOMIRIUTIL_ELAPSEDTIMER_H
 
 #include <QElapsedTimer>
 
-namespace UnityUtil {
+namespace LomiriUtil {
 
 /**
    Interface for ElapsedTimer implementations
@@ -46,6 +46,6 @@ private:
     QElapsedTimer m_timer;
 };
 
-} // namespace UnityUtil
+} // namespace LomiriUtil
 
-#endif // UNITYUTIL_ELAPSEDTIMER_H
+#endif // LOMIRIUTIL_ELAPSEDTIMER_H

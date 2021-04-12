@@ -16,7 +16,7 @@
 
 import QtQuick 2.4
 import QtTest 1.0
-import Unity.Test 0.1
+import Lomiri.Test 0.1
 import UInput 0.1
 import "../../../qml/Components"
 
@@ -46,7 +46,7 @@ Rectangle {
         target: UInput
     }
 
-    UnityTestCase {
+    LomiriTestCase {
         id: testCase
         name: "VirtualTouchPad"
         when: windowShown

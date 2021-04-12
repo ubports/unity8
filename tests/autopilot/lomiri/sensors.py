@@ -1,6 +1,6 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
-# Unity Autopilot Test Suite
+# Lomiri Autopilot Test Suite
 # Copyright (C) 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,7 @@ from lomiri import process_helpers
 class FakePlatformSensors:
 
     def __init__(self, pid=None):
-        self.pid = pid or process_helpers._get_unity_pid()
+        self.pid = pid or process_helpers._get_lomiri_pid()
 
     def set_orientation(self, action):
         if action == 'top_up':

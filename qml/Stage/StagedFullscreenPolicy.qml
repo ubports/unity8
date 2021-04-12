@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.4
-import Unity.Application 0.1
+import Lomiri.Application 0.1
 
 // This component will change the state of the surface based on the surface
 // state and shell chrome.

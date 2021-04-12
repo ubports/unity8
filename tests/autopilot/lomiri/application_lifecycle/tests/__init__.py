@@ -1,6 +1,6 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
-# Unity Autopilot Test Suite
+# Lomiri Autopilot Test Suite
 # Copyright (C) 2014, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
@@ -25,14 +25,14 @@ from lomiri import process_helpers
 from lomiri.shell import tests
 
 
-class ApplicationLifeCycleTestCase(tests.UnityTestCase):
+class ApplicationLifeCycleTestCase(tests.LomiriTestCase):
 
     def setUp(self):
         super().setUp()
         self._qml_mock_enabled = False
         self._data_dirs_mock_enabled = False
-        self.launch_unity()
-        process_helpers.unlock_unity()
+        self.launch_lomiri()
+        process_helpers.unlock_lomiri()
 
     def create_test_application(self):
         desktop_file_dict = fixture_setup.DEFAULT_DESKTOP_FILE_DICT

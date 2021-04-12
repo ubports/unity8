@@ -111,14 +111,14 @@ if(USS_PRIVATE_PLUGINDIR STREQUAL "")
     message(FATAL_ERROR "Could not determine USS private plugin installation dir.")
 endif()
 
-execute_process(COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=plugindir_suffix unity-shell-api OUTPUT_VARIABLE SHELL_INSTALL_QML OUTPUT_STRIP_TRAILING_WHITESPACE)
+execute_process(COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=plugindir_suffix lomiri-shell-api OUTPUT_VARIABLE SHELL_INSTALL_QML OUTPUT_STRIP_TRAILING_WHITESPACE)
 if(SHELL_INSTALL_QML STREQUAL "")
     message(FATAL_ERROR "Could not determine plugin installation dir.")
 endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden")
 
-execute_process(COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=plugindir unity-shell-api OUTPUT_VARIABLE SHELL_PLUGINDIR OUTPUT_STRIP_TRAILING_WHITESPACE)
+execute_process(COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=plugindir lomiri-shell-api OUTPUT_VARIABLE SHELL_PLUGINDIR OUTPUT_STRIP_TRAILING_WHITESPACE)
 if(SHELL_PLUGINDIR STREQUAL "")
     message(FATAL_ERROR "Could not determine plugin import dir.")
 endif()
@@ -137,7 +137,7 @@ if (Werror)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
 endif()
 
-# gtk and unity-core (actually sigc++) do not like Qt defining macros named
+# gtk and lomiri-core (actually sigc++) do not like Qt defining macros named
 # "signals" and "slots"
 add_definitions(-DQT_NO_KEYWORDS)
 
@@ -154,7 +154,7 @@ declare_autopilot_test(shell lomiri.shell ${CMAKE_SOURCE_DIR}/tests/autopilot/)
 set(SHELL_APP lomiri)
 set(INDICATORS_CLIENT_APP indicators-client)
 set(GREETER_APP lomiri-greeter)
-set(MOCK_INDICATOR_SERVICE_APP unity-mock-indicator-service)
+set(MOCK_INDICATOR_SERVICE_APP lomiri-mock-indicator-service)
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/include

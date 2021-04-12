@@ -18,7 +18,7 @@
 
 ApplicationArguments::ApplicationArguments(QCoreApplication *app)
     : QObject(app)
-    , UnityCommandLineParser(*app)
+    , LomiriCommandLineParser(*app)
 {
 }
 

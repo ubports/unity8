@@ -31,8 +31,8 @@ set(SOURCE_FILES
     main.cpp
     CachingNetworkManagerFactory.cpp
     DisplayConfigurationStorage.cpp
-    UnityApplication.cpp
-    UnityCommandLineParser.cpp
+    LomiriApplication.cpp
+    LomiriCommandLineParser.cpp
     UnixSignalHandler.cpp
     DebuggingController.cpp
     WindowManagementPolicy.cpp

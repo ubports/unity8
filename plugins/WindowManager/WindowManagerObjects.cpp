@@ -30,7 +30,7 @@ WindowManagerObjects *WindowManagerObjects::instance()
 }
 
 
-void WindowManagerObjects::setSurfaceManager(unity::shell::application::SurfaceManagerInterface *surfaceManager)
+void WindowManagerObjects::setSurfaceManager(lomiri::shell::application::SurfaceManagerInterface *surfaceManager)
 {
     if (m_surfaceManager == surfaceManager) return;
 
@@ -38,7 +38,7 @@ void WindowManagerObjects::setSurfaceManager(unity::shell::application::SurfaceM
     Q_EMIT surfaceManagerChanged(surfaceManager);
 }
 
-void WindowManagerObjects::setApplicationManager(unity::shell::application::ApplicationManagerInterface *applicationManager)
+void WindowManagerObjects::setApplicationManager(lomiri::shell::application::ApplicationManagerInterface *applicationManager)
 {
     if (m_applicationManager == applicationManager) return;
 

@@ -17,7 +17,7 @@
 import QtQuick 2.4
 import QtTest 1.0
 import Lomiri.Components 1.3
-import Unity.Test 0.1
+import Lomiri.Test 0.1
 
 import "../../../qml/Components"
 
@@ -30,7 +30,7 @@ Rectangle {
     Component.onCompleted: theme.name = "Lomiri.Components.Themes.SuruDark" // use the same theme as the real shell
 
     QtObject {
-        id: fakeUnitySession
+        id: fakeLomiriSession
         signal logoutRequested
         signal shutdownRequested
         signal rebootRequested
@@ -65,7 +65,7 @@ Rectangle {
         Dialogs {
             id: dialogs
             anchors.fill: parent
-            unitySessionService: fakeUnitySession
+            lomiriSessionService: fakeLomiriSession
         }
     }
 
@@ -83,11 +83,11 @@ Rectangle {
             spacing: units.gu(1)
             Button { text: "Power dialog"; onClicked: { testCase.test_showPowerDialog(); }
                      activeFocusOnPress: false }
-            Button { text: "Logout Requested"; onClicked: { fakeUnitySession.logoutRequested(); }
+            Button { text: "Logout Requested"; onClicked: { fakeLomiriSession.logoutRequested(); }
                      activeFocusOnPress: false }
-            Button { text: "Shutdown Requested"; onClicked: { fakeUnitySession.shutdownRequested(); }
+            Button { text: "Shutdown Requested"; onClicked: { fakeLomiriSession.shutdownRequested(); }
                      activeFocusOnPress: false }
-            Button { text: "Reboot Requested"; onClicked: { fakeUnitySession.rebootRequested(); }
+            Button { text: "Reboot Requested"; onClicked: { fakeLomiriSession.rebootRequested(); }
                      activeFocusOnPress: false }
             Label { text: "Rotation:" }
             Button { text: "0"; onClicked: {fakeShell.rotation = 0;} activeFocusOnPress: false }
@@ -97,7 +97,7 @@ Rectangle {
         }
     }
 
-    UnityTestCase {
+    LomiriTestCase {
         id: testCase
         name: "Dialogs"
         when: windowShown

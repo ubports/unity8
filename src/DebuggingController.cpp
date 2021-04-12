@@ -49,7 +49,7 @@ public:
 };
 
 DebuggingController::DebuggingController(QObject *parent):
-    UnityDBusObject(QStringLiteral("/com/canonical/Lomiri/Debugging"), QStringLiteral("com.canonical.Lomiri"), true, parent)
+    LomiriDBusObject(QStringLiteral("/com/canonical/Lomiri/Debugging"), QStringLiteral("com.canonical.Lomiri"), true, parent)
 {
 }
 

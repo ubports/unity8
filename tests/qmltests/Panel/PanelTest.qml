@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.4
-import Unity.Indicators 0.1 as Indicators
+import Lomiri.Indicators 0.1 as Indicators
 
 Rectangle {
     id: root

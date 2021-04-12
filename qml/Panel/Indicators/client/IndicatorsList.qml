@@ -20,7 +20,7 @@
 
 import QtQuick 2.4
 import Lomiri.Components 1.3
-import Unity.Indicators 0.1 as Indicators
+import Lomiri.Indicators 0.1 as Indicators
 import "../.."
 import "../../../Components"
 

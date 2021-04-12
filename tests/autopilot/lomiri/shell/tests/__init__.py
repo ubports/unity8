@@ -1,6 +1,6 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
-# Unity Autopilot Test Suite
+# Lomiri Autopilot Test Suite
 # Copyright (C) 2012, 2013, 2014, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
@@ -17,7 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-"""unity autopilot tests."""
+"""lomiri autopilot tests."""
 
 try:
     from gi.repository import Gio
@@ -59,17 +59,17 @@ from lomiri import (
 
 logger = logging.getLogger(__name__)
 
-UNITYSHELL_GSETTINGS_SCHEMA = "org.compiz.unityshell"
-UNITYSHELL_GSETTINGS_PATH = "/org/compiz/profiles/unity/plugins/unityshell/"
-UNITYSHELL_LAUNCHER_KEY = "launcher-hide-mode"
-UNITYSHELL_LAUNCHER_MODE = 1  # launcher hidden
+LOMIRISHELL_GSETTINGS_SCHEMA = "org.compiz.lomirishell"
+LOMIRISHELL_GSETTINGS_PATH = "/org/compiz/profiles/lomiri/plugins/lomirishell/"
+LOMIRISHELL_LAUNCHER_KEY = "launcher-hide-mode"
+LOMIRISHELL_LAUNCHER_MODE = 1  # launcher hidden
 
 
-def is_unity7_running():
-    """Return True if Unity7 is running. Otherwise, return False."""
+def is_lomiri7_running():
+    """Return True if Lomiri7 is running. Otherwise, return False."""
     return (
         Gio is not None and
-        UNITYSHELL_GSETTINGS_SCHEMA in
+        LOMIRISHELL_GSETTINGS_SCHEMA in
         Gio.Settings.list_relocatable_schemas()
     )
 
@@ -85,14 +85,14 @@ def get_qml_import_path_with_mock():
     return qml_import_path
 
 
-class UnityTestCase(AutopilotTestCase):
+class LomiriTestCase(AutopilotTestCase):
 
-    """A test case base class for the Unity shell tests."""
+    """A test case base class for the Lomiri shell tests."""
 
     @classmethod
     def setUpClass(cls):
         try:
-            is_unity_running = process_helpers.is_job_running('lomiri')
+            is_lomiri_running = process_helpers.is_job_running('lomiri')
         except process_helpers.JobError as e:
             xdg_config_home = os.getenv(
                 'XDG_CONFIG_HOME', os.path.join(os.getenv('HOME'), '.config'))
@@ -106,16 +106,16 @@ class UnityTestCase(AutopilotTestCase):
             )
             raise e
         else:
-            assert not is_unity_running, (
-                'Unity is currently running, these tests require it to be '
+            assert not is_lomiri_running, (
+                'Lomiri is currently running, these tests require it to be '
                 'stopped.\n'
                 'Please run this command before running these tests: \n'
                 'initctl stop lomiri\n')
 
     def setUp(self):
         super().setUp()
-        if is_unity7_running():
-            self.useFixture(toolkit_fixtures.HideUnity7Launcher())
+        if is_lomiri7_running():
+            self.useFixture(toolkit_fixtures.HideLomiri7Launcher())
 
         self._proxy = None
         self._qml_mock_enabled = True
@@ -133,7 +133,7 @@ class UnityTestCase(AutopilotTestCase):
         width = getattr(self, 'app_width', 0)
         height = getattr(self, 'app_height', 0)
         scale_divisor = 1
-        self.unity_geometry_args = []
+        self.lomiri_geometry_args = []
         if width > 0 and height > 0:
             if self._geo_larger_than_display(width, height):
                 scale_divisor = self._get_scaled_down_geo(width, height)
@@ -145,7 +145,7 @@ class UnityTestCase(AutopilotTestCase):
                     height
                 )
             geo_string = "%dx%d" % (width, height)
-            self.unity_geometry_args = [
+            self.lomiri_geometry_args = [
                 '-windowgeometry',
                 geo_string,
                 '-frameless',
@@ -180,9 +180,9 @@ class UnityTestCase(AutopilotTestCase):
             divisor = divisor * 2
         return divisor
 
-    def launch_unity(self, mode="full-greeter", *args):
+    def launch_lomiri(self, mode="full-greeter", *args):
         """
-            Launch the unity shell, return a proxy object for it.
+            Launch the lomiri shell, return a proxy object for it.
 
         :param str mode: The type of greeter/shell mode to use
         :param args: A list of aguments to pass to lomiri
@@ -211,17 +211,17 @@ class UnityTestCase(AutopilotTestCase):
         if len(args) != 0:
             lomiri_cli_args_list += args
 
-        app_proxy = self._launch_unity_with_upstart(
+        app_proxy = self._launch_lomiri_with_upstart(
             binary_path,
-            self.unity_geometry_args + lomiri_cli_args_list
+            self.lomiri_geometry_args + lomiri_cli_args_list
         )
 
         self._set_proxy(app_proxy)
 
         # Ensure that the dash is visible before we return:
-        logger.debug("Unity started, waiting for it to be ready.")
-        self.wait_for_unity()
-        logger.debug("Unity loaded and ready.")
+        logger.debug("Lomiri started, waiting for it to be ready.")
+        self.wait_for_lomiri()
+        logger.debug("Lomiri loaded and ready.")
 
         if model() == 'Desktop':
             # On desktop, close the dash because it's opened in a separate
@@ -230,17 +230,17 @@ class UnityTestCase(AutopilotTestCase):
 
         return app_proxy
 
-    def _launch_unity_with_upstart(self, binary_path, args):
-        logger.info("Starting unity")
+    def _launch_lomiri_with_upstart(self, binary_path, args):
+        logger.info("Starting lomiri")
         self.useFixture(toolkit_fixtures.InitctlEnvironmentVariable(
             global_=True, QT_LOAD_TESTABILITY=1))
 
         variables = self._environment
         variables['ARGS'] = " ".join(args)
-        launch_unity_fixture = fixture_setup.RestartUnityWithTestability(
+        launch_lomiri_fixture = fixture_setup.RestartLomiriWithTestability(
             binary_path, variables)
-        self.useFixture(launch_unity_fixture)
-        return launch_unity_fixture.unity_proxy
+        self.useFixture(launch_lomiri_fixture)
+        return launch_lomiri_fixture.lomiri_proxy
 
     def _patch_data_dirs(self):
         data_dirs = get_data_dirs(self._data_dirs_mock_enabled)
@@ -285,7 +285,7 @@ class UnityTestCase(AutopilotTestCase):
     def _clear_proxy(self):
         self._proxy = None
 
-    def wait_for_unity(self):
+    def wait_for_lomiri(self):
         greeter = self.main_window.wait_select_single(objectName='greeter')
         greeter.waiting.wait_for(False)
 
@@ -312,14 +312,14 @@ class DashBaseTestCase(AutopilotTestCase):
     def setUp(self):
         super().setUp()
 
-        if is_unity7_running():
-            self.useFixture(toolkit_fixtures.HideUnity7Launcher())
+        if is_lomiri7_running():
+            self.useFixture(toolkit_fixtures.HideLomiri7Launcher())
 
         if model() != 'Desktop':
-            # On the phone, we need unity to be running and unlocked.
+            # On the phone, we need lomiri to be running and unlocked.
             self.addCleanup(process_helpers.stop_job, 'lomiri')
-            process_helpers.restart_unity_with_testability()
-            process_helpers.unlock_unity()
+            process_helpers.restart_lomiri_with_testability()
+            process_helpers.unlock_lomiri()
 
         self.ensure_dash_not_running()
 

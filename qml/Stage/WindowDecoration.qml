@@ -17,7 +17,7 @@
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import Lomiri.Components 1.3
-import Unity.Application 0.1
+import Lomiri.Application 0.1
 import "../Components"
 import "../Components/PanelState"
 import "../ApplicationMenus"
@@ -145,7 +145,7 @@ MouseArea {
                     id: menuBar
                     height: menuBarLoader.height
                     enableKeyFilter: valid && root.active && root.enableMenus
-                    unityMenuModel: root.menu
+                    lomiriMenuModel: root.menu
                     windowMoving: root.windowMoving
                     panelState: root.panelState
 

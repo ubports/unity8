@@ -16,11 +16,11 @@
 
 import QtQuick 2.4
 import QtTest 1.0
-import Unity.Test 0.1 as UT
+import Lomiri.Test 0.1 as UT
 import ".."
 import "../../../qml/Stage"
 import Lomiri.Components 1.3
-import Unity.Application 0.1
+import Lomiri.Application 0.1
 
 Rectangle {
     color: "black"
@@ -42,7 +42,7 @@ Rectangle {
             title: "Splash Title"
             showHeader: showHeaderCheckbox.checked
             icon: fakeApplication ? fakeApplication.icon : ""
-            imageSource: imageSourceCheckbox.checked ? "../UnityLogo.png" : ""
+            imageSource: imageSourceCheckbox.checked ? "../LomiriLogo.png" : ""
             backgroundColor: backgroundColorCheckbox.checked ? "darkorange" : "#00000000"
             headerColor: headerColorCheckbox.checked ? "mediumseagreen" : "#00000000"
             footerColor: footerColorCheckbox.checked ? "teal" : "#00000000"
@@ -114,7 +114,7 @@ Rectangle {
         }
     }
 
-    UT.UnityTestCase {
+    UT.LomiriTestCase {
         id: testCase
         name: "Splash"
         when: windowShown

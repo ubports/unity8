@@ -1,6 +1,6 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
-# Unity Autopilot Test Suite
+# Lomiri Autopilot Test Suite
 # Copyright (C) 2012, 2013, 2014, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
@@ -47,13 +47,13 @@ def wait_for_greeter_gone():
 
 def _get_greeter_dbus_proxy():
     bus = dbus.SessionBus()
-    return bus.get_object('com.canonical.UnityGreeter', '/')
+    return bus.get_object('com.canonical.LomiriGreeter', '/')
 
 
 def _is_greeter_active():
     try:
         dbus_proxy = _get_greeter_dbus_proxy()
-        return dbus_proxy.Get('com.canonical.UnityGreeter', 'IsActive')
+        return dbus_proxy.Get('com.canonical.LomiriGreeter', 'IsActive')
     except:
         return False
 

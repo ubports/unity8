@@ -10,7 +10,7 @@ usr/lib/*/lomiri/qml/ScreenshotDirectory
 usr/lib/*/lomiri/qml/SessionBroadcast
 usr/lib/*/lomiri/qml/UInput
 usr/lib/*/lomiri/qml/Lomiri
-usr/lib/*/lomiri/qml/Unity
+usr/lib/*/lomiri/qml/Lomiri
 usr/lib/*/lomiri/qml/Utils
 usr/lib/*/lomiri/qml/WindowManager
 usr/lib/*/lomiri/qml/Wizard

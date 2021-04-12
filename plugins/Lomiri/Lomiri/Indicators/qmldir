@@ -1,0 +1,3 @@
+module Lomiri.Indicators
+plugin IndicatorsQml
+typeinfo Indicators.qmltypes

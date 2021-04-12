@@ -20,8 +20,8 @@ import Lomiri.Components.ListItems 1.3
 import Lomiri.SystemSettings.LanguagePlugin 1.0
 import Wizard 0.1
 import AccountsService 0.1
-import Unity.InputInfo 0.1
-import Unity.Application 0.1
+import Lomiri.InputInfo 0.1
+import Lomiri.Application 0.1
 import ".." as LocalComponents
 import "../../Components"
 

@@ -19,8 +19,8 @@ import QtTest 1.0
 import QtQuick.Layouts 1.1
 import Lomiri.Components 1.3
 import Lomiri.Components.ListItems 1.3
-import Unity.Application 0.1
-import Unity.Test 0.1
+import Lomiri.Application 0.1
+import Lomiri.Test 0.1
 import Utils 0.1
 import QMenuModel 0.1
 
@@ -51,7 +51,7 @@ Item {
         id: appMenuData
     }
 
-    UnityMenuModel {
+    LomiriMenuModel {
         id: menuBackend
         modelData: appMenuData.generateTestData(5, 3, 3, "menu")
         onActivated: log.text = "Activated " + action + "\n" + log.text
@@ -116,7 +116,7 @@ Item {
         target: clickThroughTester
     }
 
-    UnityTestCase {
+    LomiriTestCase {
         id: testCase
         name: "WindowDecoration"
         when: windowShown

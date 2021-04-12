@@ -20,12 +20,12 @@ import QtTest 1.0
 import GSettings 1.0
 import Lomiri.Components 1.3
 import Lomiri.Components.ListItems 1.3 as ListItem
-import Unity.Application 0.1
-import Unity.Test 0.1
+import Lomiri.Application 0.1
+import Lomiri.Test 0.1
 import LightDMController 0.1
 import LightDM.FullLightDM 0.1 as LightDM
 import Powerd 0.1
-import Unity.InputInfo 0.1
+import Lomiri.InputInfo 0.1
 import Utils 0.1
 
 import "../../qml"
@@ -476,7 +476,7 @@ Rectangle {
         orientedShell.physicalOrientation = root.physicalOrientation270;
     }
 
-    UnityTestCase {
+    LomiriTestCase {
         id: testCase
         name: "OrientedShell"
         when: windowShown

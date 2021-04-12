@@ -16,7 +16,7 @@
 
 #include "appdrawerproxymodel.h"
 
-#include <unity/shell/launcher/LauncherItemInterface.h>
+#include <lomiri/shell/launcher/LauncherItemInterface.h>
 
 #include <QDebug>
 

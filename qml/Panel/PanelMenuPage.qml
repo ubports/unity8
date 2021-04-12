@@ -17,7 +17,7 @@
 import QtQuick 2.4
 import Lomiri.Components 1.3
 import Lomiri.Components.ListItems 1.3 as ListItems
-import Unity.Indicators 0.1 as Indicators
+import Lomiri.Indicators 0.1 as Indicators
 import "../Components"
 import "Indicators"
 

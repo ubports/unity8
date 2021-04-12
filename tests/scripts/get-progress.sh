@@ -16,4 +16,4 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-qdbus com.canonical.Unity.Launcher /com/canonical/Unity/Launcher/$1 org.freedesktop.DBus.Properties.Get com.canonical.Unity.Launcher.Item progress
+qdbus com.canonical.Lomiri.Launcher /com/canonical/Lomiri/Launcher/$1 org.freedesktop.DBus.Properties.Get com.canonical.Lomiri.Launcher.Item progress

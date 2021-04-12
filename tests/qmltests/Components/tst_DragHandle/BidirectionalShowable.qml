@@ -51,7 +51,7 @@ Item {
         property: "x"
     }
 
-    Image { source: "../../UnityLogo.png"; anchors.fill: parent }
+    Image { source: "../../LomiriLogo.png"; anchors.fill: parent }
 
     DragHandle {
         id: dragHandle

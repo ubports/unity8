@@ -10,7 +10,7 @@ execute_process(COMMAND mktemp -d OUTPUT_VARIABLE TMPDIR OUTPUT_STRIP_TRAILING_W
 
 foreach(util_test
     QLimitProxyModel
-    UnitySortFilterProxyModel
+    LomiriSortFilterProxyModel
     WindowInputMonitor
     DeviceConfigParser
     WindowStateStorage

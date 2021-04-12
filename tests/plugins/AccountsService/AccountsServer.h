@@ -17,8 +17,8 @@
  * Authored by: Michael Terry <michael.terry@canonical.com>
  */
 
-#ifndef UNITY_ACCOUNTSSERVER_H
-#define UNITY_ACCOUNTSSERVER_H
+#ifndef LOMIRI_ACCOUNTSSERVER_H
+#define LOMIRI_ACCOUNTSSERVER_H
 
 #include <QDBusContext>
 #include <QDBusObjectPath>

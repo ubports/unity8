@@ -17,7 +17,7 @@ set(QMLPLUGIN_SRC
     MousePointer.cpp
     InputDispatcherFilter.cpp
     # We need to run moc on this header
-    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/MirMousePointerInterface.h
+    ${APPLICATION_API_INCLUDEDIR}/lomiri/shell/application/MirMousePointerInterface.h
     )
 
 add_library(Cursor-qml SHARED

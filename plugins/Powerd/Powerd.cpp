@@ -19,53 +19,53 @@
 #include "Powerd.h"
 #include <QDBusPendingCall>
 
-void autoBrightnessChanged(GSettings *settings, const gchar *key, QDBusInterface *unityScreen)
+void autoBrightnessChanged(GSettings *settings, const gchar *key, QDBusInterface *lomiriScreen)
 {
     bool value = g_settings_get_boolean(settings, key);
-    unityScreen->asyncCall(QStringLiteral("userAutobrightnessEnable"), QVariant(value));
+    lomiriScreen->asyncCall(QStringLiteral("userAutobrightnessEnable"), QVariant(value));
 }
 
-void activityTimeoutChanged(GSettings *settings, const gchar *key, QDBusInterface *unityScreen)
+void activityTimeoutChanged(GSettings *settings, const gchar *key, QDBusInterface *lomiriScreen)
 {
     int value = g_settings_get_uint(settings, key);
-    unityScreen->asyncCall(QStringLiteral("setInactivityTimeouts"), QVariant(value), QVariant(-1));
+    lomiriScreen->asyncCall(QStringLiteral("setInactivityTimeouts"), QVariant(value), QVariant(-1));
 }
 
-void dimTimeoutChanged(GSettings *settings, const gchar *key, QDBusInterface *unityScreen)
+void dimTimeoutChanged(GSettings *settings, const gchar *key, QDBusInterface *lomiriScreen)
 {
     int value = g_settings_get_uint(settings, key);
-    unityScreen->asyncCall(QStringLiteral("setInactivityTimeouts"), QVariant(-1), QVariant(value));
+    lomiriScreen->asyncCall(QStringLiteral("setInactivityTimeouts"), QVariant(-1), QVariant(value));
 }
 
 Powerd::Powerd(QObject* parent)
   : QObject(parent),
-    unityScreen(nullptr),
+    lomiriScreen(nullptr),
     cachedStatus(Status::On)
 {
-    unityScreen = new QDBusInterface(QStringLiteral("com.canonical.Unity.Screen"),
-                                     QStringLiteral("/com/canonical/Unity/Screen"),
-                                     QStringLiteral("com.canonical.Unity.Screen"),
+    lomiriScreen = new QDBusInterface(QStringLiteral("com.canonical.Lomiri.Screen"),
+                                     QStringLiteral("/com/canonical/Lomiri/Screen"),
+                                     QStringLiteral("com.canonical.Lomiri.Screen"),
                                      QDBusConnection::SM_BUSNAME(), this);
 
-    unityScreen->connection().connect(QStringLiteral("com.canonical.Unity.Screen"),
-                                      QStringLiteral("/com/canonical/Unity/Screen"),
-                                      QStringLiteral("com.canonical.Unity.Screen"),
+    lomiriScreen->connection().connect(QStringLiteral("com.canonical.Lomiri.Screen"),
+                                      QStringLiteral("/com/canonical/Lomiri/Screen"),
+                                      QStringLiteral("com.canonical.Lomiri.Screen"),
                                       QStringLiteral("DisplayPowerStateChange"),
                                       this,
                                       SLOT(handleDisplayPowerStateChange(int, int)));
 
     systemSettings = g_settings_new("com.lomiri.touch.system");
-    g_signal_connect(systemSettings, "changed::auto-brightness", G_CALLBACK(autoBrightnessChanged), unityScreen);
-    g_signal_connect(systemSettings, "changed::activity-timeout", G_CALLBACK(activityTimeoutChanged), unityScreen);
-    g_signal_connect(systemSettings, "changed::dim-timeout", G_CALLBACK(dimTimeoutChanged), unityScreen);
-    autoBrightnessChanged(systemSettings, "auto-brightness", unityScreen);
-    activityTimeoutChanged(systemSettings, "activity-timeout", unityScreen);
-    dimTimeoutChanged(systemSettings, "dim-timeout", unityScreen);
+    g_signal_connect(systemSettings, "changed::auto-brightness", G_CALLBACK(autoBrightnessChanged), lomiriScreen);
+    g_signal_connect(systemSettings, "changed::activity-timeout", G_CALLBACK(activityTimeoutChanged), lomiriScreen);
+    g_signal_connect(systemSettings, "changed::dim-timeout", G_CALLBACK(dimTimeoutChanged), lomiriScreen);
+    autoBrightnessChanged(systemSettings, "auto-brightness", lomiriScreen);
+    activityTimeoutChanged(systemSettings, "activity-timeout", lomiriScreen);
+    dimTimeoutChanged(systemSettings, "dim-timeout", lomiriScreen);
 }
 
 Powerd::~Powerd()
 {
-    g_signal_handlers_disconnect_by_data(systemSettings, unityScreen);
+    g_signal_handlers_disconnect_by_data(systemSettings, lomiriScreen);
     g_object_unref(systemSettings);
 }
 
@@ -76,7 +76,7 @@ Powerd::Status Powerd::status() const
 
 void Powerd::setStatus(Powerd::Status status, DisplayStateChangeReason reason)
 {
-    unityScreen->asyncCall(QStringLiteral("setScreenPowerMode"),
+    lomiriScreen->asyncCall(QStringLiteral("setScreenPowerMode"),
                            status == Powerd::On ? "on" : "off",
                            static_cast<qint32>(reason));
 }

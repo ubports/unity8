@@ -20,8 +20,8 @@ import QtTest 1.0
 import ".."
 import "../../../qml/Notifications"
 import Lomiri.Components 1.3
-import Unity.Test 0.1
-import Unity.Notifications 1.0
+import Lomiri.Test 0.1
+import Lomiri.Notifications 1.0
 
 Item {
     width: notificationsRect.width + interactiveControls.width
@@ -165,7 +165,7 @@ Item {
             id: myActionModel
         }
 
-        UnityTestCase {
+        LomiriTestCase {
             id: root
             name: "NotificationRendererTest"
             when: windowShown

@@ -22,8 +22,8 @@
 #include <QFuture>
 #include <QThread>
 
-// unity-api
-#include <unity/shell/application/Mir.h>
+// lomiri-api
+#include <lomiri/shell/application/Mir.h>
 
 class AsyncQuery;
 

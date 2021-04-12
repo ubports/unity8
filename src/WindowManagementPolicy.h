@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef UNITY_WINDOWMANAGEMENTPOLICY_H
-#define UNITY_WINDOWMANAGEMENTPOLICY_H
+#ifndef LOMIRI_WINDOWMANAGEMENTPOLICY_H
+#define LOMIRI_WINDOWMANAGEMENTPOLICY_H
 
 #include <qtmir/windowmanagementpolicy.h>
 #include "wmpolicyinterface.h"
@@ -44,4 +44,4 @@ private:
     const std::shared_ptr<miral::Workspace> m_dummyWorkspace;
 };
 
-#endif // UNITY_WINDOWMANAGEMENTPOLICY_H
+#endif // LOMIRI_WINDOWMANAGEMENTPOLICY_H

@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef UNITY_SCREENWINDOW_H
-#define UNITY_SCREENWINDOW_H
+#ifndef LOMIRI_SCREENWINDOW_H
+#define LOMIRI_SCREENWINDOW_H
 
 #include <QQuickWindow>
 #include <QPointer>
@@ -46,4 +46,4 @@ private:
     QPointer<ConcreteScreen> m_screen;
 };
 
-#endif // UNITY_SCREENWINDOW_H
+#endif // LOMIRI_SCREENWINDOW_H

@@ -18,7 +18,7 @@ import QtQuick 2.4
 import Powerd 0.1
 import Lomiri.Components 1.3
 import Lomiri.Components.ListItems 1.3 as ListItem
-import Unity.Notifications 1.0
+import Lomiri.Notifications 1.0
 import QMenuModel 0.1
 import Utils 0.1
 import "../Components"
@@ -182,7 +182,7 @@ StyledItem {
         id: contents
         anchors.fill: fullscreen ? nonShapedBack : shapedBack
 
-        UnityMenuModelPaths {
+        LomiriMenuModelPaths {
             id: paths
 
             source: hints["x-canonical-private-menu-model"]
@@ -192,8 +192,8 @@ StyledItem {
             menuObjectPathHint: "menuPath"
         }
 
-        UnityMenuModel {
-            id: unityMenuModel
+        LomiriMenuModel {
+            id: lomiriMenuModel
 
             property string lastNameOwner: ""
 
@@ -407,7 +407,7 @@ StyledItem {
                 }
 
                 Repeater {
-                    model: unityMenuModel
+                    model: lomiriMenuModel
 
                     NotificationMenuItemFactory {
                         id: menuItemFactory
@@ -417,7 +417,7 @@ StyledItem {
                             right: dialogColumn.right
                         }
 
-                        menuModel: unityMenuModel
+                        menuModel: lomiriMenuModel
                         menuData: model
                         menuIndex: index
                         maxHeight: notification.maxHeight

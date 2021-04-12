@@ -1,6 +1,6 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
-# Unity Autopilot Test Suite
+# Lomiri Autopilot Test Suite
 # Copyright (C) 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
@@ -32,7 +32,7 @@ from autopilot.matchers import Eventually
 logger = logging.getLogger(__name__)
 
 
-class RotationBase(tests.UnityTestCase):
+class RotationBase(tests.LomiriTestCase):
     """Base class for all shell-rotation tests that provides helper methods."""
 
     def setUp(self):
@@ -56,11 +56,11 @@ class TestFakeSensor(RotationBase):
                  ('left up', {'action': 'left_up', 'orientation': 2})]
 
     def test_fake_sensor(self):
-        unity_with_sensors = fixture_setup.LaunchUnityWithFakeSensors()
-        self.useFixture(unity_with_sensors)
-        process_helpers.unlock_unity()
-        fake_sensors = unity_with_sensors.fake_sensors
-        o_proxy = unity_with_sensors.main_win.select_single('OrientedShell')
+        lomiri_with_sensors = fixture_setup.LaunchLomiriWithFakeSensors()
+        self.useFixture(lomiri_with_sensors)
+        process_helpers.unlock_lomiri()
+        fake_sensors = lomiri_with_sensors.fake_sensors
+        o_proxy = lomiri_with_sensors.main_win.select_single('OrientedShell')
 
         fake_sensors.set_orientation(self.action)
         self.assertThat(o_proxy.physicalOrientation,
@@ -82,24 +82,24 @@ class TestRotationWithApp(RotationBase):
         """Do an orientation-change and verify that an app and the shell
         adapted correctly"""
 
-        unity_with_sensors = fixture_setup.LaunchUnityWithFakeSensors()
-        self.useFixture(unity_with_sensors)
-        process_helpers.unlock_unity()
-        fake_sensors = unity_with_sensors.fake_sensors
-        o_proxy = unity_with_sensors.main_win.select_single('OrientedShell')
-        self.shell_proxy = unity_with_sensors.main_win.select_single('Shell')
+        lomiri_with_sensors = fixture_setup.LaunchLomiriWithFakeSensors()
+        self.useFixture(lomiri_with_sensors)
+        process_helpers.unlock_lomiri()
+        fake_sensors = lomiri_with_sensors.fake_sensors
+        o_proxy = lomiri_with_sensors.main_win.select_single('OrientedShell')
+        self.shell_proxy = lomiri_with_sensors.main_win.select_single('Shell')
 
         # launch an application
         self.launch_upstart_application('morph-browser')
-        unity_with_sensors.main_win.show_dash_from_launcher()
-        unity_with_sensors.main_win.launch_application('morph-browser')
+        lomiri_with_sensors.main_win.show_dash_from_launcher()
+        lomiri_with_sensors.main_win.launch_application('morph-browser')
 
         # skip test early, if device doesn't support a certain orientation
         if not (self.shell_proxy.orientation & o_proxy.supportedOrientations):
             self.skipTest('unsupported orientation ' + self.action)
 
         self.assertThat(
-            unity_with_sensors.main_win.get_current_focused_app_id(),
+            lomiri_with_sensors.main_win.get_current_focused_app_id(),
             Eventually(Equals('morph-browser')))
 
         # get default orientation and angle

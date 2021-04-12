@@ -1,3 +1,0 @@
-module Unity.Launcher
-plugin MockLauncherPlugin
-typeinfo Launcher.qmltypes

@@ -18,10 +18,10 @@
 import QtQuick 2.4
 import Lomiri.Components 1.3
 import Lomiri.Layouts 1.0
-import Unity.Application 0.1
-import Unity.Indicators 0.1
+import Lomiri.Application 0.1
+import Lomiri.Indicators 0.1
 import Utils 0.1
-import Unity.ApplicationMenu 0.1
+import Lomiri.ApplicationMenu 0.1
 
 import QtQuick.Window 2.2
 
@@ -230,7 +230,7 @@ Item {
                         anchors.margins: units.gu(1)
                         height: menuBarLoader.height
                         enableKeyFilter: valid && panelState.decorationsVisible
-                        unityMenuModel: __applicationMenus.model
+                        lomiriMenuModel: __applicationMenus.model
                         panelState: root.panelState
 
                         Connections {

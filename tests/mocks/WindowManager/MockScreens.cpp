@@ -162,7 +162,7 @@ public:
 MockScreens::MockScreens()
 {
     bool ok = false;
-    int screenCount = qEnvironmentVariableIntValue("UNITY_MOCK_SCREEN_COUNT", &ok);
+    int screenCount = qEnvironmentVariableIntValue("LOMIRI_MOCK_SCREEN_COUNT", &ok);
     if (!ok) screenCount = 1;
     QPoint lastPoint(0,0);
     for (int i = 0; i < screenCount; ++i) {

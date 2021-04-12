@@ -17,7 +17,7 @@
 import QtQuick 2.4
 import QtTest 1.0
 import Lomiri.Components 1.3
-import Unity.Test 0.1 as UT
+import Lomiri.Test 0.1 as UT
 import ".."
 import "../../../qml/Components"
 
@@ -101,7 +101,7 @@ Item {
         }
     }
 
-    UT.UnityTestCase {
+    UT.LomiriTestCase {
         name: "Showable"
         when: windowShown
 

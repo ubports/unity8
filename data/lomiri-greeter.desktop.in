@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
-Name=Unity 8 Greeter
-Comment=The converged Unity shell's Greeter
+Name=Lomiri 8 Greeter
+Comment=The converged Lomiri shell's Greeter
 Exec=@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_BINDIR@/lomiri-greeter-wrapper @CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_BINDIR@/lomiri --mode=greeter
 X-LightDM-Session-Type=mir
 X-Lomiri-Touch=true

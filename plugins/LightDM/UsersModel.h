@@ -20,10 +20,10 @@
 
 #pragma once
 
-#include <unitysortfilterproxymodelqml.h>
+#include <lomirisortfilterproxymodelqml.h>
 #include <QObject>
 
-class UsersModel : public UnitySortFilterProxyModelQML
+class UsersModel : public LomiriSortFilterProxyModelQML
 {
     Q_OBJECT
 

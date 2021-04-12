@@ -1,6 +1,6 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
-# Unity Indicators Autopilot Test Suite
+# Lomiri Indicators Autopilot Test Suite
 # Copyright (C) 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
@@ -37,7 +37,7 @@ class TestIndicatorBaseTestCase(tests.IndicatorTestCase):
 
         self.launch_indicator_service()
 
-        # wait for the indicator to appear in unity
+        # wait for the indicator to appear in lomiri
         self.indicator = indicators.TestIndicator(self.main_window)
         self.assertThat(
             self.indicator.is_indicator_icon_visible(),

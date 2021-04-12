@@ -17,7 +17,7 @@
 import QtQuick 2.4
 import Lomiri.Components 1.3
 import Lomiri.Gestures 0.1
-import Unity.Application 0.1
+import Lomiri.Application 0.1
 
 Item {
     id: root
@@ -45,7 +45,7 @@ Item {
         id: gestureArea
         anchors.fill: parent
 
-        // NB: for testing set to 2, not to clash with unity7 touch overlay controls
+        // NB: for testing set to 2, not to clash with lomiri7 touch overlay controls
         minimumTouchPoints: 3
         maximumTouchPoints: minimumTouchPoints
 

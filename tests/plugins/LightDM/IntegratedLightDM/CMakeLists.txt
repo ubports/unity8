@@ -54,7 +54,7 @@ add_qmltest_target(testGreeterPam GreeterPamTestExec COMMAND $<TARGET_FILE:Greet
 add_executable(GreeterSessionsModelTestExec
     sessionsmodel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/SessionsModel.cpp
-    ${CMAKE_SOURCE_DIR}/plugins/Utils/unitysortfilterproxymodelqml.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Utils/lomirisortfilterproxymodelqml.cpp
     )
 add_dependencies(GreeterSessionsModelTestExec MockLightDM)
 target_link_libraries(GreeterSessionsModelTestExec
@@ -79,7 +79,7 @@ add_executable(GreeterUsersModelTestExec
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/Greeter.cpp
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/PromptsModel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/UsersModel.cpp
-    ${CMAKE_SOURCE_DIR}/plugins/Utils/unitysortfilterproxymodelqml.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Utils/lomirisortfilterproxymodelqml.cpp
     )
 # This add_dependencies is needed since we're linking with with -L and -l below
 # make seems to work but ninja breaks without it
@@ -106,7 +106,7 @@ add_executable(GreeterPromptsModelTestExec
     promptsmodel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/Greeter.cpp
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/PromptsModel.cpp
-    ${CMAKE_SOURCE_DIR}/plugins/Utils/unitysortfilterproxymodelqml.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Utils/lomirisortfilterproxymodelqml.cpp
     )
 # This add_dependencies is needed since we're linking with with -L and -l below
 # make seems to work but ninja breaks without it

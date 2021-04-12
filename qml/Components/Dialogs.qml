@@ -16,11 +16,11 @@
 
 import QtQuick 2.4
 import QtQuick.Window 2.2
-import Unity.Application 0.1
-import Unity.Session 0.1
+import Lomiri.Application 0.1
+import Lomiri.Session 0.1
 import GlobalShortcut 1.0
 import Lomiri.Components 1.3
-import Unity.Platform 1.0
+import Lomiri.Platform 1.0
 import Utils 0.1
 
 MouseArea {
@@ -32,7 +32,7 @@ MouseArea {
     readonly property bool hasActiveDialog: dialogLoader.active || d.modeSwitchWarningPopup
 
     // to be set from outside, useful mostly for testing purposes
-    property var unitySessionService: DBusUnitySessionService
+    property var lomiriSessionService: DBusLomiriSessionService
     property string usageScenario
     property size screenSize: Qt.size(Screen.width, Screen.height)
     property bool hasKeyboard: false
@@ -84,48 +84,48 @@ MouseArea {
     GlobalShortcut { // reboot/shutdown dialog
         shortcut: Qt.Key_PowerDown
         active: Platform.isPC
-        onTriggered: root.unitySessionService.RequestShutdown()
+        onTriggered: root.lomiriSessionService.RequestShutdown()
     }
 
     GlobalShortcut { // reboot/shutdown dialog
         shortcut: Qt.Key_PowerOff
         active: Platform.isPC
-        onTriggered: root.unitySessionService.RequestShutdown()
+        onTriggered: root.lomiriSessionService.RequestShutdown()
     }
 
     GlobalShortcut { // sleep
         shortcut: Qt.Key_Sleep
-        onTriggered: root.unitySessionService.Suspend()
+        onTriggered: root.lomiriSessionService.Suspend()
     }
 
     GlobalShortcut { // hibernate
         shortcut: Qt.Key_Hibernate
-        onTriggered: root.unitySessionService.Hibernate()
+        onTriggered: root.lomiriSessionService.Hibernate()
     }
 
     GlobalShortcut { // logout/lock dialog
         shortcut: Qt.Key_LogOff
-        onTriggered: root.unitySessionService.RequestLogout()
+        onTriggered: root.lomiriSessionService.RequestLogout()
     }
 
     GlobalShortcut { // logout/lock dialog
         shortcut: Qt.ControlModifier|Qt.AltModifier|Qt.Key_Delete
-        onTriggered: root.unitySessionService.RequestLogout()
+        onTriggered: root.lomiriSessionService.RequestLogout()
     }
 
     GlobalShortcut { // lock screen
         shortcut: Qt.Key_ScreenSaver
-        onTriggered: root.unitySessionService.PromptLock()
+        onTriggered: root.lomiriSessionService.PromptLock()
     }
 
     GlobalShortcut { // lock screen
         shortcut: Qt.ControlModifier|Qt.AltModifier|Qt.Key_L
-        onTriggered: root.unitySessionService.PromptLock()
+        onTriggered: root.lomiriSessionService.PromptLock()
     }
 
     GlobalShortcut { // lock screen
         shortcut: Qt.MetaModifier|Qt.Key_L
-        onTriggered: root.unitySessionService.PromptLock()
+        onTriggered: root.lomiriSessionService.PromptLock()
     }
 
     QtObject {
@@ -178,9 +178,9 @@ MouseArea {
             Button {
                 width: parent.width
                 text: i18n.ctr("Button: Lock the system", "Lock")
-                visible: root.unitySessionService.CanLock()
+                visible: root.lomiriSessionService.CanLock()
                 onClicked: {
-                    root.unitySessionService.PromptLock();
+                    root.lomiriSessionService.PromptLock();
                     logoutDialog.hide();
                 }
                 Component.onCompleted: if (root.hasKeyboard) forceActiveFocus(Qt.TabFocusReason)
@@ -190,7 +190,7 @@ MouseArea {
                 focus: true
                 text: i18n.ctr("Button: Log out from the system", "Log Out")
                 onClicked: {
-                    unitySessionService.logout();
+                    lomiriSessionService.logout();
                     logoutDialog.hide();
                 }
             }
@@ -222,12 +222,12 @@ MouseArea {
                 focus: true
                 text: i18n.tr("Yes")
                 onClicked: {
-                    doOnClosedAllWindows = function(unitySessionService, rebootDialog) {
+                    doOnClosedAllWindows = function(lomiriSessionService, rebootDialog) {
                         return function() {
-                            unitySessionService.reboot();
+                            lomiriSessionService.reboot();
                             rebootDialog.hide();
                         }
-                    }(unitySessionService, rebootDialog);
+                    }(lomiriSessionService, rebootDialog);
                     topLevelSurfaceList.closeAllWindows();
                 }
                 color: theme.palette.normal.negative
@@ -262,12 +262,12 @@ MouseArea {
                 width: parent.width
                 text: i18n.ctr("Button: Restart the system", "Restart")
                 onClicked: {
-                    doOnClosedAllWindows = function(unitySessionService, powerDialog) {
+                    doOnClosedAllWindows = function(lomiriSessionService, powerDialog) {
                         return function() {
-                            unitySessionService.reboot();
+                            lomiriSessionService.reboot();
                             powerDialog.hide();
                         }
-                    }(unitySessionService, powerDialog);
+                    }(lomiriSessionService, powerDialog);
                     topLevelSurfaceList.closeAllWindows();
                 }
             }
@@ -290,7 +290,7 @@ MouseArea {
     }
 
     Connections {
-        target: root.unitySessionService
+        target: root.lomiriSessionService
 
         onLogoutRequested: {
             // Display a dialog to ask the user to confirm.
@@ -316,12 +316,12 @@ MouseArea {
         }
 
         onLogoutReady: {
-            doOnClosedAllWindows = function(unitySessionService) {
+            doOnClosedAllWindows = function(lomiriSessionService) {
                 return function() {
                     Qt.quit();
-                    unitySessionService.endSession();
+                    lomiriSessionService.endSession();
                 }
-            }(unitySessionService);
+            }(lomiriSessionService);
             topLevelSurfaceList.closeAllWindows();
         }
     }

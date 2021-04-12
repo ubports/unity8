@@ -1,5 +1,5 @@
-data/unity-mock-indicator-service.conf usr/share/upstart/sessions/
-usr/bin/unity-mock-indicator-service
+data/lomiri-mock-indicator-service.conf usr/share/upstart/sessions/
+usr/bin/lomiri-mock-indicator-service
 usr/lib/*/lomiri/qml/mocks
 usr/lib/*/lomiri/qml/nonmirplugins
 usr/lib/*/lomiri/qml/utils

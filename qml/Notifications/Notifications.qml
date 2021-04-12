@@ -16,7 +16,7 @@
 
 import QtQuick 2.4
 import Lomiri.Components 1.3
-import Unity.Notifications 1.0 as UnityNotifications
+import Lomiri.Notifications 1.0 as LomiriNotifications
 import Utils 0.1
 import "../Components"
 
@@ -33,13 +33,13 @@ ListView {
 
     readonly property bool useModal: snapDecisionProxyModel.count > 0
 
-    UnitySortFilterProxyModel {
+    LomiriSortFilterProxyModel {
         id: snapDecisionProxyModel
         objectName: "snapDecisionProxyModel"
 
         model: notificationList.model ? notificationList.model : null
-        filterRole: UnityNotifications.ModelInterface != undefined ? UnityNotifications.ModelInterface.RoleType : 0
-        filterRegExp: RegExp(UnityNotifications.Notification.SnapDecision)
+        filterRole: LomiriNotifications.ModelInterface != undefined ? LomiriNotifications.ModelInterface.RoleType : 0
+        filterRegExp: RegExp(LomiriNotifications.Notification.SnapDecision)
     }
 
     property bool topmostIsFullscreen: false

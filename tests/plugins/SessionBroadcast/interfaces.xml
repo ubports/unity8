@@ -1,5 +1,5 @@
 <node>
-  <interface name="com.canonical.Unity.Greeter.Broadcast">
+  <interface name="com.canonical.Lomiri.Greeter.Broadcast">
     <method name="RequestUrlStart">
       <arg name="username" type="s" direction="in" />
       <arg name="url" type="s" direction="in" />

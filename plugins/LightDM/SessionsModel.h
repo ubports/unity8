@@ -17,13 +17,13 @@
 
 #pragma once
 
-#include <unitysortfilterproxymodelqml.h>
+#include <lomirisortfilterproxymodelqml.h>
 #include <QLightDM/SessionsModel>
 #include <QtCore/QHash>
 #include <QtCore/QObject>
 #include <QtCore/QUrl>
 
-class SessionsModel : public UnitySortFilterProxyModelQML
+class SessionsModel : public LomiriSortFilterProxyModelQML
 {
     Q_OBJECT
 
@@ -60,7 +60,7 @@ private:
     QHash<int, QByteArray> m_roleNames;
     QList<QUrl> m_iconSearchDirectories{
         QUrl("/usr/share/lomiri/Greeter/graphics/session_icons"),
-        QUrl("/usr/local/share/unity-greeter"),
-        QUrl("/usr/share/unity-greeter/")};
+        QUrl("/usr/local/share/lomiri-greeter"),
+        QUrl("/usr/share/lomiri-greeter/")};
 
 };

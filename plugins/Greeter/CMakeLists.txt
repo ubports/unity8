@@ -3,4 +3,4 @@ macro(add_lomiri_greeter_plugin PLUGIN VERSION PATH)
     export_qmlplugin(${PLUGIN} ${VERSION} ${PATH} DESTINATION ${SHELL_INSTALL_QML}/Greeter TARGET_PREFIX Greeter ${ARGN})
 endmacro()
 
-add_subdirectory(Unity)
+add_subdirectory(Lomiri)

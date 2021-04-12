@@ -26,7 +26,7 @@
 #include <QSqlResult>
 #include <QStandardPaths>
 #include <QRect>
-#include <unity/shell/application/ApplicationInfoInterface.h>
+#include <lomiri/shell/application/ApplicationInfoInterface.h>
 
 
 class AsyncQuery: public QObject

@@ -18,7 +18,7 @@
  */
 
 import QtQuick 2.4
-import Unity.Indicators 0.1
+import Lomiri.Indicators 0.1
 
 Item {
     id: indicatorItem
@@ -33,7 +33,7 @@ Item {
     property alias menuModel: cachedModel.model
     property alias rootActionState: rootAction
 
-    SharedUnityMenuModel {
+    SharedLomiriMenuModel {
         id: cachedModel
         busName: indicatorItem.busName
         actions: { "indicator": indicatorItem.actionsObjectPath }

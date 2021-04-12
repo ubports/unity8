@@ -28,8 +28,8 @@
 #define IFACE_LOMIRI_INPUT           QStringLiteral("com.lomiri.AccountsService.Input")
 #define IFACE_LOMIRI_SECURITY        QStringLiteral("com.lomiri.AccountsService.SecurityPrivacy")
 #define IFACE_LOMIRI_SECURITY_OLD    QStringLiteral("com.lomiri.touch.AccountsService.SecurityPrivacy")
-#define IFACE_UNITY                  QStringLiteral("com.canonical.unity.AccountsService")
-#define IFACE_UNITY_PRIVATE          QStringLiteral("com.canonical.unity.AccountsService.Private")
+#define IFACE_LOMIRI                  QStringLiteral("com.canonical.lomiri.AccountsService")
+#define IFACE_LOMIRI_PRIVATE          QStringLiteral("com.canonical.lomiri.AccountsService.Private")
 
 #define PROP_BACKGROUND_FILE                   QStringLiteral("BackgroundFile")
 #define PROP_DEMO_EDGES                        QStringLiteral("DemoEdges2")
@@ -80,9 +80,9 @@ AccountsService::AccountsService(QObject* parent, const QString &user)
     : QObject(parent)
     , m_service(new AccountsServiceDBusAdaptor(this))
 {
-    m_unityInput = new QDBusInterface(QStringLiteral("com.canonical.Unity.Input"),
-                                      QStringLiteral("/com/canonical/Unity/Input"),
-                                      QStringLiteral("com.canonical.Unity.Input"),
+    m_lomiriInput = new QDBusInterface(QStringLiteral("com.canonical.Lomiri.Input"),
+                                      QStringLiteral("/com/canonical/Lomiri/Input"),
+                                      QStringLiteral("com.canonical.Lomiri.Input"),
                                       QDBusConnection::SM_BUSNAME(), this);
 
     connect(m_service, &AccountsServiceDBusAdaptor::propertiesChanged, this, &AccountsService::onPropertiesChanged);
@@ -97,37 +97,37 @@ AccountsService::AccountsService(QObject* parent, const QString &user)
     registerProperty(IFACE_LOMIRI_SECURITY, PROP_ENABLE_INDICATORS_WHILE_LOCKED, QStringLiteral("enableIndicatorsWhileLockedChanged"));
     registerProperty(IFACE_LOMIRI_SECURITY, PROP_PASSWORD_DISPLAY_HINT, QStringLiteral("passwordDisplayHintChanged"));
     registerProperty(IFACE_LOMIRI_SECURITY_OLD, PROP_STATS_WELCOME_SCREEN, QStringLiteral("statsWelcomeScreenChanged"));
-    registerProperty(IFACE_UNITY, PROP_DEMO_EDGES, QStringLiteral("demoEdgesChanged"));
-    registerProperty(IFACE_UNITY, PROP_DEMO_EDGES_COMPLETED, QStringLiteral("demoEdgesCompletedChanged"));
-    registerProperty(IFACE_UNITY_PRIVATE, PROP_FAILED_FINGERPRINT_LOGINS, QStringLiteral("failedFingerprintLoginsChanged"));
-    registerProperty(IFACE_UNITY_PRIVATE, PROP_FAILED_LOGINS, QStringLiteral("failedLoginsChanged"));
+    registerProperty(IFACE_LOMIRI, PROP_DEMO_EDGES, QStringLiteral("demoEdgesChanged"));
+    registerProperty(IFACE_LOMIRI, PROP_DEMO_EDGES_COMPLETED, QStringLiteral("demoEdgesCompletedChanged"));
+    registerProperty(IFACE_LOMIRI_PRIVATE, PROP_FAILED_FINGERPRINT_LOGINS, QStringLiteral("failedFingerprintLoginsChanged"));
+    registerProperty(IFACE_LOMIRI_PRIVATE, PROP_FAILED_LOGINS, QStringLiteral("failedLoginsChanged"));
 
     registerProxy(IFACE_LOMIRI_INPUT, PROP_MOUSE_CURSOR_SPEED,
-                  m_unityInput, QStringLiteral("setMouseCursorSpeed"));
+                  m_lomiriInput, QStringLiteral("setMouseCursorSpeed"));
     registerProxy(IFACE_LOMIRI_INPUT, PROP_MOUSE_DOUBLE_CLICK_SPEED,
-                  m_unityInput, QStringLiteral("setMouseDoubleClickSpeed"));
+                  m_lomiriInput, QStringLiteral("setMouseDoubleClickSpeed"));
     registerProxy(IFACE_LOMIRI_INPUT, PROP_MOUSE_PRIMARY_BUTTON,
-                  m_unityInput, QStringLiteral("setMousePrimaryButton"),
+                  m_lomiriInput, QStringLiteral("setMousePrimaryButton"),
                   primaryButtonConverter);
     registerProxy(IFACE_LOMIRI_INPUT, PROP_MOUSE_SCROLL_SPEED,
-                  m_unityInput, QStringLiteral("setMouseScrollSpeed"));
+                  m_lomiriInput, QStringLiteral("setMouseScrollSpeed"));
     registerProxy(IFACE_LOMIRI_INPUT, PROP_TOUCHPAD_CURSOR_SPEED,
-                  m_unityInput, QStringLiteral("setTouchpadCursorSpeed"));
+                  m_lomiriInput, QStringLiteral("setTouchpadCursorSpeed"));
     registerProxy(IFACE_LOMIRI_INPUT, PROP_TOUCHPAD_SCROLL_SPEED,
-                  m_unityInput, QStringLiteral("setTouchpadScrollSpeed"));
+                  m_lomiriInput, QStringLiteral("setTouchpadScrollSpeed"));
     registerProxy(IFACE_LOMIRI_INPUT, PROP_TOUCHPAD_DISABLE_WHILE_TYPING,
-                  m_unityInput, QStringLiteral("setTouchpadDisableWhileTyping"));
+                  m_lomiriInput, QStringLiteral("setTouchpadDisableWhileTyping"));
     registerProxy(IFACE_LOMIRI_INPUT, PROP_TOUCHPAD_DISABLE_WITH_MOUSE,
-                  m_unityInput, QStringLiteral("setTouchpadDisableWithMouse"));
+                  m_lomiriInput, QStringLiteral("setTouchpadDisableWithMouse"));
     registerProxy(IFACE_LOMIRI_INPUT, PROP_TOUCHPAD_DOUBLE_CLICK_SPEED,
-                  m_unityInput, QStringLiteral("setTouchpadDoubleClickSpeed"));
+                  m_lomiriInput, QStringLiteral("setTouchpadDoubleClickSpeed"));
     registerProxy(IFACE_LOMIRI_INPUT, PROP_TOUCHPAD_PRIMARY_BUTTON,
-                  m_unityInput, QStringLiteral("setTouchpadPrimaryButton"),
+                  m_lomiriInput, QStringLiteral("setTouchpadPrimaryButton"),
                   primaryButtonConverter);
     registerProxy(IFACE_LOMIRI_INPUT, PROP_TOUCHPAD_TAP_TO_CLICK,
-                  m_unityInput, QStringLiteral("setTouchpadTapToClick"));
+                  m_lomiriInput, QStringLiteral("setTouchpadTapToClick"));
     registerProxy(IFACE_LOMIRI_INPUT, PROP_TOUCHPAD_TWO_FINGER_SCROLL,
-                  m_unityInput, QStringLiteral("setTouchpadTwoFingerScroll"));
+                  m_lomiriInput, QStringLiteral("setTouchpadTwoFingerScroll"));
 
     setUser(!user.isEmpty() ? user : QString::fromUtf8(g_get_user_name()));
 }
@@ -154,18 +154,18 @@ void AccountsService::setUser(const QString &user)
 
 bool AccountsService::demoEdges() const
 {
-    auto value = getProperty(IFACE_UNITY, PROP_DEMO_EDGES);
+    auto value = getProperty(IFACE_LOMIRI, PROP_DEMO_EDGES);
     return value.toBool();
 }
 
 void AccountsService::setDemoEdges(bool demoEdges)
 {
-    setProperty(IFACE_UNITY, PROP_DEMO_EDGES, demoEdges);
+    setProperty(IFACE_LOMIRI, PROP_DEMO_EDGES, demoEdges);
 }
 
 QStringList AccountsService::demoEdgesCompleted() const
 {
-    auto value = getProperty(IFACE_UNITY, PROP_DEMO_EDGES_COMPLETED);
+    auto value = getProperty(IFACE_LOMIRI, PROP_DEMO_EDGES_COMPLETED);
     return value.toStringList();
 }
 
@@ -173,7 +173,7 @@ void AccountsService::markDemoEdgeCompleted(const QString &edge)
 {
     auto currentList = demoEdgesCompleted();
     if (!currentList.contains(edge)) {
-        setProperty(IFACE_UNITY, PROP_DEMO_EDGES_COMPLETED, currentList << edge);
+        setProperty(IFACE_LOMIRI, PROP_DEMO_EDGES_COMPLETED, currentList << edge);
     }
 }
 
@@ -275,22 +275,22 @@ void AccountsService::setKeymaps(const QStringList &keymaps)
 
 uint AccountsService::failedFingerprintLogins() const
 {
-    return getProperty(IFACE_UNITY_PRIVATE, PROP_FAILED_FINGERPRINT_LOGINS).toUInt();
+    return getProperty(IFACE_LOMIRI_PRIVATE, PROP_FAILED_FINGERPRINT_LOGINS).toUInt();
 }
 
 void AccountsService::setFailedFingerprintLogins(uint failedFingerprintLogins)
 {
-    setProperty(IFACE_UNITY_PRIVATE, PROP_FAILED_FINGERPRINT_LOGINS, failedFingerprintLogins);
+    setProperty(IFACE_LOMIRI_PRIVATE, PROP_FAILED_FINGERPRINT_LOGINS, failedFingerprintLogins);
 }
 
 uint AccountsService::failedLogins() const
 {
-    return getProperty(IFACE_UNITY_PRIVATE, PROP_FAILED_LOGINS).toUInt();
+    return getProperty(IFACE_LOMIRI_PRIVATE, PROP_FAILED_LOGINS).toUInt();
 }
 
 void AccountsService::setFailedLogins(uint failedLogins)
 {
-    setProperty(IFACE_UNITY_PRIVATE, PROP_FAILED_LOGINS, failedLogins);
+    setProperty(IFACE_LOMIRI_PRIVATE, PROP_FAILED_LOGINS, failedLogins);
 }
 
 // ====================================================

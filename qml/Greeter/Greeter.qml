@@ -20,8 +20,8 @@ import Biometryd 0.0
 import GSettings 1.0
 import Powerd 0.1
 import Lomiri.Components 1.3
-import Unity.Launcher 0.1
-import Unity.Session 0.1
+import Lomiri.Launcher 0.1
+import Lomiri.Session 0.1
 
 import "." 0.1
 import ".." 0.1
@@ -506,7 +506,7 @@ Showable {
     }
 
     Connections {
-        target: DBusUnitySessionService
+        target: DBusLomiriSessionService
         onLockRequested: root.forceShow()
         onUnlocked: {
             root.forcedUnlock = true;

@@ -1,21 +1,21 @@
-Building Unity 8
+Building Lomiri 8
 ================
 
 Only Ubuntu 14.04 (trusty) is supported as a developement environment.
 
 download source
 ---------------
-- create a parent folder to not pollute your setup. so that you can have different unity
+- create a parent folder to not pollute your setup. so that you can have different lomiri
   branches there (trunk, WIP etc)
 
   $ mkdir ~/lomiri
 
-- fetch Unity 8 source
+- fetch Lomiri 8 source
   $ sudo apt-get install bzr
   $ bzr branch lp:lomiri ~/lomiri/trunk
   $ cd ~/lomiri/trunk
 
-install dependencies and build Unity 8
+install dependencies and build Lomiri 8
 --------------------
 
 $ cd ~/lomiri/trunk
@@ -24,17 +24,17 @@ $ ./build.sh
   If its your first time, this will install the required dependencies to build and
   build it.
 
-  You might want to also install unity-scope-home and unity-scope-click which
+  You might want to also install lomiri-scope-home and lomiri-scope-click which
   are technically "recommends", not strict dependencies
 
 You may also rebuild with the -c for clean, which just deletes the build
 directory.
 
 
-Running Unity 8 on your desktop
+Running Lomiri 8 on your desktop
 ===============================
 
-run the Unity 8 shell
+run the Lomiri 8 shell
 ---------------------
 $ cd ~/lomiri/trunk
 $ cd builddir
@@ -64,7 +64,7 @@ Notes
     - Populate the address book with sample data
 
 
-Running Unity 8 on devices
+Running Lomiri 8 on devices
 ==========================
 
 Running lomiri on a device should be done using crossbuilder.
@@ -85,7 +85,7 @@ https://launchpad.net/canonical-client-development-guidelines
 Development Environment
 =======================
 QtCreator (available via the Software Center) is the best IDE to hack on
-Unity 8.
+Lomiri 8.
 
 If using VIM, make sure you install some syntax highlighting for QML, like
 https://github.com/peterhoeg/vim-qml

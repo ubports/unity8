@@ -17,7 +17,7 @@
 import QtQuick 2.4
 import Lomiri.Components 1.3
 import Lomiri.Gestures 0.1
-import Unity.Test 0.1
+import Lomiri.Test 0.1
 import "../../../../qml/Components"
 
 Rectangle {

@@ -23,8 +23,8 @@ import GSettings 1.0
 import LightDMController 0.1
 import LightDM.FullLightDM 0.1 as LightDM
 import Lomiri.Telephony 0.1 as Telephony
-import Unity.Application 0.1
-import Unity.Test 0.1 as UT
+import Lomiri.Application 0.1
+import Lomiri.Test 0.1 as UT
 import Powerd 0.1
 
 import "../../qml"

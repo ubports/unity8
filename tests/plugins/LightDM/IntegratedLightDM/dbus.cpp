@@ -42,14 +42,14 @@ private Q_SLOTS:
         // So we connect the hard way for the benefit of any tests that want
         // to watch.
         QDBusConnection::sessionBus().connect(
-            "com.canonical.UnityGreeter",
+            "com.canonical.LomiriGreeter",
             "/",
             "org.freedesktop.DBus.Properties",
             "PropertiesChanged",
             this,
             SIGNAL(PropertiesChangedRelay(const QString&, const QVariantMap&, const QStringList&)));
         QDBusConnection::sessionBus().connect(
-            "com.canonical.UnityGreeter",
+            "com.canonical.LomiriGreeter",
             "/list",
             "org.freedesktop.DBus.Properties",
             "PropertiesChanged",
@@ -67,15 +67,15 @@ private Q_SLOTS:
         view->show();
         QTest::qWaitForWindowExposed(view);
 
-        dbusMain = new QDBusInterface("com.canonical.UnityGreeter",
+        dbusMain = new QDBusInterface("com.canonical.LomiriGreeter",
                                       "/",
-                                      "com.canonical.UnityGreeter",
+                                      "com.canonical.LomiriGreeter",
                                       QDBusConnection::sessionBus(), view);
         QVERIFY(dbusMain->isValid());
 
-        dbusList = new QDBusInterface("com.canonical.UnityGreeter",
+        dbusList = new QDBusInterface("com.canonical.LomiriGreeter",
                                       "/list",
-                                      "com.canonical.UnityGreeter.List",
+                                      "com.canonical.LomiriGreeter.List",
                                       QDBusConnection::sessionBus(), view);
         QVERIFY(dbusList->isValid());
     }
@@ -145,7 +145,7 @@ private Q_SLOTS:
         QTRY_COMPARE(spy.count(), 1);
 
         QList<QVariant> arguments = spy[0];
-        QVERIFY(arguments.at(0).toString() == "com.canonical.UnityGreeter.List");
+        QVERIFY(arguments.at(0).toString() == "com.canonical.LomiriGreeter.List");
         QVERIFY(arguments.at(1).toMap().contains("ActiveEntry"));
         QVERIFY(arguments.at(1).toMap()["ActiveEntry"] == "has-password");
     }
@@ -180,7 +180,7 @@ private Q_SLOTS:
         QTRY_COMPARE(spy.count(), 2);
 
         QList<QVariant> arguments = spy[1];
-        QVERIFY(arguments.at(0).toString() == "com.canonical.UnityGreeter.List");
+        QVERIFY(arguments.at(0).toString() == "com.canonical.LomiriGreeter.List");
         QVERIFY(arguments.at(1).toMap().contains("EntryIsLocked"));
         QVERIFY(arguments.at(1).toMap()["EntryIsLocked"] == false);
     }
@@ -199,7 +199,7 @@ private Q_SLOTS:
 
         QCOMPARE(spy.count(), 1);
         QList<QVariant> arguments = spy.takeFirst();
-        QCOMPARE(arguments.at(0).toString(), QString("com.canonical.UnityGreeter"));
+        QCOMPARE(arguments.at(0).toString(), QString("com.canonical.LomiriGreeter"));
         QVERIFY(arguments.at(1).toMap().contains("IsActive"));
         QVERIFY(arguments.at(1).toMap()["IsActive"].toBool());
     }

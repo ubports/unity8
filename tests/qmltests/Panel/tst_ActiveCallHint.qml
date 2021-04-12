@@ -16,9 +16,9 @@
 
 import QtQuick 2.4
 import QtTest 1.0
-import Unity.Test 0.1 as UT
+import Lomiri.Test 0.1 as UT
 import Lomiri.Telephony 0.1 as Telephony
-import Unity.Application 0.1
+import Lomiri.Application 0.1
 import "../../../qml/Panel"
 
 Item {
@@ -61,7 +61,7 @@ Item {
         callManager.foregroundCall = call3;
     }
 
-    UT.UnityTestCase {
+    UT.LomiriTestCase {
         name: "ActiveCallHint"
         when: windowShown
 

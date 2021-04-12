@@ -15,8 +15,8 @@
  * <http://www.gnu.org/licenses/>
  */
 
-#ifndef UNITY_USCSERVER_H
-#define UNITY_USCSERVER_H
+#ifndef LOMIRI_USCSERVER_H
+#define LOMIRI_USCSERVER_H
 
 #include <QDBusContext>
 #include <QObject>

@@ -46,9 +46,9 @@ public:
         , m_spy(this, &AccountsServiceTest::propertiesChanged)
         , m_mousePrimaryButtonSpy(this, &AccountsServiceTest::setMousePrimaryButtonCalled)
     {
-        m_uscInputInterface = new QDBusInterface("com.canonical.Unity.Input",
-                                                 "/com/canonical/Unity/Input",
-                                                 "com.canonical.Unity.Input",
+        m_uscInputInterface = new QDBusInterface("com.canonical.Lomiri.Input",
+                                                 "/com/canonical/Lomiri/Input",
+                                                 "com.canonical.Lomiri.Input",
                                                  QDBusConnection::sessionBus(),
                                                  this);
 
@@ -92,17 +92,17 @@ private Q_SLOTS:
     {
         // Test various invalid calls
         AccountsServiceDBusAdaptor session;
-        QCOMPARE(session.getUserPropertyAsync("NOPE", "com.canonical.unity.AccountsService", "DemoEdges2").value(), QVariant());
-        QCOMPARE(session.getUserPropertyAsync(QTest::currentTestFunction(), "com.canonical.unity.AccountsService", "NOPE").value(), QVariant());
+        QCOMPARE(session.getUserPropertyAsync("NOPE", "com.canonical.lomiri.AccountsService", "DemoEdges2").value(), QVariant());
+        QCOMPARE(session.getUserPropertyAsync(QTest::currentTestFunction(), "com.canonical.lomiri.AccountsService", "NOPE").value(), QVariant());
     }
 
     void testGetSetServiceDBusAdaptor()
     {
         AccountsServiceDBusAdaptor session;
-        session.setUserPropertyAsync(QTest::currentTestFunction(), "com.canonical.unity.AccountsService", "DemoEdges2", QVariant(true)).waitForFinished();
-        QCOMPARE(session.getUserPropertyAsync(QTest::currentTestFunction(), "com.canonical.unity.AccountsService", "DemoEdges2").value(), QVariant(true));
-        session.setUserPropertyAsync(QTest::currentTestFunction(), "com.canonical.unity.AccountsService", "DemoEdges2", QVariant(false)).waitForFinished();
-        QCOMPARE(session.getUserPropertyAsync(QTest::currentTestFunction(), "com.canonical.unity.AccountsService", "DemoEdges2").value(), QVariant(false));
+        session.setUserPropertyAsync(QTest::currentTestFunction(), "com.canonical.lomiri.AccountsService", "DemoEdges2", QVariant(true)).waitForFinished();
+        QCOMPARE(session.getUserPropertyAsync(QTest::currentTestFunction(), "com.canonical.lomiri.AccountsService", "DemoEdges2").value(), QVariant(true));
+        session.setUserPropertyAsync(QTest::currentTestFunction(), "com.canonical.lomiri.AccountsService", "DemoEdges2", QVariant(false)).waitForFinished();
+        QCOMPARE(session.getUserPropertyAsync(QTest::currentTestFunction(), "com.canonical.lomiri.AccountsService", "DemoEdges2").value(), QVariant(false));
     }
 
     void testGetSetService()
@@ -148,7 +148,7 @@ private Q_SLOTS:
         QCOMPARE(session.demoEdgesCompleted(), QStringList());
 
         ASSERT_DBUS_CALL(m_userInterface->call("Set",
-                                               "com.canonical.unity.AccountsService",
+                                               "com.canonical.lomiri.AccountsService",
                                                "DemoEdgesCompleted",
                                                dbusVariant(QStringList() << "testedge")));
         QTRY_COMPARE(changedSpy.count(), 1);
@@ -161,7 +161,7 @@ private Q_SLOTS:
 
         QCOMPARE(session.demoEdges(), false);
         ASSERT_DBUS_CALL(m_userInterface->call("Set",
-                                               "com.canonical.unity.AccountsService",
+                                               "com.canonical.lomiri.AccountsService",
                                                "DemoEdges2",
                                                dbusVariant(true)));
         QTRY_COMPARE(session.demoEdges(), true);
@@ -173,7 +173,7 @@ private Q_SLOTS:
 
         QCOMPARE(session.failedLogins(), (uint)0);
         ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
-                                                    "com.canonical.unity.AccountsService.Private",
+                                                    "com.canonical.lomiri.AccountsService.Private",
                                                     "FailedLogins",
                                                     dbusVariant(5)));
         QTRY_COMPARE(session.failedLogins(), (uint)5);

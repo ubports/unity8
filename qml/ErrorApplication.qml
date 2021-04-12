@@ -53,7 +53,7 @@ Instantiator {
                     spacing: units.gu(1)
 
                     Label {
-                        text: "Unity encountered an unrecoverable error while loading:"
+                        text: "Lomiri encountered an unrecoverable error while loading:"
                         fontSize: "large"
                     }
 

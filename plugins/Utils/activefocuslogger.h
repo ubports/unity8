@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef UNITY_ACTIVEFOCUSLOGGER_H
-#define UNITY_ACTIVEFOCUSLOGGER_H
+#ifndef LOMIRI_ACTIVEFOCUSLOGGER_H
+#define LOMIRI_ACTIVEFOCUSLOGGER_H
 
 #include <QQuickItem>
 #include <QPointer>
@@ -34,4 +34,4 @@ private:
     QPointer<QQuickWindow> m_window;
 };
 
-#endif // UNITY_ACTIVEFOCUSLOGGER_H
+#endif // LOMIRI_ACTIVEFOCUSLOGGER_H

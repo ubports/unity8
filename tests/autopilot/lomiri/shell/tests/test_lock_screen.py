@@ -1,6 +1,6 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
-# Unity Autopilot Test Suite
+# Lomiri Autopilot Test Suite
 # Copyright (C) 2012, 2013, 2014, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
@@ -23,13 +23,13 @@ from autopilot.matchers import Eventually
 from testtools.matchers import Equals
 from lomiriuitoolkit import lomiri_scenarios
 
-from lomiri.shell.tests import UnityTestCase
+from lomiri.shell.tests import LomiriTestCase
 
 
 logger = logging.getLogger(__name__)
 
 
-class TestLockscreen(UnityTestCase):
+class TestLockscreen(LomiriTestCase):
 
     """Tests for the lock screen."""
 
@@ -39,7 +39,7 @@ class TestLockscreen(UnityTestCase):
         """Must be able to unlock the PIN entry lock screen."""
 
         self._environment['LIBLIGHTDM_MOCK_MODE'] = "single-pin"
-        self.launch_unity()
+        self.launch_lomiri()
         greeter = self.main_window.get_greeter()
 
         if not greeter.tabletMode:
@@ -54,7 +54,7 @@ class TestLockscreen(UnityTestCase):
         """Must be able to unlock the passphrase entry screen."""
 
         self._environment['LIBLIGHTDM_MOCK_MODE'] = "single-passphrase"
-        self.launch_unity()
+        self.launch_lomiri()
         greeter = self.main_window.get_greeter()
 
         if not greeter.tabletMode:
@@ -68,7 +68,7 @@ class TestLockscreen(UnityTestCase):
     def test_pin_screen_wrong_code(self):
         """Entering the wrong pin code must not dismiss the lock screen."""
         self._environment['LIBLIGHTDM_MOCK_MODE'] = "single-pin"
-        self.launch_unity()
+        self.launch_lomiri()
         greeter = self.main_window.get_greeter()
 
         if not greeter.tabletMode:
@@ -86,7 +86,7 @@ class TestLockscreen(UnityTestCase):
     def test_passphrase_screen_wrong_password(self):
         """Entering the wrong password must not dismiss the lock screen."""
         self._environment['LIBLIGHTDM_MOCK_MODE'] = "single-passphrase"
-        self.launch_unity()
+        self.launch_lomiri()
         greeter = self.main_window.get_greeter()
 
         if not greeter.tabletMode:

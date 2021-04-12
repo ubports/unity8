@@ -1,6 +1,6 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
-# Unity Autopilot Test Suite
+# Lomiri Autopilot Test Suite
 # Copyright (C) 2012, 2013, 2014, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
@@ -57,7 +57,7 @@ class Launcher(lomiriuitoolkit.LomiriUIToolkitCustomProxyObjectBase):
                 'QQuickImage', objectName='dashItem')
             self.pointing_device.click_object(dash_icon)
         else:
-            raise lomiri.UnityException('The launcher is closed.')
+            raise lomiri.LomiriException('The launcher is closed.')
 
     @autopilot.logging.log_action(logger.debug)
     def click_application_launcher_icon(self, application_name):

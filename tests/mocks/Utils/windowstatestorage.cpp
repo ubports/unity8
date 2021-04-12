@@ -16,7 +16,7 @@
 
 #include "windowstatestorage.h"
 
-#include <unity/shell/application/ApplicationInfoInterface.h>
+#include <lomiri/shell/application/ApplicationInfoInterface.h>
 
 WindowStateStorage::WindowStateStorage(QObject *parent):
     QObject(parent)

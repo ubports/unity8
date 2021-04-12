@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef UNITYUTIL_TIMER_H
-#define UNITYUTIL_TIMER_H
+#ifndef LOMIRIUTIL_TIMER_H
+#define LOMIRIUTIL_TIMER_H
 
 #include "ElapsedTimer.h"
 
@@ -23,7 +23,7 @@
 #include <QPointer>
 #include <QTimer>
 
-namespace UnityUtil {
+namespace LomiriUtil {
 
 /** Defines an interface for a Timer. Useful for tests. */
 class AbstractTimer : public QObject
@@ -73,6 +73,6 @@ public:
     AbstractTimer *create(QObject *parent = nullptr) override { return new Timer(parent); }
 };
 
-} // namespace UnityUtil
+} // namespace LomiriUtil
 
-#endif // UNITYUTIL_TIMER_H
+#endif // LOMIRIUTIL_TIMER_H

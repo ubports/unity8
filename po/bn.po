@@ -52,16 +52,16 @@ msgstr "লগইন করুন"
 msgid "Guest Session"
 msgstr "গেস্ট সেশন"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:49
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Pin shortcut"
 msgstr "শর্টকাট যোগ করুন"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Lomiri/Launcher/launcheritem.cpp:55
 msgid "Quit"
 msgstr "বাহির"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
 msgstr "শর্টকাট সরান"
 
@@ -135,7 +135,7 @@ msgid "Keyboard Shortcuts"
 msgstr "কিবোর্ড শর্টকাট"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
+msgid "Lomiri 8"
 msgstr "ইউনিটি ৮"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62

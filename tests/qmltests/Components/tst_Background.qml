@@ -16,7 +16,7 @@
 
 import QtQuick 2.4
 import QtTest 1.0
-import Unity.Test 0.1
+import Lomiri.Test 0.1
 
 import "../../../qml/Components"
 
@@ -28,7 +28,7 @@ Rectangle {
         id: background
     }
 
-    UnityTestCase {
+    LomiriTestCase {
         id: testCase
         name: "Background"
         when: windowShown

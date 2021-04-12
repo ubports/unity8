@@ -1,8 +1,8 @@
 include(QmlTest)
 
-set(UNITY_IMPORT_PATHS
+set(LOMIRI_IMPORT_PATHS
     ${CMAKE_BINARY_DIR}/tests/utils/modules
-    ${UNITY_PLUGINPATH}
+    ${LOMIRI_PLUGINPATH}
 )
 
-add_manual_qml_test(. Cursor IMPORT_PATHS ${UNITY_IMPORT_PATHS})
+add_manual_qml_test(. Cursor IMPORT_PATHS ${LOMIRI_IMPORT_PATHS})

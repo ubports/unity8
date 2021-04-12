@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef UNITY_ACCOUNTSSERVICEDBUSADAPTOR_H
-#define UNITY_ACCOUNTSSERVICEDBUSADAPTOR_H
+#ifndef LOMIRI_ACCOUNTSSERVICEDBUSADAPTOR_H
+#define LOMIRI_ACCOUNTSSERVICEDBUSADAPTOR_H
 
 #include <QDBusArgument>
 #include <QDBusContext>

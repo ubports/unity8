@@ -15,7 +15,7 @@
  */
 
 // local
-#include "UnityApplication.h"
+#include "LomiriApplication.h"
 #include "qmldebuggerutils.h"
 #include "UnixSignalHandler.h"
 #include <paths.h>
@@ -46,7 +46,7 @@ int main(int argc, const char *argv[])
         QQmlDebuggingEnabler qQmlEnableDebuggingHelper(true);
     }
 
-    auto *application = new UnityApplication(argc,
+    auto *application = new LomiriApplication(argc,
                                              (char**)argv);
 
     UnixSignalHandler signalHandler([]{

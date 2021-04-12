@@ -1,6 +1,6 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
-# Unity Autopilot Test Suite
+# Lomiri Autopilot Test Suite
 # Copyright (C) 2013, 2014, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
@@ -33,14 +33,14 @@ from testtools.matchers import Equals, MismatchError
 from lomiriuitoolkit import lomiri_scenarios
 
 from lomiri import get_binary_path
-from lomiri.shell.tests import UnityTestCase
+from lomiri.shell.tests import LomiriTestCase
 
 import logging
 
 logger = logging.getLogger(__name__)
 
 
-class UpstartIntegrationTests(UnityTestCase):
+class UpstartIntegrationTests(LomiriTestCase):
 
     scenarios = lomiri_scenarios.get_device_simulation_scenarios()
 
@@ -52,7 +52,7 @@ class UpstartIntegrationTests(UnityTestCase):
                 status, os.WIFSTOPPED(status), os.WIFCONTINUED(status)))
         return status
 
-    def _launch_unity(self):
+    def _launch_lomiri(self):
         self.patch_environment("QT_LOAD_TESTABILITY", "1")
 
         try:
@@ -67,7 +67,7 @@ class UpstartIntegrationTests(UnityTestCase):
             pass
 
         self.process = subprocess.Popen(
-            [get_binary_path()] + self.unity_geometry_args)
+            [get_binary_path()] + self.lomiri_geometry_args)
 
         def ensure_stopped():
             self.process.terminate()
@@ -99,8 +99,8 @@ class UpstartIntegrationTests(UnityTestCase):
     def test_no_sigstop(self):
         self.useFixture(
             fixtures.EnvironmentVariable(
-                'UNITY_MIR_EMITS_SIGSTOP', newvalue=None))
-        self._launch_unity()
+                'LOMIRI_MIR_EMITS_SIGSTOP', newvalue=None))
+        self._launch_lomiri()
 
         try:
             self.assertThat(
@@ -114,14 +114,14 @@ class UpstartIntegrationTests(UnityTestCase):
 
         self._set_proxy()
 
-        logger.debug("Unity started, waiting for it to be ready.")
-        self.wait_for_unity()
-        logger.debug("Unity loaded and ready.")
+        logger.debug("Lomiri started, waiting for it to be ready.")
+        self.wait_for_lomiri()
+        logger.debug("Lomiri loaded and ready.")
 
     def test_expect_sigstop(self):
         self.useFixture(
-            fixtures.EnvironmentVariable('UNITY_MIR_EMITS_SIGSTOP', '1'))
-        self._launch_unity()
+            fixtures.EnvironmentVariable('LOMIRI_MIR_EMITS_SIGSTOP', '1'))
+        self._launch_lomiri()
         self.assertThat(
             lambda: os.WIFSTOPPED(self._get_status()),
             Eventually(Equals(True)), "Lomiri should raise SIGSTOP when ready")
@@ -131,7 +131,7 @@ class UpstartIntegrationTests(UnityTestCase):
             lambda: os.WIFCONTINUED(self._get_status()),
             Eventually(Equals(True)), "Lomiri should have resumed")
 
-        logger.debug("Unity started, waiting for it to be ready.")
+        logger.debug("Lomiri started, waiting for it to be ready.")
         self._set_proxy()
-        self.wait_for_unity()
-        logger.debug("Unity loaded and ready.")
+        self.wait_for_lomiri()
+        logger.debug("Lomiri loaded and ready.")

@@ -7,16 +7,16 @@ include_directories(
 
 add_executable(TopLevelWindowModelTestExec
     tst_TopLevelWindowModel.cpp
-    UnityApplicationMocks.h
+    LomiriApplicationMocks.h
 
-    ${CMAKE_SOURCE_DIR}/tests/mocks/Unity/Application/MirSurfaceListModel.cpp
+    ${CMAKE_SOURCE_DIR}/tests/mocks/Lomiri/Application/MirSurfaceListModel.cpp
 
-    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
-    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
-    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/Mir.h
-    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/MirSurfaceInterface.h
-    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/MirSurfaceListInterface.h
-    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/SurfaceManagerInterface.h
+    ${APPLICATION_API_INCLUDEDIR}/lomiri/shell/application/ApplicationInfoInterface.h
+    ${APPLICATION_API_INCLUDEDIR}/lomiri/shell/application/ApplicationManagerInterface.h
+    ${APPLICATION_API_INCLUDEDIR}/lomiri/shell/application/Mir.h
+    ${APPLICATION_API_INCLUDEDIR}/lomiri/shell/application/MirSurfaceInterface.h
+    ${APPLICATION_API_INCLUDEDIR}/lomiri/shell/application/MirSurfaceListInterface.h
+    ${APPLICATION_API_INCLUDEDIR}/lomiri/shell/application/SurfaceManagerInterface.h
     )
 
 target_link_libraries(TopLevelWindowModelTestExec
@@ -34,5 +34,5 @@ set_target_properties(TopLevelWindowModelTestExec PROPERTIES
         INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}")
 
 add_lomiri_unittest(TopLevelWindowModel TopLevelWindowModelTestExec
-    ENVIRONMENT LD_LIBRARY_PATH=${UNITY_PLUGINPATH}/WindowManager
+    ENVIRONMENT LD_LIBRARY_PATH=${LOMIRI_PLUGINPATH}/WindowManager
 )

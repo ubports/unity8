@@ -22,9 +22,9 @@ import LightDM.FullLightDM 0.1 as LightDM
 import Lomiri.Components 1.3
 import Lomiri.Components.ListItems 1.3
 import Lomiri.Telephony 0.1 as Telephony
-import Unity.Application 0.1
-import Unity.Notifications 1.0
-import Unity.Test 0.1 as UT
+import Lomiri.Application 0.1
+import Lomiri.Notifications 1.0
+import Lomiri.Test 0.1 as UT
 import Utils 0.1
 
 import "../../../qml"

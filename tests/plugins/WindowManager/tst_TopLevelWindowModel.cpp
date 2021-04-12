@@ -27,7 +27,7 @@
 #include <Workspace.h>
 #include <WorkspaceManager.h>
 
-#include "UnityApplicationMocks.h"
+#include "LomiriApplicationMocks.h"
 #include "wmpolicyinterface.h"
 
 

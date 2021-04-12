@@ -6,8 +6,8 @@ project(lib${LIB_NAME})
 
 set(lib${LIB_NAME}_SRCS
     abstractdbusservicemonitor.cpp
-    unitydbusobject.cpp
-    unitydbusvirtualobject.cpp
+    lomiridbusobject.cpp
+    lomiridbusvirtualobject.cpp
     wmpolicyinterface.cpp
     )
 

@@ -17,7 +17,7 @@
 import QtQuick 2.4
 import Lomiri.Telephony 0.1 as Telephony
 import Lomiri.Components 1.3
-import Unity.Application 0.1
+import Lomiri.Application 0.1
 import "../Components"
 
 Item {

@@ -20,7 +20,7 @@
 #include <QSignalSpy>
 
 
-namespace UnityUtil {
+namespace LomiriUtil {
 class FakeElapsedTimer : public AbstractElapsedTimer {
 public:
     static qint64 msecsSinceEpoch;
@@ -71,9 +71,9 @@ public:
     AbstractTimer *create(QObject *parent = nullptr) override;
     QList<QPointer<FakeTimer>> timers;
 };
-} // namespace UnityUtil
+} // namespace LomiriUtil
 
-using namespace UnityUtil;
+using namespace LomiriUtil;
 
 Q_DECLARE_METATYPE(Qt::Key) // because of QTest::addColumn<Qt::Key>
 
@@ -347,7 +347,7 @@ void WindowInputMonitorTest::repeatedSuperPress()
 /////////////////////////////////// FakeTimer //////////////////////////////////
 
 FakeTimer::FakeTimer(QObject *parent)
-    : UnityUtil::AbstractTimer(parent)
+    : LomiriUtil::AbstractTimer(parent)
     , m_interval(0)
     , m_singleShot(true)
     , m_isRunning(false)

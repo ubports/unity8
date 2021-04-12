@@ -16,8 +16,8 @@
  * Authors: Michael Terry <michael.terry@canonical.com>
  */
 
-#ifndef UNITY_SESSIONBROADCAST_PLUGIN_H
-#define UNITY_SESSIONBROADCAST_PLUGIN_H
+#ifndef LOMIRI_SESSIONBROADCAST_PLUGIN_H
+#define LOMIRI_SESSIONBROADCAST_PLUGIN_H
 
 #include <QQmlExtensionPlugin>
 

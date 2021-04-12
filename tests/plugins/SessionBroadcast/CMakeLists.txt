@@ -4,7 +4,7 @@ macro(make_dbus_class NAME INTERFACE)
     endif()
 endmacro(make_dbus_class)
 
-make_dbus_class(Broadcast com.canonical.Unity.Greeter.Broadcast)
+make_dbus_class(Broadcast com.canonical.Lomiri.Greeter.Broadcast)
 
 add_definitions(-DSM_BUSNAME=sessionBus)
 
@@ -47,5 +47,5 @@ add_lomiri_unittest(SessionBroadcast dbus-test-runner
         --ignore-return
         --task $<TARGET_FILE:sessionbroadcasttestExec>
         --task-name client
-        --wait-for com.canonical.Unity.Greeter.Broadcast
+        --wait-for com.canonical.Lomiri.Greeter.Broadcast
 )

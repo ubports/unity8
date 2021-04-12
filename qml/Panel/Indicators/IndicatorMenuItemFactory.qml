@@ -22,8 +22,8 @@ import QMenuModel 0.1
 import Utils 0.1 as Utils
 import Lomiri.Components.ListItems 1.3 as ListItems
 import Lomiri.Components 1.3
-import Unity.Session 0.1
-import Unity.Platform 1.0
+import Lomiri.Session 0.1
+import Lomiri.Platform 1.0
 
 Item {
     id: menuFactory
@@ -35,8 +35,8 @@ Item {
     property var _userMap: null
     readonly property var _typeToComponent: {
         "default": {
-            "unity.widgets.systemsettings.tablet.volumecontrol" : sliderMenu,
-            "unity.widgets.systemsettings.tablet.switch"        : switchMenu,
+            "lomiri.widgets.systemsettings.tablet.volumecontrol" : sliderMenu,
+            "lomiri.widgets.systemsettings.tablet.switch"        : switchMenu,
 
             "com.canonical.indicator.button"         : buttonMenu,
             "com.canonical.indicator.div"            : separatorMenu,
@@ -53,14 +53,14 @@ Item {
             "com.canonical.indicator.messages.messageitem"  : messageItem,
             "com.canonical.indicator.messages.sourceitem"   : groupedMessage,
 
-            "com.canonical.unity.slider"    : sliderMenu,
-            "com.canonical.unity.switch"    : switchMenu,
+            "com.canonical.lomiri.slider"    : sliderMenu,
+            "com.canonical.lomiri.switch"    : switchMenu,
 
-            "com.canonical.unity.media-player"    : mediaPayerMenu,
-            "com.canonical.unity.playback-item"   : playbackItemMenu,
+            "com.canonical.lomiri.media-player"    : mediaPayerMenu,
+            "com.canonical.lomiri.playback-item"   : playbackItemMenu,
 
-            "unity.widgets.systemsettings.tablet.wifisection" : wifiSection,
-            "unity.widgets.systemsettings.tablet.accesspoint" : accessPoint,
+            "lomiri.widgets.systemsettings.tablet.wifisection" : wifiSection,
+            "lomiri.widgets.systemsettings.tablet.accesspoint" : accessPoint,
             "com.canonical.indicator.network.modeminfoitem" : modeminfoitem,
 
             "com.canonical.indicator.calendar": calendarMenu,
@@ -200,7 +200,7 @@ Item {
                 onSyncTriggered: menuModel.changeState(menuIndex, value)
             }
 
-            UnityMenuAction {
+            LomiriMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalSyncAction", "")
@@ -410,7 +410,7 @@ Item {
             checked: serverChecked
             highlightWhenPressed: false
 
-            property var subtitleAction: UnityMenuAction {
+            property var subtitleAction: LomiriMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalSubtitleAction", "")
@@ -543,8 +543,8 @@ Item {
             iconSource: menuData && menuData.icon || ""
 
             // would be better to compare with the logname but sadly the indicator doesn't expose that
-            active: DBusUnitySessionService.RealName() !== "" ? DBusUnitySessionService.RealName() == name
-                                                              : DBusUnitySessionService.UserName() == name
+            active: DBusLomiriSessionService.RealName() !== "" ? DBusLomiriSessionService.RealName() == name
+                                                              : DBusLomiriSessionService.UserName() == name
 
             onTriggered: {
                 menuModel.activate(menuIndex);
@@ -681,7 +681,7 @@ Item {
             property var extendedData: menuData && menuData.ext || undefined
             property bool serverChecked: menuData && menuData.isToggled || false
 
-            property var strengthAction: UnityMenuAction {
+            property var strengthAction: LomiriMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalWifiApStrengthAction", "")
@@ -744,42 +744,42 @@ Item {
             property var extendedData: menuData && menuData.ext || undefined
             highlightWhenPressed: false
 
-            property var statusLabelAction: UnityMenuAction {
+            property var statusLabelAction: LomiriMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalModemStatusLabelAction", "")
             }
             statusText: statusLabelAction.valid ? statusLabelAction.state : ""
 
-            property var statusIconAction: UnityMenuAction {
+            property var statusIconAction: LomiriMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalModemStatusIconAction", "")
             }
             statusIcon: statusIconAction.valid ? statusIconAction.state : ""
 
-            property var connectivityIconAction: UnityMenuAction {
+            property var connectivityIconAction: LomiriMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalModemConnectivityIconAction", "")
             }
             connectivityIcon: connectivityIconAction.valid ? connectivityIconAction.state : ""
 
-            property var simIdentifierLabelAction: UnityMenuAction {
+            property var simIdentifierLabelAction: LomiriMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalModemSimIdentifierLabelAction", "")
             }
             simIdentifierText: simIdentifierLabelAction.valid ? simIdentifierLabelAction.state : ""
 
-            property var roamingAction: UnityMenuAction {
+            property var roamingAction: LomiriMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalModemRoamingAction", "")
             }
             roaming: roamingAction.valid ? roamingAction.state : false
 
-            property var unlockAction: UnityMenuAction {
+            property var unlockAction: LomiriMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalModemLockedAction", "")
@@ -893,17 +893,17 @@ Item {
             property int menuIndex: -1
             property var extendedData: menuData && menuData.ext || undefined
 
-            property var playAction: UnityMenuAction {
+            property var playAction: LomiriMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalPlayAction", "")
             }
-            property var nextAction: UnityMenuAction {
+            property var nextAction: LomiriMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalNextAction", "")
             }
-            property var previousAction: UnityMenuAction {
+            property var previousAction: LomiriMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalPreviousAction", "")

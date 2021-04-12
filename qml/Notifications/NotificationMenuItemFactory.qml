@@ -164,7 +164,7 @@ Loader {
 
             property var extendedData: menuData && menuData.ext || undefined
 
-            property var pinMinMaxAction : UnityMenuAction {
+            property var pinMinMaxAction : LomiriMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalPinMinMax", "")
@@ -181,7 +181,7 @@ Loader {
                 }
             }
 
-            property var popupAction: UnityMenuAction {
+            property var popupAction: LomiriMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalPinPopup", "")
@@ -203,7 +203,7 @@ Loader {
                     errorAction.activate();
                 }
             }
-            property var errorAction: UnityMenuAction {
+            property var errorAction: LomiriMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalPinError", "")

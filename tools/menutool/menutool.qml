@@ -22,17 +22,17 @@ import "../../qml/Panel"
 import "../../qml/Components/PanelState"
 
 import QMenuModel 0.1
-import Unity.Indicators 0.1 as Indicators
+import Lomiri.Indicators 0.1 as Indicators
 
 Item {
     width: units.gu(180)
     height: units.gu(120)
 
-    UnityMenuModel {
+    LomiriMenuModel {
         id: menuModel
         busName: contextBusName
         menuObjectPath: "/com/lomiri/Menu/0"
-        actions: { "unity": "/com/lomiri/Menu/0" }
+        actions: { "lomiri": "/com/lomiri/Menu/0" }
     }
 
     readonly property bool hasMenus: repeater.count > 0
@@ -101,7 +101,7 @@ Item {
             height: units.gu(3)
             width: parent.width
             enableKeyFilter: true
-            unityMenuModel: menuModel
+            lomiriMenuModel: menuModel
         }
     }
 

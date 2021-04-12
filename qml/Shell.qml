@@ -18,13 +18,13 @@
 import QtQuick 2.4
 import QtQuick.Window 2.2
 import AccountsService 0.1
-import Unity.Application 0.1
+import Lomiri.Application 0.1
 import Lomiri.Components 1.3
 import Lomiri.Components.Popups 1.3
 import Lomiri.Gestures 0.1
 import Lomiri.Telephony 0.1 as Telephony
-import Unity.Connectivity 0.1
-import Unity.Launcher 0.1
+import Lomiri.Connectivity 0.1
+import Lomiri.Launcher 0.1
 import GlobalShortcut 1.0 // has to be before Utils, because of WindowInputFilter
 import GSettings 1.0
 import Utils 0.1
@@ -39,9 +39,9 @@ import "Stage"
 import "Tutorial"
 import "Wizard"
 import "Components/PanelState"
-import Unity.Notifications 1.0 as NotificationBackend
-import Unity.Session 0.1
-import Unity.Indicators 0.1 as Indicators
+import Lomiri.Notifications 1.0 as NotificationBackend
+import Lomiri.Session 0.1
+import Lomiri.Indicators 0.1 as Indicators
 import Cursor 1.1
 import WindowManager 1.0
 
@@ -465,7 +465,7 @@ StyledItem {
         onTriggered: {
             // Go through the dbus service, because it has checks for whether
             // we are even allowed to lock or not.
-            DBusUnitySessionService.PromptLock();
+            DBusLomiriSessionService.PromptLock();
         }
     }
 
@@ -935,7 +935,7 @@ StyledItem {
             to: 1.0
             onStopped: {
                 if (shutdownFadeOutRectangle.enabled && shutdownFadeOutRectangle.visible) {
-                    DBusUnitySessionService.shutdown();
+                    DBusLomiriSessionService.shutdown();
                 }
             }
         }

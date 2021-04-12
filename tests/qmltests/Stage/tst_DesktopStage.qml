@@ -18,10 +18,10 @@ import QtQuick 2.4
 import QtTest 1.0
 import Lomiri.Components 1.3
 import Lomiri.Components.ListItems 1.3
-import Unity.Application 0.1
-import Unity.ApplicationMenu 0.1
-import Unity.Indicators 0.1 as Indicators
-import Unity.Test 0.1
+import Lomiri.Application 0.1
+import Lomiri.ApplicationMenu 0.1
+import Lomiri.Indicators 0.1 as Indicators
+import Lomiri.Test 0.1
 import Utils 0.1
 import WindowManager 1.0
 

@@ -1,6 +1,6 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
-# Unity Autopilot Utilities
+# Lomiri Autopilot Utilities
 # Copyright (C) 2013, 2014, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
@@ -33,12 +33,12 @@ class JobError(Exception):
     pass
 
 
-class CannotAccessUnity(Exception):
+class CannotAccessLomiri(Exception):
     pass
 
 
-def unlock_unity():
-    """Helper function that attempts to unlock the unity greeter.
+def unlock_lomiri():
+    """Helper function that attempts to unlock the lomiri greeter.
 
     """
     greeter.wait_for_greeter()
@@ -46,25 +46,25 @@ def unlock_unity():
     greeter.wait_for_greeter_gone()
 
 
-def lock_unity():
-    """Helper function that attempts to lock unity greeter.
+def lock_lomiri():
+    """Helper function that attempts to lock lomiri greeter.
 
     """
     greeter.show_greeter_with_dbus()
     greeter.wait_for_greeter()
 
 
-def restart_unity_with_testability(*args):
-    """Restarts (or starts) unity with testability enabled.
+def restart_lomiri_with_testability(*args):
+    """Restarts (or starts) lomiri with testability enabled.
 
     Passes *args arguments to the launched process.
 
     """
     args += ("QT_LOAD_TESTABILITY=1",)
-    return restart_unity(*args)
+    return restart_lomiri(*args)
 
 
-def restart_unity(*args):
+def restart_lomiri(*args):
     """Restarts (or starts) lomiri using the provided arguments.
 
     Passes *args arguments to the launched process.
@@ -73,12 +73,12 @@ def restart_unity(*args):
       lomiri upstart job.
 
     """
-    status = _get_unity_status()
+    status = _get_lomiri_status()
     if "start/" in status:
         stop_job('lomiri')
 
     pid = start_job('lomiri', *args)
-    return _get_unity_proxy_object(pid)
+    return _get_lomiri_proxy_object(pid)
 
 
 def start_job(name, *args):
@@ -170,21 +170,21 @@ def is_job_running(name):
     return 'start/' in get_job_status(name)
 
 
-def _get_unity_status():
+def _get_lomiri_status():
     try:
         return get_job_status('lomiri')
     except JobError as error:
-        raise CannotAccessUnity(str(error))
+        raise CannotAccessLomiri(str(error))
 
 
-def _get_unity_pid():
+def _get_lomiri_pid():
     try:
         return get_job_pid('lomiri')
     except JobError as error:
-        raise CannotAccessUnity(str(error))
+        raise CannotAccessLomiri(str(error))
 
 
-def _get_unity_proxy_object(pid):
+def _get_lomiri_proxy_object(pid):
     return get_proxy_object_for_existing_process(
         pid=pid,
         emulator_base=lomiriuitoolkit.LomiriUIToolkitCustomProxyObjectBase

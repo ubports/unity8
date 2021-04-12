@@ -22,7 +22,7 @@ import LightDMController 0.1
 import LightDM.FullLightDM 0.1 as LightDM
 import Lomiri.Components 1.3
 import Lomiri.Telephony 0.1 as Telephony
-import Unity.Test 0.1 as UT
+import Lomiri.Test 0.1 as UT
 
 Item {
     id: root
@@ -259,7 +259,7 @@ Item {
         signalName: "dataChanged"
     }
 
-    UT.UnityTestCase {
+    UT.LomiriTestCase {
         name: "NarrowView"
         when: windowShown
 

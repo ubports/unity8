@@ -44,9 +44,9 @@ int main(int argc, char *argv[])
 
     // We use the session bus for testing.  The real plugin uses the system bus
     auto connection = QDBusConnection::sessionBus();
-    if (!connection.registerObject("/com/canonical/Unity/Input", usc))
+    if (!connection.registerObject("/com/canonical/Lomiri/Input", usc))
         return 1;
-    if (!connection.registerService("com.canonical.Unity.Input"))
+    if (!connection.registerService("com.canonical.Lomiri.Input"))
         return 1;
     if (!connection.registerObject("/org/freedesktop/Accounts", accounts))
         return 1;

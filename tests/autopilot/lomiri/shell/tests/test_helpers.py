@@ -1,6 +1,6 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
-# Unity Autopilot Test Suite
+# Lomiri Autopilot Test Suite
 # Copyright (C) 2014, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@
 
 The autopilot custom proxy objects are helpers for tests that check a user
 journey that involves the dash. The code for some of those tests will not be
-inside this branch, but in projects that depend on unity or that test the
+inside this branch, but in projects that depend on lomiri or that test the
 whole system integration. So, we need to test the helpers in order to make
 sure that we don't break them for those external projects.
 
@@ -34,11 +34,11 @@ from lomiri.shell import fixture_setup, tests
 from lomiri import dash as dash_helpers
 
 
-class MainWindowTestCase(tests.UnityTestCase):
+class MainWindowTestCase(tests.LomiriTestCase):
 
     scenarios = lomiri_scenarios.get_device_simulation_scenarios()
 
     def setUp(self):
         super().setUp()
-        self.launch_unity()
-        process_helpers.unlock_unity()
+        self.launch_lomiri()
+        process_helpers.unlock_lomiri()

@@ -21,7 +21,7 @@ import "../../../qml/Greeter"
 import LightDMController 0.1
 import LightDM.FullLightDM 0.1 as LightDM
 import Lomiri.Components 1.3
-import Unity.Test 0.1 as UT
+import Lomiri.Test 0.1 as UT
 
 StyledItem {
     id: root
@@ -322,7 +322,7 @@ StyledItem {
         signalName: "emergencyCall"
     }
 
-    UT.UnityTestCase {
+    UT.LomiriTestCase {
         name: "WideView"
         when: windowShown
 
@@ -577,7 +577,7 @@ StyledItem {
             selectUser("info-prompt");
 
             var infoLabel = findChild(view, "infoLabel0");
-            compare(infoLabel.text, "Welcome to Unity Greeter");
+            compare(infoLabel.text, "Welcome to Lomiri Greeter");
             compare(infoLabel.textFormat, Text.PlainText);
 
             verify(findChild(view, "greeterPrompt1") != null);
@@ -587,7 +587,7 @@ StyledItem {
             selectUser("long-info-prompt");
 
             var infoLabel = findChild(view, "infoLabel0");
-            compare(infoLabel.text, "Welcome to Unity Greeter\n\nWe like to annoy you with super ridiculously long messages.\nLike this one\n\nThis is the last line of a multiple line message.");
+            compare(infoLabel.text, "Welcome to Lomiri Greeter\n\nWe like to annoy you with super ridiculously long messages.\nLike this one\n\nThis is the last line of a multiple line message.");
             verify(infoLabel.contentWidth > infoLabel.width);
 
             verify(findChild(view, "greeterPrompt1") != null);
@@ -597,7 +597,7 @@ StyledItem {
             selectUser("multi-info-prompt");
 
             var infoLabel0 = findChild(view, "infoLabel0");
-            compare(infoLabel0.text, "Welcome to Unity Greeter");
+            compare(infoLabel0.text, "Welcome to Lomiri Greeter");
 
             var infoLabel1 = findChild(view, "infoLabel1");
             compare(infoLabel1.text, "This is an error");

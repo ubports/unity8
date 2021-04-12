@@ -22,8 +22,8 @@
 #include <QWindow>
 #include <QScreen>
 
-// Unity API
-#include <unity/shell/application/MirMousePointerInterface.h>
+// Lomiri API
+#include <lomiri/shell/application/MirMousePointerInterface.h>
 
 class MousePointer : public MirMousePointerInterface {
     Q_OBJECT

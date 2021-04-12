@@ -17,7 +17,7 @@
 import QtQuick 2.4
 import QtTest 1.0
 import Lomiri.Components 1.3
-import Unity.Test 0.1
+import Lomiri.Test 0.1
 
 import "../../../qml/Components"
 
@@ -32,7 +32,7 @@ Image {
         id: wallpaperResolver
     }
 
-    UnityTestCase {
+    LomiriTestCase {
         id: testCase
         name: "WallpaperResolver"
         when: windowShown
@@ -44,26 +44,26 @@ Image {
                  output: "file:///last"},
 
                 {tag: "first-valid",
-                 list: [Qt.resolvedUrl("../../data/unity/backgrounds/blue.png"),
+                 list: [Qt.resolvedUrl("../../data/lomiri/backgrounds/blue.png"),
                         "/middle", "/last"],
-                 output: Qt.resolvedUrl("../../data/unity/backgrounds/blue.png")},
+                 output: Qt.resolvedUrl("../../data/lomiri/backgrounds/blue.png")},
 
                 {tag: "middle-valid",
                  list: ["/first",
-                        Qt.resolvedUrl("../../data/unity/backgrounds/red.png"),
+                        Qt.resolvedUrl("../../data/lomiri/backgrounds/red.png"),
                         "/last"],
-                 output: Qt.resolvedUrl("../../data/unity/backgrounds/red.png")},
+                 output: Qt.resolvedUrl("../../data/lomiri/backgrounds/red.png")},
 
                 {tag: "last-valid",
                  list: ["/first",
                         "/middle",
-                        Qt.resolvedUrl("../../data/unity/backgrounds/red.png")],
-                 output: Qt.resolvedUrl("../../data/unity/backgrounds/red.png")},
+                        Qt.resolvedUrl("../../data/lomiri/backgrounds/red.png")],
+                 output: Qt.resolvedUrl("../../data/lomiri/backgrounds/red.png")},
 
                 {tag: "multiple-valid",
-                 list: [Qt.resolvedUrl("../../data/unity/backgrounds/blue.png"),
-                        Qt.resolvedUrl("../../data/unity/backgrounds/red.png")],
-                 output: Qt.resolvedUrl("../../data/unity/backgrounds/blue.png")},
+                 list: [Qt.resolvedUrl("../../data/lomiri/backgrounds/blue.png"),
+                        Qt.resolvedUrl("../../data/lomiri/backgrounds/red.png")],
+                 output: Qt.resolvedUrl("../../data/lomiri/backgrounds/blue.png")},
             ]
         }
 

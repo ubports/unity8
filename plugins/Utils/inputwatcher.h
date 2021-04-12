@@ -15,8 +15,8 @@
  *
  */
 
-#ifndef UNITY_INPUTWATCHER_H
-#define UNITY_INPUTWATCHER_H
+#ifndef LOMIRI_INPUTWATCHER_H
+#define LOMIRI_INPUTWATCHER_H
 
 #include <QObject>
 #include <QPointer>
@@ -55,4 +55,4 @@ private:
     QPointer<QObject> m_target;
 };
 
-#endif // UNITY_INPUTWATCHER_H
+#endif // LOMIRI_INPUTWATCHER_H

@@ -1,6 +1,6 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
-# Unity - Indicators Autopilot Test Suite
+# Lomiri - Indicators Autopilot Test Suite
 # Copyright (C) 2013, 2014, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
@@ -23,15 +23,15 @@ from lomiri import process_helpers
 from lomiri.shell import tests
 
 
-class IndicatorTestCase(tests.UnityTestCase):
+class IndicatorTestCase(tests.LomiriTestCase):
 
     device_emulation_scenarios = (
         lomiri_scenarios.get_device_simulation_scenarios())
 
     def setUp(self):
         super().setUp()
-        self.unity_proxy = self.launch_unity()
-        process_helpers.unlock_unity()
+        self.lomiri_proxy = self.launch_lomiri()
+        process_helpers.unlock_lomiri()
 
 
 class DeviceIndicatorTestCase(IndicatorTestCase):

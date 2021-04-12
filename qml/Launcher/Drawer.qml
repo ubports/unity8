@@ -17,7 +17,7 @@
 
 import QtQuick 2.4
 import Lomiri.Components 1.3
-import Unity.Launcher 0.1
+import Lomiri.Launcher 0.1
 import Utils 0.1
 import "../Components"
 import Qt.labs.settings 1.0

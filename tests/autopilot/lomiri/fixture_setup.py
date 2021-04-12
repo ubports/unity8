@@ -1,6 +1,6 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
-# Unity Autopilot Test Suite
+# Lomiri Autopilot Test Suite
 # Copyright (C) 2014, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
@@ -43,15 +43,15 @@ from lomiri import (
 logger = logging.getLogger(__name__)
 
 
-class LaunchUnityWithFakeSensors(fixtures.Fixture):
+class LaunchLomiriWithFakeSensors(fixtures.Fixture):
 
     """Fixture to launch Lomiri with an injectable sensors backend.
 
-    :ivar unity_proxy: The Autopilot proxy object for the Unity shell.
+    :ivar lomiri_proxy: The Autopilot proxy object for the Lomiri shell.
 
     """
 
-    unity_proxy = None
+    lomiri_proxy = None
     main_win = None
 
     def setUp(self):
@@ -63,7 +63,7 @@ class LaunchUnityWithFakeSensors(fixtures.Fixture):
 
         self.addCleanup(process_helpers.stop_job, 'lomiri')
         restart_thread = threading.Thread(
-            target=self._restart_unity_with_testability)
+            target=self._restart_lomiri_with_testability)
         restart_thread.start()
 
         self._create_sensors()
@@ -93,7 +93,7 @@ class LaunchUnityWithFakeSensors(fixtures.Fixture):
         qml_import_path = ':'.join(qml_import_path)
         return qml_import_path
 
-    def _restart_unity_with_testability(self):
+    def _restart_lomiri_with_testability(self):
         _environment = {}
 
         data_dirs = get_data_dirs(True)
@@ -131,18 +131,18 @@ class LaunchUnityWithFakeSensors(fixtures.Fixture):
         binary_arg = "BINARY=%s" % get_binary_path()
         env_args = ["%s=%s" % (k, v) for k, v in _environment.items()]
         args = [binary_arg] + env_args
-        self.unity_proxy = process_helpers.restart_unity_with_testability(
+        self.lomiri_proxy = process_helpers.restart_lomiri_with_testability(
             *args)
-        self.main_win = self.unity_proxy.select_single(shell.ShellView)
+        self.main_win = self.lomiri_proxy.select_single(shell.ShellView)
 
     def _create_sensors(self):
-        # Wait for unity to start running.
+        # Wait for lomiri to start running.
         Eventually(Equals(True)).match(
             lambda: process_helpers.is_job_running('lomiri'))
 
         # Wait for the sensors fifo file to be created.
         fifo_path = '/tmp/sensor-fifo-{0}'.format(
-            process_helpers._get_unity_pid())
+            process_helpers._get_lomiri_pid())
         Eventually(Equals(True)).match(
             lambda: os.path.exists(fifo_path))
 
@@ -152,15 +152,15 @@ class LaunchUnityWithFakeSensors(fixtures.Fixture):
             fifo.write('create proximity\n')
 
 
-class RestartUnityWithTestability(fixtures.Fixture):
+class RestartLomiriWithTestability(fixtures.Fixture):
 
     """Fixture to launch Lomiri with testability.
 
-    :ivar unity_proxy: The Autopilot proxy object for the Unity shell.
+    :ivar lomiri_proxy: The Autopilot proxy object for the Lomiri shell.
 
     """
 
-    unity_proxy = None
+    lomiri_proxy = None
 
     def __init__(self, binary_path, variables):
         """Initialize the fixture instance.
@@ -176,15 +176,15 @@ class RestartUnityWithTestability(fixtures.Fixture):
         self.variables = variables
 
     def setUp(self):
-        """Restart unity with testability when the fixture is used."""
+        """Restart lomiri with testability when the fixture is used."""
         super().setUp()
-        self.addCleanup(self.stop_unity)
-        self.restart_unity()
+        self.addCleanup(self.stop_lomiri)
+        self.restart_lomiri()
 
-    def restart_unity(self):
-        self.restart_unity_with_testability()
+    def restart_lomiri(self):
+        self.restart_lomiri_with_testability()
 
-    def restart_unity_with_testability(self):
+    def restart_lomiri_with_testability(self):
         self._unlink_mir_socket()
 
         binary_arg = 'BINARY={}'.format(self.binary_path)
@@ -193,7 +193,7 @@ class RestartUnityWithTestability(fixtures.Fixture):
         ]
         all_args = [binary_arg] + variable_args
 
-        self.unity_proxy = process_helpers.restart_unity_with_testability(
+        self.lomiri_proxy = process_helpers.restart_lomiri_with_testability(
             *all_args)
 
     def _unlink_mir_socket(self):
@@ -212,7 +212,7 @@ class RestartUnityWithTestability(fixtures.Fixture):
         except OSError:
             pass
 
-    def stop_unity(self):
+    def stop_lomiri(self):
         process_helpers.stop_job('lomiri')
 
 
@@ -313,17 +313,17 @@ class LaunchMockIndicatorService(fixtures.Fixture):
         self.application_proxy = self.launch_service()
 
     def launch_service(self):
-        logger.info("Starting unity-mock-indicator-service")
-        binary_path = get_binary_path('unity-mock-indicator-service')
+        logger.info("Starting lomiri-mock-indicator-service")
+        binary_path = get_binary_path('lomiri-mock-indicator-service')
         binary_arg = 'BINARY={}'.format(binary_path)
         env_args = 'ARGS=-t {}'.format(self.action_delay)
         all_args = [binary_arg, env_args]
-        process_helpers.start_job('unity-mock-indicator-service', *all_args)
+        process_helpers.start_job('lomiri-mock-indicator-service', *all_args)
 
     def stop_service(self):
-        logger.info("Stopping unity-mock-indicator-service")
-        process_helpers.stop_job('unity-mock-indicator-service')
+        logger.info("Stopping lomiri-mock-indicator-service")
+        process_helpers.stop_job('lomiri-mock-indicator-service')
 
     def ensure_service_not_running(self):
-        if process_helpers.is_job_running('unity-mock-indicator-service'):
+        if process_helpers.is_job_running('lomiri-mock-indicator-service'):
             self.stop_service()

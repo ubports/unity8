@@ -42,18 +42,18 @@ inline QString installRoot() {
 
 inline bool isRunningInstalled() {
     // Tests don't use the normal binary, so we want to check binary *and*
-    // the environment.  Installed tests have UNITY_TESTING_DATADIR set.
-    static bool installed_test_env = !qgetenv("UNITY_TESTING_DATADIR").isEmpty();
+    // the environment.  Installed tests have LOMIRI_TESTING_DATADIR set.
+    static bool installed_test_env = !qgetenv("LOMIRI_TESTING_DATADIR").isEmpty();
     return !installRoot().isNull() || installed_test_env;
 }
 
 inline QString buildDirectory() {
-    if (!qEnvironmentVariableIsEmpty("UNITY_BINARY_DIR")) return qgetenv("UNITY_BINARY_DIR");
+    if (!qEnvironmentVariableIsEmpty("LOMIRI_BINARY_DIR")) return qgetenv("LOMIRI_BINARY_DIR");
     return QStringLiteral("@CMAKE_BINARY_DIR@");
 }
 
 inline QString sourceDirectory() {
-    if (!qEnvironmentVariableIsEmpty("UNITY_SOURCE_DIR")) return qgetenv("UNITY_SOURCE_DIR");
+    if (!qEnvironmentVariableIsEmpty("LOMIRI_SOURCE_DIR")) return qgetenv("LOMIRI_SOURCE_DIR");
     return QStringLiteral("@CMAKE_SOURCE_DIR@");
 }
 
@@ -67,8 +67,8 @@ inline QString translationDirectory() {
 
 inline QString testDataDir() {
     // Can't use isRunningInstalled, since tests don't use the normal lomiri
-    // executable.  $UNITY_TESTING_DATADIR is set by installed tests.
-    QString datadir(qgetenv("UNITY_TESTING_DATADIR"));
+    // executable.  $LOMIRI_TESTING_DATADIR is set by installed tests.
+    QString datadir(qgetenv("LOMIRI_TESTING_DATADIR"));
     if (datadir.isEmpty()) {
         return sourceDirectory() + "/tests";
     } else {
@@ -78,8 +78,8 @@ inline QString testDataDir() {
 
 inline QString testLibDir() {
     // Can't use isRunningInstalled, since tests don't use the normal lomiri
-    // executable.  $UNITY_TESTING_DATADIR is set by installed tests.
-    QString libdir(qgetenv("UNITY_TESTING_LIBDIR"));
+    // executable.  $LOMIRI_TESTING_DATADIR is set by installed tests.
+    QString libdir(qgetenv("LOMIRI_TESTING_LIBDIR"));
     if (libdir.isEmpty()) {
         return buildDirectory() + "/tests";
     } else {

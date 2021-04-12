@@ -26,7 +26,7 @@ Item {
     objectName: "menuBar"
 
     // set from outside
-    property alias unityMenuModel: rowRepeater.model
+    property alias lomiriMenuModel: rowRepeater.model
     property bool enableKeyFilter: false
     property real overflowWidth: width
     property bool windowMoving: false
@@ -102,7 +102,7 @@ Item {
         }
 
         Connections {
-            target: root.unityMenuModel
+            target: root.lomiriMenuModel
             onModelReset: d.firstInvisibleIndex = undefined
         }
 
@@ -140,20 +140,20 @@ Item {
 
                 function show() {
                     if (!__popup) {
-                        root.unityMenuModel.aboutToShow(visualItem.__ownIndex);
+                        root.lomiriMenuModel.aboutToShow(visualItem.__ownIndex);
                         __popup = menuComponent.createObject(root,
                                                              {
                                                                  objectName: visualItem.objectName + "-menu",
                                                                  desiredX: Qt.binding(function() { return visualItem.x - units.gu(1); }),
                                                                  desiredY: Qt.binding(function() { return root.height; }),
-                                                                 unityMenuModel: Qt.binding(function() { return root.unityMenuModel.submenu(visualItem.__ownIndex); }),
+                                                                 lomiriMenuModel: Qt.binding(function() { return root.lomiriMenuModel.submenu(visualItem.__ownIndex); }),
                                                                  selectFirstOnCountChange: false
                                                              });
                         __popup.reset();
                         __popup.childActivated.connect(dismiss);
                         // force the current item to be the newly popped up menu
                     } else if (!__popup.visible) {
-                        root.unityMenuModel.aboutToShow(visualItem.__ownIndex);
+                        root.lomiriMenuModel.aboutToShow(visualItem.__ownIndex);
                         __popup.show();
                     }
                     d.currentItem = visualItem;
@@ -371,11 +371,11 @@ Item {
                 id: overflowPopup
                 desiredX: overflowButton.x - units.gu(1)
                 desiredY: parent.height
-                unityMenuModel: overflowModel
+                lomiriMenuModel: overflowModel
 
                 ExpressionFilterModel {
                     id: overflowModel
-                    sourceModel: root.unityMenuModel
+                    sourceModel: root.lomiriMenuModel
                     matchExpression: function(index) {
                         if (d.firstInvisibleIndex === undefined) return false;
                         return index >= d.firstInvisibleIndex;

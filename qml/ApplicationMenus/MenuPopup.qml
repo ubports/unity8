@@ -63,7 +63,7 @@ LomiriShape {
         }
     }
 
-    property alias unityMenuModel: repeater.model
+    property alias lomiriMenuModel: repeater.model
     property PanelState panelState
 
     function show() {
@@ -307,11 +307,11 @@ LomiriShape {
 
                             if (hasSubmenu) {
                                 if (!popup) {
-                                    root.unityMenuModel.aboutToShow(__ownIndex);
-                                    var model = root.unityMenuModel.submenu(__ownIndex);
+                                    root.lomiriMenuModel.aboutToShow(__ownIndex);
+                                    var model = root.lomiriMenuModel.submenu(__ownIndex);
                                     popup = submenuComponent.createObject(focusScope, {
                                                                                 objectName: parent.objectName + "-",
-                                                                                unityMenuModel: model,
+                                                                                lomiriMenuModel: model,
                                                                                 substractWidth: true,
                                                                                 desiredX: Qt.binding(function() { return root.width }),
                                                                                 desiredY: Qt.binding(function() {
@@ -330,12 +330,12 @@ LomiriShape {
                                         root.childActivated();
                                     });
                                 } else if (!popup.visible) {
-                                    root.unityMenuModel.aboutToShow(__ownIndex);
+                                    root.lomiriMenuModel.aboutToShow(__ownIndex);
                                     popup.visible = true;
                                     popup.item.selectFirstIndex();
                                 }
                             } else {
-                                root.unityMenuModel.activate(__ownIndex);
+                                root.lomiriMenuModel.activate(__ownIndex);
                                 root.childActivated();
                             }
                         }
@@ -487,12 +487,12 @@ LomiriShape {
                 property real desiredX
                 property real desiredY
                 property bool substractWidth
-                property var unityMenuModel: null
+                property var lomiriMenuModel: null
                 signal retreat()
                 signal childActivated()
 
                 onLoaded: {
-                    item.unityMenuModel = Qt.binding(function() { return submenuLoader.unityMenuModel; });
+                    item.lomiriMenuModel = Qt.binding(function() { return submenuLoader.lomiriMenuModel; });
                     item.panelState = Qt.binding(function() { return root.panelState; });
                     item.objectName = Qt.binding(function() { return submenuLoader.objectName + "menu"; });
                     item.desiredX = Qt.binding(function() { return submenuLoader.desiredX; });

@@ -22,18 +22,18 @@ add_executable(qmlscene ALIAS uqmlscene)
 import_executables(dbus-test-runner)
 import_executables(qdbus-simple-test-runner)
 
-set(UNITY_PLUGINPATH "${CMAKE_BINARY_DIR}/plugins" CACHE PATH "Path to pre-built lomiri plugin dir.")
-set(UNITY_MOCKPATH "${CMAKE_BINARY_DIR}/tests/mocks" CACHE PATH "Path to pre-built lomiri mock dir.")
+set(LOMIRI_PLUGINPATH "${CMAKE_BINARY_DIR}/plugins" CACHE PATH "Path to pre-built lomiri plugin dir.")
+set(LOMIRI_MOCKPATH "${CMAKE_BINARY_DIR}/tests/mocks" CACHE PATH "Path to pre-built lomiri mock dir.")
 
 # Pre-built mocks have preference, pre-built plugins replace local build
-set(UNITY_IMPORT_PATHS
-    ${UNITY_MOCKPATH}
+set(LOMIRI_IMPORT_PATHS
+    ${LOMIRI_MOCKPATH}
     ${CMAKE_BINARY_DIR}/tests/mocks
     ${CMAKE_BINARY_DIR}/tests/utils/modules
-    ${UNITY_PLUGINPATH}
+    ${LOMIRI_PLUGINPATH}
 )
-list(REMOVE_DUPLICATES UNITY_IMPORT_PATHS)
-set(UNITY_IMPORT_PATHS ${UNITY_IMPORT_PATHS} CACHE INTERNAL "")
+list(REMOVE_DUPLICATES LOMIRI_IMPORT_PATHS)
+set(LOMIRI_IMPORT_PATHS ${LOMIRI_IMPORT_PATHS} CACHE INTERNAL "")
 
 macro(lomiri_parse_arguments)
     cmake_parse_arguments(U8TEST
@@ -45,9 +45,9 @@ macro(lomiri_parse_arguments)
 
     set(ld_paths)
     list(APPEND ld_paths
-        ${UNITY_MOCKPATH}/liblightdm
-        ${UNITY_MOCKPATH}/libusermetrics
-        ${UNITY_MOCKPATH}/WindowManager
+        ${LOMIRI_MOCKPATH}/liblightdm
+        ${LOMIRI_MOCKPATH}/libusermetrics
+        ${LOMIRI_MOCKPATH}/WindowManager
     )
 
     string(REPLACE ";" ":" ld_library_path "${ld_paths}")
@@ -56,7 +56,7 @@ macro(lomiri_parse_arguments)
     set(U8TEST_ARGN "${ARGN}")
 
     set(environment
-        UNITY_TESTING=1
+        LOMIRI_TESTING=1
         LANGUAGE=C
         LC_ALL=C.UTF-8
         ${ld_library_path}
@@ -70,7 +70,7 @@ function(add_lomiri_unittest COMPONENT_NAME TARGET)
     lomiri_parse_arguments(${ARGN})
     add_executable_test(${COMPONENT_NAME} ${TARGET}
         ADD_TEST
-        IMPORT_PATHS ${UNITY_IMPORT_PATHS}
+        IMPORT_PATHS ${LOMIRI_IMPORT_PATHS}
         TARGETS unittests
         ${U8TEST_ARGN}
         ENVIRONMENT ${environment}
@@ -84,7 +84,7 @@ endfunction()
 function(add_lomiri_uitest COMPONENT_NAME TARGET)
     lomiri_parse_arguments(${ARGN})
     add_executable_test(${COMPONENT_NAME} ${TARGET}
-        IMPORT_PATHS ${UNITY_IMPORT_PATHS}
+        IMPORT_PATHS ${LOMIRI_IMPORT_PATHS}
         TARGETS uitests
         ${U8TEST_ARGN}
         ENVIRONMENT ${environment}
@@ -98,7 +98,7 @@ function(add_lomiri_qmlunittest PATH COMPONENT_NAME)
     lomiri_parse_arguments(${ARGN})
     add_qml_unittest(${PATH} ${COMPONENT_NAME}
         ADD_TEST
-        IMPORT_PATHS ${UNITY_IMPORT_PATHS}
+        IMPORT_PATHS ${LOMIRI_IMPORT_PATHS}
         TARGET unittests
         ${U8TEST_ARGN}
         ENVIRONMENT ${environment}
@@ -112,7 +112,7 @@ endfunction()
 function(add_lomiri_qmltest PATH COMPONENT_NAME)
     lomiri_parse_arguments(${ARGN})
     add_qml_test(${PATH} ${COMPONENT_NAME}
-        IMPORT_PATHS ${UNITY_IMPORT_PATHS}
+        IMPORT_PATHS ${LOMIRI_IMPORT_PATHS}
         TARGETS uitests
         ${U8TEST_ARGN}
         ENVIRONMENT ${environment}

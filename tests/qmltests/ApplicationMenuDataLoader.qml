@@ -16,9 +16,9 @@
 
 import QtQuick 2.4
 import Lomiri.Components 1.3
-import Unity.Application 0.1
-import Unity.ApplicationMenu 0.1
-import Unity.Indicators 0.1 as Indicators
+import Lomiri.Application 0.1
+import Lomiri.ApplicationMenu 0.1
+import Lomiri.Indicators 0.1 as Indicators
 
 Item {
 
@@ -28,7 +28,7 @@ Item {
             var fakeMenuPath = "/" + surface.persistentId.replace(/\W+/g, "");
 
             ApplicationMenuRegistry.RegisterSurfaceMenu(surface.persistentId, fakeMenuPath, fakeMenuPath, ":1");
-            Indicators.UnityMenuModelCache.setCachedModelData(fakeMenuPath, generateTestData(4, 3, 2, 3, "menu"));
+            Indicators.LomiriMenuModelCache.setCachedModelData(fakeMenuPath, generateTestData(4, 3, 2, 3, "menu"));
         }
         onSurfaceRemoved: {
             ApplicationMenuRegistry.UnregisterSurfaceMenu(surface.persistentId, "/app");

@@ -1,0 +1,2 @@
+module Lomiri.InputInfo
+plugin MockInputInfo

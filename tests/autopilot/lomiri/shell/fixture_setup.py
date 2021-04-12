@@ -1,6 +1,6 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
-# Unity Autopilot Test Suite
+# Lomiri Autopilot Test Suite
 # Copyright (C) 2014, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
@@ -17,7 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-"""Set up and clean up fixtures for the Unity acceptance tests."""
+"""Set up and clean up fixtures for the Lomiri acceptance tests."""
 
 import os
 import subprocess
@@ -47,7 +47,7 @@ class Tutorial(fixtures.Fixture):
             '--dest=org.freedesktop.Accounts',
             '/org/freedesktop/Accounts/User32011',
             'org.freedesktop.DBus.Properties.Get',
-            'string:com.canonical.unity.AccountsService',
+            'string:com.canonical.lomiri.AccountsService',
             'string:DemoEdges2'
         ]
         output = subprocess.check_output(command, universal_newlines=True)

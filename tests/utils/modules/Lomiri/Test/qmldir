@@ -1,0 +1,7 @@
+module Lomiri.Test
+plugin LomiriTestQml
+typeinfo Test.qmltypes
+
+LomiriTestCase 0.1 LomiriTestCase.qml
+StageTestCase 0.1 StageTestCase.qml
+MouseTouchEmulationCheckbox 0.1 MouseTouchEmulationCheckbox.qml

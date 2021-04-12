@@ -15,7 +15,7 @@
  */
 
 import QtQml 2.2
-import Unity.Application 0.1
+import Lomiri.Application 0.1
 
 // This component will change the state of the surface when the stage is loaded.
 //
