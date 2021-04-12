@@ -18,8 +18,8 @@
 
 #include "ualwrapper.h"
 
-#include <ubuntu-app-launch/registry.h>
-using namespace ubuntu::app_launch;
+#include <lomiri-app-launch/registry.h>
+using namespace lomiri::app_launch;
 
 UalWrapper::UalWrapper(QObject *parent):
     QObject(parent)
@@ -38,7 +38,7 @@ QStringList UalWrapper::installedApps()
             }
         }
     } catch (const std::runtime_error &e) {
-        qWarning() << "ubuntu-app-launch threw an exception listing apps:" << e.what();
+        qWarning() << "lomiri-app-launch threw an exception listing apps:" << e.what();
     }
 
     return appIds;
@@ -67,7 +67,7 @@ UalWrapper::AppInfo UalWrapper::getApplicationInfo(const QString &appId)
         //info.popularity = ualApp->info()->popularity();
         info.valid = true;
     } catch (const std::runtime_error &e) {
-        qWarning() << "ubuntu-app-launch threw an exception getting app info for appId:" << appId << ":" << e.what();
+        qWarning() << "lomiri-app-launch threw an exception getting app info for appId:" << appId << ":" << e.what();
     }
 
     return info;

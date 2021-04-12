@@ -672,7 +672,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
+msgid "Lomiri Touch system"
 msgstr "מערכת אובונטו טאץ'"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
@@ -694,7 +694,7 @@ msgid "Welcome Back"
 msgstr "ברוך שובך"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
+msgid "Welcome to Lomiri"
 msgstr "ברוך/ה הבא/ה לאובונטו"
 
 #: qml/Wizard/Pages/80-finished.qml:106
@@ -820,7 +820,7 @@ msgstr "ססמה חלשה"
 msgid "Very weak password"
 msgstr "סיסמא חלשה מאוד"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "חנות"
 
@@ -1020,7 +1020,7 @@ msgstr "סיסמא חלשה מאוד"
 #~ msgid "Hi!"
 #~ msgstr "שלום!"
 
-#~ msgid "Welcome to your Ubuntu phone."
+#~ msgid "Welcome to your Lomiri phone."
 #~ msgstr "ברוך בואך לטלפון האובונטו שלך."
 
 #~ msgid "Let’s get started."

@@ -154,11 +154,11 @@ void UsersModel::resetEntries()
     QString userMode = MockController::instance()->userMode();
 
     if (userMode == "single") {
-        d->entries = {{"no-password", "No Password", "", 0, false, false, "ubuntu", 0}};
+        d->entries = {{"no-password", "No Password", "", 0, false, false, "lomiri", 0}};
     } else if (userMode == "single-passphrase") {
-        d->entries = {{"has-password", "Has Password", "", 0, false, false, "ubuntu", 0}};
+        d->entries = {{"has-password", "Has Password", "", 0, false, false, "lomiri", 0}};
     } else if (userMode == "single-pin") {
-        d->entries = {{"has-pin", "Has PIN", "", 0, false, false, "ubuntu", 0}};
+        d->entries = {{"has-pin", "Has PIN", "", 0, false, false, "lomiri", 0}};
     } else if (userMode == "full") {
        /*
          * Since the real model sorts these entries alphabetically, the model indices
@@ -166,34 +166,34 @@ void UsersModel::resetEntries()
          * list of entries REMAINS IN ALPHABETICAL ORDER at all times.
          */
         d->entries = {
-            { "active",            "Active Account", 0, 0, true, false, "ubuntu", 0 },
-            { "auth-error",        "Auth Error", 0, 0, false, false, "ubuntu", 0 },
-            { "black-background",  "Black Background", "#000000", 0, false, false, "ubuntu", 0 },
-            { "color-background",  "Color Background", "#E95420", 0, false, false, "ubuntu", 0 },
-            { "different-prompt",  "Different Prompt", 0, 0, false, false, "ubuntu", 0 },
-            { "empty-name",        "", 0, 0, false, false, "ubuntu", 0 },
-            { "has-password",      "Has Password", 0, 0, false, false, "ubuntu", 0 },
-            { "has-pin",           "Has PIN",      0, 0, false, false, "ubuntu", 0 },
-            { "html-info-prompt",  "HTML Info Prompt", 0, 0, false, false, "ubuntu", 0 },
-            { "info-after-login",  "Info After Login", 0, 0, false, false, "ubuntu", 0 },
-            { "info-prompt",       "Info Prompt", 0, 0, false, false, "ubuntu", 0 },
-            { "wacky-prompts",     "Interspersed Prompts", 0, 0, false, false, "ubuntu", 0 },
+            { "active",            "Active Account", 0, 0, true, false, "lomiri", 0 },
+            { "auth-error",        "Auth Error", 0, 0, false, false, "lomiri", 0 },
+            { "black-background",  "Black Background", "#000000", 0, false, false, "lomiri", 0 },
+            { "color-background",  "Color Background", "#E95420", 0, false, false, "lomiri", 0 },
+            { "different-prompt",  "Different Prompt", 0, 0, false, false, "lomiri", 0 },
+            { "empty-name",        "", 0, 0, false, false, "lomiri", 0 },
+            { "has-password",      "Has Password", 0, 0, false, false, "lomiri", 0 },
+            { "has-pin",           "Has PIN",      0, 0, false, false, "lomiri", 0 },
+            { "html-info-prompt",  "HTML Info Prompt", 0, 0, false, false, "lomiri", 0 },
+            { "info-after-login",  "Info After Login", 0, 0, false, false, "lomiri", 0 },
+            { "info-prompt",       "Info Prompt", 0, 0, false, false, "lomiri", 0 },
+            { "wacky-prompts",     "Interspersed Prompts", 0, 0, false, false, "lomiri", 0 },
             { "invalid-session",   "Invalid Session", 0, 0, false, false, "invalid", 0 },
-            { "locked",            "Locked", 0, 0, false, false, "ubuntu", 0 },
-            { "long-info-prompt",  "Long Info Prompt", 0, 0, false, false, "ubuntu", 0 },
-            { "long-name",         "Long name (far far too long to fit, seriously this would never fit on the screen, you will never see this part of the name)", 0, 0, false, false, "ubuntu", 0 },
-            { "multi-info-prompt", "Multi Info Prompt", 0, 0, false, false, "ubuntu", 0 },
-            { "no-background",     "No Background", "", 0, false, false, "ubuntu", 0 },
-            { "no-password",       "No Password", 0, 0, false, false, "ubuntu", 0 },
-            { "no-response",       "No Response", 0, 0, false, false, "ubuntu", 0 },
+            { "locked",            "Locked", 0, 0, false, false, "lomiri", 0 },
+            { "long-info-prompt",  "Long Info Prompt", 0, 0, false, false, "lomiri", 0 },
+            { "long-name",         "Long name (far far too long to fit, seriously this would never fit on the screen, you will never see this part of the name)", 0, 0, false, false, "lomiri", 0 },
+            { "multi-info-prompt", "Multi Info Prompt", 0, 0, false, false, "lomiri", 0 },
+            { "no-background",     "No Background", "", 0, false, false, "lomiri", 0 },
+            { "no-password",       "No Password", 0, 0, false, false, "lomiri", 0 },
+            { "no-response",       "No Response", 0, 0, false, false, "lomiri", 0 },
             { "no-session",        "No Session", 0, 0, false, false, "", 0 },
-            { "question-prompt",   "Question Prompt", 0, 0, false, false, "ubuntu", 0 },
-            { "two-factor",        "Two Factor", 0, 0, false, false, "ubuntu", 0 },
-            { "two-prompts",       "Two Prompts", 0, 0, false, false, "ubuntu", 0 },
+            { "question-prompt",   "Question Prompt", 0, 0, false, false, "lomiri", 0 },
+            { "two-factor",        "Two Factor", 0, 0, false, false, "lomiri", 0 },
+            { "two-prompts",       "Two Prompts", 0, 0, false, false, "lomiri", 0 },
             // white and black are a bit redundant, but useful for manually testing if UI is still readable
-            { "white-background",  "White Background", "#ffffff", 0, false, false, "ubuntu", 0 },
-            { "wide-info-prompt",  "Wide Info Prompt", 0, 0, false, false, "ubuntu", 0 },
-            { "unicode",           "가나다라마", 0, 0, false, false, "ubuntu", 0 }
+            { "white-background",  "White Background", "#ffffff", 0, false, false, "lomiri", 0 },
+            { "wide-info-prompt",  "Wide Info Prompt", 0, 0, false, false, "lomiri", 0 },
+            { "unicode",           "가나다라마", 0, 0, false, false, "lomiri", 0 }
         };
     }
 

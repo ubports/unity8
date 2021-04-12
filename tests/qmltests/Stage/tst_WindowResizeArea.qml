@@ -20,8 +20,8 @@ import QtTest 1.0
 import Unity.Test 0.1
 import ".."
 import "../../../qml/Stage"
-import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.3 as ListItem
+import Lomiri.Components 1.3
+import Lomiri.Components.ListItems 1.3 as ListItem
 import Unity.Application 0.1
 import Utils 0.1
 

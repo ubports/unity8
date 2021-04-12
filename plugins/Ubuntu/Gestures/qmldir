@@ -1,3 +1,0 @@
-module Ubuntu.Gestures
-plugin UbuntuGesturesQml
-typeinfo Gestures.qmltypes

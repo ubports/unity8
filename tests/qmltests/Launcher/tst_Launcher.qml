@@ -18,7 +18,7 @@ import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import QtTest 1.0
 import Unity.Test 0.1
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import ".."
 import "../../../qml/Launcher"
 import Unity.Launcher 0.1
@@ -30,9 +30,9 @@ Rectangle {
     id: root
     width: units.gu(140)
     height: units.gu(70)
-    color: UbuntuColors.graphite // something neither white nor black
+    color: LomiriColors.graphite // something neither white nor black
 
-    Component.onCompleted: theme.name = "Ubuntu.Components.Themes.SuruDark"
+    Component.onCompleted: theme.name = "Lomiri.Components.Themes.SuruDark"
 
     MouseArea {
         id: clickThroughTester
@@ -1590,7 +1590,7 @@ Rectangle {
             tryCompare(quickList, "selectedIndex", -1)
         }
 
-        // Regression test for https://github.com/ubports/ubuntu-touch/issues/1441
+        // Regression test for https://github.com/ubports/lomiri-touch/issues/1441
         // Short problem description: If the Launcher is dragged out while the
         // Peek animation is running, the Launcher disappears after the peek
         // animation ends. The Launcher does not appear until it is dismissed.

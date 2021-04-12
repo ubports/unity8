@@ -69,7 +69,7 @@ MockLauncherModel::MockLauncherModel(QObject* parent): LauncherModelInterface(pa
     item->setCountVisible(true);
     item->setAlerting(false);
     m_list.append(item);
-    item = new MockLauncherItem("ubuntu-weather-app", "/usr/share/applications/ubuntu-weather-app.desktop", "Weather", "weather", this);
+    item = new MockLauncherItem("lomiri-weather-app", "/usr/share/applications/lomiri-weather-app.desktop", "Weather", "weather", this);
     item->setCount(1234567890);
     item->setCountVisible(true);
     item->setAlerting(false);

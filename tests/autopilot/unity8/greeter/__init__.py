@@ -19,7 +19,7 @@
 
 import dbus
 
-import ubuntuuitoolkit
+import lomiriuitoolkit
 from autopilot.matchers import Eventually
 from testtools.matchers import Equals
 from autopilot.utilities import sleep
@@ -58,7 +58,7 @@ def _is_greeter_active():
         return False
 
 
-class Greeter(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
+class Greeter(lomiriuitoolkit.LomiriUIToolkitCustomProxyObjectBase):
     """A helper that understands the greeter screen."""
 
     def wait_swiped_away(self):
@@ -94,4 +94,4 @@ class Greeter(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
 
     def get_prompt(self):
         return self.select_single(
-            ubuntuuitoolkit.TextField, objectName='promptField')
+            lomiriuitoolkit.TextField, objectName='promptField')

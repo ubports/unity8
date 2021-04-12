@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.4 as QtQuick
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import "flickableUtils.js" as FlickableUtilsJS
 
 QtQuick.Flickable {

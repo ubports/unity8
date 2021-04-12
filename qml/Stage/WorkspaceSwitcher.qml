@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import "Spread"
 import WindowManager 1.0
 import Unity.Application 0.1
@@ -25,7 +25,7 @@ Item {
 
     opacity: d.shown ? 1 : 0
     visible: opacity > 0
-    Behavior on opacity { UbuntuNumberAnimation {} }
+    Behavior on opacity { LomiriNumberAnimation {} }
 
     property var screensProxy: Screens.createProxy();
     property string background
@@ -133,7 +133,7 @@ Item {
         }
     }
 
-    UbuntuShape {
+    LomiriShape {
         backgroundColor: "#F2111111"
         clip: true
         width: Math.min(parent.width, screensColumn.width + units.gu(4))
@@ -148,8 +148,8 @@ Item {
             }
             width: screensRepeater.itemAt(d.highlightedScreenIndex).width
             spacing: units.gu(2)
-            Behavior on anchors.topMargin { UbuntuNumberAnimation {} }
-            Behavior on width { UbuntuNumberAnimation {} }
+            Behavior on anchors.topMargin { LomiriNumberAnimation {} }
+            Behavior on width { LomiriNumberAnimation {} }
 
             Repeater {
                 id: screensRepeater
@@ -160,9 +160,9 @@ Item {
                     width: workspaces.width
                     anchors.horizontalCenter: parent.horizontalCenter
                     opacity: d.highlightedScreenIndex == index ? 1 : 0
-                    Behavior on opacity { UbuntuNumberAnimation {} }
+                    Behavior on opacity { LomiriNumberAnimation {} }
 
-                    UbuntuShape {
+                    LomiriShape {
                         id: header
                         anchors { left: parent.left; top: parent.top; right: parent.right }
                         height: units.gu(4)
@@ -171,7 +171,7 @@ Item {
                         Label {
                             anchors { left: parent.left; top: parent.top; right: parent.right; margins: units.gu(1) }
                             text: model.screen.name
-                            color: UbuntuColors.ash
+                            color: LomiriColors.ash
                         }
                     }
 

@@ -4,10 +4,10 @@
     <annotation name="org.freedesktop.Accounts.VendorExtension" value="true"/>
 
     <annotation name="org.freedesktop.Accounts.Authentication.ReadAny"
-                value="com.ubuntu.AccountsService.GreeterReadAny"/>
+                value="com.lomiri.AccountsService.GreeterReadAny"/>
 
     <annotation name="org.freedesktop.Accounts.Authentication.ChangeAny"
-                value="com.ubuntu.AccountsService.GreeterChangeAny"/>
+                value="com.lomiri.AccountsService.GreeterChangeAny"/>
 
     <!-- Marks that V1 (pre-8.21) edge demos have been run. Legacy value. -->
     <!-- Should have been named DemoEdges, sorry folks. -mterry -->
@@ -44,10 +44,10 @@
     <annotation name="org.freedesktop.Accounts.VendorExtension" value="true"/>
 
     <annotation name="org.freedesktop.Accounts.Authentication.ReadAny"
-                value="com.ubuntu.AccountsService.GreeterReadAny"/>
+                value="com.lomiri.AccountsService.GreeterReadAny"/>
 
     <annotation name="org.freedesktop.Accounts.Authentication.ChangeAny"
-                value="com.ubuntu.AccountsService.GreeterChangeAny"/>
+                value="com.lomiri.AccountsService.GreeterChangeAny"/>
 
     <property name="FailedLogins" type="u" access="readwrite">
       <annotation name="org.freedesktop.Accounts.DefaultValue" value="0"/>

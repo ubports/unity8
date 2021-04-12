@@ -23,9 +23,9 @@ import GSettings 1.0
 import LightDMController 0.1
 import LightDM.FullLightDM 0.1 as LightDM
 import SessionBroadcast 0.1
-import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.3 as ListItem
-import Ubuntu.Telephony 0.1 as Telephony
+import Lomiri.Components 1.3
+import Lomiri.Components.ListItems 1.3 as ListItem
+import Lomiri.Telephony 0.1 as Telephony
 import Unity.Application 0.1
 import Unity.ApplicationMenu 0.1
 import Unity.Connectivity 0.1
@@ -1474,7 +1474,7 @@ Rectangle {
 
             // not running, should start
             keyClick(Qt.Key_T, Qt.ControlModifier|Qt.AltModifier);
-            tryCompare(ApplicationManager, "focusedApplicationId", "ubuntu-terminal-app");
+            tryCompare(ApplicationManager, "focusedApplicationId", "lomiri-terminal-app");
 
             // start something else
             ApplicationManager.startApplication("dialer-app");
@@ -1482,7 +1482,7 @@ Rectangle {
 
             // terminal running in background, should get focused
             keyClick(Qt.Key_T, Qt.ControlModifier|Qt.AltModifier);
-            tryCompare(ApplicationManager, "focusedApplicationId", "ubuntu-terminal-app");
+            tryCompare(ApplicationManager, "focusedApplicationId", "lomiri-terminal-app");
         }
 
         function test_launcherInverted_data() {
@@ -1802,7 +1802,7 @@ Rectangle {
 
             // load some more apps
             ApplicationManager.startApplication("twitter-webapp")
-            ApplicationManager.startApplication("ubuntu-weather-app")
+            ApplicationManager.startApplication("lomiri-weather-app")
             ApplicationManager.startApplication("notes-app")
             for (var i = 0; i < topLevelSurfaceList.count; ++i) {
                 waitUntilAppWindowIsFullyLoaded(topLevelSurfaceList.idAt(i));

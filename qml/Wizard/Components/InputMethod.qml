@@ -16,7 +16,7 @@
 
 import QtQuick 2.0
 import Unity.Application 0.1
-import Ubuntu.Components 0.1
+import Lomiri.Components 0.1
 
 // TODO: try to share this code with that from the unity8 shell
 
@@ -45,7 +45,7 @@ Item {
 
     property var surface: null
 
-    property int transitionDuration: UbuntuAnimation.FastDuration
+    property int transitionDuration: LomiriAnimation.FastDuration
 
     state: {
         if (surface && surface.state != MirSurfaceItem.Minimized) {
@@ -80,7 +80,7 @@ Item {
         Transition {
             from: "*"; to: "*"
             PropertyAction { property: "visible"; value: true }
-            UbuntuNumberAnimation { property: "y"; duration: transitionDuration }
+            LomiriNumberAnimation { property: "y"; duration: transitionDuration }
         }
     ]
 

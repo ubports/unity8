@@ -16,7 +16,7 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import "../Components"
 
 Item {
@@ -125,7 +125,7 @@ Item {
         }
 
         Behavior on alignmentAdjustment {
-            NumberAnimation { duration: UbuntuAnimation.BriskDuration; easing: UbuntuAnimation.StandardEasing}
+            NumberAnimation { duration: LomiriAnimation.BriskDuration; easing: LomiriAnimation.StandardEasing}
         }
 
         function alignIndicators() {
@@ -177,7 +177,7 @@ Item {
 
         color: "#888888"
         opacity: expanded ? 1.0 : 0.0
-        Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
+        Behavior on opacity { NumberAnimation { duration: LomiriAnimation.SnapDuration } }
     }
 
     Item {
@@ -250,7 +250,7 @@ Item {
 
     Timer {
         id: alignmentTimer
-        interval: UbuntuAnimation.FastDuration // enough for row animation.
+        interval: LomiriAnimation.FastDuration // enough for row animation.
         repeat: false
 
         onTriggered: d.alignIndicators();
@@ -322,8 +322,8 @@ Item {
             PropertyAnimation {
                 target: d
                 properties: "combinedOffset"
-                duration: UbuntuAnimation.SnapDuration
-                easing: UbuntuAnimation.StandardEasing
+                duration: LomiriAnimation.SnapDuration
+                easing: LomiriAnimation.StandardEasing
             }
         }
     ]

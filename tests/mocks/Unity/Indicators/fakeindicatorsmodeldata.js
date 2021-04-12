@@ -52,7 +52,7 @@ var fakeMenuData = {
                                 "xCanonicalText": "Tap to open the system updater.",
                                 "xCanonicalTime": ((new Date).getTime() - 350 * 1000) * 1000,
                         },
-                        "action": "indicator.ubuntu-system-settings",
+                        "action": "indicator.lomiri-system-settings",
                         "actionState": {},
                         "isCheck": false,
                         "isRadio": false,
@@ -70,7 +70,7 @@ var fakeMenuData = {
                             "icon": Qt.resolvedUrl("../../../../../tests/graphics/avatars/funky@12.png"),
                             "xCanonicalAppIcon": Qt.resolvedUrl("../../../../../tests/graphics/applicationIcons/messages-app@18.png"),
                             "xCanonicalMessageActions": [ { "parameter-type": "s" } ],
-                            "xCanonicalText": "This is a message sent to an awesome Ubuntu phone.",
+                            "xCanonicalText": "This is a message sent to an awesome Lomiri phone.",
                             "xCanonicalTime": ((new Date).getTime() - 35 * 1000) * 1000
                         },
                         "isCheck": false,
@@ -164,7 +164,7 @@ var fakeMenuData = {
                         "isRadio": false,
                         "isSeparator": false,
                         "isToggled": false,
-                        "label": "Ubuntu Help",
+                        "label": "Lomiri Help",
                         "sensitive": true,
                         "type": ""
                     }
@@ -779,7 +779,7 @@ var fakeMenuData = {
                         "isRadio": false,
                         "isSeparator": false,
                         "isToggled": false,
-                        "label": "Ubuntu drinks event",
+                        "label": "Lomiri drinks event",
                         "sensitive": true,
                         "type": "com.canonical.indicator.appointment"
                     }
@@ -885,7 +885,7 @@ var fakeMenuData = {
                         "isRadio": false,
                         "isSeparator": false,
                         "isToggled": false,
-                        "label": "Ubuntu daily.iso",
+                        "label": "Lomiri daily.iso",
                         "sensitive": true,
                         "type": "com.canonical.indicator.transfer"
                     }
@@ -934,7 +934,7 @@ var fakeMenuData = {
                         "isRadio": false,
                         "isSeparator": false,
                         "isToggled": false,
-                        "label": "Ubuntu Guide.pdf",
+                        "label": "Lomiri Guide.pdf",
                         "sensitive": true,
                         "type": "com.canonical.indicator.transfer"
                     }
@@ -1096,7 +1096,7 @@ var fakeMenuData = {
                         "isRadio": false,
                         "isSeparator": false,
                         "isToggled": false,
-                        "label": "Ubuntu",
+                        "label": "Lomiri",
                         "sensitive": true,
                         "type": "unity.widgets.systemsettings.tablet.accesspoint"
                     }

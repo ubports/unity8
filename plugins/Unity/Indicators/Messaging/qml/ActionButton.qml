@@ -19,7 +19,7 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import Lomiri.Components 0.1
 import Unity.IndicatorsLegacy 0.1 as Indicators
 
 Button {

@@ -16,8 +16,8 @@
 
 import QtQuick 2.4
 import QtTest 1.0
-import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.3 as ListItem
+import Lomiri.Components 1.3
+import Lomiri.Components.ListItems 1.3 as ListItem
 import Unity.Application 0.1
 import Unity.Test 0.1
 import Utils 0.1
@@ -774,7 +774,7 @@ Rectangle {
         }
 
         /*
-            Regression test for https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1670361
+            Regression test for https://bugs.launchpad.net/lomiri/+source/unity8/+bug/1670361
 
             Clicks near the top window edge (but still inside the window boundaries) should go to
             the window (and not get eaten by some translucent decoration like in that bug).

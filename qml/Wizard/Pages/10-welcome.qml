@@ -16,9 +16,9 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.3
-import Ubuntu.SystemSettings.LanguagePlugin 1.0
+import Lomiri.Components 1.3
+import Lomiri.Components.ListItems 1.3
+import Lomiri.SystemSettings.LanguagePlugin 1.0
 import Wizard 0.1
 import ".." as LocalComponents
 import "../../Components"
@@ -31,7 +31,7 @@ LocalComponents.Page {
     hasBackButton: false
     onlyOnInstall: true
 
-    UbuntuLanguagePlugin {
+    LomiriLanguagePlugin {
         id: plugin
     }
 
@@ -96,12 +96,12 @@ LocalComponents.Page {
 
     SequentialAnimation {
         id: splashAnimation
-        PauseAnimation { duration: UbuntuAnimation.BriskDuration }
+        PauseAnimation { duration: LomiriAnimation.BriskDuration }
         SmoothedAnimation {
             target: splashImage
             property: "height"
             to: units.gu(16)
-            duration: UbuntuAnimation.BriskDuration
+            duration: LomiriAnimation.BriskDuration
         }
         NumberAnimation {
             target: splashImage

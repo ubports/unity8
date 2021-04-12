@@ -1,5 +1,5 @@
-data/devices.conf etc/ubuntu/
-data/test.sensors etc/ubuntusensors/
+data/devices.conf etc/lomiri/
+data/test.sensors etc/lomirisensors/
 data/unity8-filewatcher.conf usr/share/upstart/sessions/
 data/unity8.conf usr/share/upstart/sessions/
 usr/bin/unity8

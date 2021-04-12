@@ -27,7 +27,7 @@ sure that we don't break them for those external projects.
 
 """
 
-from ubuntuuitoolkit import ubuntu_scenarios
+from lomiriuitoolkit import lomiri_scenarios
 
 from unity8 import process_helpers
 from unity8.shell import fixture_setup, tests
@@ -36,7 +36,7 @@ from unity8 import dash as dash_helpers
 
 class MainWindowTestCase(tests.UnityTestCase):
 
-    scenarios = ubuntu_scenarios.get_device_simulation_scenarios()
+    scenarios = lomiri_scenarios.get_device_simulation_scenarios()
 
     def setUp(self):
         super().setUp()

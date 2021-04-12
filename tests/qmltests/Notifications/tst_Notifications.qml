@@ -19,7 +19,7 @@ import QtQuick.Layouts 1.1
 import QtTest 1.0
 import ".."
 import "../../../qml/Notifications"
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import Unity.Test 0.1
 import Unity.Notifications 1.0
 import QtMultimedia 5.0

@@ -20,5 +20,5 @@ Constants::Constants(QObject *parent)
    : QObject(parent)
 {
     m_indicatorValueTimeout = 5000;
-    m_defaultWallpaper = "/usr/share/backgrounds/warty-final-ubuntu.png";
+    m_defaultWallpaper = "/usr/share/backgrounds/warty-final-lomiri.png";
 }

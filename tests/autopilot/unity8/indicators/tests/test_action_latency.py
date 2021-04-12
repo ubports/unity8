@@ -100,7 +100,7 @@ class TestBuffering(TestIndicatorBaseTestCase):
 
     """Test that switching multiple times will buffer activations
 
-    See https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1390136 .
+    See https://bugs.launchpad.net/lomiri/+source/unity8/+bug/1390136 .
     """
     action_delay = 2500
 
@@ -190,7 +190,7 @@ class TestClientRevertsToServerValue(TestIndicatorBaseTestCase):
     """Test that an action which does not respond in time will revert
     to original value if not actioned in time.
 
-    See https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1390136 .
+    See https://bugs.launchpad.net/lomiri/+source/unity8/+bug/1390136 .
     """
     action_delay = -1  # never action.
 

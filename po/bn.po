@@ -676,7 +676,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
+msgid "Lomiri Touch system"
 msgstr "উবুন্টু টাচ সিস্টেম"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
@@ -698,7 +698,7 @@ msgid "Welcome Back"
 msgstr "ফিরে আসায় স্বাগতম"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
+msgid "Welcome to Lomiri"
 msgstr "উবুন্টুতে স্বাগতম"
 
 #: qml/Wizard/Pages/80-finished.qml:106
@@ -824,7 +824,7 @@ msgstr "দুর্বল পাসওয়ার্ড"
 msgid "Very weak password"
 msgstr "অত্যন্ত দুর্বল পাসওয়ার্ড"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "স্টোর"
 
@@ -920,7 +920,7 @@ msgstr "অত্যন্ত দুর্বল পাসওয়ার্ড"
 #~ msgid "To view open apps"
 #~ msgstr "সচল অ্যাপগুলো দেখার জন্য"
 
-#~ msgid "Welcome to your Ubuntu phone."
+#~ msgid "Welcome to your Lomiri phone."
 #~ msgstr "আপনার উবুন্টু ফোনে স্বাগতম।"
 
 #~ msgid "Try again."

@@ -17,7 +17,7 @@
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import QtTest 1.0
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import Unity.Test 0.1 as UT
 import AccountsService 0.1
 import Unity.InputInfo 0.1
@@ -54,7 +54,7 @@ PanelTest {
                 Behavior on height {
                     NumberAnimation {
                         id: heightAnimation
-                        duration: UbuntuAnimation.SnapDuration; easing: UbuntuAnimation.StandardEasing
+                        duration: LomiriAnimation.SnapDuration; easing: LomiriAnimation.StandardEasing
                     }
                 }
 

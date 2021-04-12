@@ -20,7 +20,7 @@ import ".."
 import "../../../qml/Greeter"
 import LightDMController 0.1
 import LightDM.FullLightDM 0.1 as LightDM
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import Unity.Test 0.1 as UT
 
 StyledItem {
@@ -30,7 +30,7 @@ StyledItem {
     height: units.gu(80)
     focus: true
 
-    theme.name: "Ubuntu.Components.Themes.Ambiance"
+    theme.name: "Lomiri.Components.Themes.Ambiance"
 
     Row {
         anchors.fill: parent
@@ -45,7 +45,7 @@ StyledItem {
                 WideView {
                     id: view
 
-                    background: "/usr/share/backgrounds/warty-final-ubuntu.png"
+                    background: "/usr/share/backgrounds/warty-final-lomiri.png"
                     userModel: LightDM.Users
                     infographicModel: LightDM.Infographic
 
@@ -416,7 +416,7 @@ StyledItem {
             tryCompare(loginList, "currentSession", "invalid");
 
             selectUser("has-password");
-            tryCompare(loginList, "currentSession", "ubuntu");
+            tryCompare(loginList, "currentSession", "lomiri");
 
             selectUser("invalid-session")
             tryCompare(loginList, "currentSession", "invalid");
@@ -453,7 +453,7 @@ StyledItem {
         }
 
         function test_choosingNewSessionChangesLoginListIcon() {
-            // Ensure the default session is selected (Ubuntu)
+            // Ensure the default session is selected (Lomiri)
             cleanup();
 
             LightDMController.sessionMode = "full";
@@ -461,7 +461,7 @@ StyledItem {
 
             var sessionChooserButton = findChild(view, "sessionChooserButton");
             var icon = String(sessionChooserButton.icon);
-            compare(icon.indexOf("ubuntu") > -1, true);
+            compare(icon.indexOf("lomiri") > -1, true);
 
             tap(sessionChooserButton)
             for(var i = 0; i < LightDM.Sessions.count; i++) {

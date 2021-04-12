@@ -1,0 +1,2 @@
+module Lomiri.Connectivity
+plugin connectivity-qml

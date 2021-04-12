@@ -682,8 +682,8 @@ msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr "Sistema Ubuntu Touch"
+msgid "Lomiri Touch system"
+msgstr "Sistema Lomiri Touch"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -704,8 +704,8 @@ msgid "Welcome Back"
 msgstr "Bem vindo de volta"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Bem vindo ao Ubuntu"
+msgid "Welcome to Lomiri"
+msgstr "Bem vindo ao Lomiri"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -830,7 +830,7 @@ msgstr "Senha fraca"
 msgid "Very weak password"
 msgstr "Senha muito fraca"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Loja"
 
@@ -1055,8 +1055,8 @@ msgstr "Senha muito fraca"
 #~ msgid "Add a SIM card and restart your device"
 #~ msgstr "Adicione um cartão SIM e reinicie o seu dispositivo"
 
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Bem-vindo ao seu Ubuntu phone."
+#~ msgid "Welcome to your Lomiri phone."
+#~ msgstr "Bem-vindo ao seu Lomiri phone."
 
 #~ msgid "Please select how you’d like to unlock your phone."
 #~ msgstr ""

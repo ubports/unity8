@@ -602,7 +602,7 @@ msgstr "Sonraki"
 #: qml/Wizard/Pages/10-welcome-update.qml:91
 #, fuzzy
 msgid "Welcome to "
-msgstr "Ubuntu'ya Hoş Geldiniz"
+msgstr "Lomiri'ya Hoş Geldiniz"
 
 #: qml/Wizard/Pages/10-welcome-update.qml:106
 msgid "We will make sure your device is ready to use "
@@ -700,10 +700,10 @@ msgstr ""
 #: qml/Wizard/Pages/79-system-update.qml:76
 #, fuzzy
 #| msgctxt "string identifying name of the update"
-#| msgid "Ubuntu system"
+#| msgid "Lomiri system"
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr "Ubuntu sistem"
+msgid "Lomiri Touch system"
+msgstr "Lomiri sistem"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -724,8 +724,8 @@ msgid "Welcome Back"
 msgstr "Tekrar hoş geldiniz"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Ubuntu'ya Hoş Geldiniz"
+msgid "Welcome to Lomiri"
+msgstr "Lomiri'ya Hoş Geldiniz"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -852,7 +852,7 @@ msgstr "Zayıf parola"
 msgid "Very weak password"
 msgstr "Çok zayıf şifre"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Mağaza"
 
@@ -1219,8 +1219,8 @@ msgstr "Çok zayıf şifre"
 #~ msgid "Hi!"
 #~ msgstr "Merhaba!"
 
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Ubuntu telefonunuza hoş geldiniz."
+#~ msgid "Welcome to your Lomiri phone."
+#~ msgstr "Lomiri telefonunuza hoş geldiniz."
 
 #~ msgid "Let’s get started."
 #~ msgstr "Hadi başlayalım."

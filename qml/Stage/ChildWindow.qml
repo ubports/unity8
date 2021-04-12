@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import Unity.Application 0.1
 
 FocusScope {
@@ -35,7 +35,7 @@ FocusScope {
 
     // Make it get shown and hidden with a fade in/out effect
     opacity: surface && surface.state !== Mir.MinimizedState && surface.state !== Mir.HiddenState ? 1.0 : 0.0
-    Behavior on opacity { UbuntuNumberAnimation {} }
+    Behavior on opacity { LomiriNumberAnimation {} }
     visible: opacity !== 0.0 // make it transparent to input as well
 
     readonly property bool dragging: windowResizeArea.dragging || d.touchOverlayDragging || d.moveHandlerDragging

@@ -43,7 +43,7 @@ MockAppDrawerModel::MockAppDrawerModel(QObject *parent):
     m_list.append(item);
     item = new MockLauncherItem("gmail-webapp", "/usr/share/applications/gmail-webapp.desktop", "GMail", "gmail", this);
     m_list.append(item);
-    item = new MockLauncherItem("ubuntu-weather-app", "/usr/share/applications/ubuntu-weather-app.desktop", "Weather", "weather", this);
+    item = new MockLauncherItem("lomiri-weather-app", "/usr/share/applications/lomiri-weather-app.desktop", "Weather", "weather", this);
     m_list.append(item);
     item = new MockLauncherItem("notes-app", "/usr/share/applications/notes-app.desktop", "Notepad", "notepad", this);
     m_list.append(item);

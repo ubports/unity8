@@ -52,7 +52,7 @@ XdgWatcher::XdgWatcher(QObject* parent)
     }
 }
 
-// "Ubuntu style" appID is filename without versionNumber after last "_"
+// "Lomiri style" appID is filename without versionNumber after last "_"
 const QString XdgWatcher::stripAppIdVersion(const QString rawAppID) const {
     auto appIdComponents = rawAppID.split("_");
     appIdComponents.removeLast();
@@ -81,22 +81,22 @@ const QString XdgWatcher::toStandardAppId(const QFileInfo fileInfo) const {
 const QString XdgWatcher::getAppId(const QFileInfo fileInfo) const {
     // We need to open the file to check if its and Ual application
     // as we cant just rely on the app name as "normal" apps can also
-    // contain 3 _ causing us to belive its an ubuntu app
+    // contain 3 _ causing us to belive its an lomiri app
     // Example kde_org_kate would become kde_org
     QFile qFile(fileInfo.absoluteFilePath());
     qFile.open(QIODevice::ReadOnly);
     QTextStream fileStream(&qFile);
     QString line;
     while (fileStream.readLineInto(&line)) {
-        if (line.startsWith("X-Ubuntu-Application-ID=")) {
-            auto rawAppID = line.replace("X-Ubuntu-Application-ID=", "");
+        if (line.startsWith("X-Lomiri-Application-ID=")) {
+            auto rawAppID = line.replace("X-Lomiri-Application-ID=", "");
             qFile.close();
             return stripAppIdVersion(rawAppID);
         }
     }
     qFile.close();
 
-    // If it's not an "Ubuntu" appID, we follow freedesktop standard
+    // If it's not an "Lomiri" appID, we follow freedesktop standard
     return toStandardAppId(fileInfo);
 }
 

@@ -23,18 +23,18 @@ DBusApplicationMenuRegistry::DBusApplicationMenuRegistry(QObject *parent)
     new MenuRegistrarAdaptor(this);
 
     QDBusConnection connection = QDBusConnection::sessionBus();
-    if (!connection.registerObject("/com/ubuntu/MenuRegistrar", this)) {
-        qCWarning(UNITY_APPMENU) << "Unable to register DBus object /com/ubuntu/MenuRegistrar";
+    if (!connection.registerObject("/com/lomiri/MenuRegistrar", this)) {
+        qCWarning(UNITY_APPMENU) << "Unable to register DBus object /com/lomiri/MenuRegistrar";
     }
-    if (!connection.registerService("com.ubuntu.MenuRegistrar")) {
-        qCWarning(UNITY_APPMENU) << "Unable to register DBus service com.ubuntu.MenuRegistrar";
+    if (!connection.registerService("com.lomiri.MenuRegistrar")) {
+        qCWarning(UNITY_APPMENU) << "Unable to register DBus service com.lomiri.MenuRegistrar";
     }
 }
 
 DBusApplicationMenuRegistry::~DBusApplicationMenuRegistry()
 {
     QDBusConnection connection = QDBusConnection::sessionBus();
-    connection.unregisterObject("/com/ubuntu/MenuRegistrar");
+    connection.unregisterObject("/com/lomiri/MenuRegistrar");
 }
 
 ApplicationMenuRegistry *DBusApplicationMenuRegistry::instance()

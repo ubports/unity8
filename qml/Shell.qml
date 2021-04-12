@@ -19,10 +19,10 @@ import QtQuick 2.4
 import QtQuick.Window 2.2
 import AccountsService 0.1
 import Unity.Application 0.1
-import Ubuntu.Components 1.3
-import Ubuntu.Components.Popups 1.3
-import Ubuntu.Gestures 0.1
-import Ubuntu.Telephony 0.1 as Telephony
+import Lomiri.Components 1.3
+import Lomiri.Components.Popups 1.3
+import Lomiri.Gestures 0.1
+import Lomiri.Telephony 0.1 as Telephony
 import Unity.Connectivity 0.1
 import Unity.Launcher 0.1
 import GlobalShortcut 1.0 // has to be before Utils, because of WindowInputFilter
@@ -49,7 +49,7 @@ import WindowManager 1.0
 StyledItem {
     id: shell
 
-    theme.name: "Ubuntu.Components.Themes.SuruDark"
+    theme.name: "Lomiri.Components.Themes.SuruDark"
 
     // to be set from outside
     property int orientationAngle: 0
@@ -681,7 +681,7 @@ StyledItem {
             opacity: enabled ? 0.95 : 0
 
             Behavior on opacity {
-                UbuntuNumberAnimation {}
+                LomiriNumberAnimation {}
             }
         }
 
@@ -912,7 +912,7 @@ StyledItem {
             cursor.opacity = 1;
         }
 
-        Behavior on opacity { UbuntuNumberAnimation {} }
+        Behavior on opacity { LomiriNumberAnimation {} }
     }
 
     // non-visual objects

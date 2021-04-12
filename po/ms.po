@@ -596,7 +596,7 @@ msgstr "Berikutnya"
 #: qml/Wizard/Pages/10-welcome-update.qml:91
 #, fuzzy
 msgid "Welcome to "
-msgstr "Selamat datang ke Ubuntu"
+msgstr "Selamat datang ke Lomiri"
 
 #: qml/Wizard/Pages/10-welcome-update.qml:106
 msgid "We will make sure your device is ready to use "
@@ -692,7 +692,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
+msgid "Lomiri Touch system"
 msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:83
@@ -714,8 +714,8 @@ msgid "Welcome Back"
 msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Selamat datang ke Ubuntu"
+msgid "Welcome to Lomiri"
+msgstr "Selamat datang ke Lomiri"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -841,7 +841,7 @@ msgstr "Kata laluan lemah"
 msgid "Very weak password"
 msgstr "Kata laluan sangat lemah"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Kedai"
 
@@ -1182,8 +1182,8 @@ msgstr "Kata laluan sangat lemah"
 #~ msgid "Hi!"
 #~ msgstr "Hai"
 
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Selamat datang ke telefon Ubuntu anda."
+#~ msgid "Welcome to your Lomiri phone."
+#~ msgstr "Selamat datang ke telefon Lomiri anda."
 
 #~ msgid "To view open apps"
 #~ msgstr "Untuk melihat apl dibuka"

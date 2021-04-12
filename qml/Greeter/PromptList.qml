@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import "../Components"
 import "." 0.1
 
@@ -105,7 +105,7 @@ FocusScope {
             textFormat: Text.PlainText
             text: model.text
 
-            Behavior on opacity { UbuntuNumberAnimation {} }
+            Behavior on opacity { LomiriNumberAnimation {} }
             opacity: 0
         }
     }
@@ -141,7 +141,7 @@ FocusScope {
             }
             onCanceled: root.canceled()
 
-            Behavior on opacity { UbuntuNumberAnimation {} }
+            Behavior on opacity { LomiriNumberAnimation {} }
             opacity: 0
         }
     }

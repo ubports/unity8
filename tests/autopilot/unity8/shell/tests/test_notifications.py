@@ -28,7 +28,7 @@ import subprocess
 from autopilot.matchers import Eventually
 from gi.repository import Notify
 from testtools.matchers import Equals, NotEquals
-from ubuntuuitoolkit import ubuntu_scenarios
+from lomiriuitoolkit import lomiri_scenarios
 
 from unity8 import shell
 from unity8.process_helpers import unlock_unity
@@ -41,8 +41,8 @@ logger = logging.getLogger(__name__)
 class NotificationsBase(UnityTestCase):
     """Base class for all notification tests that provides helper methods."""
 
-    scenarios = ubuntu_scenarios.get_device_simulation_scenarios(
-        ubuntu_scenarios.NEXUS4_DEVICE)
+    scenarios = lomiri_scenarios.get_device_simulation_scenarios(
+        lomiri_scenarios.NEXUS4_DEVICE)
 
     def _get_icon_path(self, icon_name):
         """Given an icons file name returns the full path (either system or

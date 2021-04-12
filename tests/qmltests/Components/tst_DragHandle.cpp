@@ -22,10 +22,10 @@
 #include <QtQml/QQmlEngine>
 #include <private/qquickanimatorcontroller_p.h>
 #include <private/qquickwindow_p.h>
-#include <UbuntuGestures/private/ucswipearea_p_p.h>
+#include <LomiriGestures/private/ucswipearea_p_p.h>
 
 #include <AxisVelocityCalculator.h>
-#include <UbuntuGestures/private/timer_p.h>
+#include <LomiriGestures/private/timer_p.h>
 #include "Direction.h"
 
 #include <paths.h>

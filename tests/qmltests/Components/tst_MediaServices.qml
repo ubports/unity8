@@ -18,7 +18,7 @@ import QtQuick 2.4
 import QtTest 1.0
 import "../../../qml/Components/MediaServices"
 import Unity.Test 0.1 as UT
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import QtMultimedia 5.0
 
 Rectangle {
@@ -161,7 +161,7 @@ Rectangle {
             var mediaPlayer = findInvisibleChild(services, "mediaPlayer");
             verify(mediaPlayer !== null);
             mediaPlayer.play();
-            wait(UbuntuAnimation.BriskDuration); // animation
+            wait(LomiriAnimation.BriskDuration); // animation
 
             var button = findChild(services, "viewActionButton");
             verify(button !== null);
@@ -212,7 +212,7 @@ Rectangle {
             var mediaPlayer = findInvisibleChild(services, "mediaPlayer");
             mediaPlayer.play();
             mediaPlayer.pause();
-            wait(UbuntuAnimation.BriskDuration); // animation
+            wait(LomiriAnimation.BriskDuration); // animation
 
             var navigationButton = findChild(services, "navigationButton");
             verify(navigationButton !== null);

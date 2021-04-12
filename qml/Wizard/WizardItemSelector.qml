@@ -15,8 +15,8 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.3 as ListItem
+import Lomiri.Components 1.3
+import Lomiri.Components.ListItems 1.3 as ListItem
 import "../Components"
 
 Rectangle {
@@ -31,7 +31,7 @@ Rectangle {
     color: theme.palette.normal.foreground
     height: expanded ? maxVisibleItems * itemHeight : itemHeight
     Behavior on height {
-        UbuntuNumberAnimation { id: heightAnimation }
+        LomiriNumberAnimation { id: heightAnimation }
     }
 
     width: parent.width

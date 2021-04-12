@@ -54,7 +54,7 @@ target_link_libraries(${SHELL_APP}
     ${ANDROID_PROPERTIES_LDFLAGS}
     ${GSETTINGS_QT_LDFLAGS}
     ${QTMIRSERVER_LDFLAGS}
-    UbuntuGestures
+    LomiriGestures
     connectivity-qt1
     unity8-private
 )

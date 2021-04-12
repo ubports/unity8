@@ -15,11 +15,11 @@
 */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
-import Ubuntu.Components.Themes 1.3
+import Lomiri.Components 1.3
+import Lomiri.Components.Themes 1.3
 import "../Components"
 
-import Ubuntu.Components.Themes.Ambiance 1.3 as Ambiance
+import Lomiri.Components.Themes.Ambiance 1.3 as Ambiance
 
 Item {
     id: root
@@ -68,7 +68,7 @@ Item {
         readonly property var fakeTheme: QtObject {
             property string name
             property Palette palette: Qt.createQmlObject("import QtQuick 2.4;\
-                                                          import Ubuntu.Components.Themes.%1 1.3;\
+                                                          import Lomiri.Components.Themes.%1 1.3;\
                                                           Palette {}".arg(styledItem.fakeTheme.name),
                                                          styledItem, "dynamicPalette");
         }
@@ -97,7 +97,7 @@ Item {
         clip: true
     }
 
-    UbuntuShape {
+    LomiriShape {
         id: iconShape
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
@@ -108,7 +108,7 @@ Item {
         visible: d.showIcon
 
         radius: "medium"
-        aspect: UbuntuShape.Flat
+        aspect: LomiriShape.Flat
         sourceFillMode: Image.PreserveAspectCrop
         source: Image {
             id: iconImage

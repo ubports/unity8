@@ -22,6 +22,6 @@ set_target_properties(WizardUtils-qml PROPERTIES COMPILE_FLAGS -fvisibility=defa
 
 target_link_libraries(WizardUtils-qml Qt5::DBus Qt5::Qml Qt5::Quick)
 
-set(PLUG_DIR ${PLUGIN_PRIVATE_MODULE_DIR}/Ubuntu/SystemSettings/Wizard/Utils)
+set(PLUG_DIR ${PLUGIN_PRIVATE_MODULE_DIR}/Lomiri/SystemSettings/Wizard/Utils)
 install(FILES qmldir DESTINATION ${PLUG_DIR})
 install(TARGETS WizardUtils-qml DESTINATION ${PLUG_DIR})

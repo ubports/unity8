@@ -629,7 +629,7 @@ msgstr "Air adhart"
 #: qml/Wizard/Pages/10-welcome-update.qml:91
 #, fuzzy
 msgid "Welcome to "
-msgstr "Fàilte gu Ubuntu"
+msgstr "Fàilte gu Lomiri"
 
 #: qml/Wizard/Pages/10-welcome-update.qml:106
 msgid "We will make sure your device is ready to use "
@@ -728,10 +728,10 @@ msgstr ""
 #: qml/Wizard/Pages/79-system-update.qml:76
 #, fuzzy
 #| msgctxt "string identifying name of the update"
-#| msgid "Ubuntu system"
+#| msgid "Lomiri system"
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr "Siostam Ubuntu"
+msgid "Lomiri Touch system"
+msgstr "Siostam Lomiri"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -752,8 +752,8 @@ msgid "Welcome Back"
 msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Fàilte gu Ubuntu"
+msgid "Welcome to Lomiri"
+msgstr "Fàilte gu Lomiri"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -881,7 +881,7 @@ msgstr "Facal-faire lag"
 msgid "Very weak password"
 msgstr "Facal-faire glè lag"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Am bùth"
 
@@ -1201,8 +1201,8 @@ msgstr "Facal-faire glè lag"
 #~ msgid "Hi!"
 #~ msgstr "Shin thu!"
 
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Fàilte dhan fhòn Ubuntu agad."
+#~ msgid "Welcome to your Lomiri phone."
+#~ msgstr "Fàilte dhan fhòn Lomiri agad."
 
 #~ msgid "Let’s get started."
 #~ msgstr "Tòisicheamaid."

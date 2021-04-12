@@ -682,8 +682,8 @@ msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr "Ubuntu sustav dodira"
+msgid "Lomiri Touch system"
+msgstr "Lomiri sustav dodira"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -704,8 +704,8 @@ msgid "Welcome Back"
 msgstr "Dobro došli natrag"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Dobro došli u Ubuntu"
+msgid "Welcome to Lomiri"
+msgstr "Dobro došli u Lomiri"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -831,7 +831,7 @@ msgstr "Slaba lozinka"
 msgid "Very weak password"
 msgstr "Vrlo slaba lozinka"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Trgovina"
 
@@ -1175,8 +1175,8 @@ msgstr "Vrlo slaba lozinka"
 #~ msgid "Hi!"
 #~ msgstr "Bok!"
 
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Dobrodošli u vaš Ubuntu telefon."
+#~ msgid "Welcome to your Lomiri phone."
+#~ msgstr "Dobrodošli u vaš Lomiri telefon."
 
 #~ msgid "Let’s get started."
 #~ msgstr "Započnimo."

@@ -20,7 +20,7 @@
 import logging
 import subprocess
 
-import ubuntuuitoolkit
+import lomiriuitoolkit
 from autopilot.introspection import get_proxy_object_for_existing_process
 
 from unity8 import greeter
@@ -187,5 +187,5 @@ def _get_unity_pid():
 def _get_unity_proxy_object(pid):
     return get_proxy_object_for_existing_process(
         pid=pid,
-        emulator_base=ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase
+        emulator_base=lomiriuitoolkit.LomiriUIToolkitCustomProxyObjectBase
     )

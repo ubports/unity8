@@ -20,7 +20,7 @@
 import logging
 
 import autopilot.logging
-import ubuntuuitoolkit
+import lomiriuitoolkit
 
 import unity8
 
@@ -28,7 +28,7 @@ import unity8
 logger = logging.getLogger(__name__)
 
 
-class Launcher(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
+class Launcher(lomiriuitoolkit.LomiriUIToolkitCustomProxyObjectBase):
 
     """A helper that understands the Launcher."""
 

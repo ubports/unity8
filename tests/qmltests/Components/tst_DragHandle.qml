@@ -17,8 +17,8 @@
 import QtQuick 2.4
 import "../../../qml/Components"
 import "tst_DragHandle"
-import Ubuntu.Components 1.3
-import Ubuntu.Gestures 0.1
+import Lomiri.Components 1.3
+import Lomiri.Gestures 0.1
 import Unity.Test 0.1
 
 /*

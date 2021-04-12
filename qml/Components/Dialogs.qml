@@ -19,7 +19,7 @@ import QtQuick.Window 2.2
 import Unity.Application 0.1
 import Unity.Session 0.1
 import GlobalShortcut 1.0
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import Unity.Platform 1.0
 import Utils 0.1
 

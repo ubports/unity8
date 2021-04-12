@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 
 Item {
     id: root
@@ -51,7 +51,7 @@ Item {
     QtObject {
         id: priv
 
-        readonly property int wiggleDuration: UbuntuAnimation.SnapDuration
+        readonly property int wiggleDuration: LomiriAnimation.SnapDuration
         property real wiggleAngle: 0
     }
 
@@ -136,7 +136,7 @@ Item {
             id: iconShape
             anchors.centerIn: parent
             width: root.itemWidth
-            aspect: UbuntuShape.DropShadow
+            aspect: LomiriShape.DropShadow
             source: Image {
                 id: iconImage
                 sourceSize.width: iconShape.width
@@ -146,7 +146,7 @@ Item {
             }
         }
 
-        UbuntuShape {
+        LomiriShape {
             id: countEmblem
             objectName: "countEmblem"
             anchors {
@@ -159,7 +159,7 @@ Item {
             height: units.gu(2)
             backgroundColor: theme.palette.normal.positive
             visible: root.countVisible
-            aspect: UbuntuShape.Flat
+            aspect: LomiriShape.Flat
 
             Label {
                 id: countLabel
@@ -174,7 +174,7 @@ Item {
             }
         }
 
-        UbuntuShape {
+        LomiriShape {
             id: progressOverlay
             objectName: "progressOverlay"
 
@@ -194,7 +194,7 @@ Item {
                 width: Math.min(100, root.progress) / 100 * parent.width
                 clip: true
 
-                UbuntuShape {
+                LomiriShape {
                     anchors {
                         left: parent.left
                         top: parent.top
@@ -238,14 +238,14 @@ Item {
             visible: root.itemFocused
         }
 
-        UbuntuShape {
+        LomiriShape {
             objectName: "shortcutHint"
             anchors.centerIn: parent
             width: units.gu(2.5)
             height: width
             backgroundColor: "#F2111111"
             visible: root.shortcutHintShown
-            aspect: UbuntuShape.Flat
+            aspect: LomiriShape.Flat
             Label {
                 anchors.centerIn: parent
                 text: (itemIndex + 1) % 10

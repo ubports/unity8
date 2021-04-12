@@ -15,11 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import ubuntuuitoolkit
+import lomiriuitoolkit
 from autopilot import introspection
 
 
-class IndicatorPage(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
+class IndicatorPage(lomiriuitoolkit.LomiriUIToolkitCustomProxyObjectBase):
 
     """Autopilot helper for the IndicatorPage component."""
 
@@ -67,7 +67,7 @@ class Indicator():
     def _make_indicator_icon_visible(self):
         indicators_bar = self._main_window.select_single('IndicatorsBar')
         indicators_bar_flickable = indicators_bar.select_single(
-            ubuntuuitoolkit.QQuickFlickable, objectName='flickable')
+            lomiriuitoolkit.QQuickFlickable, objectName='flickable')
         self._swipe_flickable_to_x_end(indicators_bar_flickable)
 
     def _swipe_flickable_to_x_end(self, flickable):
@@ -122,7 +122,7 @@ class DisplayIndicatorPage(IndicatorPage):
 
     def _get_switcher(self):
         return self.select_single(
-            ubuntuuitoolkit.CheckBox, objectName='switcher')
+            lomiriuitoolkit.CheckBox, objectName='switcher')
 
     def unlock_rotation(self):
         """Toggle the rotation lock indicator to unlocked."""
@@ -152,7 +152,7 @@ class TestIndicatorPage(IndicatorPage):
 
     def get_switcher(self):
         return self.select_single(
-            ubuntuuitoolkit.CheckBox, objectName='switcher')
+            lomiriuitoolkit.CheckBox, objectName='switcher')
 
     def get_switch_menu(self):
         return self.select_single(
@@ -165,7 +165,7 @@ class TestIndicatorPage(IndicatorPage):
         return self.select_single(objectName='indicator.action.slider')
 
 
-class Slider(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
+class Slider(lomiriuitoolkit.LomiriUIToolkitCustomProxyObjectBase):
 
     """Autopilot helper for the Slider component."""
 

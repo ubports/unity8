@@ -603,7 +603,7 @@ msgstr "War-lerc'h"
 #: qml/Wizard/Pages/10-welcome-update.qml:91
 #, fuzzy
 msgid "Welcome to "
-msgstr "Donemat en Ubuntu"
+msgstr "Donemat en Lomiri"
 
 #: qml/Wizard/Pages/10-welcome-update.qml:106
 msgid "We will make sure your device is ready to use "
@@ -700,10 +700,10 @@ msgstr ""
 #: qml/Wizard/Pages/79-system-update.qml:76
 #, fuzzy
 #| msgctxt "string identifying name of the update"
-#| msgid "Ubuntu system"
+#| msgid "Lomiri system"
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr "Reizhiad Ubuntu"
+msgid "Lomiri Touch system"
+msgstr "Reizhiad Lomiri"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -724,8 +724,8 @@ msgid "Welcome Back"
 msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Donemat en Ubuntu"
+msgid "Welcome to Lomiri"
+msgstr "Donemat en Lomiri"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -850,7 +850,7 @@ msgstr "Ger-tremen diasur"
 msgid "Very weak password"
 msgstr "Ger-tremen diasur-kenañ"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Stal"
 
@@ -1141,8 +1141,8 @@ msgstr "Ger-tremen diasur-kenañ"
 #~ msgid "Let’s get started."
 #~ msgstr "Krogomp ganti."
 
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Deuet-mat oc'h en ho pellgomzer Ubuntu."
+#~ msgid "Welcome to your Lomiri phone."
+#~ msgstr "Deuet-mat oc'h en ho pellgomzer Lomiri."
 
 #~ msgid "Available networks…"
 #~ msgstr "Rouedadoù a c'haller kaout..."

@@ -688,8 +688,8 @@ msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr "Sistema Ubuntu Touch"
+msgid "Lomiri Touch system"
+msgstr "Sistema Lomiri Touch"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -710,8 +710,8 @@ msgid "Welcome Back"
 msgstr "Us tornem a donar la benvinguda"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Us donem la benvinguda a l'Ubuntu"
+msgid "Welcome to Lomiri"
+msgstr "Us donem la benvinguda a l'Lomiri"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -836,7 +836,7 @@ msgstr "La contrasenya és dèbil"
 msgid "Very weak password"
 msgstr "La contrasenya és molt dèbil"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Botiga"
 
@@ -1210,8 +1210,8 @@ msgstr "La contrasenya és molt dèbil"
 #~ msgid "Hi!"
 #~ msgstr "Hola!"
 
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Us donem la benvinguda al vostre telèfon Ubuntu."
+#~ msgid "Welcome to your Lomiri phone."
+#~ msgstr "Us donem la benvinguda al vostre telèfon Lomiri."
 
 #~ msgid "Let’s get started."
 #~ msgstr "Comencem."

@@ -1,5 +1,5 @@
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import WindowManager 1.0
 import "MathUtils.js" as MathUtils
 import "../../Components"
@@ -157,14 +157,14 @@ Item {
                 listView.contentX = listView.originX + (listView.contentWidth - listView.width + listView.leftMargin + listView.rightMargin) * progress - listView.leftMargin
             }
 
-            displaced: Transition { UbuntuNumberAnimation { properties: "x" } }
+            displaced: Transition { LomiriNumberAnimation { properties: "x" } }
 
             delegate: Item {
                 id: workspaceDelegate
                 objectName: "delegate" + index
                 height: parent.height
                 width: listView.itemWidth
-                Behavior on width { UbuntuNumberAnimation {} }
+                Behavior on width { LomiriNumberAnimation {} }
                 visible: listView.dropItemIndex !== index
 
                 property int itemX: -listView.realContentX + index * (listView.itemWidth + listView.spacing)
@@ -294,7 +294,7 @@ Item {
                                                  && mousePos.x < workspaceDelegate.height / 4
                         opacity: shown ? 1 : 0
                         visible: opacity > 0
-                        Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
+                        Behavior on opacity { LomiriNumberAnimation { duration: LomiriAnimation.SnapDuration } }
 
                     }
                 }
@@ -381,7 +381,7 @@ Item {
                         anchors.fill: parent
                         color: "#33000000"
                         opacity: parent.inDropArea ? 0 : 1
-                        Behavior on opacity { UbuntuNumberAnimation { } }
+                        Behavior on opacity { LomiriNumberAnimation { } }
                         Rectangle {
                             anchors.centerIn: parent
                             width: units.gu(6)

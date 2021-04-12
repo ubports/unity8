@@ -6,4 +6,4 @@ Exec=@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_BINDIR@/indicators-client
 Terminal=false
 Icon=
 NoDisplay=false
-X-Ubuntu-Touch=true
+X-Lomiri-Touch=true

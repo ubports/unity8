@@ -23,11 +23,11 @@ import threading
 import fixtures
 import logging
 
-import ubuntuuitoolkit
+import lomiriuitoolkit
 from autopilot import introspection
 from autopilot.matchers import Eventually
 from testtools.matchers import Equals
-from ubuntuuitoolkit import fixture_setup
+from lomiriuitoolkit import fixture_setup
 
 from unity8 import (
     get_binary_path,
@@ -59,7 +59,7 @@ class LaunchUnityWithFakeSensors(fixtures.Fixture):
         super().setUp()
         self.useFixture(
             fixture_setup.InitctlEnvironmentVariable(
-                UBUNTU_PLATFORM_API_TEST_OVERRIDE='sensors'))
+                LOMIRI_PLATFORM_API_TEST_OVERRIDE='sensors'))
 
         self.addCleanup(process_helpers.stop_job, 'unity8')
         restart_thread = threading.Thread(
@@ -249,7 +249,7 @@ class LaunchDashApp(fixtures.Fixture):
         pid = process_helpers.start_job('unity8-dash', *all_args)
         return introspection.get_proxy_object_for_existing_process(
             pid=pid,
-            emulator_base=ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase
+            emulator_base=lomiriuitoolkit.LomiriUIToolkitCustomProxyObjectBase
         )
 
     def stop_application(self):
@@ -272,7 +272,7 @@ class DisplayRotationLock(fixtures.Fixture):
     def _is_rotation_lock_enabled(self):
         command = [
             'gsettings', 'get',
-            'com.ubuntu.touch.system',
+            'com.lomiri.touch.system',
             'rotation-lock'
         ]
         output = subprocess.check_output(command, universal_newlines=True)
@@ -282,7 +282,7 @@ class DisplayRotationLock(fixtures.Fixture):
         value_string = 'true' if value else 'false'
         command = [
             'gsettings', 'set',
-            'com.ubuntu.touch.system',
+            'com.lomiri.touch.system',
             'rotation-lock', value_string
         ]
         subprocess.check_output(command)

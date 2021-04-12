@@ -708,9 +708,9 @@ msgstr ""
 #: qml/Wizard/Pages/79-system-update.qml:76
 #, fuzzy
 #| msgctxt "string identifying name of the update"
-#| msgid "Ubuntu system"
+#| msgid "Lomiri system"
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
+msgid "Lomiri Touch system"
 msgstr "Убунту систем"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
@@ -732,7 +732,7 @@ msgid "Welcome Back"
 msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
+msgid "Welcome to Lomiri"
 msgstr "Добродошли у Убунту"
 
 #: qml/Wizard/Pages/80-finished.qml:106
@@ -858,7 +858,7 @@ msgstr "Слаба лозинка"
 msgid "Very weak password"
 msgstr "Веома слаба лозинка"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Продавница"
 
@@ -1210,7 +1210,7 @@ msgstr "Веома слаба лозинка"
 #~ msgid "Swipe"
 #~ msgstr "Превлачење"
 
-#~ msgid "Welcome to your Ubuntu phone."
+#~ msgid "Welcome to your Lomiri phone."
 #~ msgstr "Добродошли у свој Убунту телефон."
 
 #~ msgctxt "Label: Description of security method"

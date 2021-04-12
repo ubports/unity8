@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import "MathUtils.js" as MathUtils
 
 Item {
@@ -115,7 +115,7 @@ Item {
         fontSize: root.height < units.gu(85) ? 'medium' : 'large'
         color: "white"
         opacity: root.highlightedIndex >= 0 ? 1 : 0
-        Behavior on opacity { UbuntuNumberAnimation { } }
+        Behavior on opacity { LomiriNumberAnimation { } }
     }
 
     readonly property int itemCount: root.model.count

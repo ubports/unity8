@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import "." 0.1
 
 FocusScope {
@@ -124,7 +124,7 @@ FocusScope {
             boxVerticalOffset: (height - highlightedHeight -
                                (inputMethod && inputMethod.visible ?
                                 inputMethod.keyboardRectangle.height : 0)) / 2
-            Behavior on boxVerticalOffset { UbuntuNumberAnimation {} }
+            Behavior on boxVerticalOffset { LomiriNumberAnimation {} }
 
             model: root.userModel
             onResponded: root.responded(response)
@@ -198,7 +198,7 @@ FocusScope {
             Transition {
                 from: "*"
                 to: "*"
-                UbuntuNumberAnimation {
+                LomiriNumberAnimation {
                     property: "opacity";
                 }
             }

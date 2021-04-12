@@ -18,7 +18,7 @@ import QtQuick 2.4
 import QtTest 1.0
 import ".."
 import "../../../qml/Greeter"
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import AccountsService 0.1
 import Biometryd 0.0
 import GSettings 1.0
@@ -30,7 +30,7 @@ Item {
     width: units.gu(120)
     height: units.gu(80)
 
-    property url defaultBackground: "/usr/share/backgrounds/warty-final-ubuntu.png"
+    property url defaultBackground: "/usr/share/backgrounds/warty-final-lomiri.png"
 
     Component.onCompleted: {
         loader.active = true;

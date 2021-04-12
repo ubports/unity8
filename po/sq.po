@@ -584,7 +584,7 @@ msgstr ""
 #: qml/Wizard/Pages/10-welcome-update.qml:91
 #, fuzzy
 msgid "Welcome to "
-msgstr "Mirëserdhe në Ubuntu"
+msgstr "Mirëserdhe në Lomiri"
 
 #: qml/Wizard/Pages/10-welcome-update.qml:106
 msgid "We will make sure your device is ready to use "
@@ -679,7 +679,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
+msgid "Lomiri Touch system"
 msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:83
@@ -701,8 +701,8 @@ msgid "Welcome Back"
 msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Mirëserdhe në Ubuntu"
+msgid "Welcome to Lomiri"
+msgstr "Mirëserdhe në Lomiri"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -827,7 +827,7 @@ msgstr "Fjalëkalim i dobët"
 msgid "Very weak password"
 msgstr "Fjalëkalim shumë i dobët"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Ruaje"
 
@@ -941,8 +941,8 @@ msgstr "Fjalëkalim shumë i dobët"
 #~ msgid "Hi!"
 #~ msgstr "Përshëndetje!"
 
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Mirëseerdhët në telefonin tuaj Ubuntu."
+#~ msgid "Welcome to your Lomiri phone."
+#~ msgstr "Mirëseerdhët në telefonin tuaj Lomiri."
 
 #~ msgid "Try again."
 #~ msgstr "Provoje përsëri."

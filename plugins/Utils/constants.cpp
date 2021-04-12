@@ -28,5 +28,5 @@ Constants::Constants(QObject *parent)
     }
 
     QString snapRoot = QFile::decodeName(qgetenv("SNAP"));
-    m_defaultWallpaper = snapRoot + "/usr/share/backgrounds/warty-final-ubuntu.png";
+    m_defaultWallpaper = snapRoot + "/usr/share/backgrounds/warty-final-lomiri.png";
 }

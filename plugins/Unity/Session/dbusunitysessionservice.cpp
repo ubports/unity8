@@ -281,9 +281,9 @@ void DBusUnitySessionService::Logout()
 
 void DBusUnitySessionService::EndSession()
 {
-    const QDBusMessage msg = QDBusMessage::createMethodCall(QStringLiteral("com.ubuntu.Upstart"),
-                                                            QStringLiteral("/com/ubuntu/Upstart"),
-                                                            QStringLiteral("com.ubuntu.Upstart0_6"),
+    const QDBusMessage msg = QDBusMessage::createMethodCall(QStringLiteral("com.lomiri.Upstart"),
+                                                            QStringLiteral("/com/lomiri/Upstart"),
+                                                            QStringLiteral("com.lomiri.Upstart0_6"),
                                                             QStringLiteral("EndSession"));
     QDBusConnection::sessionBus().asyncCall(msg);
 }

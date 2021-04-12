@@ -679,8 +679,8 @@ msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr "Ubuntu Touch -järjestelmä"
+msgid "Lomiri Touch system"
+msgstr "Lomiri Touch -järjestelmä"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -701,8 +701,8 @@ msgid "Welcome Back"
 msgstr "Tervetuloa takaisin"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Tervetuloa Ubuntuun"
+msgid "Welcome to Lomiri"
+msgstr "Tervetuloa Lomiriun"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -827,7 +827,7 @@ msgstr "Heikko salasana"
 msgid "Very weak password"
 msgstr "Erittäin heikko salasana"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Kauppa"
 
@@ -1193,8 +1193,8 @@ msgstr "Erittäin heikko salasana"
 #~ msgid "Hi!"
 #~ msgstr "Hei!"
 
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Tervetuloa Ubuntu-puhelimen pariin."
+#~ msgid "Welcome to your Lomiri phone."
+#~ msgstr "Tervetuloa Lomiri-puhelimen pariin."
 
 #~ msgid "Let’s get started."
 #~ msgstr "Aloitetaanpa."

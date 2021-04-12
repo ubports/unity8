@@ -607,7 +607,7 @@ msgstr "Naslednji"
 #: qml/Wizard/Pages/10-welcome-update.qml:91
 #, fuzzy
 msgid "Welcome to "
-msgstr "Dobrodošli v Ubuntuju"
+msgstr "Dobrodošli v Lomiriju"
 
 #: qml/Wizard/Pages/10-welcome-update.qml:106
 msgid "We will make sure your device is ready to use "
@@ -704,10 +704,10 @@ msgstr ""
 #: qml/Wizard/Pages/79-system-update.qml:76
 #, fuzzy
 #| msgctxt "string identifying name of the update"
-#| msgid "Ubuntu system"
+#| msgid "Lomiri system"
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr "Sistem Ubuntu"
+msgid "Lomiri Touch system"
+msgstr "Sistem Lomiri"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -728,8 +728,8 @@ msgid "Welcome Back"
 msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Dobrodošli v Ubuntuju"
+msgid "Welcome to Lomiri"
+msgstr "Dobrodošli v Lomiriju"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -855,7 +855,7 @@ msgstr "Šibko geslo"
 msgid "Very weak password"
 msgstr "Zelo šibko geslo"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Trgovina"
 
@@ -1168,8 +1168,8 @@ msgstr "Zelo šibko geslo"
 #~ msgid "Hi!"
 #~ msgstr "Živjo!"
 
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Dobrodošli v svoj telefon Ubuntu."
+#~ msgid "Welcome to your Lomiri phone."
+#~ msgstr "Dobrodošli v svoj telefon Lomiri."
 
 #~ msgid "Let’s get started."
 #~ msgstr "Pa začnimo."

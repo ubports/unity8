@@ -700,7 +700,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
+msgid "Lomiri Touch system"
 msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:83
@@ -722,7 +722,7 @@ msgid "Welcome Back"
 msgstr "Welcome Back"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
+msgid "Welcome to Lomiri"
 msgstr "Welcome to Unity"
 
 #: qml/Wizard/Pages/80-finished.qml:106
@@ -848,7 +848,7 @@ msgstr "Weak password"
 msgid "Very weak password"
 msgstr "Very weak password"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Store"
 
@@ -1205,8 +1205,8 @@ msgstr "Very weak password"
 #~ msgid "Hi!"
 #~ msgstr "Hi!"
 
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Welcome to your Ubuntu phone."
+#~ msgid "Welcome to your Lomiri phone."
+#~ msgstr "Welcome to your Lomiri phone."
 
 #~ msgid "Let’s get started."
 #~ msgstr "Let’s get started."

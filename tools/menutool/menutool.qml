@@ -15,7 +15,7 @@
 */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 
 import "../../qml/ApplicationMenus"
 import "../../qml/Panel"
@@ -31,8 +31,8 @@ Item {
     UnityMenuModel {
         id: menuModel
         busName: contextBusName
-        menuObjectPath: "/com/ubuntu/Menu/0"
-        actions: { "unity": "/com/ubuntu/Menu/0" }
+        menuObjectPath: "/com/lomiri/Menu/0"
+        actions: { "unity": "/com/lomiri/Menu/0" }
     }
 
     readonly property bool hasMenus: repeater.count > 0
@@ -106,7 +106,7 @@ Item {
     }
 
     Component.onCompleted: {
-        theme.name = "Ubuntu.Components.Themes.SuruDark";
+        theme.name = "Lomiri.Components.Themes.SuruDark";
         PanelState.title = "Drag here to open touch menu";
     }
 

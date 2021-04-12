@@ -26,11 +26,11 @@ import subprocess
 import time
 
 import fixtures
-import ubuntuuitoolkit
+import lomiriuitoolkit
 from autopilot.matchers import Eventually
 from autopilot.introspection import get_proxy_object_for_existing_process
 from testtools.matchers import Equals, MismatchError
-from ubuntuuitoolkit import ubuntu_scenarios
+from lomiriuitoolkit import lomiri_scenarios
 
 from unity8 import get_binary_path
 from unity8.shell.tests import UnityTestCase
@@ -42,7 +42,7 @@ logger = logging.getLogger(__name__)
 
 class UpstartIntegrationTests(UnityTestCase):
 
-    scenarios = ubuntu_scenarios.get_device_simulation_scenarios()
+    scenarios = lomiri_scenarios.get_device_simulation_scenarios()
 
     def _get_status(self):
         pid, status = os.waitpid(
@@ -90,7 +90,7 @@ class UpstartIntegrationTests(UnityTestCase):
         self.addCleanup(ensure_stopped)
 
     def _set_proxy(self):
-        proxy_base = ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase
+        proxy_base = lomiriuitoolkit.LomiriUIToolkitCustomProxyObjectBase
         super()._set_proxy(
             get_proxy_object_for_existing_process(
                 pid=self.process.pid,

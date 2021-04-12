@@ -17,7 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-# Our goal here is to get an Ubuntu Touch device into a testable unlocked state.
+# Our goal here is to get an Lomiri Touch device into a testable unlocked state.
 # This will include a reboot.
 
 WAIT_COMMAND="adb reboot; sleep 5; adb wait-for-device; sleep 20"

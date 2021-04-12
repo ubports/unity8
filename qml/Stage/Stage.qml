@@ -16,12 +16,12 @@
 
 import QtQuick 2.4
 import QtQuick.Window 2.2
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import Unity.Application 0.1
 import "../Components/PanelState"
 import "../Components"
 import Utils 0.1
-import Ubuntu.Gestures 0.1
+import Lomiri.Gestures 0.1
 import GlobalShortcut 1.0
 import GSettings 1.0
 import "Spread"
@@ -265,7 +265,7 @@ FocusScope {
         shortcut: Qt.ControlModifier|Qt.AltModifier|Qt.Key_T
         onTriggered: {
             // try in this order: snap pkg, new deb name, old deb name
-            var candidates = ["ubuntu-terminal-app_ubuntu-terminal-app", "ubuntu-terminal-app", "com.ubuntu.terminal"];
+            var candidates = ["lomiri-terminal-app_lomiri-terminal-app", "lomiri-terminal-app", "com.lomiri.terminal"];
             for (var i = 0; i < candidates.length; i++) {
                 if (priv.startApp(candidates[i]))
                     break;
@@ -327,7 +327,7 @@ FocusScope {
 
         property bool goneToSpread: false
         property int closingIndex: -1
-        property int animationDuration: UbuntuAnimation.FastDuration
+        property int animationDuration: LomiriAnimation.FastDuration
 
         function updateForegroundMaximizedApp() {
             var found = false;
@@ -627,14 +627,14 @@ FocusScope {
             PropertyAction { target: spreadItem; property: "highlightedIndex"; value: -1 }
             PropertyAction { target: screensAndWorkspaces; property: "activeWorkspace"; value: WMScreen.currentWorkspace }
             PropertyAnimation { target: blurLayer; properties: "brightness,blurRadius"; duration: priv.animationDuration }
-            UbuntuNumberAnimation { target: screensAndWorkspaces; property: "opacity"; duration: priv.animationDuration }
+            LomiriNumberAnimation { target: screensAndWorkspaces; property: "opacity"; duration: priv.animationDuration }
         },
         Transition {
             to: "spread"
             PropertyAction { target: screensAndWorkspaces; property: "activeWorkspace"; value: WMScreen.currentWorkspace }
             PropertyAction { target: spreadItem; property: "highlightedIndex"; value: appRepeater.count > 1 ? 1 : 0 }
             PropertyAction { target: floatingFlickable; property: "contentX"; value: 0 }
-            UbuntuNumberAnimation { target: screensAndWorkspaces; property: "opacity"; duration: priv.animationDuration }
+            LomiriNumberAnimation { target: screensAndWorkspaces; property: "opacity"; duration: priv.animationDuration }
         },
         Transition {
             from: "spread"
@@ -745,7 +745,7 @@ FocusScope {
                         snapAnimation.start();
                     }
                 }
-                UbuntuNumberAnimation {id: snapAnimation; target: floatingFlickable; property: "contentX"}
+                LomiriNumberAnimation {id: snapAnimation; target: floatingFlickable; property: "contentX"}
             }
 
             MouseArea {
@@ -853,7 +853,7 @@ FocusScope {
             height: appContainer.height
             x: appContainer.width - width
             visible: false
-            Behavior on opacity { UbuntuNumberAnimation {} }
+            Behavior on opacity { LomiriNumberAnimation {} }
             z: {
                 if (!priv.mainStageItemId) return 0;
 
@@ -924,7 +924,7 @@ FocusScope {
             surfaceWidth: -1
             surfaceHeight: -1
             opacity: surface != null ? 1 : 0
-            Behavior on opacity { UbuntuNumberAnimation {} }
+            Behavior on opacity { LomiriNumberAnimation {} }
             visible: opacity > 0
             enabled: workspaceSwitcher
 
@@ -963,7 +963,7 @@ FocusScope {
                 z: normalZ
 
                 opacity: fakeDragItem.surface == model.window.surface && fakeDragItem.Drag.active ? 0 : 1
-                Behavior on opacity { UbuntuNumberAnimation {} }
+                Behavior on opacity { LomiriNumberAnimation {} }
 
                 // Set these as propertyes as they wont update otherwise
                 property real screenOffsetX: Screen.virtualX
@@ -1064,7 +1064,7 @@ FocusScope {
                           && root.inputMethodRect.height > 0
                 }
 
-                Behavior on x { id: xBehavior; enabled: priv.closingIndex >= 0; UbuntuNumberAnimation { onRunningChanged: if (!running) priv.closingIndex = -1} }
+                Behavior on x { id: xBehavior; enabled: priv.closingIndex >= 0; LomiriNumberAnimation { onRunningChanged: if (!running) priv.closingIndex = -1} }
 
                 Connections {
                     target: root
@@ -1419,13 +1419,13 @@ FocusScope {
                     }
                 }
 
-                UbuntuNumberAnimation {
+                LomiriNumberAnimation {
                     id: focusAnimation
                     target: appDelegate
                     property: "scale"
                     from: 0.98
                     to: 1
-                    duration: UbuntuAnimation.SnapDuration
+                    duration: LomiriAnimation.SnapDuration
                     onStarted: {
                         topLevelSurfaceList.pendingActivation();
                         topLevelSurfaceList.raiseId(model.window.id);
@@ -1437,9 +1437,9 @@ FocusScope {
                 ParallelAnimation {
                     id: rightEdgeFocusAnimation
                     property int targetX: 0
-                    UbuntuNumberAnimation { target: appDelegate; properties: "x"; to: rightEdgeFocusAnimation.targetX; duration: priv.animationDuration }
-                    UbuntuNumberAnimation { target: decoratedWindow; properties: "angle"; to: 0; duration: priv.animationDuration }
-                    UbuntuNumberAnimation { target: decoratedWindow; properties: "itemScale"; to: 1; duration: priv.animationDuration }
+                    LomiriNumberAnimation { target: appDelegate; properties: "x"; to: rightEdgeFocusAnimation.targetX; duration: priv.animationDuration }
+                    LomiriNumberAnimation { target: decoratedWindow; properties: "angle"; to: 0; duration: priv.animationDuration }
+                    LomiriNumberAnimation { target: decoratedWindow; properties: "itemScale"; to: 1; duration: priv.animationDuration }
                     onStarted: {
                         topLevelSurfaceList.pendingActivation();
                         inhibitSlideAnimation = true;
@@ -1450,7 +1450,7 @@ FocusScope {
                 }
                 ParallelAnimation {
                     id: hidingAnimation
-                    UbuntuNumberAnimation { target: appDelegate; property: "opacity"; to: 0; duration: priv.animationDuration }
+                    LomiriNumberAnimation { target: appDelegate; property: "opacity"; to: 0; duration: priv.animationDuration }
                     onStopped: appDelegate.opacity = 1
                 }
 
@@ -1818,12 +1818,12 @@ FocusScope {
                         to: "normal,restored,maximized,maximizedHorizontally,maximizedVertically,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedBottomLeft,maximizedTopRight,maximizedBottomRight"
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; properties: "visuallyMinimized,visuallyMaximized" }
-                        UbuntuNumberAnimation { target: appDelegate; properties: "x,y,requestedX,requestedY,opacity,requestedWidth,requestedHeight,scale"; duration: priv.animationDuration }
+                        LomiriNumberAnimation { target: appDelegate; properties: "x,y,requestedX,requestedY,opacity,requestedWidth,requestedHeight,scale"; duration: priv.animationDuration }
                     },
                     Transition {
                         from: "normal,restored,maximized,maximizedHorizontally,maximizedVertically,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedBottomLeft,maximizedTopRight,maximizedBottomRight"
                         to: "staged,stagedWithSideStage"
-                        UbuntuNumberAnimation { target: appDelegate; properties: "x,y,requestedX,requestedY,requestedWidth,requestedHeight"; duration: priv.animationDuration}
+                        LomiriNumberAnimation { target: appDelegate; properties: "x,y,requestedX,requestedY,requestedWidth,requestedHeight"; duration: priv.animationDuration}
                     },
 
                     Transition {
@@ -1832,13 +1832,13 @@ FocusScope {
                         // DecoratedWindow wants the scaleToPreviewSize set before enabling scaleToPreview
                         PropertyAction { target: appDelegate; properties: "z,visible" }
                         PropertyAction { target: decoratedWindow; property: "scaleToPreviewSize" }
-                        UbuntuNumberAnimation { target: appDelegate; properties: "x,y,height"; duration: priv.animationDuration }
-                        UbuntuNumberAnimation { target: decoratedWindow; properties: "width,height,itemScale,angle,scaleToPreviewProgress"; duration: priv.animationDuration }
-                        UbuntuNumberAnimation { target: windowInfoItem; properties: "opacity"; duration: priv.animationDuration }
+                        LomiriNumberAnimation { target: appDelegate; properties: "x,y,height"; duration: priv.animationDuration }
+                        LomiriNumberAnimation { target: decoratedWindow; properties: "width,height,itemScale,angle,scaleToPreviewProgress"; duration: priv.animationDuration }
+                        LomiriNumberAnimation { target: windowInfoItem; properties: "opacity"; duration: priv.animationDuration }
                     },
                     Transition {
                         from: "normal,staged"; to: "stagedWithSideStage"
-                        UbuntuNumberAnimation { target: appDelegate; properties: "x,y,requestedWidth,requestedHeight"; duration: priv.animationDuration }
+                        LomiriNumberAnimation { target: appDelegate; properties: "x,y,requestedWidth,requestedHeight"; duration: priv.animationDuration }
                     },
                     Transition {
                         to: "windowedRightEdge"
@@ -1866,8 +1866,8 @@ FocusScope {
                         enabled: rightEdgeDragArea.cancelled // only transition back to state if the gesture was cancelled, in the other cases we play the focusAnimations.
                         SequentialAnimation {
                             ParallelAnimation {
-                                UbuntuNumberAnimation { target: appDelegate; properties: "x,y,height,width,scale"; duration: priv.animationDuration }
-                                UbuntuNumberAnimation { target: decoratedWindow; properties: "width,height,itemScale,angle,scaleToPreviewProgress"; duration: priv.animationDuration }
+                                LomiriNumberAnimation { target: appDelegate; properties: "x,y,height,width,scale"; duration: priv.animationDuration }
+                                LomiriNumberAnimation { target: decoratedWindow; properties: "width,height,itemScale,angle,scaleToPreviewProgress"; duration: priv.animationDuration }
                             }
                             // We need to release scaleToPreviewSize at last
                             PropertyAction { target: decoratedWindow; property: "scaleToPreviewSize" }
@@ -1881,7 +1881,7 @@ FocusScope {
                             ScriptAction { script: { fakeRectangle.stop(); } }
                             PropertyAction { target: appDelegate; property: "visuallyMaximized" }
                             PropertyAction { target: appDelegate; property: "visuallyMinimized" }
-                            UbuntuNumberAnimation { target: appDelegate; properties: "x,y,scale,opacity"; duration: priv.animationDuration }
+                            LomiriNumberAnimation { target: appDelegate; properties: "x,y,scale,opacity"; duration: priv.animationDuration }
                             PropertyAction { target: appDelegate; property: "visuallyMinimized" }
                         }
                     },
@@ -1891,9 +1891,9 @@ FocusScope {
                         SequentialAnimation {
                             PropertyAction { target: appDelegate; property: "visuallyMinimized,z" }
                             ParallelAnimation {
-                                UbuntuNumberAnimation { target: appDelegate; properties: "x"; from: -appDelegate.width / 2; duration: priv.animationDuration }
-                                UbuntuNumberAnimation { target: appDelegate; properties: "y,opacity"; duration: priv.animationDuration }
-                                UbuntuNumberAnimation { target: appDelegate; properties: "scale"; from: 0; duration: priv.animationDuration }
+                                LomiriNumberAnimation { target: appDelegate; properties: "x"; from: -appDelegate.width / 2; duration: priv.animationDuration }
+                                LomiriNumberAnimation { target: appDelegate; properties: "y,opacity"; duration: priv.animationDuration }
+                                LomiriNumberAnimation { target: appDelegate; properties: "scale"; from: 0; duration: priv.animationDuration }
                             }
                             PropertyAction { target: appDelegate; property: "visuallyMaximized" }
                         }
@@ -1909,7 +1909,7 @@ FocusScope {
                                 }
                             }
                             PropertyAction { target: appDelegate; property: "visuallyMinimized" }
-                            UbuntuNumberAnimation { target: appDelegate; properties: "requestedX,requestedY,windowedX,windowedY,opacity,scale,requestedWidth,requestedHeight,windowedWidth,windowedHeight";
+                            LomiriNumberAnimation { target: appDelegate; properties: "requestedX,requestedY,windowedX,windowedY,opacity,scale,requestedWidth,requestedHeight,windowedWidth,windowedHeight";
                                 duration: priv.animationDuration }
                             ScriptAction { script: {
                                     fakeRectangle.stop();
@@ -1994,9 +1994,9 @@ FocusScope {
                     onDecorationReleased: fakeRectangle.visible ? fakeRectangle.commit() : appDelegate.updateRestoredGeometry()
 
                     property real angle: 0
-                    Behavior on angle { enabled: priv.closingIndex >= 0; UbuntuNumberAnimation {} }
+                    Behavior on angle { enabled: priv.closingIndex >= 0; LomiriNumberAnimation {} }
                     property real itemScale: 1
-                    Behavior on itemScale { enabled: priv.closingIndex >= 0; UbuntuNumberAnimation {} }
+                    Behavior on itemScale { enabled: priv.closingIndex >= 0; LomiriNumberAnimation {} }
 
                     transform: [
                         Scale {
@@ -2105,7 +2105,7 @@ FocusScope {
                              && mousePos.x < (decoratedWindow.width * 2 / 3)
                     opacity: shown ? 1 : 0
                     visible: opacity > 0
-                    Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
+                    Behavior on opacity { LomiriNumberAnimation { duration: LomiriAnimation.SnapDuration } }
                     height: units.gu(6)
                     width: height
 
@@ -2137,7 +2137,7 @@ FocusScope {
 
                     opacity: stageOnProperState ? 1.0 : 0.0
                     visible: opacity !== 0.0 // make it transparent to input as well
-                    Behavior on opacity { UbuntuNumberAnimation {} }
+                    Behavior on opacity { LomiriNumberAnimation {} }
 
                     Repeater {
                         id: childWindowRepeater

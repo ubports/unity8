@@ -16,8 +16,8 @@
 
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
-import Ubuntu.Components 1.3
-import Ubuntu.Gestures 0.1
+import Lomiri.Components 1.3
+import Lomiri.Gestures 0.1
 import "../Components"
 
 Showable {
@@ -40,14 +40,14 @@ Showable {
         width: units.gu(2)
 
         opacity: root.shown ? 1 : 0
-        Behavior on opacity { UbuntuNumberAnimation {} }
+        Behavior on opacity { LomiriNumberAnimation {} }
 
         Image {
             anchors.centerIn: parent
             width: hideSideStageDragArea.pressed ? parent.width * 2 : parent.width
             height: parent.height
             source: "graphics/sidestage_handle@20.png"
-            Behavior on width { UbuntuNumberAnimation {} }
+            Behavior on width { LomiriNumberAnimation {} }
         }
     }
 
@@ -83,14 +83,14 @@ Showable {
     showAnimation: NumberAnimation {
         property: "width"
         to: panelWidth
-        duration: UbuntuAnimation.BriskDuration
+        duration: LomiriAnimation.BriskDuration
         easing.type: Easing.OutCubic
     }
 
     hideAnimation: NumberAnimation {
         property: "width"
         to: 0
-        duration: UbuntuAnimation.BriskDuration
+        duration: LomiriAnimation.BriskDuration
         easing.type: Easing.OutCubic
     }
 

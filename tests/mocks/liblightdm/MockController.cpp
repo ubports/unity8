@@ -28,8 +28,8 @@ MockController::MockController(QObject *parent)
     , m_sessionMode("single")
     , m_fullSessions(
         {
-            {"ubuntu", "Ubuntu"},
-            {"ubuntu-2d", "Ubuntu 2D"},
+            {"lomiri", "Lomiri"},
+            {"lomiri-2d", "Lomiri 2D"},
             {"gnome", "GNOME"},
             {"gnome-classic", "GNOME Classic"},
             {"gnome-flashback-compiz", "GNOME Flashback (Compiz)"},

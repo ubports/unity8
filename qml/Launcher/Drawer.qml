@@ -16,7 +16,7 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import Unity.Launcher 0.1
 import Utils 0.1
 import "../Components"
@@ -318,7 +318,7 @@ FocusScope {
                     height: childrenRect.height
                     spacing: units.gu(1)
 
-                    UbuntuShape {
+                    LomiriShape {
                         id: appIcon
                         width: units.gu(6)
                         height: 7.5 / 8 * width
@@ -331,7 +331,7 @@ FocusScope {
                             sourceSize.width: appIcon.width
                             source: model.icon
                         }
-                        sourceFillMode: UbuntuShape.PreserveAspectCrop
+                        sourceFillMode: LomiriShape.PreserveAspectCrop
 
                         StyledItem {
                             styleName: "FocusShape"
@@ -374,7 +374,7 @@ FocusScope {
                             y: -units.gu(0.5)
                             active: label.truncated && (drawerDelegate.hovered || drawerDelegate.focused)
                             sourceComponent: Rectangle {
-                                color: UbuntuColors.jet
+                                color: LomiriColors.jet
                                 width: fullLabel.contentWidth + units.gu(1)
                                 height: fullLabel.height + units.gu(1)
                                 radius: units.dp(4)

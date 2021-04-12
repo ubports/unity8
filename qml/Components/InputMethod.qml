@@ -16,7 +16,7 @@
 
 import QtQuick 2.4
 import Unity.Application 0.1
-import Ubuntu.Gestures 0.1
+import Lomiri.Gestures 0.1
 import WindowManager 1.0
 
 Item {

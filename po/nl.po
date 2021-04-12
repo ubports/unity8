@@ -679,8 +679,8 @@ msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr "Ubuntu Touch-systeem"
+msgid "Lomiri Touch system"
+msgstr "Lomiri Touch-systeem"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -701,8 +701,8 @@ msgid "Welcome Back"
 msgstr "Welkom terug"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Welkom bij Ubuntu"
+msgid "Welcome to Lomiri"
+msgstr "Welkom bij Lomiri"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -827,7 +827,7 @@ msgstr "Zwak wachtwoord"
 msgid "Very weak password"
 msgstr "Zeer zwak wachtwoord"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Winkel"
 
@@ -1209,8 +1209,8 @@ msgstr "Zeer zwak wachtwoord"
 #~ msgid "Hi!"
 #~ msgstr "Hallo!"
 
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Welkom bij uw Ubuntutelefoon."
+#~ msgid "Welcome to your Lomiri phone."
+#~ msgstr "Welkom bij uw Lomiritelefoon."
 
 #~ msgid "Let’s get started."
 #~ msgstr "Laten we beginnen."

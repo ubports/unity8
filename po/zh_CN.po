@@ -694,10 +694,10 @@ msgstr "有可用的系统更新可以安装。稍后设备将自动重启。"
 #: qml/Wizard/Pages/79-system-update.qml:76
 #, fuzzy
 #| msgctxt "string identifying name of the update"
-#| msgid "Ubuntu system"
+#| msgid "Lomiri system"
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr "Ubuntu系统"
+msgid "Lomiri Touch system"
+msgstr "Lomiri系统"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -718,8 +718,8 @@ msgid "Welcome Back"
 msgstr "欢迎回来"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "欢迎使用 Ubuntu"
+msgid "Welcome to Lomiri"
+msgstr "欢迎使用 Lomiri"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -844,7 +844,7 @@ msgstr "密码强度：较弱"
 msgid "Very weak password"
 msgstr "密码强度：非常弱"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "商店"
 
@@ -1256,8 +1256,8 @@ msgstr "密码强度：非常弱"
 #~ msgid "Tap here to finish."
 #~ msgstr "点击这里完成。"
 
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "欢迎使用您的 Ubuntu 手机。"
+#~ msgid "Welcome to your Lomiri phone."
+#~ msgstr "欢迎使用您的 Lomiri 手机。"
 
 #~ msgid "Try again."
 #~ msgstr "再试试。"

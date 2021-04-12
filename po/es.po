@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
 "PO-Revision-Date: 2020-10-09 20:00+0000\n"
-"Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
+"Last-Translator: Adolfo Jayme Barrientos <fitojb@lomiri.com>\n"
 "Language-Team: Spanish <https://translate.ubports.com/projects/unity8/unity8/"
 "es/>\n"
 "Language: es\n"
@@ -684,8 +684,8 @@ msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr "Ubuntu Touch"
+msgid "Lomiri Touch system"
+msgstr "Lomiri Touch"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -706,8 +706,8 @@ msgid "Welcome Back"
 msgstr "Bienvenida/o de nuevo"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Bienvenido a su dispositivo Ubuntu"
+msgid "Welcome to Lomiri"
+msgstr "Bienvenido a su dispositivo Lomiri"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -832,7 +832,7 @@ msgstr "Contraseña débil"
 msgid "Very weak password"
 msgstr "Contraseña muy débil"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Tienda"
 
@@ -1204,8 +1204,8 @@ msgstr "Contraseña muy débil"
 #~ msgid "Hi!"
 #~ msgstr "¡Hola!"
 
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Bienvenido a su teléfono Ubuntu."
+#~ msgid "Welcome to your Lomiri phone."
+#~ msgstr "Bienvenido a su teléfono Lomiri."
 
 #~ msgid "Let’s get started."
 #~ msgstr "Comencemos."

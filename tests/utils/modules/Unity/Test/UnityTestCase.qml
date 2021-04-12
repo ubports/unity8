@@ -18,8 +18,8 @@ import QtQuick 2.4
 import QtTest 1.0
 import Unity.Application 0.1
 import WindowManager 1.0
-import Ubuntu.Components 1.3
-import Ubuntu.Test 1.0 as UbuntuTest
+import Lomiri.Components 1.3
+import Lomiri.Test 1.0 as LomiriTest
 import Unity.Test 0.1 as UT
 import Utils 0.1
 
@@ -622,7 +622,7 @@ TestCase {
             qtest_fail("no item given", 1);
 
         if (UT.Util.isInstanceOf(item, "UCSwipeArea")) {
-            UbuntuTest.TestExtras.removeTimeConstraintsFromSwipeArea(item);
+            LomiriTest.TestExtras.removeTimeConstraintsFromSwipeArea(item);
         } else {
             for (var i in item.children) {
                 removeTimeConstraintsFromSwipeAreas(item.children[i]);

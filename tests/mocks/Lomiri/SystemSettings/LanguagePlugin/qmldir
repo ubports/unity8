@@ -1,0 +1,3 @@
+module Lomiri.SystemSettings.LanguagePlugin
+LomiriLanguagePlugin 1.0 MockLanguagePlugin.qml
+OnScreenKeyboardPlugin 1.0 MockKeyboardPlugin.qml

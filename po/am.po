@@ -673,9 +673,9 @@ msgstr "የ ስርአት ማሻሻያ ዝግጁ ነው ለ መግጠም: ከዚ�
 #: qml/Wizard/Pages/79-system-update.qml:76
 #, fuzzy
 #| msgctxt "string identifying name of the update"
-#| msgid "Ubuntu system"
+#| msgid "Lomiri system"
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
+msgid "Lomiri Touch system"
 msgstr "የ ኡቡቱ ስርአት"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
@@ -697,7 +697,7 @@ msgid "Welcome Back"
 msgstr "እንኳን ደህና መጡ:"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
+msgid "Welcome to Lomiri"
 msgstr "እንኳን ደህና መጡ ወደ ኡቡንቱ"
 
 #: qml/Wizard/Pages/80-finished.qml:106
@@ -823,7 +823,7 @@ msgstr "ደካማ የ መግቢያ ቃል"
 msgid "Very weak password"
 msgstr "በጣም ደካማ የ መግቢያ ቃል"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "ማስቀመጫ"
 
@@ -1212,7 +1212,7 @@ msgstr "በጣም ደካማ የ መግቢያ ቃል"
 #~ msgid "Hi!"
 #~ msgstr "ሰላም"
 
-#~ msgid "Welcome to your Ubuntu phone."
+#~ msgid "Welcome to your Lomiri phone."
 #~ msgstr "እንኳን ደህና መጡ ወደ እርስዎ ኡቡንቱ ስልክ"
 
 #~ msgid "Let’s get started."

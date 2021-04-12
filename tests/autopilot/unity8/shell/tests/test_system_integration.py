@@ -23,14 +23,14 @@ import subprocess
 import unittest
 
 from autopilot import platform
-from ubuntuuitoolkit import ubuntu_scenarios
+from lomiriuitoolkit import lomiri_scenarios
 
 from unity8.shell.tests import UnityTestCase
 
 
 class SystemIntegrationTests(UnityTestCase):
 
-    scenarios = ubuntu_scenarios.get_device_simulation_scenarios()
+    scenarios = lomiri_scenarios.get_device_simulation_scenarios()
 
     @unittest.skipIf(
         platform.model() == "Desktop",

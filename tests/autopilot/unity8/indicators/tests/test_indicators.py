@@ -73,7 +73,7 @@ class IndicatorPageTitleMatchesWidgetTestCase(tests.DeviceIndicatorTestCase):
     def test_indicator_page_title_matches_widget(self):
         """Swiping open an indicator must show its correct title.
 
-        See https://bugs.launchpad.net/ubuntu-ux/+bug/1253804 .
+        See https://bugs.launchpad.net/lomiri-ux/+bug/1253804 .
         """
         indicator_page = self.main_window.open_indicator_page(
             self.indicator_name)

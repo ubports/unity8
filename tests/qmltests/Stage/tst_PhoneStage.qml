@@ -22,7 +22,7 @@ import ".."
 import "../../../qml/Components"
 import "../../../qml/Components/PanelState"
 import "../../../qml/Stage"
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import Unity.Application 0.1
 import WindowManager 1.0
 

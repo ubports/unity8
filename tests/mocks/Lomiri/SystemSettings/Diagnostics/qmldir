@@ -1,0 +1,2 @@
+module Lomiri.SystemSettings.Diagnostics
+LomiriDiagnostics 1.0 MockDiagnostics.qml

@@ -74,31 +74,31 @@ find_package(Qt5Svg 5.6 REQUIRED)
 find_package(Qt5Network 5.6 REQUIRED)
 find_package(Qt5Xml 5.6 REQUIRED)
 
-pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=27)
+pkg_check_modules(APPLICATION_API REQUIRED lomiri-shell-application=27)
 pkg_check_modules(QTMIRSERVER REQUIRED qtmirserver>=0.6.0)
 pkg_check_modules(GEONAMES REQUIRED geonames>=0.2)
 pkg_check_modules(GIO REQUIRED gio-2.0>=2.32)
 pkg_check_modules(GLIB REQUIRED glib-2.0>=2.32)
-pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=13)
+pkg_check_modules(LAUNCHER_API REQUIRED lomiri-shell-launcher=13)
 pkg_check_modules(QMENUMODEL REQUIRED qmenumodel)
 pkg_check_modules(GD3 REQUIRED gnome-desktop-3.0)
-pkg_check_modules(UAL REQUIRED ubuntu-app-launch-2)
-pkg_check_modules(UBUNTUGESTURES REQUIRED UbuntuGestures)
+pkg_check_modules(UAL REQUIRED lomiri-app-launch-0)
+pkg_check_modules(LOMIRIGESTURES REQUIRED LomiriGestures)
 pkg_check_modules(QTDBUSTEST REQUIRED
     libqtdbustest-1
     libqtdbusmock-1
     )
 pkg_check_modules(MIRAL REQUIRED miral)
 
-### Check UbuntuGestures private headers. No pkg-config (.pc) file is provided for them
-find_path(UBUNTUGESTUREPRIV
-    NAMES UbuntuGestures/private/damper_p.h UbuntuGestures/private/ucswipearea_p.h UbuntuGestures/private/ucswipearea_p_p.h
-    PATHS ${UBUNTUGESTURES_INCLUDEDIR}/UbuntuGestures/${UBUNTUGESTURES_VERSION}
+### Check LomiriGestures private headers. No pkg-config (.pc) file is provided for them
+find_path(LOMIRIGESTUREPRIV
+    NAMES LomiriGestures/private/damper_p.h LomiriGestures/private/ucswipearea_p.h LomiriGestures/private/ucswipearea_p_p.h
+    PATHS ${LOMIRIGESTURES_INCLUDEDIR}/LomiriGestures/${LOMIRIGESTURES_VERSION}
     NO_DEFAULT_PATH)
-if (${UBUNTUGESTUREPRIV} STREQUAL UBUNTUGESTUREPRIV-NOTFOUND)
-   message(FATAL_ERROR "UbuntuGestures private headers not found.")
+if (${LOMIRIGESTUREPRIV} STREQUAL LOMIRIGESTUREPRIV-NOTFOUND)
+   message(FATAL_ERROR "LomiriGestures private headers not found.")
 endif()
-# end of UbuntuGesture private headers check
+# end of LomiriGesture private headers check
 
 # Standard install paths
 include(GNUInstallDirs)

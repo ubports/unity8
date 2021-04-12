@@ -21,7 +21,7 @@ import logging
 
 from autopilot.matchers import Eventually
 from testtools.matchers import Equals
-from ubuntuuitoolkit import ubuntu_scenarios
+from lomiriuitoolkit import lomiri_scenarios
 
 from unity8.shell.tests import UnityTestCase
 
@@ -33,7 +33,7 @@ class TestLockscreen(UnityTestCase):
 
     """Tests for the lock screen."""
 
-    scenarios = ubuntu_scenarios.get_device_simulation_scenarios()
+    scenarios = lomiri_scenarios.get_device_simulation_scenarios()
 
     def test_can_unlock_pin_screen(self):
         """Must be able to unlock the PIN entry lock screen."""

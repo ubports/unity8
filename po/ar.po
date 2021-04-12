@@ -693,7 +693,7 @@ msgstr "يتوفر تحديث للنظام وهو جاهز للتثبيت، سي
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
+msgid "Lomiri Touch system"
 msgstr "نظام أبونتو تاتش"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
@@ -715,7 +715,7 @@ msgid "Welcome Back"
 msgstr "مرحبا بعودتك"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
+msgid "Welcome to Lomiri"
 msgstr "مرحبا بك في أبونتو"
 
 #: qml/Wizard/Pages/80-finished.qml:106
@@ -841,7 +841,7 @@ msgstr "كلمة سر ضعيفة"
 msgid "Very weak password"
 msgstr "كلمة السر ضعيفة جداً"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "المتجر"
 
@@ -1142,7 +1142,7 @@ msgstr "كلمة السر ضعيفة جداً"
 #~ msgid "Hi!"
 #~ msgstr "أهلا!"
 
-#~ msgid "Welcome to your Ubuntu phone."
+#~ msgid "Welcome to your Lomiri phone."
 #~ msgstr "مرحبا بك في أوبونتو للهواتف."
 
 #~ msgid "Let’s get started."

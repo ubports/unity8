@@ -21,8 +21,8 @@ import ".."
 import "../../../qml/Components"
 import "../../../qml/Components/PanelState"
 import "../../../qml/Stage"
-import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.3 as ListItem
+import Lomiri.Components 1.3
+import Lomiri.Components.ListItems 1.3 as ListItem
 import Unity.Application 0.1
 import Unity.ApplicationMenu 0.1
 import Unity.Indicators 0.1 as Indicators
@@ -35,7 +35,7 @@ Rectangle {
 
     Component.onCompleted: {
         QuickUtils.keyboardAttached = true;
-        theme.name = "Ubuntu.Components.Themes.SuruDark"
+        theme.name = "Lomiri.Components.Themes.SuruDark"
     }
 
     property QtObject fakeApplication: null
@@ -139,8 +139,8 @@ Rectangle {
             }
             Button {
                 id: loadWithWeatherApp
-                text: "Load with ubuntu-weather-app"
-                onClicked: { testCase.restartWithApp("ubuntu-weather-app"); }
+                text: "Load with lomiri-weather-app"
+                onClicked: { testCase.restartWithApp("lomiri-weather-app"); }
             }
             Button {
                 id: loadWithGalleryApp

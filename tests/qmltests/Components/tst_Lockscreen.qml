@@ -18,7 +18,7 @@ import QtQuick 2.4
 import QtTest 1.0
 import ".."
 import "../../../qml/Components"
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import Unity.Test 0.1 as UT
 
 Rectangle {
@@ -37,7 +37,7 @@ Rectangle {
         alphaNumeric: pinPadCheckBox.checked
         minPinLength: minPinLengthTextField.text
         maxPinLength: maxPinLengthTextField.text
-        background: "/usr/share/backgrounds/warty-final-ubuntu.png"
+        background: "/usr/share/backgrounds/warty-final-lomiri.png"
     }
 
     Connections {

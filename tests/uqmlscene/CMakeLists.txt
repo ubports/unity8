@@ -15,7 +15,7 @@ include_directories(
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_SOURCE_DIR}/src
-    ${CMAKE_SOURCE_DIR}/libs/UbuntuGestures
+    ${CMAKE_SOURCE_DIR}/libs/LomiriGestures
     ${libunity8-private_SOURCE_DIR}
 )
 
@@ -28,7 +28,7 @@ target_link_libraries(uqmlscene
     ${Qt5Qml_LIBRARIES}
     ${Qt5Quick_LIBRARIES}
     ${XCB_LDFLAGS}
-    UbuntuGestures
+    LomiriGestures
     unity8-private
     )
 

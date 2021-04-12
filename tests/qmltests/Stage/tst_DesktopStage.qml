@@ -16,8 +16,8 @@
 
 import QtQuick 2.4
 import QtTest 1.0
-import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.3
+import Lomiri.Components 1.3
+import Lomiri.Components.ListItems 1.3
 import Unity.Application 0.1
 import Unity.ApplicationMenu 0.1
 import Unity.Indicators 0.1 as Indicators
@@ -48,7 +48,7 @@ Item {
         ApplicationMenusLimits.screenWidth = Qt.binding( function() { return stageLoader.width; } );
         ApplicationMenusLimits.screenHeight = Qt.binding( function() { return stageLoader.height; } );
         QuickUtils.keyboardAttached = true;
-        theme.name = "Ubuntu.Components.Themes.SuruDark";
+        theme.name = "Lomiri.Components.Themes.SuruDark";
         resetGeometry();
     }
 
@@ -82,7 +82,7 @@ Item {
         sourceComponent: Component {
             Stage {
                 anchors.fill: parent
-                background: "/usr/share/backgrounds/warty-final-ubuntu.png"
+                background: "/usr/share/backgrounds/warty-final-lomiri.png"
                 focus: true
 
                 Component.onCompleted: {
@@ -791,7 +791,7 @@ Item {
             tryCompare(stage, "state", "windowed");
         }
 
-        // regression test for https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1627281
+        // regression test for https://bugs.launchpad.net/lomiri/+source/unity8/+bug/1627281
         function test_doubleTapToMaximizeWindow() {
             var dialerAppDelegate = startApplication("dialer-app");
             verify(dialerAppDelegate);

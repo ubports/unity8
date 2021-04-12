@@ -53,7 +53,7 @@ ApplicationManager::ApplicationManager(QObject *parent)
     buildListOfAvailableApplications();
 
     // Emit signal to notify Upstart that Mir is ready to receive client connections
-    // see http://upstart.ubuntu.com/cookbook/#expect-stop
+    // see http://upstart.lomiri.com/cookbook/#expect-stop
     // We do this because some autopilot tests actually use this mock Unity.Application module,
     // so we have to mimic what the real ApplicationManager does in that regard.
     if (qgetenv("UNITY_MIR_EMITS_SIGSTOP") == "1") {
@@ -428,10 +428,10 @@ void ApplicationManager::buildListOfAvailableApplications()
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
-    application->setAppId("ubuntu-weather-app");
+    application->setAppId("lomiri-weather-app");
     application->setName("Weather");
     application->setIconId("weather");
-    application->setScreenshotId("ubuntu-weather-app.svg");
+    application->setScreenshotId("lomiri-weather-app.svg");
     application->setSupportedOrientations(Qt::LandscapeOrientation
                                         | Qt::InvertedLandscapeOrientation);
     m_availableApplications.append(application);
@@ -488,7 +488,7 @@ void ApplicationManager::buildListOfAvailableApplications()
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
-    application->setAppId("ubuntu-terminal-app");
+    application->setAppId("lomiri-terminal-app");
     application->setName("Terminal");
     m_availableApplications.append(application);
 

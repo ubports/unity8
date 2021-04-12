@@ -701,10 +701,10 @@ msgstr ""
 #: qml/Wizard/Pages/79-system-update.qml:76
 #, fuzzy
 #| msgctxt "string identifying name of the update"
-#| msgid "Ubuntu system"
+#| msgid "Lomiri system"
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr "Sistema Ubuntu"
+msgid "Lomiri Touch system"
+msgstr "Sistema Lomiri"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -725,8 +725,8 @@ msgid "Welcome Back"
 msgstr "Volvi afayate"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Afáyate n'Ubuntu"
+msgid "Welcome to Lomiri"
+msgstr "Afáyate n'Lomiri"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -851,7 +851,7 @@ msgstr "Contraseña feble"
 msgid "Very weak password"
 msgstr "Contraseña perfeble"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Tienda"
 
@@ -1269,8 +1269,8 @@ msgstr "Contraseña perfeble"
 #~ msgid "Swipe"
 #~ msgstr "Eslizar"
 
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Bienllegáu/ada al to teléfonu d'Ubuntu"
+#~ msgid "Welcome to your Lomiri phone."
+#~ msgstr "Bienllegáu/ada al to teléfonu d'Lomiri"
 
 #~ msgid "Let’s get started."
 #~ msgstr "Entamemos."

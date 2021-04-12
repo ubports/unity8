@@ -22,7 +22,7 @@
 import logging
 from functools import wraps
 
-import ubuntuuitoolkit
+import lomiriuitoolkit
 from autopilot import logging as autopilot_logging
 from autopilot import input
 import gi
@@ -95,7 +95,7 @@ def _get_urgency(urgency):
     return _urgency_enums.get(urgency.upper())
 
 
-class ShellView(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
+class ShellView(lomiriuitoolkit.LomiriUIToolkitCustomProxyObjectBase):
     """An helper class that makes it easy to interact with the shell"""
 
     def get_greeter(self):

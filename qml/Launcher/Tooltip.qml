@@ -15,9 +15,9 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 
-UbuntuShape {
+LomiriShape {
     id: root
 
     // This property holds the delay (milliseconds) after which the tool tip is shown.
@@ -27,7 +27,7 @@ UbuntuShape {
     // This property holds the text shown on the tool tip.
     property alias text: label.text
 
-    aspect: UbuntuShape.Flat
+    aspect: LomiriShape.Flat
     color: theme.palette.normal.background
     width: label.implicitWidth + units.gu(4)
     height: label.implicitHeight + units.gu(2)
@@ -65,7 +65,7 @@ UbuntuShape {
             from: ""; to: "visible"
             SequentialAnimation {
                 PauseAnimation { duration: root.delay }
-                UbuntuNumberAnimation { target: root; property: "opacity"; duration: UbuntuAnimation.BriskDuration }
+                LomiriNumberAnimation { target: root; property: "opacity"; duration: LomiriAnimation.BriskDuration }
             }
         }
     ]

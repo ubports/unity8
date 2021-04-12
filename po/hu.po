@@ -677,8 +677,8 @@ msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr "Ubuntu Touch rendszer"
+msgid "Lomiri Touch system"
+msgstr "Lomiri Touch rendszer"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -699,8 +699,8 @@ msgid "Welcome Back"
 msgstr "Üdvözöljük újra"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Üdvözli az Ubuntu"
+msgid "Welcome to Lomiri"
+msgstr "Üdvözli az Lomiri"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -827,7 +827,7 @@ msgstr "Gyenge jelszó"
 msgid "Very weak password"
 msgstr "Nagyon gyenge jelszó"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Áruház"
 
@@ -1369,8 +1369,8 @@ msgstr "Nagyon gyenge jelszó"
 #~ msgid "Hi!"
 #~ msgstr "Üdvözöljük!"
 
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Köszöntjük az Ubuntu telefonos változatában."
+#~ msgid "Welcome to your Lomiri phone."
+#~ msgstr "Köszöntjük az Lomiri telefonos változatában."
 
 #~ msgid "Choose your passcode"
 #~ msgstr "Jelkód megadása"

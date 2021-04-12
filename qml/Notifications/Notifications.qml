@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import Unity.Notifications 1.0 as UnityNotifications
 import Utils 0.1
 import "../Components"
@@ -84,32 +84,32 @@ ListView {
 
     // FIXME: disabled all transitions because of LP: #1354406 workaround
     /*populate: Transition {
-        UbuntuNumberAnimation {
+        LomiriNumberAnimation {
             property: "opacity"
             to: 1
-            duration: UbuntuAnimation.SnapDuration
+            duration: LomiriAnimation.SnapDuration
         }
     }
 
     add: Transition {
-        UbuntuNumberAnimation {
+        LomiriNumberAnimation {
             property: "opacity"
             to: 1
-            duration: UbuntuAnimation.SnapDuration
+            duration: LomiriAnimation.SnapDuration
         }
     }
 
     remove: Transition {
-        UbuntuNumberAnimation {
+        LomiriNumberAnimation {
             property: "opacity"
             to: 0
         }
     }
 
     displaced: Transition {
-        UbuntuNumberAnimation {
+        LomiriNumberAnimation {
             properties: "x,y"
-            duration: UbuntuAnimation.SnapDuration
+            duration: LomiriAnimation.SnapDuration
         }
     }*/
 }

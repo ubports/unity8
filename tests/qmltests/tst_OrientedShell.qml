@@ -18,8 +18,8 @@ import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import QtTest 1.0
 import GSettings 1.0
-import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.3 as ListItem
+import Lomiri.Components 1.3
+import Lomiri.Components.ListItems 1.3 as ListItem
 import Unity.Application 0.1
 import Unity.Test 0.1
 import LightDMController 0.1
@@ -254,7 +254,7 @@ Rectangle {
                 activeFocusOnPress: false
                 onClicked: rotate0(tryShell)
                 color: tryShell && tryShell.physicalOrientation === root.physicalOrientation0 ?
-                                                                                                    UbuntuColors.green :
+                                                                                                    LomiriColors.green :
                                                                                                     __styleInstance.defaultColor
             }
             Button {
@@ -263,7 +263,7 @@ Rectangle {
                 activeFocusOnPress: false
                 onClicked: rotate90(tryShell)
                 color: tryShell && tryShell.physicalOrientation === root.physicalOrientation90 ?
-                                                                                                     UbuntuColors.green :
+                                                                                                     LomiriColors.green :
                                                                                                      __styleInstance.defaultColor
             }
             Button {
@@ -272,7 +272,7 @@ Rectangle {
                 activeFocusOnPress: false
                 onClicked: rotate180(tryShell)
                 color: tryShell && tryShell.physicalOrientation === root.physicalOrientation180 ?
-                                                                                                      UbuntuColors.green :
+                                                                                                      LomiriColors.green :
                                                                                                       __styleInstance.defaultColor
             }
             Button {
@@ -281,7 +281,7 @@ Rectangle {
                 activeFocusOnPress: false
                 onClicked: rotate270(tryShell)
                 color: tryShell && tryShell.physicalOrientation === root.physicalOrientation270 ?
-                                                                                                      UbuntuColors.green :
+                                                                                                      LomiriColors.green :
                                                                                                       __styleInstance.defaultColor
             }
             RowLayout {
@@ -835,7 +835,7 @@ Rectangle {
             var shell = findChild(orientedShell, "shell");
             var topLevelSurfaceList = shell.topLevelSurfaceList;
             var weatherSurfaceId = topLevelSurfaceList.nextId;
-            var weatherApp = ApplicationManager.startApplication("ubuntu-weather-app");
+            var weatherApp = ApplicationManager.startApplication("lomiri-weather-app");
             verify(weatherApp);
 
             // ensure the mock app is as we expect
@@ -1030,7 +1030,7 @@ Rectangle {
             tryCompare(shell, "transformRotationAngle", 0);
 
             var weatherSurfaceId = topLevelSurfaceList.nextId;
-            var weatherApp = ApplicationManager.startApplication("ubuntu-weather-app");
+            var weatherApp = ApplicationManager.startApplication("lomiri-weather-app");
             verify(weatherApp);
 
             // ensure the mock app is as we expect
@@ -1193,7 +1193,7 @@ Rectangle {
         }
 
         /*
-            Regression test for https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1471609
+            Regression test for https://bugs.launchpad.net/lomiri/+source/unity8/+bug/1471609
 
             Steps:
              - Open an app which can rotate
@@ -1239,7 +1239,7 @@ Rectangle {
         }
 
         /*
-           Regression test for https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1476757
+           Regression test for https://bugs.launchpad.net/lomiri/+source/unity8/+bug/1476757
 
            Steps:
            1- have a portrait-only app in foreground (eg primary-oriented-app)

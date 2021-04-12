@@ -1,3 +1,0 @@
-module Ubuntu.DownloadDaemonListener
-plugin DownloadDaemonListener
-typeinfo DownloadDaemonListener.qmltypes

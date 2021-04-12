@@ -670,8 +670,8 @@ msgstr "설치할 준비가 된 시스템 업데이트가 있습니다. 이후�
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr "Ubuntu Touch 시스템"
+msgid "Lomiri Touch system"
+msgstr "Lomiri Touch 시스템"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -692,8 +692,8 @@ msgid "Welcome Back"
 msgstr "돌아오신 것을 환영합니다"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Ubuntu에 오신 것을 환영합니다"
+msgid "Welcome to Lomiri"
+msgstr "Lomiri에 오신 것을 환영합니다"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -818,7 +818,7 @@ msgstr "약한 암호"
 msgid "Very weak password"
 msgstr "아주 약한 암호"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "상점"
 
@@ -1015,7 +1015,7 @@ msgstr "아주 약한 암호"
 #~ msgid "Hi!"
 #~ msgstr "안녕!"
 
-#~ msgid "Welcome to your Ubuntu phone."
+#~ msgid "Welcome to your Lomiri phone."
 #~ msgstr "우분투 폰을 사용해주셔서 감사합니다."
 
 #~ msgid "Let’s get started."

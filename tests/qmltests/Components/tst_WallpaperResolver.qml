@@ -16,7 +16,7 @@
 
 import QtQuick 2.4
 import QtTest 1.0
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import Unity.Test 0.1
 
 import "../../../qml/Components"

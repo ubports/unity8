@@ -16,7 +16,7 @@
 
 import QtQuick 2.4
 import Unity.Application 0.1
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 
 QtObject {
     id: root
@@ -34,7 +34,7 @@ QtObject {
     property var mainStageDelegate: null
     property var sideStageDelegate: null
 
-    property int animationDuration: UbuntuAnimation.FastDuration
+    property int animationDuration: LomiriAnimation.FastDuration
 
     // output
 
@@ -84,7 +84,7 @@ QtObject {
         }
         return sceneWidth;
     }
-    Behavior on itemX { enabled: root.animateX; UbuntuNumberAnimation {duration: animationDuration} }
+    Behavior on itemX { enabled: root.animateX; LomiriNumberAnimation {duration: animationDuration} }
 
     readonly property int itemWidth: stage == ApplicationInfoInterface.MainStage ?
                                      sideStageDelegate != null ? sideStageX : sceneWidth :

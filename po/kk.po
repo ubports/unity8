@@ -675,8 +675,8 @@ msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr "Ubuntu Touch жүйесі"
+msgid "Lomiri Touch system"
+msgstr "Lomiri Touch жүйесі"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -697,8 +697,8 @@ msgid "Welcome Back"
 msgstr "қайта келуінмен"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Ubuntu-ға қош келдіңіз"
+msgid "Welcome to Lomiri"
+msgstr "Lomiri-ға қош келдіңіз"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"

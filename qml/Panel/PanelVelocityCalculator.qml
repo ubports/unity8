@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Gestures 0.1
+import Lomiri.Gestures 0.1
 
 Item {
     id: root

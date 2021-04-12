@@ -16,7 +16,7 @@
 
 import QtQuick 2.4
 import Unity.Application 0.1
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 
 UnityTestCase {
     // set from outside

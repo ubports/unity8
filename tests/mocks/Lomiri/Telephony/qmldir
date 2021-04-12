@@ -1,0 +1,2 @@
+module Lomiri.Telephony
+plugin FakeLomiriTelephonyQml

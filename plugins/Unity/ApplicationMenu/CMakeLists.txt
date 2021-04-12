@@ -10,7 +10,7 @@ set(applicationMenu_SRCS
     dbusapplicationmenuregistry.cpp
     plugin.cpp)
 
-qt5_add_dbus_adaptor(applicationMenu_SRCS com.ubuntu.MenuRegistrar.xml dbusapplicationmenuregistry.h DBusApplicationMenuRegistry)
+qt5_add_dbus_adaptor(applicationMenu_SRCS com.lomiri.MenuRegistrar.xml dbusapplicationmenuregistry.h DBusApplicationMenuRegistry)
 
 add_library(ApplicationMenu-qml MODULE ${applicationMenu_SRCS})
 

@@ -34,10 +34,10 @@ from autopilot.matchers import Eventually
 from autopilot.display import Display
 from testtools.matchers import Equals
 
-import ubuntuuitoolkit
-from ubuntuuitoolkit import (
+import lomiriuitoolkit
+from lomiriuitoolkit import (
     fixture_setup as toolkit_fixtures,
-    ubuntu_scenarios
+    lomiri_scenarios
 )
 
 from unity8 import (
@@ -293,7 +293,7 @@ class UnityTestCase(AutopilotTestCase):
         pid = process_helpers.get_job_pid('unity8-dash')
         dash_proxy = introspection.get_proxy_object_for_existing_process(
             pid=pid,
-            emulator_base=ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase
+            emulator_base=lomiriuitoolkit.LomiriUIToolkitCustomProxyObjectBase
         )
         dash_app = dash_helpers.DashApp(dash_proxy)
         return dash_app.dash
@@ -305,7 +305,7 @@ class UnityTestCase(AutopilotTestCase):
 
 class DashBaseTestCase(AutopilotTestCase):
 
-    scenarios = ubuntu_scenarios.get_device_simulation_scenarios()
+    scenarios = lomiri_scenarios.get_device_simulation_scenarios()
     qml_mock_enabled = True
     environment = {}
 

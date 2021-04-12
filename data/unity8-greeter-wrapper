@@ -45,8 +45,8 @@ echo "DBUS_SESSION_BUS_ADDRESS=${DBUS_SESSION_BUS_ADDRESS}" >"$XDG_RUNTIME_DIR/d
 
 # If touch session script (which sets up grid units and mir variables) is available, use it
 TOUCH_WRAPPER=
-if which ubuntu-touch-session >/dev/null; then
-    TOUCH_WRAPPER=ubuntu-touch-session
+if which lomiri-touch-session >/dev/null; then
+    TOUCH_WRAPPER=lomiri-touch-session
 fi
 
 # Advertise as a unity8 session, so that indicator-network will start.
@@ -54,7 +54,7 @@ export XDG_SESSION_DESKTOP=unity8
 export DESKTOP_SESSION=$XDG_SESSION_DESKTOP
 
 set_greeter_var QT_IM_MODULE maliitphablet
-set_greeter_var QT_QPA_PLATFORM ubuntumirclient
+set_greeter_var QT_QPA_PLATFORM lomirimirclient
 
 # We disable ofono using pulse.  It causes problems with racing with the user's
 # pulse.  We need to come up with a better long-term fix for this, because we

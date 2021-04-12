@@ -16,7 +16,7 @@
 
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import Unity.Session 0.1
 import QtQuick.Window 2.2
 import "Components"
@@ -73,7 +73,7 @@ Item {
 
         Rectangle {
             anchors.fill: parent
-            color: UbuntuColors.jet
+            color: LomiriColors.jet
         }
 
         VirtualTouchPad {

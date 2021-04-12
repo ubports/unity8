@@ -17,7 +17,7 @@
 import QtQuick 2.4
 import QtTest 1.0
 import Unity.Test 0.1 as UT
-import Ubuntu.Telephony 0.1 as Telephony
+import Lomiri.Telephony 0.1 as Telephony
 import Unity.Application 0.1
 import "../../../qml/Panel"
 

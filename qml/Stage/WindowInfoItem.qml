@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 
 Item {
     id: root
@@ -40,7 +40,7 @@ Item {
         }
         height: iconHeight
         borderSource: "undefined"
-        aspect: UbuntuShape.Flat
+        aspect: LomiriShape.Flat
         source: Image {
             id: icon
             sourceSize.width: iconShape.width

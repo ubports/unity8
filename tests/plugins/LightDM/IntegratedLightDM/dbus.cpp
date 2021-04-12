@@ -163,7 +163,7 @@ private Q_SLOTS:
         greeter->authenticate("has-password");
         QTRY_VERIFY(dbusList->property("EntryIsLocked").toBool());
         // Make sure that EntryIsLocked stays `true` after authenticated.
-        // Regression test for https://github.com/ubports/ubuntu-touch/issues/1406
+        // Regression test for https://github.com/ubports/lomiri-touch/issues/1406
         promptSpy.wait();
         greeter->respond(QStringLiteral("password"));
         successSpy.wait();

@@ -702,10 +702,10 @@ msgstr ""
 #: qml/Wizard/Pages/79-system-update.qml:76
 #, fuzzy
 #| msgctxt "string identifying name of the update"
-#| msgid "Ubuntu system"
+#| msgid "Lomiri system"
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr "Ubuntusystem"
+msgid "Lomiri Touch system"
+msgstr "Lomirisystem"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -726,8 +726,8 @@ msgid "Welcome Back"
 msgstr "Välkommen tillbaka"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Välkommen till Ubuntu"
+msgid "Welcome to Lomiri"
+msgstr "Välkommen till Lomiri"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -854,7 +854,7 @@ msgstr "Svagt lösenord"
 msgid "Very weak password"
 msgstr "Väldigt svagt lösenord"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Förråd"
 
@@ -1214,8 +1214,8 @@ msgstr "Väldigt svagt lösenord"
 #~ msgid "Hi!"
 #~ msgstr "Hej!"
 
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Välkommen till din Ubuntutelefon."
+#~ msgid "Welcome to your Lomiri phone."
+#~ msgstr "Välkommen till din Lomiritelefon."
 
 #~ msgid "Lock security"
 #~ msgstr "Säkerhetslås"

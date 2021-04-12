@@ -23,10 +23,10 @@
 #include <private/qquickbehavior_p.h>
 #include <private/qquickanimation_p.h>
 
-// UbuntuGestures lib
-#include <UbuntuGestures/ubuntugesturesglobal.h>
-#include <UbuntuGestures/private/touchregistry_p.h>
-#include <UbuntuGestures/private/timer_p.h>
+// LomiriGestures lib
+#include <LomiriGestures/lomirigesturesglobal.h>
+#include <LomiriGestures/private/touchregistry_p.h>
+#include <LomiriGestures/private/timer_p.h>
 
 UG_USE_NAMESPACE
 
@@ -55,12 +55,12 @@ TestUtil::isInstanceOf(QObject *obj, QString name)
             result = qmlName == name;
             // test for known namespaces
             if (!result) {
-                // remove UbuntuGestures and UbuntuToolkit namespace
-                qmlName = qmlName.remove(QString("UbuntuGestures::"));
+                // remove LomiriGestures and LomiriToolkit namespace
+                qmlName = qmlName.remove(QString("LomiriGestures::"));
                 result = qmlName == name;
             }
             if (!result) {
-                qmlName = qmlName.remove(QString("UbuntuToolkit::"));
+                qmlName = qmlName.remove(QString("LomiriToolkit::"));
                 result = qmlName == name;
             }
             metaObject = metaObject->superClass();

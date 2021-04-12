@@ -1,32 +1,32 @@
 add_definitions(-DTEST_DIR="qmltests/Components")
 
-pkg_check_modules(UBUNTUGESTURES REQUIRED UbuntuGestures)
+pkg_check_modules(LOMIRIGESTURES REQUIRED LomiriGestures)
 
 ########## tst_DragHandle
 
 include_directories(
-    ${CMAKE_SOURCE_DIR}/plugins/Ubuntu/Gestures
+    ${CMAKE_SOURCE_DIR}/plugins/Lomiri/Gestures
     ${CMAKE_CURRENT_BINARY_DIR}
     )
 
 include_directories(
     SYSTEM
-    ${UBUNTUGESTURES_INCLUDE_DIRS}
+    ${LOMIRIGESTURES_INCLUDE_DIRS}
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     ${Qt5Quick_PRIVATE_INCLUDE_DIRS}
-    ${UBUNTUGESTURES_INCLUDEDIR}/UbuntuGestures/${UBUNTUGESTURES_VERSION}
+    ${LOMIRIGESTURES_INCLUDEDIR}/LomiriGestures/${LOMIRIGESTURES_VERSION}
     )
 
 add_executable(DragHandleTestExec tst_DragHandle.cpp)
 target_link_libraries(DragHandleTestExec
     Qt5::Test Qt5::Core Qt5::Qml Qt5::Gui Qt5::Quick
-    UbuntuGesturesQml ${UBUNTUGESTURES_LIBRARIES}
+    LomiriGesturesQml ${LOMIRIGESTURES_LIBRARIES}
     )
 install(TARGETS DragHandleTestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/qmltests/Components"
     )
 set_target_properties(DragHandleTestExec PROPERTIES
-    INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${SHELL_INSTALL_QML}/Ubuntu/Gestures:${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}"
+    INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${SHELL_INSTALL_QML}/Lomiri/Gestures:${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}"
     )
 
 add_unity8_uitest(DragHandle DragHandleTestExec)
@@ -38,13 +38,13 @@ add_unity8_qmltest_data(. tst_DragHandle)
 add_executable(EdgeDragEvaluatorTestExec tst_EdgeDragEvaluator.cpp)
 target_link_libraries(EdgeDragEvaluatorTestExec
     Qt5::Test Qt5::Core Qt5::Qml Qt5::Gui Qt5::Quick
-    UbuntuGesturesQml ${UBUNTUGESTURES_LIBRARIES}
+    LomiriGesturesQml ${LOMIRIGESTURES_LIBRARIES}
     )
 install(TARGETS EdgeDragEvaluatorTestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/qmltests/Components"
     )
 set_target_properties(EdgeDragEvaluatorTestExec PROPERTIES
-    INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${SHELL_INSTALL_QML}/Ubuntu/Gestures:${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}"
+    INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${SHELL_INSTALL_QML}/Lomiri/Gestures:${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}"
     )
 
 add_unity8_uitest(EdgeDragEvaluator EdgeDragEvaluatorTestExec)

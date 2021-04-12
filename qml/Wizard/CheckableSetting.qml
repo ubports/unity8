@@ -15,8 +15,8 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.3 as ListItem
+import Lomiri.Components 1.3
+import Lomiri.Components.ListItems 1.3 as ListItem
 
 ListItem.Empty {
     id: listItem
@@ -79,7 +79,7 @@ ListItem.Empty {
                 rightMargin: listItem.rightMargin
             }
             wrapMode: Text.Wrap
-            linkColor: UbuntuColors.orange
+            linkColor: LomiriColors.orange
             color: textColor
             font.weight: Font.Light
             fontSize: "small"

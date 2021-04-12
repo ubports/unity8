@@ -18,7 +18,7 @@ import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import QtTest 1.0
 import "../../../qml/Panel"
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import Unity.Test 0.1 as UT
 import Unity.Indicators 0.1 as Indicators
 import "../../../qml/Panel/Indicators"
@@ -72,7 +72,7 @@ PanelTest {
                 Behavior on height {
                     NumberAnimation {
                         id: heightAnimation
-                        duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing
+                        duration: LomiriAnimation.FastDuration; easing: LomiriAnimation.StandardEasing
                     }
                 }
 
@@ -156,7 +156,7 @@ PanelTest {
         function wait_for_expansion_to_settle() {
             waitUntilTransitionsEnd(indicatorsBar);
             tryCompare(heightAnimation, "running", false);
-            wait(UbuntuAnimation.SnapDuration); // put a little extra wait in for things to settle
+            wait(LomiriAnimation.SnapDuration); // put a little extra wait in for things to settle
         }
 
         // Rough check that expanding a selected item keeps it within the area of the original item.

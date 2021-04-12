@@ -16,10 +16,10 @@
 
 import QtQuick 2.4
 import QtTest 1.0
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import Unity.Test 0.1 as UT
 import QMenuModel 0.1
-import Ubuntu.Settings.Menus 0.1 as Menus
+import Lomiri.Settings.Menus 0.1 as Menus
 import "../../../qml/Panel"
 import "../../../qml/Panel/Indicators"
 

@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import "../Components"
 
 FocusScope {
@@ -95,7 +95,7 @@ FocusScope {
                 clip: true
 
                 // This is so that we can draw our own dots, for we want
-                // complete control over the pixel sizes.  (The ubuntu font
+                // complete control over the pixel sizes.  (The lomiri font
                 // has oddly sized password characters that don't scale right)
                 opacity: 0
 

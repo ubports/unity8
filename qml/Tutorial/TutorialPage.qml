@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import "../Components"
 
 Showable {
@@ -69,14 +69,14 @@ Showable {
         property: "_showOpacity"
         from: 0
         to: 1
-        duration: UbuntuAnimation.SleepyDuration
+        duration: LomiriAnimation.SleepyDuration
         onStarted: root.visible = true
     }
 
     hideAnimation: StandardAnimation {
         property: "_showOpacity"
         to: 0
-        duration: UbuntuAnimation.BriskDuration
+        duration: LomiriAnimation.BriskDuration
         onStopped: {
             root.visible = false;
             if (!d.showOnUnpause) {

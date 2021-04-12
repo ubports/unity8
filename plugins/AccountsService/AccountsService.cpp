@@ -25,9 +25,9 @@
 #include <glib.h>
 
 #define IFACE_ACCOUNTS_USER          QStringLiteral("org.freedesktop.Accounts.User")
-#define IFACE_UBUNTU_INPUT           QStringLiteral("com.ubuntu.AccountsService.Input")
-#define IFACE_UBUNTU_SECURITY        QStringLiteral("com.ubuntu.AccountsService.SecurityPrivacy")
-#define IFACE_UBUNTU_SECURITY_OLD    QStringLiteral("com.ubuntu.touch.AccountsService.SecurityPrivacy")
+#define IFACE_LOMIRI_INPUT           QStringLiteral("com.lomiri.AccountsService.Input")
+#define IFACE_LOMIRI_SECURITY        QStringLiteral("com.lomiri.AccountsService.SecurityPrivacy")
+#define IFACE_LOMIRI_SECURITY_OLD    QStringLiteral("com.lomiri.touch.AccountsService.SecurityPrivacy")
 #define IFACE_UNITY                  QStringLiteral("com.canonical.unity.AccountsService")
 #define IFACE_UNITY_PRIVATE          QStringLiteral("com.canonical.unity.AccountsService.Private")
 
@@ -92,41 +92,41 @@ AccountsService::AccountsService(QObject* parent, const QString &user)
     registerProperty(IFACE_ACCOUNTS_USER, PROP_EMAIL, QStringLiteral("emailChanged"));
     registerProperty(IFACE_ACCOUNTS_USER, PROP_REAL_NAME, QStringLiteral("realNameChanged"));
     registerProperty(IFACE_ACCOUNTS_USER, PROP_INPUT_SOURCES, QStringLiteral("keymapsChanged"));
-    registerProperty(IFACE_UBUNTU_SECURITY, PROP_ENABLE_FINGERPRINT_IDENTIFICATION, QStringLiteral("enableFingerprintIdentificationChanged"));
-    registerProperty(IFACE_UBUNTU_SECURITY, PROP_ENABLE_LAUNCHER_WHILE_LOCKED, QStringLiteral("enableLauncherWhileLockedChanged"));
-    registerProperty(IFACE_UBUNTU_SECURITY, PROP_ENABLE_INDICATORS_WHILE_LOCKED, QStringLiteral("enableIndicatorsWhileLockedChanged"));
-    registerProperty(IFACE_UBUNTU_SECURITY, PROP_PASSWORD_DISPLAY_HINT, QStringLiteral("passwordDisplayHintChanged"));
-    registerProperty(IFACE_UBUNTU_SECURITY_OLD, PROP_STATS_WELCOME_SCREEN, QStringLiteral("statsWelcomeScreenChanged"));
+    registerProperty(IFACE_LOMIRI_SECURITY, PROP_ENABLE_FINGERPRINT_IDENTIFICATION, QStringLiteral("enableFingerprintIdentificationChanged"));
+    registerProperty(IFACE_LOMIRI_SECURITY, PROP_ENABLE_LAUNCHER_WHILE_LOCKED, QStringLiteral("enableLauncherWhileLockedChanged"));
+    registerProperty(IFACE_LOMIRI_SECURITY, PROP_ENABLE_INDICATORS_WHILE_LOCKED, QStringLiteral("enableIndicatorsWhileLockedChanged"));
+    registerProperty(IFACE_LOMIRI_SECURITY, PROP_PASSWORD_DISPLAY_HINT, QStringLiteral("passwordDisplayHintChanged"));
+    registerProperty(IFACE_LOMIRI_SECURITY_OLD, PROP_STATS_WELCOME_SCREEN, QStringLiteral("statsWelcomeScreenChanged"));
     registerProperty(IFACE_UNITY, PROP_DEMO_EDGES, QStringLiteral("demoEdgesChanged"));
     registerProperty(IFACE_UNITY, PROP_DEMO_EDGES_COMPLETED, QStringLiteral("demoEdgesCompletedChanged"));
     registerProperty(IFACE_UNITY_PRIVATE, PROP_FAILED_FINGERPRINT_LOGINS, QStringLiteral("failedFingerprintLoginsChanged"));
     registerProperty(IFACE_UNITY_PRIVATE, PROP_FAILED_LOGINS, QStringLiteral("failedLoginsChanged"));
 
-    registerProxy(IFACE_UBUNTU_INPUT, PROP_MOUSE_CURSOR_SPEED,
+    registerProxy(IFACE_LOMIRI_INPUT, PROP_MOUSE_CURSOR_SPEED,
                   m_unityInput, QStringLiteral("setMouseCursorSpeed"));
-    registerProxy(IFACE_UBUNTU_INPUT, PROP_MOUSE_DOUBLE_CLICK_SPEED,
+    registerProxy(IFACE_LOMIRI_INPUT, PROP_MOUSE_DOUBLE_CLICK_SPEED,
                   m_unityInput, QStringLiteral("setMouseDoubleClickSpeed"));
-    registerProxy(IFACE_UBUNTU_INPUT, PROP_MOUSE_PRIMARY_BUTTON,
+    registerProxy(IFACE_LOMIRI_INPUT, PROP_MOUSE_PRIMARY_BUTTON,
                   m_unityInput, QStringLiteral("setMousePrimaryButton"),
                   primaryButtonConverter);
-    registerProxy(IFACE_UBUNTU_INPUT, PROP_MOUSE_SCROLL_SPEED,
+    registerProxy(IFACE_LOMIRI_INPUT, PROP_MOUSE_SCROLL_SPEED,
                   m_unityInput, QStringLiteral("setMouseScrollSpeed"));
-    registerProxy(IFACE_UBUNTU_INPUT, PROP_TOUCHPAD_CURSOR_SPEED,
+    registerProxy(IFACE_LOMIRI_INPUT, PROP_TOUCHPAD_CURSOR_SPEED,
                   m_unityInput, QStringLiteral("setTouchpadCursorSpeed"));
-    registerProxy(IFACE_UBUNTU_INPUT, PROP_TOUCHPAD_SCROLL_SPEED,
+    registerProxy(IFACE_LOMIRI_INPUT, PROP_TOUCHPAD_SCROLL_SPEED,
                   m_unityInput, QStringLiteral("setTouchpadScrollSpeed"));
-    registerProxy(IFACE_UBUNTU_INPUT, PROP_TOUCHPAD_DISABLE_WHILE_TYPING,
+    registerProxy(IFACE_LOMIRI_INPUT, PROP_TOUCHPAD_DISABLE_WHILE_TYPING,
                   m_unityInput, QStringLiteral("setTouchpadDisableWhileTyping"));
-    registerProxy(IFACE_UBUNTU_INPUT, PROP_TOUCHPAD_DISABLE_WITH_MOUSE,
+    registerProxy(IFACE_LOMIRI_INPUT, PROP_TOUCHPAD_DISABLE_WITH_MOUSE,
                   m_unityInput, QStringLiteral("setTouchpadDisableWithMouse"));
-    registerProxy(IFACE_UBUNTU_INPUT, PROP_TOUCHPAD_DOUBLE_CLICK_SPEED,
+    registerProxy(IFACE_LOMIRI_INPUT, PROP_TOUCHPAD_DOUBLE_CLICK_SPEED,
                   m_unityInput, QStringLiteral("setTouchpadDoubleClickSpeed"));
-    registerProxy(IFACE_UBUNTU_INPUT, PROP_TOUCHPAD_PRIMARY_BUTTON,
+    registerProxy(IFACE_LOMIRI_INPUT, PROP_TOUCHPAD_PRIMARY_BUTTON,
                   m_unityInput, QStringLiteral("setTouchpadPrimaryButton"),
                   primaryButtonConverter);
-    registerProxy(IFACE_UBUNTU_INPUT, PROP_TOUCHPAD_TAP_TO_CLICK,
+    registerProxy(IFACE_LOMIRI_INPUT, PROP_TOUCHPAD_TAP_TO_CLICK,
                   m_unityInput, QStringLiteral("setTouchpadTapToClick"));
-    registerProxy(IFACE_UBUNTU_INPUT, PROP_TOUCHPAD_TWO_FINGER_SCROLL,
+    registerProxy(IFACE_LOMIRI_INPUT, PROP_TOUCHPAD_TWO_FINGER_SCROLL,
                   m_unityInput, QStringLiteral("setTouchpadTwoFingerScroll"));
 
     setUser(!user.isEmpty() ? user : QString::fromUtf8(g_get_user_name()));
@@ -179,19 +179,19 @@ void AccountsService::markDemoEdgeCompleted(const QString &edge)
 
 bool AccountsService::enableFingerprintIdentification() const
 {
-    auto value = getProperty(IFACE_UBUNTU_SECURITY, PROP_ENABLE_FINGERPRINT_IDENTIFICATION);
+    auto value = getProperty(IFACE_LOMIRI_SECURITY, PROP_ENABLE_FINGERPRINT_IDENTIFICATION);
     return value.toBool();
 }
 
 bool AccountsService::enableLauncherWhileLocked() const
 {
-    auto value = getProperty(IFACE_UBUNTU_SECURITY, PROP_ENABLE_LAUNCHER_WHILE_LOCKED);
+    auto value = getProperty(IFACE_LOMIRI_SECURITY, PROP_ENABLE_LAUNCHER_WHILE_LOCKED);
     return value.toBool();
 }
 
 bool AccountsService::enableIndicatorsWhileLocked() const
 {
-    auto value = getProperty(IFACE_UBUNTU_SECURITY, PROP_ENABLE_INDICATORS_WHILE_LOCKED);
+    auto value = getProperty(IFACE_LOMIRI_SECURITY, PROP_ENABLE_INDICATORS_WHILE_LOCKED);
     return value.toBool();
 }
 
@@ -203,13 +203,13 @@ QString AccountsService::backgroundFile() const
 
 bool AccountsService::statsWelcomeScreen() const
 {
-    auto value = getProperty(IFACE_UBUNTU_SECURITY_OLD, PROP_STATS_WELCOME_SCREEN);
+    auto value = getProperty(IFACE_LOMIRI_SECURITY_OLD, PROP_STATS_WELCOME_SCREEN);
     return value.toBool();
 }
 
 AccountsService::PasswordDisplayHint AccountsService::passwordDisplayHint() const
 {
-    auto value = getProperty(IFACE_UBUNTU_SECURITY, PROP_PASSWORD_DISPLAY_HINT);
+    auto value = getProperty(IFACE_LOMIRI_SECURITY, PROP_PASSWORD_DISPLAY_HINT);
     return (PasswordDisplayHint)value.toInt();
 }
 

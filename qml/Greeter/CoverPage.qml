@@ -15,8 +15,8 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
-import Ubuntu.Gestures 0.1
+import Lomiri.Components 1.3
+import Lomiri.Gestures 0.1
 import "../Components"
 
 Showable {
@@ -138,13 +138,13 @@ Showable {
             StandardAnimation {
                 from: 0.0
                 to: swipeHint.baseOpacity
-                duration: UbuntuAnimation.SleepyDuration
+                duration: LomiriAnimation.SleepyDuration
             }
-            PauseAnimation { duration: UbuntuAnimation.BriskDuration }
+            PauseAnimation { duration: LomiriAnimation.BriskDuration }
             StandardAnimation {
                 from: swipeHint.baseOpacity
                 to: 0.0
-                duration: UbuntuAnimation.SleepyDuration
+                duration: LomiriAnimation.SleepyDuration
             }
 
             onRunningChanged: {
@@ -244,7 +244,7 @@ Showable {
             property: "x"
             target: root
             to: 0
-            duration: UbuntuAnimation.FastDuration
+            duration: LomiriAnimation.FastDuration
         }
     }
 }

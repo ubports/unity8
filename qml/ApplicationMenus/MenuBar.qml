@@ -17,7 +17,7 @@
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import Utils 0.1
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import GlobalShortcut 1.0
 import "../Components/PanelState"
 
@@ -408,7 +408,7 @@ Item {
         x: d.currentItem ? row.x + d.currentItem.x : 0
         width: d.currentItem ? d.currentItem.width : 0
         height: units.dp(4)
-        color: UbuntuColors.orange
+        color: LomiriColors.orange
         visible: d.currentItem
     }
 

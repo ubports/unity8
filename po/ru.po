@@ -692,8 +692,8 @@ msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr "Система Ubuntu Touch"
+msgid "Lomiri Touch system"
+msgstr "Система Lomiri Touch"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -714,8 +714,8 @@ msgid "Welcome Back"
 msgstr "С возвращением"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Добро пожаловать в Ubuntu"
+msgid "Welcome to Lomiri"
+msgstr "Добро пожаловать в Lomiri"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -841,7 +841,7 @@ msgstr "Слабый пароль"
 msgid "Very weak password"
 msgstr "Очень слабый пароль"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Магазин"
 
@@ -1114,7 +1114,7 @@ msgstr "Очень слабый пароль"
 #~ "You have now mastered the edge gestures and can start using the "
 #~ "phone<br><br>Tap on the screen to start"
 #~ msgstr ""
-#~ "Вы научились пользоваться Ubuntu и можете начать использовать свой "
+#~ "Вы научились пользоваться Lomiri и можете начать использовать свой "
 #~ "телефон<br><br>Нажмите на экран"
 
 #~ msgid "See all"
@@ -1197,8 +1197,8 @@ msgstr "Очень слабый пароль"
 #~ msgid "Add a SIM card and restart your device"
 #~ msgstr "Вставьте SIM-карту и перезагрузите устройство"
 
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Рады представить вам Ubuntu для телефона."
+#~ msgid "Welcome to your Lomiri phone."
+#~ msgstr "Рады представить вам Lomiri для телефона."
 
 #~ msgid "Let’s get started."
 #~ msgstr "Приступим."

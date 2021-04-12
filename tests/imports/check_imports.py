@@ -54,9 +54,9 @@ quick_good_pat = re.compile(r'.*import QtQuick 2\.4.*$')
 quick_layouts_good_pat = re.compile(r'.*import QtQuick.Layouts 1\.1.*$')
 quick_window_good_pat = re.compile(r'.*import QtQuick.Window 2\.2.*$')
 
-# Ubuntu Components patterns
-ubuntu_components_pat = re.compile(r'.*import Ubuntu.Components.*')
-ubuntu_good_components_pat = re.compile(r'.*import Ubuntu.Components.*1\.3.*')
+# Lomiri Components patterns
+lomiri_components_pat = re.compile(r'.*import Lomiri.Components.*')
+lomiri_good_components_pat = re.compile(r'.*import Lomiri.Components.*1\.3.*')
 
 def scan_for_bad_import(file_path, all_pat, good_pats):
     errors = []
@@ -161,7 +161,7 @@ try:
                 quick_good_pats = [quick_good_pat, quick_layouts_good_pat, quick_window_good_pat]
                 if scan_for_bad_import(path, quick_pat, quick_good_pats):
                     found_bad_import = True
-                if scan_for_bad_import(path, ubuntu_components_pat, [ubuntu_good_components_pat]):
+                if scan_for_bad_import(path, lomiri_components_pat, [lomiri_good_components_pat]):
                     found_bad_import = True
                 if skip_mocks_path.match(path) or \
                    skip_components_flickable_path.match(path) or \

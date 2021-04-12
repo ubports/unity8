@@ -1,2 +1,0 @@
-module Ubuntu.SystemSettings.Update
-singleton SystemImage 1.0 MockSystemImage.qml

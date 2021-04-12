@@ -607,7 +607,7 @@ msgstr "Sequente"
 #: qml/Wizard/Pages/10-welcome-update.qml:91
 #, fuzzy
 msgid "Welcome to "
-msgstr "Benvenite a Ubuntu."
+msgstr "Benvenite a Lomiri."
 
 #: qml/Wizard/Pages/10-welcome-update.qml:106
 msgid "We will make sure your device is ready to use "
@@ -706,10 +706,10 @@ msgstr ""
 #: qml/Wizard/Pages/79-system-update.qml:76
 #, fuzzy
 #| msgctxt "string identifying name of the update"
-#| msgid "Ubuntu system"
+#| msgid "Lomiri system"
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr "Systema Ubuntu"
+msgid "Lomiri Touch system"
+msgstr "Systema Lomiri"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -730,8 +730,8 @@ msgid "Welcome Back"
 msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Benvenite a Ubuntu."
+msgid "Welcome to Lomiri"
+msgstr "Benvenite a Lomiri."
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -857,7 +857,7 @@ msgstr "Contrasigno debile"
 msgid "Very weak password"
 msgstr "Contrasigno troppo debile"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Salva"
 
@@ -1189,8 +1189,8 @@ msgstr "Contrasigno troppo debile"
 #~ msgid "Hi!"
 #~ msgstr "Salute!"
 
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Benvenite a tu telephono Ubuntu."
+#~ msgid "Welcome to your Lomiri phone."
+#~ msgstr "Benvenite a tu telephono Lomiri."
 
 #~ msgid "Let’s get started."
 #~ msgstr "Que nos initia."

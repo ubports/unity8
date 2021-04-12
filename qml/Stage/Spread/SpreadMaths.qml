@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import Utils 0.1
 import "MathUtils.js" as MathUtils
 
@@ -42,7 +42,7 @@ Item {
                                                  spread.leftStackScale, spread.rightStackScale)
 
         property real selectedScale: (spread.highlightedIndex == itemIndex ? 1.01 : 1)
-        Behavior on selectedScale { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
+        Behavior on selectedScale { LomiriNumberAnimation { duration: LomiriAnimation.SnapDuration } }
 
     }
 

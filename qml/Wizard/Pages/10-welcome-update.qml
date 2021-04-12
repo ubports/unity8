@@ -17,7 +17,7 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import Wizard 0.1
 import ".." as LocalComponents
 
@@ -44,12 +44,12 @@ LocalComponents.Page {
 
     SequentialAnimation {
         id: splashAnimation
-        PauseAnimation { duration: UbuntuAnimation.BriskDuration }
+        PauseAnimation { duration: LomiriAnimation.BriskDuration }
         SmoothedAnimation {
             target: bgImage
             property: "height"
             to: units.gu(16)
-            duration: UbuntuAnimation.BriskDuration
+            duration: LomiriAnimation.BriskDuration
         }
         NumberAnimation {
             target: bgImage

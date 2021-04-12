@@ -17,7 +17,7 @@
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import QtTest 1.0
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import Unity.Test 0.1 as UT
 import "../../../../qml/Panel/Indicators"
 
@@ -26,7 +26,7 @@ Rectangle {
     height: units.gu(30)
     color: theme.palette.normal.background
 
-    Component.onCompleted: theme.name = "Ubuntu.Components.Themes.SuruDark"
+    Component.onCompleted: theme.name = "Lomiri.Components.Themes.SuruDark"
 
     RowLayout {
         anchors.fill: parent
@@ -68,7 +68,7 @@ Rectangle {
                 Behavior on height {
                     NumberAnimation {
                         id: heightAnimation
-                        duration: UbuntuAnimation.SnapDuration; easing: UbuntuAnimation.StandardEasing
+                        duration: LomiriAnimation.SnapDuration; easing: LomiriAnimation.StandardEasing
                     }
                 }
             }
@@ -190,7 +190,7 @@ Rectangle {
 
             indicatorItem.expanded = true;
             tryCompare(findChild(indicatorItem, "icon0"), "color", theme.palette.disabled.backgroundText);
-            // WORKAROUND for a Qt bug in comparing colors: https://bugs.launchpad.net/ubuntu/+source/qtdeclarative-opensource-src/+bug/1619281
+            // WORKAROUND for a Qt bug in comparing colors: https://bugs.launchpad.net/lomiri/+source/qtdeclarative-opensource-src/+bug/1619281
             fuzzyCompare(findChild(indicatorItem, "leftLabel").color, theme.palette.disabled.backgroundText, 0.001);
             fuzzyCompare(findChild(indicatorItem, "rightLabel").color, theme.palette.disabled.backgroundText, 0.001);
             fuzzyCompare(findChild(indicatorItem, "indicatorName").color, theme.palette.disabled.backgroundText, 0.001);
