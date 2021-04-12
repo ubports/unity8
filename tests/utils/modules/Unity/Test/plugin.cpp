@@ -18,7 +18,7 @@
 #include "plugin.h"
 #include "testutil.h"
 
-#ifdef UNITY8_ENABLE_TOUCH_EMULATION
+#ifdef LOMIRI_ENABLE_TOUCH_EMULATION
 #include <MouseTouchAdaptor.h>
 #endif
 
@@ -32,7 +32,7 @@ QObject *testutil_provider(QQmlEngine* /* engine */, QJSEngine* /* scriptEngine 
     return new TestUtil();
 }
 
-#ifdef UNITY8_ENABLE_TOUCH_EMULATION
+#ifdef LOMIRI_ENABLE_TOUCH_EMULATION
 QObject *getMouseTouchAdaptorQMLSingleton(QQmlEngine* /* engine */, QJSEngine* /* scriptEngine */)
 {
     return MouseTouchAdaptor::instance();
@@ -50,7 +50,7 @@ void UnityTestPlugin::registerTypes(const char *uri)
     qmlRegisterUncreatableType<TouchEventSequenceWrapper>(uri, 0, 1, "TouchEventSequence",
             "You cannot directly create a TouchEventSequence object.");
 
-    #ifdef UNITY8_ENABLE_TOUCH_EMULATION
+    #ifdef LOMIRI_ENABLE_TOUCH_EMULATION
     // Ensure the instance gets created
     MouseTouchAdaptor::instance();
     qmlRegisterSingletonType<MouseTouchAdaptor>(uri, 0, 1, "MouseTouchAdaptor",

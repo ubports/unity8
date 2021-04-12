@@ -629,7 +629,7 @@ Rectangle {
         }
 
         function addApps(count) {
-            // Start apps up to count, but skip unity8-dash since it's the first
+            // Start apps up to count, but skip lomiri-dash since it's the first
             // available application and it's treated specially
             for (var i = 0; i < count; i++) {
                 var startingAppId = ApplicationManager.availableApplications[ApplicationManager.count + 1];
@@ -1316,7 +1316,7 @@ Rectangle {
             swipeAwayGreeter();
 
             var appSurfaceId = topLevelSurfaceList.nextId;
-            var app = ApplicationManager.startApplication("unity8-dash")
+            var app = ApplicationManager.startApplication("lomiri-dash")
             waitUntilAppWindowIsFullyLoaded(appSurfaceId);
 
             var topmostSpreadDelegate = findChild(shell, "appDelegate_" + topLevelSurfaceList.idAt(0));
@@ -1350,7 +1350,7 @@ Rectangle {
             swipeAwayGreeter();
 
             var appSurfaceId = topLevelSurfaceList.nextId;
-            var app = ApplicationManager.startApplication("unity8-dash")
+            var app = ApplicationManager.startApplication("lomiri-dash")
             waitUntilAppWindowIsFullyLoaded(appSurfaceId);
 
             var topmostSpreadDelegate = findChild(shell, "appDelegate_" + topLevelSurfaceList.idAt(0));
@@ -1506,7 +1506,7 @@ Rectangle {
             shell.usageScenario = "desktop";
 
             var appSurfaceId = topLevelSurfaceList.nextId;
-            var app = ApplicationManager.startApplication("unity8-dash")
+            var app = ApplicationManager.startApplication("lomiri-dash")
             waitUntilAppWindowIsFullyLoaded(appSurfaceId);
 
             var webBrowserSurfaceId = topLevelSurfaceList.nextId;
@@ -1517,8 +1517,8 @@ Rectangle {
             var galleryApp = ApplicationManager.startApplication("gallery-app");
             waitUntilAppWindowIsFullyLoaded(gallerySurfaceId);
 
-            ApplicationManager.requestFocusApplication("unity8-dash");
-            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
+            ApplicationManager.requestFocusApplication("lomiri-dash");
+            tryCompare(ApplicationManager, "focusedApplicationId", "lomiri-dash");
 
             compare(webBrowserApp.requestedState, ApplicationInfoInterface.RequestedRunning);
             compare(galleryApp.requestedState, ApplicationInfoInterface.RequestedRunning);
@@ -1534,7 +1534,7 @@ Rectangle {
             shell.usageScenario = "tablet";
 
             var appSurfaceId = topLevelSurfaceList.nextId;
-            var app = ApplicationManager.startApplication("unity8-dash")
+            var app = ApplicationManager.startApplication("lomiri-dash")
             waitUntilAppWindowIsFullyLoaded(appSurfaceId);
 
             var webBrowserSurfaceId = topLevelSurfaceList.nextId;
@@ -1545,8 +1545,8 @@ Rectangle {
             var galleryApp = ApplicationManager.startApplication("gallery-app");
             waitUntilAppWindowIsFullyLoaded(gallerySurfaceId);
 
-            ApplicationManager.requestFocusApplication("unity8-dash");
-            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
+            ApplicationManager.requestFocusApplication("lomiri-dash");
+            tryCompare(ApplicationManager, "focusedApplicationId", "lomiri-dash");
 
             compare(webBrowserApp.requestedState, ApplicationInfoInterface.RequestedSuspended);
             compare(galleryApp.requestedState, ApplicationInfoInterface.RequestedSuspended);
@@ -2689,7 +2689,7 @@ Rectangle {
             shell.oskEnabled = data.oskEnabled;
 
             var appSurfaceId = topLevelSurfaceList.nextId;
-            var app = ApplicationManager.startApplication("unity8-dash")
+            var app = ApplicationManager.startApplication("lomiri-dash")
             waitUntilAppWindowIsFullyLoaded(appSurfaceId);
 
             var oldOSKState = topLevelSurfaceList.inputMethodSurface.state;
@@ -2936,7 +2936,7 @@ Rectangle {
             loadShell("desktop", 0);
 
             var appSurfaceId = topLevelSurfaceList.nextId;
-            var app = ApplicationManager.startApplication("unity8-dash")
+            var app = ApplicationManager.startApplication("lomiri-dash")
             waitUntilAppWindowIsFullyLoaded(appSurfaceId);
 
             appSurfaceId = topLevelSurfaceList.nextId;
@@ -2965,7 +2965,7 @@ Rectangle {
             tryCompare(ApplicationManager, "count", 2);
 
             // Now the dash should be highlighted
-            tryCompareFunction(function() {return appRepeater.itemAt(spread.highlightedIndex).appId == "unity8-dash"}, true);
+            tryCompareFunction(function() {return appRepeater.itemAt(spread.highlightedIndex).appId == "lomiri-dash"}, true);
 
             keyClick(Qt.Key_Tab);
             tryCompareFunction(function() {return appRepeater.itemAt(spread.highlightedIndex).appId == "calendar-app"}, true);
@@ -2986,7 +2986,7 @@ Rectangle {
             waitUntilAppWindowIsFullyLoaded(appSurfaceId);
 
             // First focus the dash so it'll be the leftmost in the spread
-            ApplicationManager.requestFocusApplication("unity8-dash");
+            ApplicationManager.requestFocusApplication("lomiri-dash");
 
             keyPress(Qt.Key_Alt);
             keyClick(Qt.Key_Tab);
@@ -3136,7 +3136,7 @@ Rectangle {
             loadShell("desktop", 0);
 
             var appSurfaceId = topLevelSurfaceList.nextId;
-            var app = ApplicationManager.startApplication("unity8-dash")
+            var app = ApplicationManager.startApplication("lomiri-dash")
             waitUntilAppWindowIsFullyLoaded(appSurfaceId);
 
             var appDelegate = startApplication("music-app")

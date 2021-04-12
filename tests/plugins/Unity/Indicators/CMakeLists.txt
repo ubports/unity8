@@ -33,7 +33,7 @@ macro(indicator_test TEST)
         set(ldpath "$<TARGET_FILE_DIR:${lib}>:")
     endforeach(lib)
 
-    add_unity8_unittest(${TEST} ${TEST}Exec
+    add_lomiri_unittest(${TEST} ${TEST}Exec
         ENVIRONMENT "LD_LIBRARY_PATH=${ldpath}"
         )
 endmacro(indicator_test)

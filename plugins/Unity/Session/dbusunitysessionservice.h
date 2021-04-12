@@ -155,7 +155,7 @@ public Q_SLOTS:
      *
      * This method puts the system into hybrid sleep without user's confirmation.
      *
-     * @since unity8
+     * @since lomiri
      */
     Q_SCRIPTABLE void HybridSleep();
 
@@ -210,13 +210,13 @@ public Q_SLOTS:
 
     /**
      * @return whether the system is capable of hybrid sleep
-     * @since unity8
+     * @since lomiri
      */
     Q_SCRIPTABLE bool CanHybridSleep() const;
 
     /**
      * @return whether the system is capable of rebooting
-     * @since unity8
+     * @since lomiri
      */
     Q_SCRIPTABLE bool CanReboot() const;
 

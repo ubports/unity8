@@ -58,4 +58,4 @@ target_link_libraries(FakeUtils-qml
 # files directly in targets.
 set_target_properties(FakeUtils-qml PROPERTIES COMPILE_FLAGS -fvisibility=default)
 
-add_unity8_mock(Utils 0.1 Utils TARGETS FakeUtils-qml)
+add_lomiri_mock(Utils 0.1 Utils TARGETS FakeUtils-qml)

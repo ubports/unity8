@@ -95,7 +95,7 @@ Item {
 
         function test_activeHint(data) {
             if (data.dialer) {
-                var dashApp = ApplicationManager.startApplication("unity8-dash");
+                var dashApp = ApplicationManager.startApplication("lomiri-dash");
                 tryCompare(dashApp.surfaceList, "count", 1);
 
                 var application = ApplicationManager.startApplication("dialer-app");
@@ -108,7 +108,7 @@ Item {
                     tryCompare(application, "state", ApplicationInfoInterface.Running);
                 } else {
                     dashApp.surfaceList.get(0).activate();
-                    tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
+                    tryCompare(ApplicationManager, "focusedApplicationId", "lomiri-dash");
                 }
             }
             callManager.foregroundCall = data.call;
@@ -119,7 +119,7 @@ Item {
             if (data.dialer) {
                 // clean up
                 ApplicationManager.stopApplication("dialer-app");
-                ApplicationManager.stopApplication("unity8-dash");
+                ApplicationManager.stopApplication("lomiri-dash");
                 tryCompare(ApplicationManager, "count", 0);
             }
         }

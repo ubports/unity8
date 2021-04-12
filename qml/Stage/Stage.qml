@@ -100,7 +100,7 @@ FocusScope {
 
     GSettings {
         id: settings
-        schema.id: "com.canonical.Unity8"
+        schema.id: "com.canonical.Lomiri"
     }
 
     property int launcherLeftMargin : 0
@@ -974,7 +974,7 @@ FocusScope {
                 // Don't write to those, they will be set by states
                 // --
                 // Here we will also need to remove the screen offset from miral's results
-                // as unity8 x,y will be relative to the current screen only
+                // as lomiri x,y will be relative to the current screen only
                 // FIXME: when proper multiscreen lands
                 x: model.window.position.x - clientAreaItem.x - screenOffsetX
                 y: model.window.position.y - clientAreaItem.y - screenOffsetY

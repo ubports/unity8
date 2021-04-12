@@ -431,7 +431,7 @@ Item {
         }
 
         /*
-            Regression test for https://bugs.launchpad.net/lomiri/+source/unity8/+bug/1388359
+            Regression test for https://bugs.launchpad.net/lomiri/+source/lomiri/+bug/1388359
             "User metrics can no longer be changed by double tap"
         */
         function test_doubleTapSwitchesToNextInfographic() {

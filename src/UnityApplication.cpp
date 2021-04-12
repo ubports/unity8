@@ -50,7 +50,7 @@ UnityApplication::UnityApplication(int & argc, char ** argv)
                                                 qtmir::SetDisplayConfigurationStorage<DisplayConfigurationStorage>() })
     , m_qmlArgs(this)
 {
-    setApplicationName(QStringLiteral("unity8"));
+    setApplicationName(QStringLiteral("lomiri"));
     setOrganizationName(QStringLiteral("Canonical"));
 
     setupQmlEngine();
@@ -78,10 +78,10 @@ UnityApplication::UnityApplication(int & argc, char ** argv)
         }
     }
 
-    bindtextdomain("unity8", translationDirectory().toUtf8().data());
-    textdomain("unity8");
+    bindtextdomain("lomiri", translationDirectory().toUtf8().data());
+    textdomain("lomiri");
 
-    QScopedPointer<QGSettings> gSettings(new QGSettings("com.canonical.Unity8"));
+    QScopedPointer<QGSettings> gSettings(new QGSettings("com.canonical.Lomiri"));
     gSettings->reset(QStringLiteral("alwaysShowOsk"));
 
 
@@ -106,7 +106,7 @@ UnityApplication::UnityApplication(int & argc, char ** argv)
         return;
     }
 
-    #ifdef UNITY8_ENABLE_TOUCH_EMULATION
+    #ifdef LOMIRI_ENABLE_TOUCH_EMULATION
     // You will need this if you want to interact with touch-only components using a mouse
     // Needed only when manually testing on a desktop.
     if (m_qmlArgs.hasMouseToTouch()) {
@@ -115,8 +115,8 @@ UnityApplication::UnityApplication(int & argc, char ** argv)
     #endif
 
     if (m_qmlArgs.mode().compare("greeter") == 0) {
-        if (!QProcess::startDetached("initctl emit --no-wait unity8-greeter-started")) {
-            qDebug() << "Unable to send unity8-greeter-started event to Upstart";
+        if (!QProcess::startDetached("initctl emit --no-wait lomiri-greeter-started")) {
+            qDebug() << "Unable to send lomiri-greeter-started event to Upstart";
         }
     }
 }
@@ -128,7 +128,7 @@ UnityApplication::~UnityApplication()
 
 void UnityApplication::destroyResources()
 {
-    #ifdef UNITY8_ENABLE_TOUCH_EMULATION
+    #ifdef LOMIRI_ENABLE_TOUCH_EMULATION
     delete m_mouseTouchAdaptor;
     m_mouseTouchAdaptor = nullptr;
     #endif

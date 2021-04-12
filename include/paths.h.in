@@ -66,7 +66,7 @@ inline QString translationDirectory() {
 }
 
 inline QString testDataDir() {
-    // Can't use isRunningInstalled, since tests don't use the normal unity8
+    // Can't use isRunningInstalled, since tests don't use the normal lomiri
     // executable.  $UNITY_TESTING_DATADIR is set by installed tests.
     QString datadir(qgetenv("UNITY_TESTING_DATADIR"));
     if (datadir.isEmpty()) {
@@ -77,7 +77,7 @@ inline QString testDataDir() {
 }
 
 inline QString testLibDir() {
-    // Can't use isRunningInstalled, since tests don't use the normal unity8
+    // Can't use isRunningInstalled, since tests don't use the normal lomiri
     // executable.  $UNITY_TESTING_DATADIR is set by installed tests.
     QString libdir(qgetenv("UNITY_TESTING_LIBDIR"));
     if (libdir.isEmpty()) {

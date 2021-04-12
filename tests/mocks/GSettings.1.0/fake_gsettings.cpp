@@ -291,7 +291,7 @@ void GSettingsQml::setPictureUri(const QVariant &str)
 
 QVariant GSettingsQml::usageMode() const
 {
-    if (m_valid && m_schema->id() == "com.canonical.Unity8") {
+    if (m_valid && m_schema->id() == "com.canonical.Lomiri") {
         return GSettingsControllerQml::instance()->usageMode();
     } else {
         return QVariant();
@@ -300,14 +300,14 @@ QVariant GSettingsQml::usageMode() const
 
 void GSettingsQml::setUsageMode(const QVariant &usageMode)
 {
-    if (m_valid && m_schema->id() == "com.canonical.Unity8") {
+    if (m_valid && m_schema->id() == "com.canonical.Lomiri") {
         GSettingsControllerQml::instance()->setUsageMode(usageMode.toString());
     }
 }
 
 QVariant GSettingsQml::lockedOutTime() const
 {
-    if (m_valid && m_schema->id() == "com.canonical.Unity8.Greeter") {
+    if (m_valid && m_schema->id() == "com.canonical.Lomiri.Greeter") {
         return GSettingsControllerQml::instance()->lockedOutTime();
     } else {
         return QVariant();
@@ -316,7 +316,7 @@ QVariant GSettingsQml::lockedOutTime() const
 
 void GSettingsQml::setLockedOutTime(const QVariant &timestamp)
 {
-    if (m_valid && m_schema->id() == "com.canonical.Unity8.Greeter") {
+    if (m_valid && m_schema->id() == "com.canonical.Lomiri.Greeter") {
         GSettingsControllerQml::instance()->setLockedOutTime(timestamp.value<qint64>());
     }
 }
@@ -332,7 +332,7 @@ QVariant GSettingsQml::lifecycleExemptAppids() const
 
 QVariant GSettingsQml::autohideLauncher() const
 {
-    if (m_valid && m_schema->id() == "com.canonical.Unity8") {
+    if (m_valid && m_schema->id() == "com.canonical.Lomiri") {
         return GSettingsControllerQml::instance()->autohideLauncher();
     } else {
         return QVariant();
@@ -341,7 +341,7 @@ QVariant GSettingsQml::autohideLauncher() const
 
 QVariant GSettingsQml::launcherWidth() const
 {
-    if (m_valid && m_schema->id() == "com.canonical.Unity8") {
+    if (m_valid && m_schema->id() == "com.canonical.Lomiri") {
         return GSettingsControllerQml::instance()->launcherWidth();
     } else {
         return QVariant();
@@ -350,7 +350,7 @@ QVariant GSettingsQml::launcherWidth() const
 
 QVariant GSettingsQml::edgeDragWidth() const
 {
-    if (m_valid && m_schema->id() == "com.canonical.Unity8") {
+    if (m_valid && m_schema->id() == "com.canonical.Lomiri") {
         return GSettingsControllerQml::instance()->edgeDragWidth();
     } else {
         return QVariant();
@@ -359,7 +359,7 @@ QVariant GSettingsQml::edgeDragWidth() const
 
 QVariant GSettingsQml::enableIndicatorMenu() const
 {
-    if (m_valid && m_schema->id() == "com.canonical.Unity8") {
+    if (m_valid && m_schema->id() == "com.canonical.Lomiri") {
         return GSettingsControllerQml::instance()->enableIndicatorMenu();
     } else {
         return QVariant();
@@ -368,7 +368,7 @@ QVariant GSettingsQml::enableIndicatorMenu() const
 
 QVariant GSettingsQml::oskSwitchVisible() const
 {
-    if (m_valid && m_schema->id() == "com.canonical.Unity8") {
+    if (m_valid && m_schema->id() == "com.canonical.Lomiri") {
         return GSettingsControllerQml::instance()->oskSwitchVisible();
     }
     return QVariant();
@@ -383,35 +383,35 @@ void GSettingsQml::setLifecycleExemptAppids(const QVariant &appIds)
 
 void GSettingsQml::setAutohideLauncher(const QVariant &autohideLauncher)
 {
-    if (m_valid && m_schema->id() == "com.canonical.Unity8") {
+    if (m_valid && m_schema->id() == "com.canonical.Lomiri") {
         GSettingsControllerQml::instance()->setAutohideLauncher(autohideLauncher.toBool());
     }
 }
 
 void GSettingsQml::setLauncherWidth(const QVariant &launcherWidth)
 {
-    if (m_valid && m_schema->id() == "com.canonical.Unity8") {
+    if (m_valid && m_schema->id() == "com.canonical.Lomiri") {
         GSettingsControllerQml::instance()->setLauncherWidth(launcherWidth.toInt());
     }
 }
 
 void GSettingsQml::setEdgeDragWidth(const QVariant &edgeDragWidth)
 {
-    if (m_valid && m_schema->id() == "com.canonical.Unity8") {
+    if (m_valid && m_schema->id() == "com.canonical.Lomiri") {
         GSettingsControllerQml::instance()->setEdgeDragWidth(edgeDragWidth.toUInt());
     }
 }
 
 void GSettingsQml::setEnableIndicatorMenu(const QVariant &enableIndicatorMenu)
 {
-    if (m_valid && m_schema->id() == "com.canonical.Unity8") {
+    if (m_valid && m_schema->id() == "com.canonical.Lomiri") {
         GSettingsControllerQml::instance()->setEnableIndicatorMenu(enableIndicatorMenu.toBool());
     }
 }
 
 void GSettingsQml::setOskSwitchVisible(const QVariant &oskSwitchVisible)
 {
-    if (m_valid && m_schema->id() == "com.canonical.Unity8") {
+    if (m_valid && m_schema->id() == "com.canonical.Lomiri") {
         GSettingsControllerQml::instance()->setOskSwitchVisible(oskSwitchVisible.toBool());
     }
 }

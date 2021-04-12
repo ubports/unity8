@@ -28,4 +28,4 @@ add_library(MockInputInfo SHARED
 
 target_link_libraries(MockInputInfo Qt5::Core Qt5::Qml Qt5::Quick)
 
-add_unity8_mock(Unity.InputInfo 0.1 Unity/InputInfo TARGETS MockInputInfo)
+add_lomiri_mock(Unity.InputInfo 0.1 Unity/InputInfo TARGETS MockInputInfo)

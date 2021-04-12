@@ -2,7 +2,7 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_SOURCE_DIR}/tests/mocks
-    ${libunity8-private_SOURCE_DIR}
+    ${liblomiri-private_SOURCE_DIR}
     )
 
 add_executable(TopLevelWindowModelTestExec
@@ -22,7 +22,7 @@ add_executable(TopLevelWindowModelTestExec
 target_link_libraries(TopLevelWindowModelTestExec
     Qt5::Test Qt5::Core Qt5::Gui Qt5::Qml Qt5::Quick
     windowmanager-qml
-    unity8-private
+    lomiri-private
 )
 
 install(TARGETS TopLevelWindowModelTestExec
@@ -33,6 +33,6 @@ install(TARGETS TopLevelWindowModelTestExec
 set_target_properties(TopLevelWindowModelTestExec PROPERTIES
         INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}")
 
-add_unity8_unittest(TopLevelWindowModel TopLevelWindowModelTestExec
+add_lomiri_unittest(TopLevelWindowModel TopLevelWindowModelTestExec
     ENVIRONMENT LD_LIBRARY_PATH=${UNITY_PLUGINPATH}/WindowManager
 )

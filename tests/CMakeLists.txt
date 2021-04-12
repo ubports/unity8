@@ -22,8 +22,8 @@ add_executable(qmlscene ALIAS uqmlscene)
 import_executables(dbus-test-runner)
 import_executables(qdbus-simple-test-runner)
 
-set(UNITY_PLUGINPATH "${CMAKE_BINARY_DIR}/plugins" CACHE PATH "Path to pre-built unity8 plugin dir.")
-set(UNITY_MOCKPATH "${CMAKE_BINARY_DIR}/tests/mocks" CACHE PATH "Path to pre-built unity8 mock dir.")
+set(UNITY_PLUGINPATH "${CMAKE_BINARY_DIR}/plugins" CACHE PATH "Path to pre-built lomiri plugin dir.")
+set(UNITY_MOCKPATH "${CMAKE_BINARY_DIR}/tests/mocks" CACHE PATH "Path to pre-built lomiri mock dir.")
 
 # Pre-built mocks have preference, pre-built plugins replace local build
 set(UNITY_IMPORT_PATHS
@@ -35,7 +35,7 @@ set(UNITY_IMPORT_PATHS
 list(REMOVE_DUPLICATES UNITY_IMPORT_PATHS)
 set(UNITY_IMPORT_PATHS ${UNITY_IMPORT_PATHS} CACHE INTERNAL "")
 
-macro(unity8_parse_arguments)
+macro(lomiri_parse_arguments)
     cmake_parse_arguments(U8TEST
         "${QMLTEST_OPTIONS}"
         "${QMLTEST_SINGLE}"
@@ -66,8 +66,8 @@ endmacro()
 
 # add a non-graphical unit test
 # see QmlTest.cmake for additional options
-function(add_unity8_unittest COMPONENT_NAME TARGET)
-    unity8_parse_arguments(${ARGN})
+function(add_lomiri_unittest COMPONENT_NAME TARGET)
+    lomiri_parse_arguments(${ARGN})
     add_executable_test(${COMPONENT_NAME} ${TARGET}
         ADD_TEST
         IMPORT_PATHS ${UNITY_IMPORT_PATHS}
@@ -81,8 +81,8 @@ function(add_unity8_unittest COMPONENT_NAME TARGET)
 endfunction()
 
 # add a graphical unit test
-function(add_unity8_uitest COMPONENT_NAME TARGET)
-    unity8_parse_arguments(${ARGN})
+function(add_lomiri_uitest COMPONENT_NAME TARGET)
+    lomiri_parse_arguments(${ARGN})
     add_executable_test(${COMPONENT_NAME} ${TARGET}
         IMPORT_PATHS ${UNITY_IMPORT_PATHS}
         TARGETS uitests
@@ -94,8 +94,8 @@ function(add_unity8_uitest COMPONENT_NAME TARGET)
 endfunction()
 
 # add a non-graphical qml unit test
-function(add_unity8_qmlunittest PATH COMPONENT_NAME)
-    unity8_parse_arguments(${ARGN})
+function(add_lomiri_qmlunittest PATH COMPONENT_NAME)
+    lomiri_parse_arguments(${ARGN})
     add_qml_unittest(${PATH} ${COMPONENT_NAME}
         ADD_TEST
         IMPORT_PATHS ${UNITY_IMPORT_PATHS}
@@ -109,8 +109,8 @@ function(add_unity8_qmlunittest PATH COMPONENT_NAME)
 endfunction()
 
 # add a graphical qml test
-function(add_unity8_qmltest PATH COMPONENT_NAME)
-    unity8_parse_arguments(${ARGN})
+function(add_lomiri_qmltest PATH COMPONENT_NAME)
+    lomiri_parse_arguments(${ARGN})
     add_qml_test(${PATH} ${COMPONENT_NAME}
         IMPORT_PATHS ${UNITY_IMPORT_PATHS}
         TARGETS uitests
@@ -122,12 +122,12 @@ function(add_unity8_qmltest PATH COMPONENT_NAME)
 endfunction()
 
 # add a graphical qml benchmark
-function(add_unity8_qmlbenchmark PATH COMPONENT_NAME ITERATIONS)
-    add_unity8_qmltest(${PATH} ${COMPONENT_NAME} ITERATIONS ${ITERATIONS} ${ARGN})
+function(add_lomiri_qmlbenchmark PATH COMPONENT_NAME ITERATIONS)
+    add_lomiri_qmltest(${PATH} ${COMPONENT_NAME} ITERATIONS ${ITERATIONS} ${ARGN})
 endfunction()
 
-# add files needed for qml tests, just here for better alignment with add_unity8_qmltest
-function(add_unity8_qmltest_data PATH COMPONENT_NAME)
+# add files needed for qml tests, just here for better alignment with add_lomiri_qmltest
+function(add_lomiri_qmltest_data PATH COMPONENT_NAME)
     add_qml_test_data("${PATH}" "${COMPONENT_NAME}")
 endfunction()
 

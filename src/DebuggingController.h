@@ -30,7 +30,7 @@
 class DebuggingController: public UnityDBusObject
 {
     Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "com.canonical.Unity8.Debugging")
+    Q_CLASSINFO("D-Bus Interface", "com.canonical.Lomiri.Debugging")
 
 public:
     DebuggingController(QObject *parent = nullptr);

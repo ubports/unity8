@@ -16,4 +16,4 @@ add_library(ApplicationMenu-qml MODULE ${applicationMenu_SRCS})
 
 target_link_libraries(ApplicationMenu-qml Qt5::DBus Qt5::Qml)
 
-add_unity8_plugin(Unity.ApplicationMenu 0.1 Unity/ApplicationMenu TARGETS ApplicationMenu-qml)
+add_lomiri_plugin(Unity.ApplicationMenu 0.1 Unity/ApplicationMenu TARGETS ApplicationMenu-qml)

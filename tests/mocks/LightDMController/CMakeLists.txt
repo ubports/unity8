@@ -11,4 +11,4 @@ target_link_libraries(LightDMController
     Qt5::Qml
     )
 
-add_unity8_mock(LightDMController 0.1 LightDMController TARGETS LightDMController)
+add_lomiri_mock(LightDMController 0.1 LightDMController TARGETS LightDMController)

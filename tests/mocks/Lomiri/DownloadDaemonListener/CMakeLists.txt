@@ -7,4 +7,4 @@ add_library(FakeLomiriDownloadDaemonListenerQml MODULE ${FakeLomiriDownloadDaemo
 
 target_link_libraries(FakeLomiriDownloadDaemonListenerQml Qt5::Core Qt5::Quick)
 
-add_unity8_mock(Lomiri.DownloadDaemonListener 0.1 Lomiri/DownloadDaemonListener TARGETS FakeLomiriDownloadDaemonListenerQml)
+add_lomiri_mock(Lomiri.DownloadDaemonListener 0.1 Lomiri/DownloadDaemonListener TARGETS FakeLomiriDownloadDaemonListenerQml)

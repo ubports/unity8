@@ -276,7 +276,7 @@ WindowStateStorage::WindowStateStorage(const QString &dbName, QObject *parent):
     qRegisterMetaType<WindowStateStorage::WindowState>("WindowStateStorage::WindowState");
     QString dbFile;
     if (dbName.isEmpty()) {
-        const QString dbPath = QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation) + QStringLiteral("/unity8/");
+        const QString dbPath = QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation) + QStringLiteral("/lomiri/");
         QDir dir;
         dir.mkpath(dbPath);
         dbFile = QString(dbPath) + QStringLiteral("windowstatestorage.sqlite");

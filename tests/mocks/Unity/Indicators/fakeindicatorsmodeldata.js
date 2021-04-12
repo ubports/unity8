@@ -269,7 +269,7 @@ var fakeMenuData = {
                         "isRadio": true,
                         "isSeparator": false,
                         "isToggled": false,
-                        "label": "Unity8",
+                        "label": "Lomiri",
                         "sensitive": true,
                         "type": "indicator.user-menu-item"
                     }
@@ -797,7 +797,7 @@ var fakeMenuData = {
                         "isRadio": false,
                         "isSeparator": false,
                         "isToggled": false,
-                        "label": "Land unity8",
+                        "label": "Land lomiri",
                         "sensitive": true,
                         "type": "com.canonical.indicator.appointment"
                     }
@@ -951,7 +951,7 @@ var fakeMenuData = {
                         "isRadio": false,
                         "isSeparator": false,
                         "isToggled": false,
-                        "label": "Unity8 Hacking.pdf",
+                        "label": "Lomiri Hacking.pdf",
                         "sensitive": true,
                         "type": "com.canonical.indicator.transfer"
                     }

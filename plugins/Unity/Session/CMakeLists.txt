@@ -3,7 +3,7 @@ include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${GIO_INCLUDE_DIRS}
     ${GLIB_INCLUDE_DIRS}
-    ${libunity8-private_SOURCE_DIR}
+    ${liblomiri-private_SOURCE_DIR}
 )
 
 add_definitions(-DSM_BUSNAME=systemBus)
@@ -20,10 +20,10 @@ add_library(UnitySession-qml MODULE
 
 target_link_libraries(UnitySession-qml
     Qt5::DBus Qt5::Qml
-    unity8-private
+    lomiri-private
     ${GIO_LDFLAGS}
     ${GLIB_LIBRARIES}
     )
 
 # export the qmldir and qmltypes files
-add_unity8_plugin(Unity.Session 0.1 Unity/Session TARGETS UnitySession-qml)
+add_lomiri_plugin(Unity.Session 0.1 Unity/Session TARGETS UnitySession-qml)

@@ -17,4 +17,4 @@ add_library(MockWizard-qml MODULE
 )
 
 target_link_libraries(MockWizard-qml Qt5::DBus Qt5::Qml ${GD3_LDFLAGS} ${GLIB_LDFLAGS} ${GEONAMES_LDFLAGS})
-add_unity8_mock(Wizard 0.1 Wizard TARGETS MockWizard-qml)
+add_lomiri_mock(Wizard 0.1 Wizard TARGETS MockWizard-qml)

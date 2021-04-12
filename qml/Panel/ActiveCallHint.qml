@@ -49,7 +49,7 @@ Item {
     implicitWidth: row.x + row.width
 
     Component.onCompleted: {
-        telepathyHelper.registerChannelObserver("unity8");
+        telepathyHelper.registerChannelObserver("lomiri");
     }
 
     function showLiveCall() {

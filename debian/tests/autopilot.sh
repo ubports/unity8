@@ -8,6 +8,6 @@ if [ ! -f /system/build.prop ]; then
     exit 0
 fi
 
-initctl --session stop unity8
-autopilot3 run --verbose --format xml --output "${ADT_ARTIFACTS}/unity8.xml" unity8
-initctl --session start unity8
+initctl --session stop lomiri
+autopilot3 run --verbose --format xml --output "${ADT_ARTIFACTS}/lomiri.xml" lomiri
+initctl --session start lomiri

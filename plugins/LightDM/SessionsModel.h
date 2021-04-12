@@ -59,7 +59,7 @@ private:
     QLightDM::SessionsModel* m_model;
     QHash<int, QByteArray> m_roleNames;
     QList<QUrl> m_iconSearchDirectories{
-        QUrl("/usr/share/unity8/Greeter/graphics/session_icons"),
+        QUrl("/usr/share/lomiri/Greeter/graphics/session_icons"),
         QUrl("/usr/local/share/unity-greeter"),
         QUrl("/usr/share/unity-greeter/")};
 

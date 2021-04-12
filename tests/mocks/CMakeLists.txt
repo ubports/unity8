@@ -1,13 +1,13 @@
 find_package(QmlPlugins)
 
-# Set up and optionally install a mock plugin for unity8.
+# Set up and optionally install a mock plugin for lomiri.
 #
-# add_unity8_mock(plugin version path
-#     [PREFIX string]  # Install the plugin to the specified prefix under unity8 private plugin directory
+# add_lomiri_mock(plugin version path
+#     [PREFIX string]  # Install the plugin to the specified prefix under lomiri private plugin directory
 #     [...]            # See export_qmlfiles and export_qmlplugin documentation for more options
 # )
 
-macro(add_unity8_mock PLUGIN VERSION PATH)
+macro(add_lomiri_mock PLUGIN VERSION PATH)
     set(single PREFIX)
     cmake_parse_arguments(MOCK "" "${single}" "" ${ARGN})
 

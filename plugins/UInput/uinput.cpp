@@ -26,7 +26,7 @@
 UInput::UInput(QObject *parent) :
     QObject(parent)
 {
-    m_devName = QByteArrayLiteral("unity8-simulated-mouse");
+    m_devName = QByteArrayLiteral("lomiri-simulated-mouse");
     m_uinput.setFileName(QStringLiteral("/dev/uinput"));
 
     memset(&m_uinput_mouse_dev, 0, sizeof(m_uinput_mouse_dev));

@@ -6,7 +6,7 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/plugins/AccountsService
     ${GSETTINGS_QT_INCLUDE_DIRS}
-    ${libunity8-private_SOURCE_DIR}
+    ${liblomiri-private_SOURCE_DIR}
 )
 
 set(QMLLAUNCHERPLUGINAS_SRC
@@ -27,9 +27,9 @@ add_library(UnityLauncherAS-qml MODULE
     )
 
 target_link_libraries(UnityLauncherAS-qml
-    unity8-private
+    lomiri-private
     ${GSETTINGS_QT_LDFLAGS}
     Qt5::DBus Qt5::Qml Qt5::Gui
     )
 
-add_unity8_greeter_plugin(Unity.Launcher 0.1 Unity/Launcher TARGETS UnityLauncherAS-qml)
+add_lomiri_greeter_plugin(Unity.Launcher 0.1 Unity/Launcher TARGETS UnityLauncherAS-qml)

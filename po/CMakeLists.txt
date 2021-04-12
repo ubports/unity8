@@ -2,14 +2,14 @@ cmake_minimum_required(VERSION 2.8.9)
 find_package(Gettext REQUIRED)
 
 SET(POT_FILE
-  unity8.pot
+  lomiri.pot
 )
 
 FILE(GLOB PO_FILES
   *.po
 )
 
-SET(MO_FILE unity8.mo)
+SET(MO_FILE lomiri.mo)
 
 FOREACH(_file ${PO_FILES})
   GET_FILENAME_COMPONENT(_lang ${_file} NAME_WE)

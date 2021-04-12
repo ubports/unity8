@@ -453,7 +453,7 @@ void tst_DragHandle::hintingAnimation()
 }
 
 /*
-    Regression test for LP#1269022: https://bugs.launchpad.net/unity8/+bug/1269022
+    Regression test for LP#1269022: https://bugs.launchpad.net/lomiri/+bug/1269022
 
     1) Click on handle.
     2) wait for hint portion to appear

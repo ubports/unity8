@@ -5,7 +5,7 @@ add_definitions(-DSM_BUSNAME=systemBus)
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/plugins/AccountsService
-    ${libunity8-private_SOURCE_DIR}
+    ${liblomiri-private_SOURCE_DIR}
 )
 
 include_directories(
@@ -44,11 +44,11 @@ add_library(UnityLauncher-qml MODULE
     )
 
 target_link_libraries(UnityLauncher-qml
-    unity8-private
+    lomiri-private
     ${GSETTINGS_QT_LDFLAGS}
     ${GLIB_LIBRARIES}
     ${UAL_LIBRARIES}
     Qt5::DBus Qt5::Qml Qt5::Gui Qt5::Concurrent
     )
 
-add_unity8_plugin(Unity.Launcher 0.1 Unity/Launcher TARGETS UnityLauncher-qml)
+add_lomiri_plugin(Unity.Launcher 0.1 Unity/Launcher TARGETS UnityLauncher-qml)

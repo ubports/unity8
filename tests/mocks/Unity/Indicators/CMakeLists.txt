@@ -36,4 +36,4 @@ set_target_properties(IndicatorsFakeQml PROPERTIES
     INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${SHELL_INSTALL_QML}/mocks/QMenuModel"
 )
 
-add_unity8_mock(Unity.Indicators 0.1 Unity/Indicators TARGETS IndicatorsFakeQml)
+add_lomiri_mock(Unity.Indicators 0.1 Unity/Indicators TARGETS IndicatorsFakeQml)

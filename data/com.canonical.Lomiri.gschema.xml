@@ -1,0 +1,85 @@
+<schemalist>
+  <enum id="usage-mode-enum">
+    <value nick="Staged" value="0" />
+    <value nick="Windowed" value="1" />
+    <value nick="Automatic" value="2" />
+  </enum>
+
+  <schema path="/com/canonical/lomiri/" id="com.canonical.Lomiri" gettext-domain="lomiri">
+    <key enum="usage-mode-enum" name="usage-mode">
+      <default>"Automatic"</default>
+      <summary>The usage mode.</summary>
+      <description>The usage mode chosen will affect the Window Management behaviour.</description>
+    </key>
+    <key type="u" name="edge-barrier-sensitivity">
+      <default>50</default>
+      <range min="1" max="100"/>
+      <summary>Sensitivity of screen edge barriers for the mouse pointer.</summary>
+      <description>Some UI actions like revealing the launcher or the applications spread are triggered by pushing the mouse pointer against a screen edge. This key defines how much you have to push in order to trigger the associated action.</description>
+    </key>
+    <key type="u" name="edge-barrier-min-push">
+      <default>2</default>
+      <summary>Minimum push needed to overcome edge barrier</summary>
+      <description>How much you have to push  (in grid units)the mouse against an edge barrier when sensibility is 100.</description>
+    </key>
+    <key type="u" name="edge-barrier-max-push">
+      <default>120</default>
+      <summary>Maximum push needed to overcome edge barrier</summary>
+      <description>How much you have to push (in grid units) the mouse against an edge barrier when sensibility is 1.</description>
+    </key>
+    <key type="u" name="edge-drag-width">
+      <default>2</default>
+      <summary>The width of the edge drag areas</summary>
+      <description>How big (in grid units) the edge-drag sensitive area should be.</description>
+    </key>
+    <key type="b" name="autohide-launcher">
+      <default>false</default>
+      <summary>Autohide the launcher</summary>
+      <description>This will only be applied in windowed mode. In staged mode, the launcher will always hide.</description>
+    </key>
+    <key type="u" name="launcher-width">
+      <default>8</default>
+      <range min="6" max="12"/>
+      <summary>Width of the launcher in grid units.</summary>
+      <description>Changes the width of the launcher in all usage modes.</description>
+    </key>
+    <key type="b" name="enable-indicator-menu">
+      <default>true</default>
+      <summary>Enable or disable the indicator pull down menus</summary>
+      <description>Toggle the availability of the indicator pull down menus</description>
+    </key>
+    <key type="s" name="appstore-uri">
+      <default>'appid://openstore.openstore-team/openstore/current-user-version'</default>
+      <summary>The uri to the app store</summary>
+      <description>This will be used whenever the user triggers an action to open the app store.</description>
+    </key>
+    <key type="b" name="always-show-osk">
+      <default>false</default>
+      <summary>Force showing/hiding the OSK</summary>
+      <description>Toggle the visibility of the On Screen Keyboard unconditionally</description>
+    </key>
+    <key type="b" name="osk-switch-visible">
+      <default>false</default>
+      <summary>Whether the OSK switch should be visible</summary>
+      <description>Toggle the visibility of the OSK switch</description>
+    </key>
+    <key type="b" name="enable-workspace">
+      <default>false</default>
+      <summary>Enable or disable workspaces</summary>
+      <description>Toggle the availability of workspaces</description>
+    </key>
+    <key type="b" name="force-enable-workspace">
+      <default>false</default>
+      <summary>Force enable workspaces</summary>
+      <description>Forces workspaces availability even when not in windowed mode</description>
+    </key>
+  </schema>
+
+  <schema path="/com/canonical/lomiri/greeter/" id="com.canonical.Lomiri.Greeter" gettext-domain="lomiri">
+    <key type="x" name="locked-out-time">
+      <default>0</default>
+      <summary>When the greeter was last locked.</summary>
+      <description>If too many unsuccessful login attempts have been made in a row, the greeter locks you out for a while.  This unix timestamp indicates when you were locked out, so lomiri knows when to let you back in.</description>
+    </key>
+  </schema>
+</schemalist>

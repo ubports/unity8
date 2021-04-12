@@ -95,7 +95,7 @@ StyledItem {
         Behavior on height { NumberAnimation { duration: root.moveDuration; easing.type: Easing.InOutQuad; } }
 
         Label {
-          // HACK: Work around https://github.com/ubports/unity8/issues/185
+          // HACK: Work around https://github.com/ubports/lomiri/issues/185
           text: _realName ? _realName : LightDMService.greeter.authenticationUser
           visible: userList.count == 1
           anchors {
@@ -156,7 +156,7 @@ StyledItem {
 
             FadingLabel {
                 objectName: "username" + index
-                visible: userList.count != 1 // HACK Hide username label until someone sorts out the anchoring with the keyboard-dismiss animation, Work around https://github.com/ubports/unity8/issues/185
+                visible: userList.count != 1 // HACK Hide username label until someone sorts out the anchoring with the keyboard-dismiss animation, Work around https://github.com/ubports/lomiri/issues/185
 
                 anchors {
                     left: parent.left

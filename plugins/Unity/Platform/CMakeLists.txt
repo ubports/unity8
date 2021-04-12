@@ -8,4 +8,4 @@ add_library(Platform-qml SHARED ${platformplugin_SRCS})
 
 target_link_libraries(Platform-qml Qt5::DBus Qt5::Qml)
 
-add_unity8_plugin(Unity.Platform 1.0 Unity/Platform TARGETS Platform-qml)
+add_lomiri_plugin(Unity.Platform 1.0 Unity/Platform TARGETS Platform-qml)

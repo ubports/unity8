@@ -12,7 +12,7 @@ target_link_libraries(AccountsService-qml
     ${GLIB_LIBRARIES}
     )
 
-add_unity8_plugin(AccountsService 0.1 AccountsService TARGETS AccountsService-qml)
+add_lomiri_plugin(AccountsService 0.1 AccountsService TARGETS AccountsService-qml)
 
 set(DBUS_IFACE_DIR "${CMAKE_INSTALL_PREFIX}/share/dbus-1/interfaces")
 set(ACCOUNTS_IFACE_DIR "${CMAKE_INSTALL_PREFIX}/share/accountsservice/interfaces")

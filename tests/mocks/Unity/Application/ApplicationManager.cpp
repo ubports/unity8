@@ -314,9 +314,9 @@ void ApplicationManager::buildListOfAvailableApplications()
     ApplicationInfo *application;
 
     application = new ApplicationInfo(this);
-    application->setAppId("unity8-dash");
+    application->setAppId("lomiri-dash");
     application->setName("Unity 8 Mock Dash");
-    application->setScreenshotId("unity8-dash");
+    application->setScreenshotId("lomiri-dash");
     application->setIconId("dash");
     m_availableApplications.append(application);
 

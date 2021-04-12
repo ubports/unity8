@@ -57,7 +57,7 @@ Item {
         }
 
         Component.onCompleted: {
-            ApplicationManager.startApplication("unity8-dash");
+            ApplicationManager.startApplication("lomiri-dash");
         }
         panelState: PanelState {}
     }
@@ -97,10 +97,10 @@ Item {
         when: windowShown
 
         function init() {
-            // wait until unity8-dash is up and running.
-            ApplicationManager.startApplication("unity8-dash");
+            // wait until lomiri-dash is up and running.
+            ApplicationManager.startApplication("lomiri-dash");
             tryCompare(ApplicationManager, "count", 1);
-            var dashApp = ApplicationManager.findApplication("unity8-dash");
+            var dashApp = ApplicationManager.findApplication("lomiri-dash");
             verify(dashApp);
             tryCompare(dashApp, "state", ApplicationInfoInterface.Running);
 
@@ -111,9 +111,9 @@ Item {
         }
 
         function cleanup() {
-            ApplicationManager.requestFocusApplication("unity8-dash");
+            ApplicationManager.requestFocusApplication("lomiri-dash");
             stage.closeSpread();
-            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
+            tryCompare(ApplicationManager, "focusedApplicationId", "lomiri-dash");
             tryCompare(stage, "state", "staged");
             waitForRendering(stage);
 
@@ -473,7 +473,7 @@ Item {
             Application gets relaunched. Its new surface will seamlessly replace the screenshot.
          */
         function test_selectSuspendedAppWithoutSurface() {
-            compare(topLevelSurfaceList.applicationAt(0).appId, "unity8-dash");
+            compare(topLevelSurfaceList.applicationAt(0).appId, "lomiri-dash");
             var dashSurfaceId = topLevelSurfaceList.idAt(0);
             var dashWindow = topLevelSurfaceList.windowAt(0);
 
@@ -509,7 +509,7 @@ Item {
         }
 
         function test_givePlaceholderFocusOnStartup() {
-            compare(topLevelSurfaceList.applicationAt(0).appId, "unity8-dash");
+            compare(topLevelSurfaceList.applicationAt(0).appId, "lomiri-dash");
             var dashSurfaceId = topLevelSurfaceList.idAt(0);
             waitUntilAppSurfaceShowsUp(dashSurfaceId);
             waitForRendering(stage);
@@ -543,7 +543,7 @@ Item {
          */
         function test_closeZombieSurface()
         {
-            compare(topLevelSurfaceList.applicationAt(0).appId, "unity8-dash");
+            compare(topLevelSurfaceList.applicationAt(0).appId, "lomiri-dash");
             var dashSurfaceId = topLevelSurfaceList.idAt(0);
             var dashWindow = topLevelSurfaceList.windowAt(0);
 
@@ -581,7 +581,7 @@ Item {
             // nor is its app
             compare(ApplicationManager.findApplication("morph-browser"), null);
 
-            // only unity8-dash surface is left
+            // only lomiri-dash surface is left
             compare(topLevelSurfaceList.count, 1);
         }
 

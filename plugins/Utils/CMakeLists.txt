@@ -53,4 +53,4 @@ target_link_libraries(Utils-qml
 # files directly in targets.
 set_target_properties(Utils-qml PROPERTIES COMPILE_FLAGS -fvisibility=default)
 
-add_unity8_plugin(Utils 0.1 Utils TARGETS Utils-qml)
+add_lomiri_plugin(Utils 0.1 Utils TARGETS Utils-qml)

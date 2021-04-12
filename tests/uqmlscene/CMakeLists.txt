@@ -16,7 +16,7 @@ include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_SOURCE_DIR}/src
     ${CMAKE_SOURCE_DIR}/libs/LomiriGestures
-    ${libunity8-private_SOURCE_DIR}
+    ${liblomiri-private_SOURCE_DIR}
 )
 
 if (NOT "${XCB_INCLUDE_DIRS}" STREQUAL "")
@@ -29,7 +29,7 @@ target_link_libraries(uqmlscene
     ${Qt5Quick_LIBRARIES}
     ${XCB_LDFLAGS}
     LomiriGestures
-    unity8-private
+    lomiri-private
     )
 
 install(TARGETS uqmlscene

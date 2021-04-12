@@ -36,4 +36,4 @@ endif()
 # To find libLomiriGestures.so
 set_target_properties(UnityTestQml PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}")
 
-add_unity8_mock(Unity.Test 0.1 Unity/Test PREFIX utils TARGETS UnityTestQml)
+add_lomiri_mock(Unity.Test 0.1 Unity/Test PREFIX utils TARGETS UnityTestQml)

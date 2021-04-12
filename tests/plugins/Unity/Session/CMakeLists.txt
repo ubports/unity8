@@ -11,7 +11,7 @@ make_dbus_class(LogindSession org.freedesktop.login1.Session)
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Session
-    ${libunity8-private_SOURCE_DIR}
+    ${liblomiri-private_SOURCE_DIR}
     ${GLIB_INCLUDE_DIRS}
 )
 
@@ -50,7 +50,7 @@ add_executable(sessionbackendtestExec
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Session/dbusunitysessionservice.cpp
 )
 target_link_libraries(sessionbackendtestExec
-    unity8-private
+    lomiri-private
     ${GLIB_LIBRARIES}
     )
 target_link_libraries(sessionbackendtestExec Qt5::Test Qt5::Core Qt5::Qml Qt5::DBus)
@@ -58,7 +58,7 @@ install(TARGETS sessionbackendtestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Unity/Session"
 )
 
-add_unity8_unittest(SessionBackend dbus-test-runner
+add_lomiri_unittest(SessionBackend dbus-test-runner
     ENVIRONMENT LD_PRELOAD=$<TARGET_FILE:SessionBackendTestPreload>
                 XDG_SESSION_PATH=/session
     ARG_PREFIX "--parameter"

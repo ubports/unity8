@@ -1,12 +1,12 @@
 find_package(QmlPlugins)
 
-# Set up and install a plugin for unity8.
+# Set up and install a plugin for lomiri.
 #
-# add_unity8_plugin(plugin version path
+# add_lomiri_plugin(plugin version path
 #     [...]  # See export_qmlfiles and export_qmlplugin documentation for more options
 # )
 
-macro(add_unity8_plugin PLUGIN VERSION PATH)
+macro(add_lomiri_plugin PLUGIN VERSION PATH)
     export_qmlfiles(${PLUGIN} ${PATH} DESTINATION ${SHELL_INSTALL_QML} ${ARGN})
     export_qmlplugin(${PLUGIN} ${VERSION} ${PATH} DESTINATION ${SHELL_INSTALL_QML} ${ARGN})
 endmacro()

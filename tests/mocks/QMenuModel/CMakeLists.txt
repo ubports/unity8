@@ -22,4 +22,4 @@ set_target_properties(QMenuModelQml PROPERTIES
                       OUTPUT_NAME qmenumodel
                       VERSION 0)
 
-add_unity8_mock(QMenuModel 0.1 QMenuModel TARGETS QMenuModelQml)
+add_lomiri_mock(QMenuModel 0.1 QMenuModel TARGETS QMenuModelQml)

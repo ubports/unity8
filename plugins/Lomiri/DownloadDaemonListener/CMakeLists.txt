@@ -17,4 +17,4 @@ target_link_libraries(DownloadDaemonListener
     Qt5::Qml Qt5::Quick Qt5::DBus Qt5::Core
     ${DDLADAPTER_LIBRARIES}
     )
-add_unity8_plugin(Lomiri.DownloadDaemonListener 0.1 Lomiri/DownloadDaemonListener TARGETS DownloadDaemonListener)
+add_lomiri_plugin(Lomiri.DownloadDaemonListener 0.1 Lomiri/DownloadDaemonListener TARGETS DownloadDaemonListener)

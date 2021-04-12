@@ -26,7 +26,7 @@ install(TARGETS GreeterDBusTestExec
 install(FILES greeter.qml
     DESTINATION "${SHELL_APP_DIR}/tests/plugins/LightDM/IntegratedLightDM"
     )
-add_unity8_uitest(GreeterDBus dbus-test-runner
+add_lomiri_uitest(GreeterDBus dbus-test-runner
     ARG_PREFIX "--parameter"
     ARGS --task $<TARGET_FILE:GreeterDBusTestExec>
     DEPENDS MockLightDM
@@ -69,7 +69,7 @@ target_include_directories(GreeterSessionsModelTestExec PUBLIC
 install(TARGETS GreeterSessionsModelTestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/LightDM/IntegratedLightDM"
     )
-add_unity8_uitest(GreeterSessions GreeterSessionsModelTestExec
+add_lomiri_uitest(GreeterSessions GreeterSessionsModelTestExec
     DEPENDS MockLightDM
     )
 
@@ -97,7 +97,7 @@ set_target_properties(GreeterUsersModelTestExec PROPERTIES INSTALL_RPATH "${CMAK
 install(TARGETS GreeterUsersModelTestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/LightDM/IntegratedLightDM"
     )
-add_unity8_uitest(GreeterUsers GreeterUsersModelTestExec
+add_lomiri_uitest(GreeterUsers GreeterUsersModelTestExec
     DEPENDS MockLightDM
     )
 
@@ -123,7 +123,7 @@ target_include_directories(GreeterPromptsModelTestExec PUBLIC
 install(TARGETS GreeterPromptsModelTestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/LightDM/IntegratedLightDM"
     )
-add_unity8_uitest(GreeterPrompts GreeterPromptsModelTestExec
+add_lomiri_uitest(GreeterPrompts GreeterPromptsModelTestExec
     DEPENDS MockLightDM
     )
 
@@ -143,7 +143,7 @@ target_include_directories(GreeterIntegratedTestExec PUBLIC
 install(TARGETS GreeterIntegratedTestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/LightDM/IntegratedLightDM"
     )
-add_unity8_unittest(GreeterIntegrated dbus-test-runner
+add_lomiri_unittest(GreeterIntegrated dbus-test-runner
     ENVIRONMENT LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/plugins/IntegratedLightDM/liblightdm/
     ARG_PREFIX "--parameter"
     ARGS

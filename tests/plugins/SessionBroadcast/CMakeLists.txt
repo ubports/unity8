@@ -39,7 +39,7 @@ install(TARGETS sessionbroadcasttestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/SessionBroadcast"
 )
 
-add_unity8_unittest(SessionBroadcast dbus-test-runner
+add_lomiri_unittest(SessionBroadcast dbus-test-runner
     ARG_PREFIX "--parameter"
     ARGS
         --task $<TARGET_FILE:MockBroadcastServer>

@@ -94,7 +94,7 @@ public:
         QDBusMessage msg = QDBusMessage::createMethodCall(LOGIN1_SERVICE, LOGIN1_PATH, LOGIN1_IFACE, QStringLiteral("Inhibit"));
         msg << "handle-power-key:handle-suspend-key:handle-hibernate-key"; // what
         msg << "Unity"; // who
-        msg << "Unity8 handles power events"; // why
+        msg << "Lomiri handles power events"; // why
         msg << "block"; // mode
 
         QDBusPendingCall pendingCall = QDBusConnection::SM_BUSNAME().asyncCall(msg);
@@ -374,7 +374,7 @@ void DBusUnitySessionService::Lock()
     // supporting a phone profile -- switch to greeter here.  The unity7 flow is
     // that the user chooses "Lock/Switch" from the indicator, and then can go
     // to greeter by selecting "Switch" again from the indicator, which is now
-    // exposed by the desktop_lockscreen profile.  But since in unity8, we try
+    // exposed by the desktop_lockscreen profile.  But since in lomiri, we try
     // to expose most things all the time, we don't use the separate lockscreen
     // profile.  Instead, we just go directly to the greeter the first time
     // a user presses "Lock/Switch".  This isn't what this DBus call is

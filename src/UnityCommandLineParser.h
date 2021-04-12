@@ -29,7 +29,7 @@ public:
     bool hasTestability() const { return m_hasTestability; }
     bool hasFrameless() const { return m_hasFrameless; }
 
-    #ifdef UNITY8_ENABLE_TOUCH_EMULATION
+    #ifdef LOMIRI_ENABLE_TOUCH_EMULATION
     bool hasMouseToTouch() const { return m_hasMouseToTouch; }
     #endif
 
@@ -50,7 +50,7 @@ protected:
     bool m_hasTestability;
     bool m_hasFrameless;
 
-    #ifdef UNITY8_ENABLE_TOUCH_EMULATION
+    #ifdef LOMIRI_ENABLE_TOUCH_EMULATION
     bool m_hasMouseToTouch;
     #endif
 

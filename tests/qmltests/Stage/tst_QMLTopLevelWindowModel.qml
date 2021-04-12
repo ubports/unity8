@@ -146,7 +146,7 @@ Item {
             Ensure that closing a surface while rootFocus is off focuses the
             next available surface when rootFocus is given back.
 
-            Regression test for https://github.com/ubports/unity8/issues/234
+            Regression test for https://github.com/ubports/lomiri/issues/234
 
             This cannot be tested in tst_TopLevelWindowModel.cpp, the mocks for
             it are not advanced enough.

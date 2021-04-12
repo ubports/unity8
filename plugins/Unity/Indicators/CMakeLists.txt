@@ -47,4 +47,4 @@ target_link_libraries(IndicatorsQml
     Qt5::Core Qt5::Qml Qt5::Quick Qt5::DBus
 )
 
-add_unity8_plugin(Unity.Indicators 0.1 Unity/Indicators TARGETS IndicatorsQml)
+add_lomiri_plugin(Unity.Indicators 0.1 Unity/Indicators TARGETS IndicatorsQml)

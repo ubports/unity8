@@ -1,16 +1,16 @@
-# Persian translation for unity8
+# Persian translation for lomiri
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the unity8 package.
+# This file is distributed under the same license as the lomiri package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity8\n"
+"Project-Id-Version: lomiri\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
 "PO-Revision-Date: 2020-02-15 09:21+0000\n"
 "Last-Translator: HSN80 <hosseinabbasi80@outlook.com>\n"
-"Language-Team: Persian <https://translate.ubports.com/projects/unity8/unity8/"
+"Language-Team: Persian <https://translate.ubports.com/projects/lomiri/lomiri/"
 "fa/>\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"

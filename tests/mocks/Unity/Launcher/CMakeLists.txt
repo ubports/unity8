@@ -21,4 +21,4 @@ add_library(MockLauncherPlugin MODULE ${MockLauncherModel_SOURCES})
 
 target_link_libraries(MockLauncherPlugin Qt5::Core Qt5::Quick)
 
-add_unity8_mock(Unity.Launcher 0.1 Unity/Launcher TARGETS MockLauncherPlugin)
+add_lomiri_mock(Unity.Launcher 0.1 Unity/Launcher TARGETS MockLauncherPlugin)

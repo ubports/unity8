@@ -25,6 +25,6 @@ install(TARGETS platformtest
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Unity/Platform"
 )
 
-add_unity8_unittest(Platform qdbus-simple-test-runner
+add_lomiri_unittest(Platform qdbus-simple-test-runner
     ARGS $<TARGET_FILE:platformtest>
     )

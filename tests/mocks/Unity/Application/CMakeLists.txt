@@ -4,7 +4,7 @@ include_directories(
     SYSTEM
     ${MIRTEST_INCLUDE_DIRS}
     ${MIRAL_INCLUDE_DIRS}
-    ${libunity8-private_SOURCE_DIR}
+    ${liblomiri-private_SOURCE_DIR}
 )
 
 set(FakeUnityApplicationQml_SOURCES
@@ -52,8 +52,8 @@ target_link_libraries(NonMirUnityApplicationQml
 
 target_link_libraries(FakeUnityApplicationQml Qt5::Core Qt5::Quick Qt5::DBus)
 
-add_unity8_mock(Unity.Application 0.1 Unity/Application TARGETS FakeUnityApplicationQml)
-add_unity8_mock(Unity.Application 0.1 Unity/Application
+add_lomiri_mock(Unity.Application 0.1 Unity/Application TARGETS FakeUnityApplicationQml)
+add_lomiri_mock(Unity.Application 0.1 Unity/Application
                 PREFIX nonmirplugins
                 TARGETS NonMirUnityApplicationQml
                 BINARY_DIR ${CMAKE_BINARY_DIR}/nonmirplugins

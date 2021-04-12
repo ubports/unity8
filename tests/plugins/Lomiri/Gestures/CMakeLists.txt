@@ -36,7 +36,7 @@ set(UNITY_IMPORT_PATHS
 
 macro(add_gesture_unit_test CLASSNAME)
     build_gesture_test(${CLASSNAME})
-    add_unity8_unittest(${CLASSNAME} ${CLASSNAME}TestExec
+    add_lomiri_unittest(${CLASSNAME} ${CLASSNAME}TestExec
         ENVIRONMENT LD_LIBRARY_PATH=${UNITY_PLUGINPATH}/Lomiri/Gestures
         ${ARGN}
     )
@@ -44,7 +44,7 @@ endmacro()
 
 macro(add_gesture_ui_test CLASSNAME)
     build_gesture_test(${CLASSNAME})
-    add_unity8_uitest(${CLASSNAME} ${CLASSNAME}TestExec
+    add_lomiri_uitest(${CLASSNAME} ${CLASSNAME}TestExec
         ENVIRONMENT LD_LIBRARY_PATH=${UNITY_PLUGINPATH}/Lomiri/Gestures
         ${ARGN}
     )

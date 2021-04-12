@@ -432,7 +432,7 @@ int main(int argc, char ** argv)
 #else
     QGuiApplication app(argc, argv);
 #endif
-    app.setApplicationName("Unity8 QtQmlViewer");
+    app.setApplicationName("Lomiri QtQmlViewer");
     app.setOrganizationName("Qt Project");
     app.setOrganizationDomain("qt-project.org");
 

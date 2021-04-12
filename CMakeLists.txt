@@ -5,7 +5,7 @@ if (NOT DEFINED CMAKE_INSTALL_PREFIX)
     set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/install CACHE PATH "" FORCE)
 endif()
 
-project(unity8 C CXX)
+project(lomiri C CXX)
 
 if(${PROJECT_BINARY_DIR} STREQUAL ${PROJECT_SOURCE_DIR})
    message(FATAL_ERROR "In-tree build attempt detected, aborting. Set your build dir outside your source dir, delete CMakeCache.txt from source root and try again.")
@@ -103,8 +103,8 @@ endif()
 # Standard install paths
 include(GNUInstallDirs)
 
-set(SHELL_APP_DIR ${CMAKE_INSTALL_DATADIR}/unity8)
-set(SHELL_PRIVATE_LIBDIR ${CMAKE_INSTALL_LIBDIR}/unity8)
+set(SHELL_APP_DIR ${CMAKE_INSTALL_DATADIR}/lomiri)
+set(SHELL_PRIVATE_LIBDIR ${CMAKE_INSTALL_LIBDIR}/lomiri)
 
 execute_process(COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=plugin_private_module_dir SystemSettings OUTPUT_VARIABLE USS_PRIVATE_PLUGINDIR OUTPUT_STRIP_TRAILING_WHITESPACE)
 if(USS_PRIVATE_PLUGINDIR STREQUAL "")
@@ -149,11 +149,11 @@ add_definitions(-DQT_USE_QSTRINGBUILDER)
 
 # Autopilot tests
 include(autopilot)
-declare_autopilot_test(shell unity8.shell ${CMAKE_SOURCE_DIR}/tests/autopilot/)
+declare_autopilot_test(shell lomiri.shell ${CMAKE_SOURCE_DIR}/tests/autopilot/)
 
-set(SHELL_APP unity8)
+set(SHELL_APP lomiri)
 set(INDICATORS_CLIENT_APP indicators-client)
-set(GREETER_APP unity8-greeter)
+set(GREETER_APP lomiri-greeter)
 set(MOCK_INDICATOR_SERVICE_APP unity-mock-indicator-service)
 
 include_directories(
@@ -171,7 +171,7 @@ endif()
 execute_process(COMMAND dpkg-architecture -qDEB_HOST_ARCH OUTPUT_VARIABLE ARCH)
 if (NOT ARCH MATCHES "arm*")
     set(ENABLE_TOUCH_EMULATION true)
-    add_definitions(-DUNITY8_ENABLE_TOUCH_EMULATION)
+    add_definitions(-DLOMIRI_ENABLE_TOUCH_EMULATION)
     pkg_check_modules(MOUSETOUCHADAPTOR_LIBS REQUIRED x11 xcb xi)
 else()
     set(ENABLE_TOUCH_EMULATION false)

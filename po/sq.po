@@ -1,11 +1,11 @@
-# Albanian translation for unity8
+# Albanian translation for lomiri
 # Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
-# This file is distributed under the same license as the unity8 package.
+# This file is distributed under the same license as the lomiri package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
 # Indrit Bashkimi <indrit.bashkimi@gmail.com>, 2016.
 msgid ""
 msgstr ""
-"Project-Id-Version: unity8\n"
+"Project-Id-Version: lomiri\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
 "PO-Revision-Date: 2016-04-21 06:03+0000\n"

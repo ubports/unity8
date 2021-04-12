@@ -20,14 +20,14 @@ foreach(util_test
     install(TARGETS ${util_test}TestExec
         DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Utils"
     )
-    add_unity8_unittest(${util_test} ${util_test}TestExec ADD_TEST
+    add_lomiri_unittest(${util_test} ${util_test}TestExec ADD_TEST
         ENVIRONMENT LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/plugins/Utils HOME=${TMPDIR}
     )
 
 endforeach()
 
 # plain qml test
-add_unity8_qmlunittest(. UtilsStyle)
+add_lomiri_qmlunittest(. UtilsStyle)
 
 # URLDispatcher test needs dbus-test-runner because it claims a dbus name
 add_executable(URLDispatcherTestExec URLDispatcherTest.cpp)
@@ -35,7 +35,7 @@ target_link_libraries(URLDispatcherTestExec Qt5::Test Qt5::Core Qt5::Qml Utils-q
 install(TARGETS URLDispatcherTestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Utils"
 )
-add_unity8_unittest(URLDispatcher dbus-test-runner
+add_lomiri_unittest(URLDispatcher dbus-test-runner
     ARG_PREFIX "--parameter"
     ARGS --task $<TARGET_FILE:URLDispatcherTestExec>
     ENVIRONMENT LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/plugins/Utils

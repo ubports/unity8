@@ -8,4 +8,4 @@ add_library(MockQOfono MODULE ${MOCK_QOFONO_SOURCES})
 
 target_link_libraries(MockQOfono Qt5::Qml Qt5::Quick Qt5::Core)
 
-add_unity8_mock(MeeGo.QOfono 0.2 MeeGo/QOfono TARGETS MockQOfono)
+add_lomiri_mock(MeeGo.QOfono 0.2 MeeGo/QOfono TARGETS MockQOfono)

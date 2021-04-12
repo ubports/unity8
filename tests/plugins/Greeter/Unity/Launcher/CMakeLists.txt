@@ -3,7 +3,7 @@ include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_SOURCE_DIR}/plugins/AccountsService
     ${CMAKE_SOURCE_DIR}/plugins/Greeter/Unity/Launcher
-    ${libunity8-private_SOURCE_DIR}
+    ${liblomiri-private_SOURCE_DIR}
     )
 
 add_definitions(-DSM_BUSNAME=sessionBus)
@@ -24,7 +24,7 @@ add_executable(launchermodelastestExec
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
     )
 target_link_libraries(launchermodelastestExec
-    unity8-private
+    lomiri-private
     ${GSETTINGS_QT_LDFLAGS}
     Qt5::Test Qt5::Core Qt5::DBus Qt5::Gui Qt5::Qml
     )
@@ -32,7 +32,7 @@ add_dependencies(launchermodelastestExec mock-server)
 install(TARGETS launchermodelastestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Greeter/Unity/Launcher"
 )
-add_unity8_unittest(LauncherModelAS dbus-test-runner
+add_lomiri_unittest(LauncherModelAS dbus-test-runner
     ARG_PREFIX "--parameter"
     ARGS
         --task $<TARGET_FILE:mock-server>

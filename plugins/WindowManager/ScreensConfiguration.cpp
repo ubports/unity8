@@ -32,7 +32,7 @@ QJsonArray jsonScreens;
 
 ScreensConfiguration::ScreensConfiguration()
 {
-    const QString dbPath = QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation) + QStringLiteral("/unity8/");
+    const QString dbPath = QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation) + QStringLiteral("/lomiri/");
     QFile f(dbPath + "workspaces");
 
     if (f.open(QIODevice::ReadOnly)) {
@@ -45,7 +45,7 @@ ScreensConfiguration::ScreensConfiguration()
 
 ScreensConfiguration::~ScreensConfiguration()
 {
-    const QString dbPath = QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation) + QStringLiteral("/unity8/");
+    const QString dbPath = QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation) + QStringLiteral("/lomiri/");
     QFile f(dbPath + "workspaces");
     if (f.open(QIODevice::WriteOnly)) {
         QJsonObject json;

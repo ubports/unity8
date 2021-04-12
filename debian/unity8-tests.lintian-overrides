@@ -1,1 +1,0 @@
-unity8-tests: unusual-interpreter usr/lib/*/unity8/tests/scripts/*.sh #!/usr/bin/parallel

@@ -18,7 +18,7 @@ import QtQuick 2.0
 import Unity.Application 0.1
 import Lomiri.Components 0.1
 
-// TODO: try to share this code with that from the unity8 shell
+// TODO: try to share this code with that from the lomiri shell
 
 Item {
     id: inputMethodRoot

@@ -30,7 +30,7 @@ Column {
         }
     }
 
-    enabled: appId !== "unity8-dash"
+    enabled: appId !== "lomiri-dash"
 
     onCheckedChanged: {
         if (d.bindGuard) { return; }

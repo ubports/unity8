@@ -1,0 +1,1 @@
+lomiri-tests: unusual-interpreter usr/lib/*/lomiri/tests/scripts/*.sh #!/usr/bin/parallel

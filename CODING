@@ -8,17 +8,17 @@ download source
 - create a parent folder to not pollute your setup. so that you can have different unity
   branches there (trunk, WIP etc)
 
-  $ mkdir ~/unity8
+  $ mkdir ~/lomiri
 
 - fetch Unity 8 source
   $ sudo apt-get install bzr
-  $ bzr branch lp:unity8 ~/unity8/trunk
-  $ cd ~/unity8/trunk
+  $ bzr branch lp:lomiri ~/lomiri/trunk
+  $ cd ~/lomiri/trunk
 
 install dependencies and build Unity 8
 --------------------
 
-$ cd ~/unity8/trunk
+$ cd ~/lomiri/trunk
 $ ./build.sh
 
   If its your first time, this will install the required dependencies to build and
@@ -36,10 +36,10 @@ Running Unity 8 on your desktop
 
 run the Unity 8 shell
 ---------------------
-$ cd ~/unity8/trunk
+$ cd ~/lomiri/trunk
 $ cd builddir
 
-Each component of unity8 can be ran independently for development and testing
+Each component of lomiri can be ran independently for development and testing
 For example:
 $ make tryShell
 $ make tryLauncher
@@ -67,13 +67,13 @@ Notes
 Running Unity 8 on devices
 ==========================
 
-Running unity8 on a device should be done using crossbuilder.
+Running lomiri on a device should be done using crossbuilder.
 Go to 
 * https://launchpad.net/crossbuilder and
 * https://wiki.ubuntu.com/Touch/Crossbuilder 
 for more details on crossbuilder.
 
-unity8 will automatically restart on the phone once deployment
+lomiri will automatically restart on the phone once deployment
 has finished due to post-build-steps set up in this repository.
 
 Coding guidelines
@@ -153,36 +153,36 @@ $ make install
 
 To see the list of existing autopilot tests you can do
 
-$ PYTHONPATH=../tests/autopilot autopilot3 list unity8
+$ PYTHONPATH=../tests/autopilot autopilot3 list lomiri
 
 And then run a single test with
 
-$ PYTHONPATH=../tests/autopilot autopilot3 run unity8.some.very.long.test.name
+$ PYTHONPATH=../tests/autopilot autopilot3 run lomiri.some.very.long.test.name
 
 or run them all with
 
-$ PYTHONPATH=../tests/autopilot autopilot3 run unity8
+$ PYTHONPATH=../tests/autopilot autopilot3 run lomiri
 
 Debugging techniques
 ====================
 
-Unity8 heavily uses Qt and with that Qt debugging techniques mostly apply in the
-same fashion. There are, however, some additional unity8-specific notes:
+Lomiri heavily uses Qt and with that Qt debugging techniques mostly apply in the
+same fashion. There are, however, some additional lomiri-specific notes:
 
 * Enable/disable Qt scenegraph visualizer on the fly:
 
-  $ qdbus com.canonical.Unity8.Debugging /com/canonical/Unity8/Debugging SetSceneGraphVisualizer <mode>
+  $ qdbus com.canonical.Lomiri.Debugging /com/canonical/Lomiri/Debugging SetSceneGraphVisualizer <mode>
 
-  This is equivalent to exporting QSG_VISUALIZE=<mode> before running unity8, except it does it on the
+  This is equivalent to exporting QSG_VISUALIZE=<mode> before running lomiri, except it does it on the
   fly.
 
 * Toggle slow animations on the fly:
 
-  $ qdbus com.canonical.Unity8.Debugging /com/canonical/Unity8/Debugging SetSlowAnimations <true|false>
+  $ qdbus com.canonical.Lomiri.Debugging /com/canonical/Lomiri/Debugging SetSlowAnimations <true|false>
 
 * Change logging filter rules on the fly:
 
-  $ qdbus com.canonical.Unity8.Debugging /com/canonical/Unity8/Debugging SetLoggingFilterRules <filter>
+  $ qdbus com.canonical.Lomiri.Debugging /com/canonical/Lomiri/Debugging SetLoggingFilterRules <filter>
 
   This is equivalent to exporting QT_LOGGING_RULES or defining them in QT_LOGGING_CONF, except it does
   it on the fly.

@@ -1620,7 +1620,7 @@ Rectangle {
             compare(launcherPanel.visible, true);
         }
 
-        // Regression test for https://github.com/ubports/unity8/issues/361
+        // Regression test for https://github.com/ubports/lomiri/issues/361
         // After introduction of the app drawer, the peeking animation was
         // still being used while the drawer is open, causing the launcher
         // to be hidden, and in some cases not reappear. Ensure that instead

@@ -55,7 +55,7 @@ install(TARGETS test-accountsservice
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/AccountsService"
 )
 
-add_unity8_unittest(AccountsService dbus-test-runner
+add_lomiri_unittest(AccountsService dbus-test-runner
     ARG_PREFIX "--parameter"
     ARGS
         --task $<TARGET_FILE:mock-server>

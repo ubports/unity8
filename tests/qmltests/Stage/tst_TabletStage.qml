@@ -774,7 +774,7 @@ Rectangle {
         }
 
         /*
-            Regression test for https://bugs.launchpad.net/lomiri/+source/unity8/+bug/1670361
+            Regression test for https://bugs.launchpad.net/lomiri/+source/lomiri/+bug/1670361
 
             Clicks near the top window edge (but still inside the window boundaries) should go to
             the window (and not get eaten by some translucent decoration like in that bug).

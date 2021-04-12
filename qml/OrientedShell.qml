@@ -23,7 +23,7 @@ import Utils 0.1
 import GSettings 1.0
 import "Components"
 import "Rotation"
-// Workaround https://bugs.launchpad.net/lomiri/+source/unity8/+bug/1473471
+// Workaround https://bugs.launchpad.net/lomiri/+source/lomiri/+bug/1473471
 import Lomiri.Components 1.3
 
 Item {
@@ -62,8 +62,8 @@ Item {
     }
 
     GSettings {
-        id: unity8Settings
-        schema.id: "com.canonical.Unity8"
+        id: lomiriSettings
+        schema.id: "com.canonical.Lomiri"
     }
 
     GSettings {
@@ -110,28 +110,28 @@ Item {
     onPointerInputDevicesChanged: calculateUsageMode()
 
     function calculateUsageMode() {
-        if (unity8Settings.usageMode === undefined)
+        if (lomiriSettings.usageMode === undefined)
             return; // gsettings isn't loaded yet, we'll try again in Component.onCompleted
 
-        console.log("Calculating new usage mode. Pointer devices:", pointerInputDevices, "current mode:", unity8Settings.usageMode, "old device count", miceModel.oldCount + touchPadModel.oldCount, "root width:", root.width / units.gu(1), "height:", root.height / units.gu(1))
-        if (unity8Settings.usageMode === "Windowed") {
+        console.log("Calculating new usage mode. Pointer devices:", pointerInputDevices, "current mode:", lomiriSettings.usageMode, "old device count", miceModel.oldCount + touchPadModel.oldCount, "root width:", root.width / units.gu(1), "height:", root.height / units.gu(1))
+        if (lomiriSettings.usageMode === "Windowed") {
             if (Math.min(root.width, root.height) > units.gu(60)) {
                 if (pointerInputDevices === 0) {
                     // All pointer devices have been unplugged. Move to staged.
-                    unity8Settings.usageMode = "Staged";
+                    lomiriSettings.usageMode = "Staged";
                 }
             } else {
                 // The display is not large enough, use staged.
-                unity8Settings.usageMode = "Staged";
+                lomiriSettings.usageMode = "Staged";
             }
         } else {
             if (Math.min(root.width, root.height) > units.gu(60)) {
                 if (pointerInputDevices > 0 && pointerInputDevices > miceModel.oldCount + touchPadModel.oldCount) {
-                    unity8Settings.usageMode = "Windowed";
+                    lomiriSettings.usageMode = "Windowed";
                 }
             } else {
                 // Make sure we initialize to something sane
-                unity8Settings.usageMode = "Staged";
+                lomiriSettings.usageMode = "Staged";
             }
         }
         miceModel.oldCount = miceModel.count;
@@ -196,7 +196,7 @@ Item {
     }
 
     Binding {
-        target: unity8Settings
+        target: lomiriSettings
         property: "oskSwitchVisible"
         value: shell.hasKeyboard
     }
@@ -281,10 +281,10 @@ Item {
         // when it's the only one connected.
         // FIXME once multiscreen has landed
         oskEnabled: (!hasKeyboard && Screens.count === 1) ||
-                    unity8Settings.alwaysShowOsk || forceOSKEnabled
+                    lomiriSettings.alwaysShowOsk || forceOSKEnabled
 
         usageScenario: {
-            if (unity8Settings.usageMode === "Windowed") {
+            if (lomiriSettings.usageMode === "Windowed") {
                 return "desktop";
             } else {
                 if (deviceConfiguration.category === "phone") {

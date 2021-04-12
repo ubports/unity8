@@ -23,10 +23,10 @@ add_library(FullLightDM-qml MODULE
     )
 
 target_link_libraries(FullLightDM-qml
-    unity8-private
+    lomiri-private
     ${LIBLIGHTDM_LDFLAGS}
     ${LIBUSERMETRICSOUTPUT_LDFLAGS}
     Qt5::DBus Qt5::Gui Qt5::Qml
     )
 
-add_unity8_plugin(FullLightDM 0.1 LightDM/FullLightDM TARGETS FullLightDM-qml)
+add_lomiri_plugin(FullLightDM 0.1 LightDM/FullLightDM TARGETS FullLightDM-qml)

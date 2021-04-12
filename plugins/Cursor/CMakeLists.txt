@@ -30,4 +30,4 @@ target_link_libraries(Cursor-qml
     Qt5::Qml Qt5::Quick Qt5::Svg
 )
 
-add_unity8_plugin(Cursor 1.1 Cursor TARGETS Cursor-qml)
+add_lomiri_plugin(Cursor 1.1 Cursor TARGETS Cursor-qml)

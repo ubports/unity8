@@ -35,4 +35,4 @@ target_link_libraries(InputInfo
     Qt5::Core Qt5::Qml Qt5::Quick
 )
 
-add_unity8_plugin(Unity.InputInfo 0.1 Unity/InputInfo TARGETS InputInfo)
+add_lomiri_plugin(Unity.InputInfo 0.1 Unity/InputInfo TARGETS InputInfo)

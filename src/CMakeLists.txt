@@ -1,4 +1,4 @@
-add_subdirectory(libunity8-private)
+add_subdirectory(liblomiri-private)
 
 pkg_check_modules(CONNECTIVITY REQUIRED connectivity-qt1)
 pkg_check_modules(GSETTINGS_QT REQUIRED gsettings-qt)
@@ -13,7 +13,7 @@ include_directories(
 )
 
 include_directories(
-    ${libunity8-private_SOURCE_DIR}
+    ${liblomiri-private_SOURCE_DIR}
 )
 
 file(GLOB_RECURSE QML_FILES
@@ -56,7 +56,7 @@ target_link_libraries(${SHELL_APP}
     ${QTMIRSERVER_LDFLAGS}
     LomiriGestures
     connectivity-qt1
-    unity8-private
+    lomiri-private
 )
 
 if (ENABLE_TOUCH_EMULATION)

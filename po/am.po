@@ -1,16 +1,16 @@
-# Amharic translation for unity8
+# Amharic translation for lomiri
 # Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
-# This file is distributed under the same license as the unity8 package.
+# This file is distributed under the same license as the lomiri package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity8\n"
+"Project-Id-Version: lomiri\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
 "PO-Revision-Date: 2021-01-31 01:03+0000\n"
 "Last-Translator: Samson <sambelet@yahoo.com>\n"
-"Language-Team: Amharic <https://translate.ubports.com/projects/unity8/unity8/"
+"Language-Team: Amharic <https://translate.ubports.com/projects/lomiri/lomiri/"
 "am/>\n"
 "Language: am\n"
 "MIME-Version: 1.0\n"

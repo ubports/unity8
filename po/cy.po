@@ -1,11 +1,11 @@
-# Welsh translation for unity8
+# Welsh translation for lomiri
 # Copyright (c) 2015 Rosetta Contributors and Canonical Ltd 2015
-# This file is distributed under the same license as the unity8 package.
+# This file is distributed under the same license as the lomiri package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity8\n"
+"Project-Id-Version: lomiri\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
 "PO-Revision-Date: 2015-07-31 13:21+0000\n"

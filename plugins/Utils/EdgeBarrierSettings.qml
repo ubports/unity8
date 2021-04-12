@@ -61,6 +61,6 @@ QtObject {
             ? Math.min(Math.max(0, gsettings.edgeBarrierSensitivity), 100) / 100
             : 0.35
 
-        property var gsettings: GSettings { schema.id: "com.canonical.Unity8" }
+        property var gsettings: GSettings { schema.id: "com.canonical.Lomiri" }
     }
 }

@@ -45,8 +45,8 @@ FocusScope {
     }
 
     GSettings {
-        id: unity8Settings
-        schema.id: "com.canonical.Unity8"
+        id: lomiriSettings
+        schema.id: "com.canonical.Lomiri"
     }
 
     StyledItem {
@@ -175,10 +175,10 @@ FocusScope {
                     height: units.gu(3)
                     width: units.gu(3)
                     color: d.textColor
-                    visible: !unity8Settings.alwaysShowOsk
+                    visible: !lomiriSettings.alwaysShowOsk
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: unity8Settings.alwaysShowOsk = true
+                        onClicked: lomiriSettings.alwaysShowOsk = true
                     }
                 }
             }

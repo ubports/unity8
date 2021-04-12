@@ -83,7 +83,7 @@ Item {
 
     GSettings {
         id: greeterSettings
-        schema.id: "com.canonical.Unity8.Greeter"
+        schema.id: "com.canonical.Lomiri.Greeter"
     }
 
     UT.UnityTestCase {

@@ -24,7 +24,7 @@
 
 #include "ApplicationArguments.h"
 
-#ifdef UNITY8_ENABLE_TOUCH_EMULATION
+#ifdef LOMIRI_ENABLE_TOUCH_EMULATION
 #include "MouseTouchAdaptor.h"
 #endif
 
@@ -43,7 +43,7 @@ private:
     void setupQmlEngine();
     ApplicationArguments m_qmlArgs;
 
-    #ifdef UNITY8_ENABLE_TOUCH_EMULATION
+    #ifdef LOMIRI_ENABLE_TOUCH_EMULATION
     MouseTouchAdaptor *m_mouseTouchAdaptor{nullptr};
     #endif
 

@@ -24,7 +24,7 @@ ScreenWindow {
     id: screenWindow
 
     color: "black"
-    title: "Unity8 Shell"
+    title: "Lomiri Shell"
     property bool primary: false
 
     DeviceConfiguration {

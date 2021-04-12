@@ -6,7 +6,7 @@ include_directories(
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${libunity8-private_SOURCE_DIR}
+    ${liblomiri-private_SOURCE_DIR}
 )
 
 set(WINDOWMANAGER_SRC
@@ -40,7 +40,7 @@ add_library(windowmanager-qml SHARED ${WINDOWMANAGER_SRC})
 target_link_libraries(windowmanager-qml
     Qt5::Qml Qt5::Quick Qt5::Gui
     ${QTMIRSERVER_LDFLAGS}
-    unity8-private
+    lomiri-private
 )
 
-add_unity8_plugin(WindowManager 1.0 WindowManager TARGETS windowmanager-qml)
+add_lomiri_plugin(WindowManager 1.0 WindowManager TARGETS windowmanager-qml)

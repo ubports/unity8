@@ -32,7 +32,7 @@ Showable {
 
     property bool isUpdate: System.isUpdate
 
-    // The wizard should be run at a later time if, for example, unity8 is
+    // The wizard should be run at a later time if, for example, lomiri is
     // in greeter mode
     property bool deferred: false
 

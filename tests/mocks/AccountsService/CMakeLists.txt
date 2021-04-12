@@ -19,6 +19,6 @@ target_link_libraries(MockAccountsService-qml
     MockLightDM
     )
 
-add_unity8_mock(AccountsService 0.1 AccountsService
+add_lomiri_mock(AccountsService 0.1 AccountsService
     TARGETS MockAccountsService-qml
     )

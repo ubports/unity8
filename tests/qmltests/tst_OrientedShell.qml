@@ -58,8 +58,8 @@ Rectangle {
     }
 
     GSettings {
-        id: unity8Settings
-        schema.id: "com.canonical.Unity8"
+        id: lomiriSettings
+        schema.id: "com.canonical.Lomiri"
         onUsageModeChanged: {
             usageModeSelector.selectedIndex = usageModeSelector.model.indexOf(usageMode)
         }
@@ -988,7 +988,7 @@ Rectangle {
             verify(decoratedWindow.width < decoratedWindow.height);
 
             // shell should remain in its primary orientation as the app in the main stage
-            // is the one that dictates its orientation. In this case it's unity8-dash
+            // is the one that dictates its orientation. In this case it's lomiri-dash
             // which supports only primary orientation
             compare(shell.orientation, orientedShell.orientations.primary);
         }
@@ -1022,11 +1022,11 @@ Rectangle {
             var topLevelSurfaceList = shell.topLevelSurfaceList;
 
             var dashSurfaceId = topLevelSurfaceList.nextId;
-            var dashApp = ApplicationManager.startApplication("unity8-dash");
+            var dashApp = ApplicationManager.startApplication("lomiri-dash");
             verify(dashApp);
             waitUntilAppWindowIsFullyLoaded(dashSurfaceId, orientedShell);
 
-            // starts as portrait, as unity8-dash is portrait only
+            // starts as portrait, as lomiri-dash is portrait only
             tryCompare(shell, "transformRotationAngle", 0);
 
             var weatherSurfaceId = topLevelSurfaceList.nextId;
@@ -1045,7 +1045,7 @@ Rectangle {
             var rotationStates = findInvisibleChild(orientedShell, "rotationStates");
             waitUntilTransitionsEnd(rotationStates);
 
-            ApplicationManager.requestFocusApplication("unity8-dash");
+            ApplicationManager.requestFocusApplication("lomiri-dash");
 
             // Should be back to portrait
             tryCompare(shell, "transformRotationAngle", 0);
@@ -1156,13 +1156,13 @@ Rectangle {
             // Prepare inconsistent beginning (mouse & staged mode)
             MockInputDeviceBackend.addMockDevice("/mouse0", InputInfo.Mouse);
             usageModeSelector.selectStaged();
-            compare(unity8Settings.usageMode, "Staged");
+            compare(lomiriSettings.usageMode, "Staged");
 
             // Load shell, and have it pick desktop
             var orientedShell = loadShell("desktop");
             var shell = findChild(orientedShell, "shell");
             compare(shell.usageScenario, "desktop");
-            compare(unity8Settings.usageMode, "Windowed");
+            compare(lomiriSettings.usageMode, "Windowed");
         }
 
         function test_overrideWindowed() {
@@ -1193,7 +1193,7 @@ Rectangle {
         }
 
         /*
-            Regression test for https://bugs.launchpad.net/lomiri/+source/unity8/+bug/1471609
+            Regression test for https://bugs.launchpad.net/lomiri/+source/lomiri/+bug/1471609
 
             Steps:
              - Open an app which can rotate
@@ -1239,7 +1239,7 @@ Rectangle {
         }
 
         /*
-           Regression test for https://bugs.launchpad.net/lomiri/+source/unity8/+bug/1476757
+           Regression test for https://bugs.launchpad.net/lomiri/+source/lomiri/+bug/1476757
 
            Steps:
            1- have a portrait-only app in foreground (eg primary-oriented-app)
