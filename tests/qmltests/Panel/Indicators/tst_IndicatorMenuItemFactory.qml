@@ -30,7 +30,7 @@ Item {
 
     IndicatorMenuItemFactory {
         id: factory
-        menuModel: LomiriMenuModel {}
+        menuModel: UnityMenuModel {}
     }
 
     Loader {

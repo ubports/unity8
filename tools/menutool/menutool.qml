@@ -28,7 +28,7 @@ Item {
     width: units.gu(180)
     height: units.gu(120)
 
-    LomiriMenuModel {
+    UnityMenuModel {
         id: menuModel
         busName: contextBusName
         menuObjectPath: "/com/lomiri/Menu/0"

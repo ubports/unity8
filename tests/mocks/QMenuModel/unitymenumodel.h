@@ -16,15 +16,15 @@
  * Authors: Nick Dedekind <nick.dedekind@canonical.com>
  */
 
-#ifndef MOCK_LOMIRIMENUMODEL_H
-#define MOCK_LOMIRIMENUMODEL_H
+#ifndef MOCK_UNITYMENUMODEL_H
+#define MOCK_UNITYMENUMODEL_H
 
 #include <QAbstractListModel>
 class QQmlComponent;
 class LomiriMenuAction;
 class ActionStateParser;
 
-class Q_DECL_EXPORT LomiriMenuModel : public QAbstractListModel
+class Q_DECL_EXPORT UnityMenuModel : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(QByteArray busName READ busName WRITE setBusName NOTIFY busNameChanged)
@@ -37,8 +37,8 @@ class Q_DECL_EXPORT LomiriMenuModel : public QAbstractListModel
     Q_PROPERTY(QVariant modelData READ modelData WRITE setModelData NOTIFY modelDataChanged)
 
 public:
-    LomiriMenuModel(QObject *parent = nullptr);
-    virtual ~LomiriMenuModel();
+    UnityMenuModel(QObject *parent = nullptr);
+    virtual ~UnityMenuModel();
 
     Q_INVOKABLE void insertRow(int row, const QVariant& data);
     Q_INVOKABLE void appendRow(const QVariant& data);
@@ -98,7 +98,7 @@ private:
 
     class Row;
     QVariantList m_modelData;
-    QList<LomiriMenuModel*> submenus;
+    QList<UnityMenuModel*> submenus;
 
     QByteArray m_busName;
     QVariantMap m_actions;
@@ -112,4 +112,4 @@ private:
     RowCountStatus m_rowCountStatus;
 };
 
-#endif // MOCK_LOMIRIMENUMODEL_H
+#endif // MOCK_UNITYMENUMODEL_H

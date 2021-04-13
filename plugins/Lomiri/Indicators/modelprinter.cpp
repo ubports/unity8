@@ -20,7 +20,7 @@
 // self
 #include "modelprinter.h"
 
-#include <lomirimenumodel.h>
+#include <unitymenumodel.h>
 
 // Qt
 #include <QTextStream>
@@ -31,7 +31,7 @@ ModelPrinter::ModelPrinter(QObject *parent)
 {
 }
 
-void ModelPrinter::setSourceModel(LomiriMenuModel * sourceModel)
+void ModelPrinter::setSourceModel(UnityMenuModel * sourceModel)
 {
     if (m_model != nullptr) {
         disconnect(m_model);
@@ -42,13 +42,13 @@ void ModelPrinter::setSourceModel(LomiriMenuModel * sourceModel)
         Q_EMIT textChanged();
     }
     if (m_model != nullptr) {
-        connect(m_model, &LomiriMenuModel::rowsInserted, this, &ModelPrinter::textChanged);
-        connect(m_model, &LomiriMenuModel::rowsRemoved, this, &ModelPrinter::textChanged);
-        connect(m_model, &LomiriMenuModel::dataChanged, this, &ModelPrinter::textChanged);
+        connect(m_model, &UnityMenuModel::rowsInserted, this, &ModelPrinter::textChanged);
+        connect(m_model, &UnityMenuModel::rowsRemoved, this, &ModelPrinter::textChanged);
+        connect(m_model, &UnityMenuModel::dataChanged, this, &ModelPrinter::textChanged);
     }
 }
 
-LomiriMenuModel* ModelPrinter::sourceModel() const
+UnityMenuModel* ModelPrinter::sourceModel() const
 {
     return m_model;
 }
@@ -65,7 +65,7 @@ QString tabify(int level) {    QString str;
     return str;
 }
 
-QString ModelPrinter::getModelDataString(LomiriMenuModel* sourceModel, int level)
+QString ModelPrinter::getModelDataString(UnityMenuModel* sourceModel, int level)
 {
     if (!sourceModel)
         return QLatin1String("");
@@ -78,14 +78,14 @@ QString ModelPrinter::getModelDataString(LomiriMenuModel* sourceModel, int level
 
         stream << getRowSring(sourceModel, row, level) << endl;
 
-        LomiriMenuModel* childMenuModel = qobject_cast<LomiriMenuModel*>(sourceModel->submenu(row));
+        UnityMenuModel* childMenuModel = qobject_cast<UnityMenuModel*>(sourceModel->submenu(row));
         if (childMenuModel) {
 
             if (!m_children.contains(childMenuModel)) {
                 m_children << childMenuModel;
-                connect(childMenuModel, &LomiriMenuModel::rowsInserted, this, &ModelPrinter::textChanged);
-                connect(childMenuModel, &LomiriMenuModel::rowsRemoved, this, &ModelPrinter::textChanged);
-                connect(childMenuModel, &LomiriMenuModel::dataChanged, this, &ModelPrinter::textChanged);
+                connect(childMenuModel, &UnityMenuModel::rowsInserted, this, &ModelPrinter::textChanged);
+                connect(childMenuModel, &UnityMenuModel::rowsRemoved, this, &ModelPrinter::textChanged);
+                connect(childMenuModel, &UnityMenuModel::dataChanged, this, &ModelPrinter::textChanged);
             }
             stream << getModelDataString(childMenuModel, level+1);
         }
@@ -93,7 +93,7 @@ QString ModelPrinter::getModelDataString(LomiriMenuModel* sourceModel, int level
     return str;
 }
 
-QString ModelPrinter::getRowSring(LomiriMenuModel* sourceModel, int row, int depth) const
+QString ModelPrinter::getRowSring(UnityMenuModel* sourceModel, int row, int depth) const
 {
     QString str;
     QTextStream stream(&str);

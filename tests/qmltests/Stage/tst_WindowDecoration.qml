@@ -51,7 +51,7 @@ Item {
         id: appMenuData
     }
 
-    LomiriMenuModel {
+    UnityMenuModel {
         id: menuBackend
         modelData: appMenuData.generateTestData(5, 3, 3, "menu")
         onActivated: log.text = "Activated " + action + "\n" + log.text

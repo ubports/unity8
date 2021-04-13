@@ -24,7 +24,7 @@
 #include <QSharedPointer>
 #include <QVariantMap>
 
-class LomiriMenuModel;
+class UnityMenuModel;
 
 class LOMIRIINDICATORS_EXPORT SharedLomiriMenuModel : public QObject
 {
@@ -32,7 +32,7 @@ class LOMIRIINDICATORS_EXPORT SharedLomiriMenuModel : public QObject
     Q_PROPERTY(QByteArray busName READ busName WRITE setBusName NOTIFY busNameChanged)
     Q_PROPERTY(QByteArray menuObjectPath READ menuObjectPath WRITE setMenuObjectPath NOTIFY menuObjectPathChanged)
     Q_PROPERTY(QVariantMap actions READ actions WRITE setActions NOTIFY actionsChanged)
-    Q_PROPERTY(LomiriMenuModel* model READ model NOTIFY modelChanged)
+    Q_PROPERTY(UnityMenuModel* model READ model NOTIFY modelChanged)
 
 public:
     SharedLomiriMenuModel(QObject* parent = nullptr);
@@ -46,7 +46,7 @@ public:
     QVariantMap actions() const;
     void setActions(const QVariantMap&);
 
-    LomiriMenuModel* model() const;
+    UnityMenuModel* model() const;
 
 Q_SIGNALS:
     void busNameChanged();
@@ -60,7 +60,7 @@ private:
     QByteArray m_busName;
     QByteArray m_menuObjectPath;
     QVariantMap m_actions;
-    QSharedPointer<LomiriMenuModel> m_model;
+    QSharedPointer<UnityMenuModel> m_model;
 };
 
 #endif // SHAREDLOMIRIMENUMODEL_H

@@ -28,7 +28,7 @@ Item {
 
     MessageMenuItemFactory {
         id: factory
-        menuModel: LomiriMenuModel {}
+        menuModel: UnityMenuModel {}
         menuIndex: 0
         width: parent.width
     }

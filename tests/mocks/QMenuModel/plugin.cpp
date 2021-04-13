@@ -17,7 +17,7 @@
  */
 
 #include "plugin.h"
-#include "lomirimenumodel.h"
+#include "unitymenumodel.h"
 #include "actiondata.h"
 #include "actionstateparser.h"
 #include "dbus-enums.h"
@@ -36,7 +36,7 @@ void QMenuModelPlugin::registerTypes(const char *uri)
     Q_ASSERT(uri == QLatin1String("QMenuModel"));
     qmlRegisterUncreatableType<DBusEnums>(uri, 0, 1, "DBus",
                                           "DBus is only a namespace");
-    qmlRegisterType<LomiriMenuModel>(uri, 0, 1, "LomiriMenuModel");
+    qmlRegisterType<UnityMenuModel>(uri, 0, 1, "UnityMenuModel");
     qmlRegisterType<ActionStateParser>(uri, 0, 1, "ActionStateParser");
 
     qmlRegisterSingletonType<ActionData>(uri, 0, 1, "ActionData", actionDataSingleton);

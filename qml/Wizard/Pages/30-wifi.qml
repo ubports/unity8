@@ -70,7 +70,7 @@ LocalComponents.Page {
         return imageName;
     }
 
-    QMenuModel.LomiriMenuModel {
+    QMenuModel.UnityMenuModel {
         id: menuModel
         busName: "com.canonical.indicator.network"
         actions: { "indicator": "/com/canonical/indicator/network" }

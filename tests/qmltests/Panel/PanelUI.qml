@@ -95,7 +95,7 @@ PanelTest {
                     applicationMenus {
                         model: menuData.checked ? menuModel : null
 
-                        readonly property var menuModel: LomiriMenuModel {
+                        readonly property var menuModel: UnityMenuModel {
                             modelData: appMenuData.generateTestData(10, 4, 2, 3, "menu")
                         }
 

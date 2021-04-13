@@ -62,7 +62,7 @@ Item {
             anchors.fill: parent
             enableKeyFilter: true
 
-            lomiriMenuModel: LomiriMenuModel {
+            lomiriMenuModel: UnityMenuModel {
                 id: menuBackend
                 modelData: null
             }

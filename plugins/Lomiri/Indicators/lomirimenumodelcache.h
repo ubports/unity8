@@ -27,7 +27,7 @@
 #include <QPointer>
 #include <QSharedPointer>
 
-class LomiriMenuModel;
+class UnityMenuModel;
 
 class LOMIRIINDICATORS_EXPORT LomiriMenuModelCache : public QObject
 {
@@ -37,13 +37,13 @@ public:
 
     static LomiriMenuModelCache* singleton();
 
-    virtual QSharedPointer<LomiriMenuModel> model(const QByteArray& path);
+    virtual QSharedPointer<UnityMenuModel> model(const QByteArray& path);
 
     // for tests use
     Q_INVOKABLE virtual bool contains(const QByteArray& path);
 
 protected:
-    QHash<QByteArray, QSharedPointer<LomiriMenuModel>> m_registry;
+    QHash<QByteArray, QSharedPointer<UnityMenuModel>> m_registry;
     static QPointer<LomiriMenuModelCache> theCache;
 };
 

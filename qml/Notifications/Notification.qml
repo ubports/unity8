@@ -192,7 +192,7 @@ StyledItem {
             menuObjectPathHint: "menuPath"
         }
 
-        LomiriMenuModel {
+        UnityMenuModel {
             id: lomiriMenuModel
 
             property string lastNameOwner: ""

@@ -50,7 +50,7 @@ Item {
                 topMargin: units.gu(3)
             }
 
-            lomiriMenuModel: LomiriMenuModel {
+            lomiriMenuModel: UnityMenuModel {
                 modelData: [{
                         "rowData": {
                             "label": "Short",

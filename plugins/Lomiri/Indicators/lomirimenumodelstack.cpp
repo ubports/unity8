@@ -20,24 +20,24 @@
 #include "lomirimenumodelstack.h"
 
 #include <QDebug>
-#include <lomirimenumodel.h>
+#include <unitymenumodel.h>
 
 class LomiriMenuModelEntry : public QObject {
     Q_OBJECT
 public:
-    LomiriMenuModelEntry(LomiriMenuModel* model, LomiriMenuModel* parentModel, int index)
+    LomiriMenuModelEntry(UnityMenuModel* model, UnityMenuModel* parentModel, int index)
     : m_model(model),
       m_parentModel(parentModel),
       m_index(index)
     {
         if (m_parentModel) {
-            QObject::connect(m_parentModel, &LomiriMenuModel::rowsInserted, this, &LomiriMenuModelEntry::onRowsInserted);
-            QObject::connect(m_parentModel, &LomiriMenuModel::rowsRemoved, this, &LomiriMenuModelEntry::onRowsRemoved);
-            QObject::connect(m_parentModel, &LomiriMenuModel::modelReset, this, &LomiriMenuModelEntry::onModelReset);
+            QObject::connect(m_parentModel, &UnityMenuModel::rowsInserted, this, &LomiriMenuModelEntry::onRowsInserted);
+            QObject::connect(m_parentModel, &UnityMenuModel::rowsRemoved, this, &LomiriMenuModelEntry::onRowsRemoved);
+            QObject::connect(m_parentModel, &UnityMenuModel::modelReset, this, &LomiriMenuModelEntry::onModelReset);
         }
     }
 
-    LomiriMenuModel* model() const { return m_model; }
+    UnityMenuModel* model() const { return m_model; }
 
 private Q_SLOTS:
     void onRowsInserted(const QModelIndex&, int start, int end)
@@ -72,8 +72,8 @@ Q_SIGNALS:
     void remove();
 
 private:
-    LomiriMenuModel* m_model;
-    LomiriMenuModel* m_parentModel;
+    UnityMenuModel* m_model;
+    UnityMenuModel* m_parentModel;
     int m_index;
 };
 
@@ -88,12 +88,12 @@ LomiriMenuModelStack::~LomiriMenuModelStack()
     m_menuModels.clear();
 }
 
-LomiriMenuModel* LomiriMenuModelStack::head() const
+UnityMenuModel* LomiriMenuModelStack::head() const
 {
     return !m_menuModels.isEmpty() ? m_menuModels.first()->model() : nullptr;
 }
 
-void LomiriMenuModelStack::setHead(LomiriMenuModel* model)
+void LomiriMenuModelStack::setHead(UnityMenuModel* model)
 {
     if (head() != model) {
         qDeleteAll(m_menuModels);
@@ -104,7 +104,7 @@ void LomiriMenuModelStack::setHead(LomiriMenuModel* model)
     }
 }
 
-LomiriMenuModel* LomiriMenuModelStack::tail() const
+UnityMenuModel* LomiriMenuModelStack::tail() const
 {
     return !m_menuModels.isEmpty() ? m_menuModels.last()->model() : nullptr;
 }
@@ -114,7 +114,7 @@ int LomiriMenuModelStack::count() const
     return m_menuModels.count();
 }
 
-void LomiriMenuModelStack::push(LomiriMenuModel* model, int index)
+void LomiriMenuModelStack::push(UnityMenuModel* model, int index)
 {
     LomiriMenuModelEntry* entry = new LomiriMenuModelEntry(model, tail(), index);
     QObject::connect(entry, &LomiriMenuModelEntry::remove, this, &LomiriMenuModelStack::onRemove);
@@ -124,13 +124,13 @@ void LomiriMenuModelStack::push(LomiriMenuModel* model, int index)
     Q_EMIT countChanged(m_menuModels.count());
 }
 
-LomiriMenuModel* LomiriMenuModelStack::pop()
+UnityMenuModel* LomiriMenuModelStack::pop()
 {
     if (m_menuModels.isEmpty()) {
         return nullptr;
     }
     LomiriMenuModelEntry* entry = m_menuModels.takeLast();
-    LomiriMenuModel* model = entry->model();
+    UnityMenuModel* model = entry->model();
     entry->deleteLater();
 
     Q_EMIT tailChanged(tail());

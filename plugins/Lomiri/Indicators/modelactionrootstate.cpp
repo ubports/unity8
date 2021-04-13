@@ -20,7 +20,7 @@
 #include "modelactionrootstate.h"
 #include "indicators.h"
 
-#include <lomirimenumodel.h>
+#include <unitymenumodel.h>
 #include <QVariant>
 #include <QIcon>
 
@@ -40,12 +40,12 @@ ModelActionRootState::~ModelActionRootState()
 {
 }
 
-LomiriMenuModel* ModelActionRootState::menu() const
+UnityMenuModel* ModelActionRootState::menu() const
 {
     return m_menu;
 }
 
-void ModelActionRootState::setMenu(LomiriMenuModel* menu)
+void ModelActionRootState::setMenu(UnityMenuModel* menu)
 {
     if (m_menu != menu) {
         bool wasValid = valid();
@@ -56,11 +56,11 @@ void ModelActionRootState::setMenu(LomiriMenuModel* menu)
         m_menu = menu;
 
         if (m_menu) {
-            connect(m_menu, &LomiriMenuModel::rowsInserted, this, &ModelActionRootState::onModelRowsAdded);
-            connect(m_menu, &LomiriMenuModel::rowsRemoved, this, &ModelActionRootState::onModelRowsRemoved);
-            connect(m_menu, &LomiriMenuModel::dataChanged, this, &ModelActionRootState::onModelDataChanged);
+            connect(m_menu, &UnityMenuModel::rowsInserted, this, &ModelActionRootState::onModelRowsAdded);
+            connect(m_menu, &UnityMenuModel::rowsRemoved, this, &ModelActionRootState::onModelRowsRemoved);
+            connect(m_menu, &UnityMenuModel::dataChanged, this, &ModelActionRootState::onModelDataChanged);
 
-            connect(m_menu, &LomiriMenuModel::destroyed, this, &ModelActionRootState::reset);
+            connect(m_menu, &UnityMenuModel::destroyed, this, &ModelActionRootState::reset);
         }
         updateActionState();
         updateOtherActions();

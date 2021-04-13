@@ -26,9 +26,9 @@
 #include <QList>
 
 class LomiriMenuModelEntry;
-class LomiriMenuModel;
+class UnityMenuModel;
 
-// A LIFO queue for storing the current submenu of a LomiriMenuModel.
+// A LIFO queue for storing the current submenu of a UnityMenuModel.
 // The root menu model is set as the head, and each subsiquent submenu that is
 // opened can be pushed onto the queue.
 // The tail is set to the last item on the queue
@@ -36,26 +36,26 @@ class LomiriMenuModel;
 class LOMIRIINDICATORS_EXPORT LomiriMenuModelStack : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(LomiriMenuModel* head READ head WRITE setHead NOTIFY headChanged)
-    Q_PROPERTY(LomiriMenuModel* tail READ tail NOTIFY tailChanged)
+    Q_PROPERTY(UnityMenuModel* head READ head WRITE setHead NOTIFY headChanged)
+    Q_PROPERTY(UnityMenuModel* tail READ tail NOTIFY tailChanged)
     Q_PROPERTY(int count READ count NOTIFY countChanged)
 public:
     LomiriMenuModelStack(QObject*parent=nullptr);
     ~LomiriMenuModelStack();
 
-    LomiriMenuModel* head() const;
-    void setHead(LomiriMenuModel* model);
+    UnityMenuModel* head() const;
+    void setHead(UnityMenuModel* model);
 
-    LomiriMenuModel* tail() const;
+    UnityMenuModel* tail() const;
 
     int count() const;
 
-    Q_INVOKABLE void push(LomiriMenuModel* model, int menuIndex);
-    Q_INVOKABLE LomiriMenuModel* pop();
+    Q_INVOKABLE void push(UnityMenuModel* model, int menuIndex);
+    Q_INVOKABLE UnityMenuModel* pop();
 
 Q_SIGNALS:
-    void headChanged(LomiriMenuModel* head);
-    void tailChanged(LomiriMenuModel* tail);
+    void headChanged(UnityMenuModel* head);
+    void tailChanged(UnityMenuModel* tail);
     void countChanged(int count);
 
 private Q_SLOTS:

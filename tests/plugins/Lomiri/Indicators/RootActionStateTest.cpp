@@ -19,7 +19,7 @@
 
 #include "modelactionrootstate.h"
 
-#include <lomirimenumodel.h>
+#include <unitymenumodel.h>
 #include <QtTest>
 #include <gio/gio.h>
 
@@ -30,7 +30,7 @@ private Q_SLOTS:
 
     void testDeleteRootActionState()
     {
-        LomiriMenuModel* menuModel = new LomiriMenuModel();
+        UnityMenuModel* menuModel = new UnityMenuModel();
         ActionStateParser* originalParser = menuModel->actionStateParser();
         ModelActionRootState* rootState = new ModelActionRootState();
 
@@ -43,7 +43,7 @@ private Q_SLOTS:
 
     void testDeleteLomiriMenuModel()
     {
-        LomiriMenuModel* menuModel = new LomiriMenuModel();
+        UnityMenuModel* menuModel = new UnityMenuModel();
         ModelActionRootState* rootState = new ModelActionRootState();
 
         rootState->setMenu(menuModel);
