@@ -15,7 +15,7 @@
  */
 
 #include "fakelomirimenumodelcache.h"
-#include <lomirimenumodel.h>
+#include <unitymenumodel.h>
 
 QPointer<FakeLomiriMenuModelCache> FakeLomiriMenuModelCache::theFakeCache = nullptr;
 
@@ -32,7 +32,7 @@ FakeLomiriMenuModelCache::FakeLomiriMenuModelCache(QObject* parent)
 {
 }
 
-QSharedPointer<LomiriMenuModel> FakeLomiriMenuModelCache::model(const QByteArray& path)
+QSharedPointer<UnityMenuModel> FakeLomiriMenuModelCache::model(const QByteArray& path)
 {
     return LomiriMenuModelCache::singleton()->model(path);
 }
@@ -54,6 +54,6 @@ void FakeLomiriMenuModelCache::setCachedModelData(const QByteArray& path,
 
 QVariant FakeLomiriMenuModelCache::getCachedModelData(const QByteArray& path)
 {
-    QSharedPointer<LomiriMenuModel> model = this->model(path);
+    QSharedPointer<UnityMenuModel> model = this->model(path);
     return model.isNull() ? QVariant() : model->modelData();
 }

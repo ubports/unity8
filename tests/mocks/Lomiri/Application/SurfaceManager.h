@@ -18,6 +18,7 @@
 #define SURFACEMANAGER_H
 
 #include <QObject>
+#include <functional>
 
 #include <lomiri/shell/application/SurfaceManagerInterface.h>
 #include <miral/window.h>

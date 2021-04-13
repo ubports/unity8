@@ -11,7 +11,7 @@ set(DOWNLOADDAEMONLISTENER_SOURCES
 
 add_library(DownloadDaemonListener MODULE ${DOWNLOADDAEMONLISTENER_SOURCES})
 
-pkg_check_modules(DDLADAPTER REQUIRED udm-common)
+pkg_check_modules(DDLADAPTER REQUIRED ldm-common)
 add_definitions(${DDLADAPTER_CFLAGS} ${DDLADAPTER_CFLAGS_OTHER})
 target_link_libraries(DownloadDaemonListener
     Qt5::Qml Qt5::Quick Qt5::DBus Qt5::Core

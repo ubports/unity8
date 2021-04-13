@@ -1,8 +1,0 @@
-add_subdirectory(Application)
-add_subdirectory(ApplicationMenu)
-add_subdirectory(Connectivity)
-add_subdirectory(Indicators)
-add_subdirectory(InputInfo)
-add_subdirectory(Launcher)
-add_subdirectory(Notifications)
-add_subdirectory(Platform)

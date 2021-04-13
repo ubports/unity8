@@ -31,7 +31,7 @@
 #include "lomirimenumodelstack.h"
 #include "modelprinter.h"
 
-#include <lomirimenumodel.h>
+#include <unitymenumodel.h>
 
 static QObject* menuModelCacheSingleton(QQmlEngine* engine, QJSEngine* scriptEngine) {
   Q_UNUSED(engine);
@@ -41,7 +41,7 @@ static QObject* menuModelCacheSingleton(QQmlEngine* engine, QJSEngine* scriptEng
 
 void IndicatorsFakePlugin::registerTypes(const char * uri)
 {
-    qRegisterMetaType<LomiriMenuModel*>("LomiriMenuModel*");
+    qRegisterMetaType<UnityMenuModel*>("UnityMenuModel*");
 
     // internal
     qmlRegisterType<FakeIndicatorsModel>(uri, 0, 1, "FakeIndicatorsModel");
