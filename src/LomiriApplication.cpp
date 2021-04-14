@@ -81,7 +81,7 @@ LomiriApplication::LomiriApplication(int & argc, char ** argv)
     bindtextdomain("lomiri", translationDirectory().toUtf8().data());
     textdomain("lomiri");
 
-    QScopedPointer<QGSettings> gSettings(new QGSettings("com.canonical.Lomiri"));
+    QScopedPointer<QGSettings> gSettings(new QGSettings("com.lomiri.Shell"));
     gSettings->reset(QStringLiteral("alwaysShowOsk"));
 
 

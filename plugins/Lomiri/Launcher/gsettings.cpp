@@ -24,7 +24,7 @@
 GSettings::GSettings(QObject *parent):
     QObject(parent)
 {
-    m_gSettings = new QGSettings("com.canonical.Lomiri.Launcher", "/com/canonical/lomiri/launcher/", this);
+    m_gSettings = new QGSettings("com.lomiri.Shell.Launcher", "/com/lomiri/shell/launcher/", this);
     connect(m_gSettings, &QGSettings::changed, this, &GSettings::onSettingsChanged);
 }
 

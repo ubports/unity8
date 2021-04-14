@@ -287,7 +287,7 @@ StyledItem {
 
     GSettings {
         id: settings
-        schema.id: "com.canonical.Lomiri"
+        schema.id: "com.lomiri.Shell"
     }
 
     PanelState {

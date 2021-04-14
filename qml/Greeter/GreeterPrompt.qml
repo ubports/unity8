@@ -46,7 +46,7 @@ FocusScope {
 
     GSettings {
         id: lomiriSettings
-        schema.id: "com.canonical.Lomiri"
+        schema.id: "com.lomiri.Shell"
     }
 
     StyledItem {
