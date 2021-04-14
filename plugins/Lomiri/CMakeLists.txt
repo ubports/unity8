@@ -1,7 +1,7 @@
 add_subdirectory(Gestures)
 add_subdirectory(DownloadDaemonListener)
 add_subdirectory(ApplicationMenu)
-add_subdirectory(Connectivity)
+add_subdirectory(ModemConnectivity)
 add_subdirectory(Indicators)
 add_subdirectory(Launcher)
 add_subdirectory(Session)

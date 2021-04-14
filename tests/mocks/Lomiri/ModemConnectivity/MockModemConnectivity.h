@@ -19,13 +19,13 @@
 
 #include <QObject>
 
-class MockConnectivity : public QObject
+class MockModemConnectivity : public QObject
 {
     Q_OBJECT
-    Q_DISABLE_COPY(MockConnectivity)
+    Q_DISABLE_COPY(MockModemConnectivity)
 
 public:
-    explicit MockConnectivity(QObject *parent = 0);
+    explicit MockModemConnectivity(QObject *parent = 0);
 
     Q_INVOKABLE void unlockAllModems();
 

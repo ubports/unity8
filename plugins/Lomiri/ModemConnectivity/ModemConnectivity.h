@@ -14,14 +14,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "MockConnectivity.h"
+#ifndef CONNECTIVITY_H
+#define CONNECTIVITY_H
 
-MockConnectivity::MockConnectivity(QObject *parent)
-    : QObject(parent)
-{
-}
+#include <QObject>
 
-void MockConnectivity::unlockAllModems()
+class ModemConnectivity : public QObject
 {
-    Q_EMIT unlockingAllModems();
-}
+    Q_OBJECT
+    Q_DISABLE_COPY(ModemConnectivity)
+
+public:
+    explicit ModemConnectivity(QObject *parent = 0);
+    ~ModemConnectivity() = default;
+
+    Q_INVOKABLE void unlockAllModems();
+};
+
+#endif // CONNECTIVITY_H

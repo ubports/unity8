@@ -28,7 +28,7 @@ import Lomiri.Components.ListItems 1.3 as ListItem
 import Lomiri.Telephony 0.1 as Telephony
 import Lomiri.Application 0.1
 import Lomiri.ApplicationMenu 0.1
-import Lomiri.Connectivity 0.1
+import Lomiri.ModemConnectivity 0.1
 import Lomiri.Indicators 0.1
 import Lomiri.Notifications 1.0
 import Lomiri.Launcher 0.1
@@ -529,7 +529,7 @@ Rectangle {
 
     SignalSpy {
         id: unlockAllModemsSpy
-        target: Connectivity
+        target: ModemConnectivity
         signalName: "unlockingAllModems"
     }
 

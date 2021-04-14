@@ -14,16 +14,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Connectivity.h"
+#include "ModemConnectivity.h"
 #include <QDBusConnection>
 #include <QDBusPendingCall>
 
-Connectivity::Connectivity(QObject *parent)
+ModemConnectivity::ModemConnectivity(QObject *parent)
     : QObject(parent)
 {
 }
 
-void Connectivity::unlockAllModems()
+void ModemConnectivity::unlockAllModems()
 {
     const QDBusMessage msg = QDBusMessage::createMethodCall(QStringLiteral("com.lomiri.connectivity1"),
                                                             QStringLiteral("/com/lomiri/connectivity1/Private"),

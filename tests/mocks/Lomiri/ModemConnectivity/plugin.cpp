@@ -15,7 +15,7 @@
  */
 
 #include "plugin.h"
-#include "Connectivity.h"
+#include "MockModemConnectivity.h"
 
 #include <QtQml>
 
@@ -23,12 +23,12 @@ static QObject *service_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
     Q_UNUSED(engine)
     Q_UNUSED(scriptEngine)
-    return new Connectivity();
+    return new MockModemConnectivity();
 }
 
 void BackendPlugin::registerTypes(const char *uri)
 {
-    Q_ASSERT(uri == QLatin1String("Lomiri.Connectivity"));
+    Q_ASSERT(uri == QLatin1String("Lomiri.ModemConnectivity"));
 
-    qmlRegisterSingletonType<Connectivity>(uri, 0, 1, "Connectivity", service_provider);
+    qmlRegisterSingletonType<MockModemConnectivity>(uri, 0, 1, "ModemConnectivity", service_provider);
 }

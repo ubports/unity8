@@ -1,3 +1,0 @@
-module Lomiri.Connectivity
-plugin MockConnectivity
-typeinfo Connectivity.qmltypes

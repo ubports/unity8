@@ -23,7 +23,7 @@ import Lomiri.Components 1.3
 import Lomiri.Components.Popups 1.3
 import Lomiri.Gestures 0.1
 import Lomiri.Telephony 0.1 as Telephony
-import Lomiri.Connectivity 0.1
+import Lomiri.ModemConnectivity 0.1
 import Lomiri.Launcher 0.1
 import GlobalShortcut 1.0 // has to be before Utils, because of WindowInputFilter
 import GSettings 1.0
