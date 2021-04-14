@@ -65,6 +65,8 @@ ignore_pat="$ignore_pat|\\.qrc$"
 ignore_pat="$ignore_pat|/doc/devices\\.conf$"
 # Jenkins configuration
 ignore_pat="$ignore_pat|/Jenkinsfile"
+# Ignore common build directories
+ignore_pat="$ignore_pat|/build/|/build-*/"
 
 #
 # We don't use the -i option of licensecheck to add ignore_dir to the pattern because Jenkins creates directories
