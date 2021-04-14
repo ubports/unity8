@@ -34,7 +34,7 @@ usage()
 # image files
 ignore_pat="\\.sci$|\\.svg$|\\.png$|\\.jpg$"
 # git/bzr files
-ignore_pat="$ignore_pat|/\\.bzr/|\\.bzrignore$|\\.gitignore$|/\\.bazaar/Makefile$|/\\.bzr-builddeb/default\\.conf$"
+ignore_pat="$ignore_pat|/\\.bzr/|/\\.git/|\\.bzrignore$|\\.gitignore$|/\\.bazaar/Makefile$|/\\.bzr-builddeb/default\\.conf$"
 # info files
 ignore_pat="$ignore_pat|/README$|/CODING$|/LGPL_EXCEPTION\\.txt$"
 # cmake files
