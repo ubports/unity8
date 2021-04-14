@@ -72,7 +72,7 @@ Build-Depends:
  qtdeclarative5-dev-tools,
  qtdeclarative5-private-dev (>= 5.6),
  qtdeclarative5-lomiri-content1,
- ttf-lomiri-font-family,
+ ttf-ubuntu-font-family,
  ubports-wallpapers,
  xvfb,
 # mirtest pkgconfig requires these, but doesn't have a deb dependency. Bug lp:1633537
