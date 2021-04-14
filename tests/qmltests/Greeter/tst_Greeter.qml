@@ -24,7 +24,7 @@ import Biometryd 0.0
 import GSettings 1.0
 import LightDMController 0.1
 import LightDM.FullLightDM 0.1 as LightDM
-import Lomiri.Test 0.1 as UT
+import Lomiri.SelfTest 0.1 as UT
 
 Item {
     width: units.gu(120)

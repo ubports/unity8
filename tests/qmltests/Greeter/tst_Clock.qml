@@ -20,7 +20,7 @@ import ".."
 import "../../../qml/Greeter"
 import Lomiri.Components 1.3
 import Lomiri.Indicators 0.1 as Indicators
-import Lomiri.Test 0.1 as UT
+import Lomiri.SelfTest 0.1 as UT
 
 Rectangle {
     width: units.gu(60)

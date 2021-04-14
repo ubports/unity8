@@ -43,9 +43,9 @@ QObject *getMouseTouchAdaptorQMLSingleton(QQmlEngine* /* engine */, QJSEngine* /
 
 void LomiriTestPlugin::registerTypes(const char *uri)
 {
-    Q_ASSERT(QLatin1String(uri) == QLatin1String("Lomiri.Test"));
+    Q_ASSERT(QLatin1String(uri) == QLatin1String("Lomiri.SelfTest"));
 
-    // @uri Lomiri.Test
+    // @uri Lomiri.SelfTest
     qmlRegisterSingletonType<TestUtil>(uri, 0, 1, "Util", testutil_provider);
     qmlRegisterUncreatableType<TouchEventSequenceWrapper>(uri, 0, 1, "TouchEventSequence",
             "You cannot directly create a TouchEventSequence object.");

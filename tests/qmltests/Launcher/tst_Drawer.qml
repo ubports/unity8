@@ -21,7 +21,7 @@ import ".."
 import "../../../qml/Launcher"
 import Lomiri.Launcher 0.1
 import Utils 0.1 // For EdgeBarrierSettings
-import Lomiri.Test 0.1
+import Lomiri.SelfTest 0.1
 
 StyledItem {
     id: root

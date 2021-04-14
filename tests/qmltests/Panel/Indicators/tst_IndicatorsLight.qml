@@ -16,7 +16,7 @@
 
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
-import Lomiri.Test 0.1 as UT
+import Lomiri.SelfTest 0.1 as UT
 import Lomiri.Indicators 0.1 as Indicators
 import Lomiri.Components 1.3
 import Powerd 0.1

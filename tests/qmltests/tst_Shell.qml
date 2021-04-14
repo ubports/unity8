@@ -32,7 +32,7 @@ import Lomiri.Connectivity 0.1
 import Lomiri.Indicators 0.1
 import Lomiri.Notifications 1.0
 import Lomiri.Launcher 0.1
-import Lomiri.Test 0.1
+import Lomiri.SelfTest 0.1
 import Powerd 0.1
 import Wizard 0.1 as Wizard
 import Utils 0.1

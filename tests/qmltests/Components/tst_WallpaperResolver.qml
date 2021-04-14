@@ -17,7 +17,7 @@
 import QtQuick 2.4
 import QtTest 1.0
 import Lomiri.Components 1.3
-import Lomiri.Test 0.1
+import Lomiri.SelfTest 0.1
 
 import "../../../qml/Components"
 

@@ -19,7 +19,7 @@ import Lomiri.Components 1.3
 import LightDM.FullLightDM 0.1 as LightDM
 import LightDMController 0.1
 import Lomiri.Application 0.1
-import Lomiri.Test 0.1
+import Lomiri.SelfTest 0.1
 import Lomiri.InputInfo 0.1
 
 import "../../qml"

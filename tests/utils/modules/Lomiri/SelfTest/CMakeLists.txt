@@ -36,4 +36,4 @@ endif()
 # To find libLomiriGestures.so
 set_target_properties(LomiriTestQml PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}")
 
-add_lomiri_mock(Lomiri.Test 0.1 Lomiri/Test PREFIX utils TARGETS LomiriTestQml)
+add_lomiri_mock(Lomiri.SelfTest 0.1 Lomiri/SelfTest PREFIX utils TARGETS LomiriTestQml)

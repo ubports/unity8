@@ -20,7 +20,7 @@ import Lomiri.Application 0.1
 import WindowManager 1.0
 import Lomiri.Components 1.3
 import Lomiri.Test 1.0 as LomiriTest
-import Lomiri.Test 0.1 as UT
+import Lomiri.SelfTest 0.1 as UT
 import Utils 0.1
 
 TestCase {

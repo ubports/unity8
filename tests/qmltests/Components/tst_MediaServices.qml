@@ -17,7 +17,7 @@
 import QtQuick 2.4
 import QtTest 1.0
 import "../../../qml/Components/MediaServices"
-import Lomiri.Test 0.1 as UT
+import Lomiri.SelfTest 0.1 as UT
 import Lomiri.Components 1.3
 import QtMultimedia 5.0
 

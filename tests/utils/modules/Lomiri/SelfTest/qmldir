@@ -1,4 +1,4 @@
-module Lomiri.Test
+module Lomiri.SelfTest
 plugin LomiriTestQml
 typeinfo Test.qmltypes
 

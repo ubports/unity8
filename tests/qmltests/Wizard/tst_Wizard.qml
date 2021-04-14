@@ -24,7 +24,7 @@ import Lomiri.Connectivity 1.0
 import Lomiri.SystemSettings.SecurityPrivacy 1.0
 import Lomiri.SystemSettings.Update 1.0
 import Lomiri.SystemSettings.TimeDate 1.1
-import Lomiri.Test 0.1 as UT
+import Lomiri.SelfTest 0.1 as UT
 import Wizard 0.1
 import Lomiri.InputInfo 0.1
 import "../../../qml/Wizard"

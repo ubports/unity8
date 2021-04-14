@@ -20,7 +20,7 @@ import QtTest 1.0
 import ".."
 import "../../../qml/Notifications"
 import Lomiri.Components 1.3
-import Lomiri.Test 0.1
+import Lomiri.SelfTest 0.1
 import Lomiri.Notifications 1.0
 
 Item {

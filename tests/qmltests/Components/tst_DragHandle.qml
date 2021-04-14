@@ -19,7 +19,7 @@ import "../../../qml/Components"
 import "tst_DragHandle"
 import Lomiri.Components 1.3
 import Lomiri.Gestures 0.1
-import Lomiri.Test 0.1
+import Lomiri.SelfTest 0.1
 
 /*
   Two blue fullscreen Showables (a vertical and a horizontal one) with red handles you
