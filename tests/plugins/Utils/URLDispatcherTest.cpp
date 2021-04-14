@@ -27,9 +27,9 @@ class URLDispatcherTest : public QObject
 private Q_SLOTS:
 
     void initTestCase() {
-        dispatchServer = new QDBusInterface("com.canonical.URLDispatcher",
-                                            "/com/canonical/URLDispatcher",
-                                            "com.canonical.URLDispatcher",
+        dispatchServer = new QDBusInterface("com.lomiri.URLDispatcher",
+                                            "/com/lomiri/URLDispatcher",
+                                            "com.lomiri.URLDispatcher",
                                             QDBusConnection::sessionBus(), this);
     }
 

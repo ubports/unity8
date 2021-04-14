@@ -22,7 +22,7 @@
 class URLDispatcherInterface : public QObject
 {
     Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "com.canonical.URLDispatcher")
+    Q_CLASSINFO("D-Bus Interface", "com.lomiri.URLDispatcher")
 
 public:
     explicit URLDispatcherInterface(URLDispatcher *parent);
@@ -61,15 +61,15 @@ void URLDispatcher::setActive(bool value)
 
     if (value) {
         URLDispatcherInterface *dispatcher = new URLDispatcherInterface(this);
-        connection.registerObject(QStringLiteral("/com/canonical/URLDispatcher"),
+        connection.registerObject(QStringLiteral("/com/lomiri/URLDispatcher"),
                                   dispatcher,
                                   QDBusConnection::ExportScriptableContents);
-        if (!connection.registerService(QStringLiteral("com.canonical.URLDispatcher"))) {
-            qWarning() << "Unable to register DBus service com.canonical.URLDispatcher";
+        if (!connection.registerService(QStringLiteral("com.lomiri.URLDispatcher"))) {
+            qWarning() << "Unable to register DBus service com.lomiri.URLDispatcher";
         }
         m_dispatcher = dispatcher;
     } else {
-        connection.unregisterService(QStringLiteral("com.canonical.URLDispatcher"));
+        connection.unregisterService(QStringLiteral("com.lomiri.URLDispatcher"));
         delete m_dispatcher;
         m_dispatcher = nullptr;
     }
