@@ -79,7 +79,7 @@ StyledItem {
 
     readonly property bool orientationChangesEnabled: panel.indicators.fullyClosed
             && stage.orientationChangesEnabled
-            && (!greeter || !greeter.animating)
+            && !greeter.animating
 
     readonly property bool showingGreeter: greeter && greeter.shown
 
@@ -90,6 +90,9 @@ StyledItem {
         if (startingUp) {
             // Ensure we don't rotate during start up
             return Qt.PrimaryOrientation;
+        } else if (showingGreeter 
+                    && (shell.orientations.primary == Qt.LandscapeOrientation || shell.orientations.primary == Qt.InvertedLandscapeOrientation)) {
+            return Qt.LandscapeOrientation | Qt.InvertedLandscapeOrientation;
         } else if (showingGreeter || notifications.topmostIsFullscreen) {
             return Qt.PrimaryOrientation;
         } else {
