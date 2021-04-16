@@ -255,7 +255,7 @@ FocusScope {
         shortcut: Qt.ControlModifier|Qt.AltModifier|Qt.Key_T
         onTriggered: {
             // try in this order: snap pkg, new deb name, old deb name
-            var candidates = ["ubuntu-terminal-app_ubuntu-terminal-app", "ubuntu-terminal-app", "com.ubuntu.terminal"];
+            var candidates = ["ubuntu-terminal-app_ubuntu-terminal-app", "ubuntu-terminal-app", "com.ubuntu.terminal_terminal"];
             for (var i = 0; i < candidates.length; i++) {
                 if (priv.startApp(candidates[i]))
                     break;
