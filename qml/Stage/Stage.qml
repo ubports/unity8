@@ -1295,6 +1295,7 @@ FocusScope {
                     mainStageDelegate: priv.mainStageDelegate
                     sideStageDelegate: priv.sideStageDelegate
                     sideStageWidth: sideStage.panelWidth
+                    sideStageHandleWidth: sideStage.handleWidth
                     sideStageX: sideStage.x
                     itemIndex: appDelegate.itemIndex
                     nextInStack: priv.nextInStack
