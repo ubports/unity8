@@ -700,6 +700,7 @@ FocusScope {
             shown: false
             height: appContainer.height
             x: appContainer.width - width
+            showHint: !priv.sideStageDelegate
             visible: false
             Behavior on opacity { UbuntuNumberAnimation {} }
             z: {

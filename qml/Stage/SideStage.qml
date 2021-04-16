@@ -54,6 +54,7 @@ Showable {
     Rectangle {
         anchors.fill: parent
         color: Qt.rgba(0,0,0,0.95)
+        visible: showHint || hideAnimation.running
     }
 
     Column {
@@ -62,7 +63,7 @@ Showable {
         x: panelWidth/2 - width/2
         spacing: units.gu(3)
         opacity: 0.8
-        visible: showHint
+        visible: showHint && !hideAnimation.running
 
         Icon {
             width: units.gu(30)
