@@ -41,6 +41,11 @@ WorkspaceManager::WorkspaceManager()
     setSurfaceManager(WindowManagerObjects::instance()->surfaceManager());
 }
 
+WorkspaceManager::~WorkspaceManager()
+{
+    m_allWorkspaces.clear();
+}
+
 void WorkspaceManager::setSurfaceManager(lomiri::shell::application::SurfaceManagerInterface *surfaceManager)
 {
     if (m_surfaceManager == surfaceManager) return;

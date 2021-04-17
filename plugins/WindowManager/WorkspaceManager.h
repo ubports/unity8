@@ -40,6 +40,7 @@ class WINDOWMANAGERQML_EXPORT WorkspaceManager : public QObject
 
 public:
     WorkspaceManager();
+    ~WorkspaceManager();
     static WorkspaceManager* instance();
 
     Workspace* activeWorkspace() const;
