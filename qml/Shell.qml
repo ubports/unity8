@@ -711,7 +711,7 @@ StyledItem {
 
             function unlockWhenDoneWithWizard() {
                 if (!active) {
-                    Connectivity.unlockAllModems();
+                    ModemConnectivity.unlockAllModems();
                 }
             }
 
