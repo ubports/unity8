@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2016-2017 Canonical, Ltd.
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3, as published by
@@ -14,12 +14,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QQmlExtensionPlugin>
-#include <QtQml/qqml.h>
+#include "ScreenWindow.h"
+#include "Screen.h"
 
-class UnityScreensPlugin : public QQmlExtensionPlugin {
-    Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface/1.0")
-public:
-    void registerTypes(const char* uri) override;
-};
+// Qt
+#include <QGuiApplication>
+#include <QDebug>
+
+ScreenWindow::ScreenWindow(QQuickWindow *parent)
+    : QQuickWindow(parent)
+{
+}
+
+ScreenWindow::~ScreenWindow()
+{
+}
+
+ConcreteScreen *ScreenWindow::screenWrapper() const
+{
+    return m_screen.data();
+}
+
+void ScreenWindow::setScreenWrapper(ConcreteScreen *screen)
+{
+    if (m_screen != screen) {
+        m_screen = screen;
+        Q_EMIT screenWrapperChanged(screen);
+    }
+    QQuickWindow::setScreen(screen->qscreen());
+}

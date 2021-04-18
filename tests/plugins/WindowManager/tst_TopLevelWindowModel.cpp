@@ -23,8 +23,13 @@
 // WindowManager plugin
 #include <TopLevelWindowModel.h>
 #include <Window.h>
+#include <WindowManagerObjects.h>
+#include <Workspace.h>
+#include <WorkspaceManager.h>
 
 #include "UnityApplicationMocks.h"
+#include "wmpolicyinterface.h"
+
 
 class tst_TopLevelWindowModel : public QObject
 {
@@ -40,6 +45,7 @@ private Q_SLOTS:
     void rootFocusInhibit();
 
 private:
+    Workspace* workspace{nullptr};
     ApplicationManager *applicationManager{nullptr};
     SurfaceManager *surfaceManager{nullptr};
     TopLevelWindowModel *topLevelWindowModel{nullptr};
@@ -47,24 +53,30 @@ private:
 
 void tst_TopLevelWindowModel::init()
 {
+    wmPolicyInterface = new WindowManagementPolicy();
+
     applicationManager = new ApplicationManager;
     surfaceManager = new SurfaceManager;
+    WindowManagerObjects::instance()->setApplicationManager(applicationManager);
+    WindowManagerObjects::instance()->setSurfaceManager(surfaceManager);
 
-    topLevelWindowModel = new TopLevelWindowModel;
-    topLevelWindowModel->setApplicationManager(applicationManager);
-    topLevelWindowModel->setSurfaceManager(surfaceManager);
+    workspace = WorkspaceManager::instance()->createWorkspace();
+    topLevelWindowModel = workspace->windowModel();
 }
 
 void tst_TopLevelWindowModel::cleanup()
 {
-    delete topLevelWindowModel;
-    topLevelWindowModel = nullptr;
+    delete workspace;
+    workspace = nullptr;
 
     delete surfaceManager;
     surfaceManager = nullptr;
 
     delete applicationManager;
     applicationManager = nullptr;
+
+    delete wmPolicyInterface;
+    wmPolicyInterface = nullptr;
 }
 
 void tst_TopLevelWindowModel::singleSurfaceStartsHidden()
@@ -79,7 +91,7 @@ void tst_TopLevelWindowModel::singleSurfaceStartsHidden()
     auto surface = new MirSurface;
     surface->m_state = Mir::HiddenState;
     application->m_surfaceList.addSurface(surface);
-    Q_EMIT surfaceManager->surfaceCreated(surface);
+    Q_EMIT surfaceManager->surfacesAddedToWorkspace(workspace->workspace(), {surface});
 
     QCOMPARE(topLevelWindowModel->rowCount(), 1);
     // not showing the surface as it's still hidden
@@ -103,7 +115,7 @@ void tst_TopLevelWindowModel::secondSurfaceIsHidden()
 
     auto firstSurface = new MirSurface;
     application->m_surfaceList.addSurface(firstSurface);
-    Q_EMIT surfaceManager->surfaceCreated(firstSurface);
+    Q_EMIT surfaceManager->surfacesAddedToWorkspace(workspace->workspace(), {firstSurface});
 
     QCOMPARE(topLevelWindowModel->rowCount(), 1);
     QCOMPARE((void*)topLevelWindowModel->windowAt(0)->surface(), (void*)firstSurface);
@@ -111,7 +123,7 @@ void tst_TopLevelWindowModel::secondSurfaceIsHidden()
     auto secondSurface = new MirSurface;
     secondSurface->m_state = Mir::HiddenState;
     application->m_surfaceList.addSurface(secondSurface);
-    Q_EMIT surfaceManager->surfaceCreated(secondSurface);
+    Q_EMIT surfaceManager->surfacesAddedToWorkspace(workspace->workspace(), {secondSurface});
 
     // still only the first surface is exposed by TopLevelWindowModel
     QCOMPARE(topLevelWindowModel->rowCount(), 1);

@@ -29,6 +29,7 @@ Build-Depends:
  libpam0g-dev,
  libpulse-dev,
  libqmenumodel-dev (>= 0.2.12),
+ libqtmirserver-dev (>= 0.6.0),
  libqt5sql5-sqlite,
  libqt5svg5-dev,
  libqt5xmlpatterns5-dev,
@@ -46,6 +47,7 @@ Build-Depends:
  libx11-dev[!arm64 !armhf],
  libxcb1-dev[!arm64 !armhf],
  libxi-dev[!arm64 !armhf],
+ mirtest-dev,
  pkg-config,
  python3-all:any,
  python3-setuptools,
@@ -73,6 +75,9 @@ Build-Depends:
  ttf-ubuntu-font-family,
  ubports-wallpapers,
  xvfb,
+# mirtest pkgconfig requires these, but doesn't have a deb dependency. Bug lp:1633537
+ libboost-filesystem-dev,
+ libboost-system-dev,
 Standards-Version: 3.9.4
 Homepage: https://github.com/ubports/unity8
 Vcs-Git: https://github.com/ubports/unity8
@@ -122,6 +127,7 @@ Depends:
  qml-module-qtsysteminfo,
  qtdeclarative5-qtmir-plugin (>= 0.4.8),
  qtdeclarative5-ubuntu-telephony0.1,
+ qtmir-desktop (>= 0.6.0) | qtmir-android (>= 0.6.0), 
  ubuntu-system-settings (>= 0.4),
  unity-launcher-impl-13,
  unity8-common (= ${source:Version}),

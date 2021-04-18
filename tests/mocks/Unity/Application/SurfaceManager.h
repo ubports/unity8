@@ -20,11 +20,19 @@
 #include <QObject>
 
 #include <unity/shell/application/SurfaceManagerInterface.h>
+#include <miral/window.h>
 
 #include "MirSurface.h"
 #include "VirtualKeyboard.h"
 
 class ApplicationInfo;
+
+struct WindowWrapper {
+    miral::Window window;
+    std::shared_ptr<mir::scene::Surface> session{nullptr}; // Keeps the window surface alive.
+    bool operator==(const WindowWrapper& other) const {  return window==other.window; }
+};
+uint qHash(const WindowWrapper &key, uint seed = 0);
 
 class SurfaceManager : public unity::shell::application::SurfaceManagerInterface
 {
@@ -45,6 +53,13 @@ public:
     // SurfaceManagerInterface
     void raise(unity::shell::application::MirSurfaceInterface *surface) override;
     void activate(unity::shell::application::MirSurfaceInterface *surface) override;
+
+    void forEachSurfaceInWorkspace(const std::shared_ptr<miral::Workspace> &workspace,
+                                   const std::function<void(unity::shell::application::MirSurfaceInterface*)> &callback) override;
+    void moveSurfaceToWorkspace(unity::shell::application::MirSurfaceInterface* surface,
+                                const std::shared_ptr<miral::Workspace> &workspace) override;
+    void moveWorkspaceContentToWorkspace(const std::shared_ptr<miral::Workspace> &to,
+                                         const std::shared_ptr<miral::Workspace> &from) override;
 
     Q_INVOKABLE MirSurface* createSurface(const QString& name,
                                   Mir::Type type,
@@ -76,10 +91,9 @@ public:
 
 public Q_SLOTS:
     void createInputMethodSurface();
+    void releaseInputMethodSurface();
 
 Q_SIGNALS:
-    void surfaceDestroyed(const QString& persistentSurfaceId);
-
     void newSurfaceMinimumWidthChanged(int value);
     void newSurfaceMaximumWidthChanged(int value);
     void newSurfaceMinimumHeightChanged(int value);
@@ -89,12 +103,15 @@ Q_SIGNALS:
 
 private Q_SLOTS:
     void onStateRequested(MirSurface *surface, Mir::State state);
-    void onSurfaceDestroyed(MirSurface *surface, const QString& persistentId);
+    void onSurfaceDestroyed(MirSurface *surface);
 
 private:
     void doRaise(unity::shell::application::MirSurfaceInterface *surface);
     void focusFirstAvailableSurface();
     void registerSurface(MirSurface *surface);
+    unity::shell::application::MirSurfaceInterface* surfaceFor(const miral::Window &window) const;
+    QVector<unity::shell::application::MirSurfaceInterface*> surfacesFor(const std::vector<miral::Window> &windows) const;
+    miral::Window windowFor(unity::shell::application::MirSurfaceInterface* surface) const;
 
     static SurfaceManager *m_instance;
 
@@ -109,6 +126,9 @@ private:
     bool m_underModification{false};
 
     QList<MirSurface*> m_surfaces;
+
+    QHash<WindowWrapper, unity::shell::application::MirSurfaceInterface*> m_windowToSurface;
+    QHash<unity::shell::application::MirSurfaceInterface*, WindowWrapper> m_surfaceToWindow;
 
     VirtualKeyboard *m_virtualKeyboard{nullptr};
 };

@@ -15,6 +15,7 @@
  */
 
 #include "UnityCommandLineParser.h"
+#include <paths.h>
 
 #include <QDebug>
 
@@ -60,6 +61,11 @@ UnityCommandLineParser::UnityCommandLineParser(const QCoreApplication &app)
         QStringLiteral("mode"), QStringLiteral("full-greeter"));
     parser.addOption(modeOption);
 
+    QCommandLineOption qmlfileOption(QStringLiteral("qmlfile"),
+        QStringLiteral("The base qml file to load"),
+        QStringLiteral("qmlfile"), ::qmlDirectory() + "/ShellApplication.qml");
+    parser.addOption(qmlfileOption);
+
     // Treat args with single dashes the same as arguments with two dashes
     // Ex: -fullscreen == --fullscreen
     parser.setSingleDashWordOptionMode(QCommandLineParser::ParseAsLongOptions);
@@ -85,6 +91,8 @@ UnityCommandLineParser::UnityCommandLineParser(const QCoreApplication &app)
     m_hasFullscreen = parser.isSet(fullscreenOption);
     m_deviceName = parser.value(devicenameOption);
     resolveMode(parser, modeOption);
+
+    m_qmlfile = parser.value(qmlfileOption);
 }
 
 int UnityCommandLineParser::parsePixelsValue(const QString &str)

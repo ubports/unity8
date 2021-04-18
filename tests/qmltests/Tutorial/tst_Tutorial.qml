@@ -39,20 +39,10 @@ Rectangle {
     property var shell: null
 
     QtObject {
-        id: applicationArguments
-
-        function hasGeometry() {
-            return false;
-        }
-
-        function width() {
-            return 0;
-        }
-
-        function height() {
-            return 0;
-        }
+        id: _screenWindow
+        property bool primary: true
     }
+    property alias screenWindow: _screenWindow
 
     Telephony.CallEntry {
         id: phoneCall
@@ -304,9 +294,7 @@ Rectangle {
         }
 
         function ensureInputMethodSurface(topLevelSurfaceList) {
-            var surfaceManager = findInvisibleChild(shell, "surfaceManager");
-            verify(surfaceManager);
-            surfaceManager.createInputMethodSurface();
+            SurfaceManager.createInputMethodSurface();
 
             tryCompareFunction(function() { return topLevelSurfaceList.inputMethodSurface !== null }, true);
         }
@@ -706,7 +694,7 @@ Rectangle {
         }
 
         function test_oskDoesNotHideTutorial() {
-            var topLevelSurfaceList = findInvisibleChild(shell, "topLevelSurfaceList");
+            var topLevelSurfaceList = shell.topLevelSurfaceList;
             verify(topLevelSurfaceList);
             var tutorialTopLoader = findChild(shell, "tutorialTopLoader");
             verify(tutorialTopLoader.shown);
@@ -722,7 +710,7 @@ Rectangle {
         }
 
         function test_oskDelaysTutorial() {
-            var topLevelSurfaceList = findInvisibleChild(shell, "topLevelSurfaceList");
+            var topLevelSurfaceList = shell.topLevelSurfaceList;
             verify(topLevelSurfaceList);
             var tutorial = findChild(shell, "tutorial");
             verify(!tutorial.delayed);

@@ -63,6 +63,16 @@
       <summary>Whether the OSK switch should be visible</summary>
       <description>Toggle the visibility of the OSK switch</description>
     </key>
+    <key type="b" name="enable-workspace">
+      <default>false</default>
+      <summary>Enable or disable workspaces</summary>
+      <description>Toggle the availability of workspaces</description>
+    </key>
+    <key type="b" name="force-enable-workspace">
+      <default>false</default>
+      <summary>Force enable workspaces</summary>
+      <description>Forces workspaces availability even when not in windowed mode</description>
+    </key>
   </schema>
 
   <schema path="/com/canonical/unity8/greeter/" id="com.canonical.Unity8.Greeter" gettext-domain="unity8">

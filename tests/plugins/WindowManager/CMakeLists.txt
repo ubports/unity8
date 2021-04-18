@@ -2,6 +2,7 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_SOURCE_DIR}/tests/mocks
+    ${libunity8-private_SOURCE_DIR}
     )
 
 add_executable(TopLevelWindowModelTestExec
@@ -21,6 +22,7 @@ add_executable(TopLevelWindowModelTestExec
 target_link_libraries(TopLevelWindowModelTestExec
     Qt5::Test Qt5::Core Qt5::Gui Qt5::Qml Qt5::Quick
     windowmanager-qml
+    unity8-private
 )
 
 install(TARGETS TopLevelWindowModelTestExec

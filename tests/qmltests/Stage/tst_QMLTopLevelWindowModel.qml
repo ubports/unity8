@@ -32,10 +32,13 @@ Item {
 
     property var greeter: { fullyShown: true }
 
-    SurfaceManager { id: sMgr }
+    readonly property var topLevelSurfaceList: {
+        if (!WMScreen.currentWorkspace) return null;
+        return stage.temporarySelectedWorkspace ? stage.temporarySelectedWorkspace.windowModel : WMScreen.currentWorkspace.windowModel
+    }
+
     ApplicationMenuDataLoader {
         id: appMenuData
-        surfaceManager: sMgr
     }
 
     Loader {
@@ -52,11 +55,7 @@ Item {
             orientations: Orientations {}
             applicationManager: ApplicationManager
             mode: "staged"
-            topLevelSurfaceList: TopLevelWindowModel {
-                id: topLevelWindowModel
-                applicationManager: ApplicationManager
-                surfaceManager: sMgr
-            }
+            topLevelSurfaceList: root.topLevelSurfaceList
             availableDesktopArea: availableDesktopAreaItem
             Item {
                 id: availableDesktopAreaItem

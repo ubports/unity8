@@ -40,20 +40,10 @@ Item {
     }
 
     QtObject {
-        id: applicationArguments
-
-        function hasGeometry() {
-            return false;
-        }
-
-        function width() {
-            return 0;
-        }
-
-        function height() {
-            return 0;
-        }
+        id: _screenWindow
+        property bool primary: true
     }
+    property alias screenWindow: _screenWindow
 
     property var tryShell: null
 
@@ -147,13 +137,14 @@ Item {
 
             // from StageTestCase
             stage = findChild(shell, "stage");
-            topLevelSurfaceList = findInvisibleChild(shell, "topLevelSurfaceList");
-            verify(topLevelSurfaceList);
+            topLevelSurfaceList = shell.topLevelSurfaceList;
+            verify(shell.topLevelSurfaceList);
+            verify(stage);
+
             return shell;
         }
 
         function cleanup() {
-            topLevelSurfaceList = null;
             killApps();
             AccountsService.enableLauncherWhileLocked = true;
             AccountsService.enableIndicatorsWhileLocked = true;
@@ -272,11 +263,11 @@ Item {
 
         function test_emergencyCallCrash() {
             var shell = createShell();
-            var dialerSurfaceId = topLevelSurfaceList.nextId;
+            var dialerSurfaceId = shell.topLevelSurfaceList.nextId;
             var greeter = findChild(shell, "greeter");
             var emergencyButton = findChild(greeter, "emergencyCallLabel");
             tap(emergencyButton)
-            tryCompare(topLevelSurfaceList, "count", 1);
+            tryCompare(shell.topLevelSurfaceList, "count", 1);
             waitUntilAppWindowIsFullyLoaded(dialerSurfaceId);
 
             tryCompare(greeter, "shown", false);

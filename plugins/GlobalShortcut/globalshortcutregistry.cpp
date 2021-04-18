@@ -21,11 +21,25 @@
 
 #include "globalshortcutregistry.h"
 
-static qulonglong s_windowId = 0;
+namespace {
+QWindow* windowForShortcut(GlobalShortcut *sc) {
+    QObject* parent= sc;
+    while(parent) {
+        if (auto item = qobject_cast<QQuickItem*>(parent)) {
+            auto window = item->window();
+            if (window) return window;
+        }
+        parent = parent->parent();
+    }
+    return nullptr;
+}
+} // namespace
 
 GlobalShortcutRegistry::GlobalShortcutRegistry(QObject *parent)
     : QObject(parent)
 {
+    connect(qGuiApp, &QGuiApplication::focusWindowChanged, this, &GlobalShortcutRegistry::setupFilterOnWindow);
+    setupFilterOnWindow(qGuiApp->focusWindow());
 }
 
 GlobalShortcutList GlobalShortcutRegistry::shortcuts() const
@@ -91,7 +105,10 @@ bool GlobalShortcutRegistry::eventFilter(QObject *obj, QEvent *event)
             const auto shortcuts = m_shortcuts.value(seq);
             Q_FOREACH(const auto &shortcut, shortcuts) {
                 if (shortcut) {
-                    qApp->sendEvent(shortcut, &eCopy);
+                    auto window = windowForShortcut(shortcut);
+                    if (!window || window == obj) { // accept shortcut if it's not attached to a window or it's window is active.
+                        qApp->sendEvent(shortcut, &eCopy);
+                    }
                 }
             }
         }
@@ -102,24 +119,15 @@ bool GlobalShortcutRegistry::eventFilter(QObject *obj, QEvent *event)
     return QObject::eventFilter(obj, event);
 }
 
-void GlobalShortcutRegistry::setupFilterOnWindow(qulonglong wid)
+void GlobalShortcutRegistry::setupFilterOnWindow(QWindow* window)
 {
-    if (wid == s_windowId) {
-        return;
-    }
-
     if (m_filteredWindow) {
         m_filteredWindow->removeEventFilter(this);
         m_filteredWindow.clear();
-        s_windowId = 0;
     }
 
-    Q_FOREACH(QWindow *window, qApp->allWindows()) {
-        if (window && window->winId() == wid) {
-            m_filteredWindow = window;
-            window->installEventFilter(this);
-            s_windowId = wid;
-            break;
-        }
+    if (window) {
+        m_filteredWindow = window;
+        window->installEventFilter(this);
     }
 }

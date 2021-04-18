@@ -56,14 +56,6 @@ void GlobalShortcut::setActive(bool active)
     Q_EMIT activeChanged(active);
 }
 
-void GlobalShortcut::componentComplete()
-{
-    if (this->window()) {
-        QMetaObject::invokeMethod(this, "setupFilterOnWindow", Q_ARG(QQuickWindow*, this->window()));
-    }
-    connect(this, &QQuickItem::windowChanged, this, &GlobalShortcut::setupFilterOnWindow);
-}
-
 void GlobalShortcut::keyPressEvent(QKeyEvent * event)
 {
     if (!m_active) return;
@@ -78,14 +70,4 @@ void GlobalShortcut::keyReleaseEvent(QKeyEvent * event)
 
     event->accept();
     Q_EMIT released(m_shortcut.toString());
-}
-
-void GlobalShortcut::setupFilterOnWindow(QQuickWindow *window)
-{
-    if (!window) {
-//        qWarning() << Q_FUNC_INFO << "Failed to setup filter on window";
-        return;
-    }
-
-    registry->setupFilterOnWindow((qulonglong) window->winId());
 }

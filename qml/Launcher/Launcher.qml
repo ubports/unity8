@@ -104,6 +104,13 @@ FocusScope {
     }
 
     onLockedVisibleChanged: {
+        // We are in the progress of moving to the drawer
+        // this is caused by the user pressing the bfb on unlock
+        // in this case we want to show the drawer and not
+        // just visible
+        if (animateTimer.nextState == "drawer")
+            return;
+
         if (lockedVisible && state == "") {
             panel.dismissTimer.stop();
             fadeOutAnimation.stop();

@@ -51,8 +51,6 @@ Rectangle {
         }
     }
 
-    SurfaceManager {}
-
     Loader {
         id: surfaceContainerLoader
         focus: true

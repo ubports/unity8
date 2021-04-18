@@ -40,7 +40,6 @@ import Unity.Indicators 0.1 as Indicators
 
 import "../../qml"
 import "../../qml/Components"
-import "../../qml/Components/PanelState"
 import "Stage"
 
 Rectangle {
@@ -59,17 +58,14 @@ Rectangle {
     }
 
     property var shell: null
-    onShellChanged: {
-        if (shell) {
-            topLevelSurfaceList = testCase.findInvisibleChild(shell, "topLevelSurfaceList");
-            appMenuData.surfaceManager = testCase.findInvisibleChild(shell, "surfaceManager");
-        } else {
-            topLevelSurfaceList = null;
-            appMenuData.surfaceManager = null;
-        }
-    }
+    property var panelState: null
+    readonly property alias topLevelSurfaceList: testCase.topLevelSurfaceList
 
-    property var topLevelSurfaceList: null
+    QtObject {
+        id: _screenWindow
+        property bool primary: true
+    }
+    property alias screenWindow: _screenWindow
 
     Component {
         id: shellComponent
@@ -173,6 +169,7 @@ Rectangle {
                         onClicked: {
                             if (shell === null) {
                                 shell = shellComponent.createObject(shellRect);
+                                panelState = testCase.findInvisibleChild(shell, "panelState");
                                 shell.focus = true;
                             }
                         }
@@ -268,6 +265,7 @@ Rectangle {
                     anchors { left: parent.left; right: parent.right }
                     activeFocusOnPress: false
                     model: ["phone", "tablet", "desktop"]
+                    selectedIndex: 2
                     onSelectedIndexChanged: {
                         shellRect.state = model[selectedIndex];
                     }
@@ -281,6 +279,7 @@ Rectangle {
                     anchors { left: parent.left; right: parent.right }
                     activeFocusOnPress: false
                     model: ["phone", "tablet", "desktop"]
+                    selectedIndex: 0
                 }
                 MouseTouchEmulationCheckbox {
                     id: mouseEmulation
@@ -564,6 +563,9 @@ Rectangle {
         name: "Shell"
         when: windowShown
 
+        property var shell: null
+        topLevelSurfaceList: shell ? shell.topLevelSurfaceList : null
+
         function initTestCase() {
             // FIXME: The first shell created in the testcase sometimes doesn't
             // receive Alt keypresses. Creating and destroying a shell seems
@@ -599,6 +601,7 @@ Rectangle {
 
             shellRect.state = formFactor;
             shell = createTemporaryObject(shellComponent, shellRect);
+            panelState = testCase.findInvisibleChild(shell, "panelState");
             removeTimeConstraintsFromSwipeAreas(shell);
             tryCompare(shell, "waitingOnGreeter", false); // reset by greeter when ready
 
@@ -617,7 +620,6 @@ Rectangle {
             waitForGreeterToStabilize();
 
             // from StageTestCase
-            topLevelSurfaceList = findInvisibleChild(shell, "topLevelSurfaceList");
             verify(topLevelSurfaceList);
             stage = findChild(shell, "stage");
 
@@ -678,9 +680,7 @@ Rectangle {
         }
 
         function ensureInputMethodSurface() {
-            var surfaceManager = findInvisibleChild(shell, "surfaceManager");
-            verify(surfaceManager);
-            surfaceManager.createInputMethodSurface();
+            SurfaceManager.createInputMethodSurface();
 
             tryCompareFunction(function() { return root.topLevelSurfaceList.inputMethodSurface !== null }, true);
         }
@@ -874,6 +874,7 @@ Rectangle {
 
             // wait until it gets fully extended
             tryCompare(panel, "x", 0);
+
             tryCompare(launcher, "state", "visibleTemporary");
         }
 
@@ -1722,9 +1723,9 @@ Rectangle {
             var spreadDelegate2 = appRepeater.itemAt(2);
             var closeMouseArea = findChild(spreadDelegate2, "closeMouseArea");
 
-            // Move the mosue over tile 2 and verify the close button becomes visible
+            // Move the mouse over tile 2 and verify the close button becomes visible
             var x = 0;
-            var y = shell.height * .5;
+            var y = shell.height * .6;
             mouseMove(shell, x, y)
             while (spreadItem.highlightedIndex !== 2 && x <= 4000) {
                 x+=10;
@@ -1732,6 +1733,7 @@ Rectangle {
                 wait(10); // spin the loop so bindings get evaluated
             }
             tryCompare(closeMouseArea, "enabled", true)
+            waitForRendering(shell)
 
             var countBeforeClickingCloseButton = topLevelSurfaceList.count;
             verify(topLevelSurfaceList.indexForId(surfaceId) === 2);
@@ -1776,7 +1778,7 @@ Rectangle {
 
             // Move the mouse over tile 2 and verify the highlight becomes visible
             var x = 0;
-            var y = shell.height * (data.tileInfo ? .9 : 0.5)
+            var y = shell.height * (data.tileInfo ? .9 : 0.7)
             mouseMove(shell, x, y)
             while (spreadItem.highlightedIndex !== 2 && x <= 4000) {
                 x+=10;
@@ -1797,6 +1799,15 @@ Rectangle {
 
         function test_progressiveAutoScrolling() {
             loadShell("desktop", 7);
+
+            // load some more apps
+            ApplicationManager.startApplication("twitter-webapp")
+            ApplicationManager.startApplication("ubuntu-weather-app")
+            ApplicationManager.startApplication("notes-app")
+            for (var i = 0; i < topLevelSurfaceList.count; ++i) {
+                waitUntilAppWindowIsFullyLoaded(topLevelSurfaceList.idAt(i));
+            }
+
 
             var appRepeater = findInvisibleChild(shell, "appRepeater");
             var launcherPanel = findChild(shell, "launcherPanel");
@@ -1895,21 +1906,21 @@ Rectangle {
             var maximizeButton = findChild(appDelegate, "maximizeWindowButton");
 
             tryCompare(appDelegate, "state", "normal");
-            tryCompare(PanelState, "decorationsVisible", false)
+            tryCompare(panelState, "decorationsVisible", false)
 
             mouseClick(maximizeButton, maximizeButton.width / 2, maximizeButton.height / 2);
             tryCompare(appDelegate, "state", "maximized");
-            tryCompare(PanelState, "decorationsVisible", true)
+            tryCompare(panelState, "decorationsVisible", true)
 
             ApplicationManager.stopApplication(application.appId);
-            tryCompare(PanelState, "decorationsVisible", false)
+            tryCompare(panelState, "decorationsVisible", false)
 
             // wait until all zombie surfaces are gone. As MirSurfaceItems hold references over them.
             // They won't be gone until those surface items are destroyed.
             tryCompareFunction(function() { return application.surfaceList.count }, 0);
 
             ApplicationManager.startApplication(application.appId);
-            tryCompare(PanelState, "decorationsVisible", true)
+            tryCompare(panelState, "decorationsVisible", true)
         }
 
         function test_newAppHasValidGeometry() {
@@ -1966,7 +1977,7 @@ Rectangle {
             mousePress(appDelegate, appDelegate.width / 2, units.gu(1))
             mouseMove(appDelegate, appDelegate.width / 2, -units.gu(100))
 
-            tryVerify(function() {return (appDelegate.y >= PanelState.panelHeight)});
+            tryVerify(function() {return (appDelegate.y >= panelState.panelHeight)});
         }
 
         function test_cantResizeWindowUnderPanel() {
@@ -1992,7 +2003,7 @@ Rectangle {
             mouseMove(decoration, decoration.width/2, -units.gu(100));
 
             // verify we don't go past the panel
-            tryVerify(function() {return (appDelegate.y >= PanelState.panelHeight)});
+            tryVerify(function() {return (appDelegate.y >= panelState.panelHeight)});
         }
 
         function test_restoreWindowStateFixesIfUnderPanel() {
@@ -2016,7 +2027,7 @@ Rectangle {
             tryCompareFunction(function () { return topLevelSurfaceList.applicationAt(0).appId; }, application.appId);
 
             appDelegate = appRepeater.itemAt(0);
-            tryVerify(function() {return (appDelegate.y >= PanelState.panelHeight)});
+            tryVerify(function() {return (appDelegate.y >= panelState.panelHeight)});
         }
 
         function test_lifecyclePolicyForNonTouchApp_data() {
@@ -2666,9 +2677,9 @@ Rectangle {
 
         function test_oskDisplacesWindow_data() {
             return [
-                {tag: "no need to displace", windowHeight: units.gu(10), windowY: units.gu(5), targetDisplacement: units.gu(5), oskEnabled: true},
-                {tag: "displace to top", windowHeight: units.gu(50), windowY: units.gu(10), targetDisplacement: PanelState.panelHeight, oskEnabled: true},
-                {tag: "osk not on this screen", windowHeight: units.gu(40), windowY: units.gu(10), targetDisplacement: units.gu(10), oskEnabled: false},
+                {tag: "no need to displace", windowHeight: units.gu(10), windowY: units.gu(5), targetDisplacement: function() { return units.gu(5); }, oskEnabled: true},
+                {tag: "displace to top", windowHeight: units.gu(50), windowY: units.gu(10), targetDisplacement: function() { return panelState.panelHeight; }, oskEnabled: true},
+                {tag: "osk not on this screen", windowHeight: units.gu(40), windowY: units.gu(10), targetDisplacement: function() { return units.gu(10); }, oskEnabled: false},
             ]
         }
 
@@ -2691,11 +2702,10 @@ Rectangle {
             dashAppDelegate.windowedY = data.windowY;
             topLevelSurfaceList.inputMethodSurface.setInputBounds(Qt.rect(0, 0, 0, 0));
             var initialY = dashAppDelegate.y;
-            print("intial", initialY, "panel", PanelState.panelHeight);
-            verify(initialY > PanelState.panelHeight);
+            verify(initialY > panelState.panelHeight);
 
             topLevelSurfaceList.inputMethodSurface.setInputBounds(Qt.rect(0, root.height / 2, root.width, root.height / 2));
-            tryCompare(dashAppDelegate, "y", data.targetDisplacement);
+            tryCompare(dashAppDelegate, "y", data.targetDisplacement());
 
             topLevelSurfaceList.inputMethodSurface.setInputBounds(Qt.rect(0, 0, 0, 0));
             tryCompare(dashAppDelegate, "y", initialY);
@@ -3087,7 +3097,7 @@ Rectangle {
             // double click the panel
             var panel = findChild(shell, "panel");
             verify(panel);
-            mouseDoubleClickSequence(panel, panel.width/2, PanelState.panelHeight/2, Qt.LeftButton, Qt.NoModifier, 300);
+            mouseDoubleClickSequence(panel, panel.width/2, panelState.panelHeight/2, Qt.LeftButton, Qt.NoModifier, 300);
             tryCompare(appDelegate, "state", "restored");
         }
 
@@ -3194,7 +3204,8 @@ Rectangle {
             if (data.showSpread) {
                 tryCompare(stage, "spreadShown", true);
             }
-            tryCompareFunction(function() { return menuBarLoader.active === false; }, true);
+            // FIXME
+            // tryCompareFunction(function() { return menuBarLoader.active === false; }, true);
             keyRelease(Qt.Key_Alt)
 
             tryCompare(appDelegate.surface, "activeFocus", true);

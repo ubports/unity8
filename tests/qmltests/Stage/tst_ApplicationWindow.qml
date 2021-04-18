@@ -37,8 +37,6 @@ Rectangle {
     }
     property QtObject fakeApplication: null
 
-    SurfaceManager{}
-
     Loader {
         id: applicationWindowLoader
         focus: true
@@ -248,13 +246,12 @@ Rectangle {
         function test_showSplashUntilAppFullyInit_data() {
             return [
                 {tag: "state=Running then create surface", swapInitOrder: false},
-
                 {tag: "create surface then state=Running", swapInitOrder: true},
             ]
         }
 
         function test_showSplashUntilAppFullyInit() {
-            verify(stateGroup.state === "splashScreen");
+            verify(stateGroup.state === "splash");
 
             if (data.swapInitOrder) {
                 surfaceCheckbox.checked = true;
@@ -262,7 +259,7 @@ Rectangle {
                 setApplicationState(appRunning);
             }
 
-            verify(stateGroup.state === "splashScreen");
+            verify(stateGroup.state === "splash");
 
             if (data.swapInitOrder) {
                 setApplicationState(appRunning);
@@ -287,27 +284,8 @@ Rectangle {
             waitUntilTransitionsEnd(stateGroup);
         }
 
-        function test_killedAppShowsScreenshot() {
-            surfaceCheckbox.checked = true;
-            setApplicationState(appRunning);
-            tryCompare(stateGroup, "state", "surface");
-
-            setApplicationState(appSuspended);
-
-            verify(stateGroup.state === "surface");
-            verify(fakeApplication.surface !== null);
-
-            // kill it!
-            surfaceCheckbox.checked = false;
-            setApplicationState(appStopped);
-
-            tryCompare(stateGroup, "state", "screenshot");
-            tryCompare(fakeApplication.surfaceList, "count", 0);
-        }
-
         function test_restartApp() {
-            var screenshotImage = findChild(applicationWindow, "screenshotImage");
-
+            tryCompare(stateGroup, "state", "splash");
             surfaceCheckbox.checked = true;
             setApplicationState(appRunning);
             tryCompare(stateGroup, "state", "surface");
@@ -319,26 +297,23 @@ Rectangle {
             surfaceCheckbox.checked = false;
             setApplicationState(appStopped);
 
-            tryCompare(stateGroup, "state", "screenshot");
             waitUntilTransitionsEnd(stateGroup);
-            tryCompare(applicationWindow, "surface", null);
+            tryCompare(stateGroup, "state", "surface");
 
             // and restart it
             setApplicationState(appStarting);
 
             waitUntilTransitionsEnd(stateGroup);
-            verify(stateGroup.state === "screenshot");
-            verify(applicationWindow.surface === null);
+            verify(stateGroup.state === "surface");
 
             setApplicationState(appRunning);
 
             waitUntilTransitionsEnd(stateGroup);
-            verify(stateGroup.state === "screenshot");
+            verify(stateGroup.state === "surface");
 
             surfaceCheckbox.checked = true;
 
             tryCompare(stateGroup, "state", "surface");
-            tryCompare(screenshotImage, "status", Image.Null);
         }
 
         function test_appCrashed() {
@@ -346,13 +321,15 @@ Rectangle {
             setApplicationState(appRunning);
             tryCompare(stateGroup, "state", "surface");
             waitUntilTransitionsEnd(stateGroup);
+            var surface = applicationWindow.surface;
 
             // oh, it crashed...
             surfaceCheckbox.checked = false;
             setApplicationState(appStopped);
 
-            tryCompare(stateGroup, "state", "screenshot");
-            tryCompare(applicationWindow, "surface", null);
+            waitUntilTransitionsEnd(stateGroup);
+            tryCompare(stateGroup, "state", "surface");
+            tryCompare(applicationWindow, "surface", surface);
         }
 
         function test_keepSurfaceWhileInvisible() {
@@ -394,17 +371,6 @@ Rectangle {
 
             verify(surfaceItem.touchPressCount === 1);
             verify(surfaceItem.touchReleaseCount === 1);
-        }
-
-        function test_showNothingOnSuddenSurfaceLoss() {
-            surfaceCheckbox.checked = true;
-            setApplicationState(appRunning);
-            tryCompare(stateGroup, "state", "surface");
-            waitUntilTransitionsEnd(stateGroup);
-
-            applicationWindow.surface = null;
-
-            tryCompare(stateGroup, "state", "void");
         }
 
         function test_surfaceActiveFocusFollowsAppWindowInterative() {

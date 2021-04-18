@@ -36,35 +36,58 @@ MouseArea {
     property int minWidth: 0
     property int minHeight: 0
 
+    property bool readyToAssesBounds: false
+    onReadyToAssesBoundsChanged: d.reassesBounds()
+
     QtObject {
         id: d
 
         readonly property int maxSafeInt: 2147483647
         readonly property int maxSizeIncrement: units.gu(40)
 
+        function reassesBounds() {
+            if (!readyToAssesBounds) return;
+
+            if (target.windowedWidth < minimumWidth) {
+                target.windowedWidth = minimumWidth;
+            }
+            if (target.windowedHeight < minimumHeight) {
+                target.windowedHeight = minimumHeight;
+            }
+            if (target.windowedHeight < minimumHeight) {
+                target.windowedHeight = minimumHeight;
+            }
+            if (target.windowedWidth > maximumWidth) {
+                target.windowedWidth = maximumWidth;
+            }
+            if (target.windowedHeight > maximumHeight) {
+                target.windowedHeight = maximumHeight;
+            }
+        }
+
         readonly property int minimumWidth: root.target ? Math.max(root.minWidth, root.target.minimumWidth) : root.minWidth
         onMinimumWidthChanged: {
-            if (target.windowedWidth < minimumWidth) {
+            if (readyToAssesBounds && target.windowedWidth < minimumWidth) {
                 target.windowedWidth = minimumWidth;
             }
         }
         readonly property int minimumHeight: root.target ? Math.max(root.minHeight, root.target.minimumHeight) : root.minHeight
         onMinimumHeightChanged: {
-            if (target.windowedHeight < minimumHeight) {
+            if (readyToAssesBounds && target.windowedHeight < minimumHeight) {
                 target.windowedHeight = minimumHeight;
             }
         }
         readonly property int maximumWidth: root.target && root.target.maximumWidth >= minimumWidth && root.target.maximumWidth > 0
             ? root.target.maximumWidth : maxSafeInt
         onMaximumWidthChanged: {
-            if (target.windowedWidth > maximumWidth) {
+            if (readyToAssesBounds && target.windowedWidth > maximumWidth) {
                 target.windowedWidth = maximumWidth;
             }
         }
         readonly property int maximumHeight: root.target && root.target.maximumHeight >= minimumHeight && root.target.maximumHeight > 0
             ? root.target.maximumHeight : maxSafeInt
         onMaximumHeightChanged: {
-            if (target.windowedHeight > maximumHeight) {
+            if (readyToAssesBounds && target.windowedHeight > maximumHeight) {
                 target.windowedHeight = maximumHeight;
             }
         }

@@ -36,8 +36,10 @@ public:
     bool hasFullscreen() const { return m_hasFullscreen; }
     QString deviceName() const { return m_deviceName; }
     QString mode() const { return m_mode; }
-private:
 
+    QString qmlfie() const { return m_qmlfile; }
+
+protected:
     int parsePixelsValue(const QString &str);
     static float getenvFloat(const char* name, float defaultValue);
     void resolveMode(QCommandLineParser &parser, QCommandLineOption &modeOption);
@@ -55,6 +57,7 @@ private:
     bool m_hasFullscreen;
     QString m_deviceName;
     QString m_mode;
+    QString m_qmlfile;
 };
 
 #endif // UNITY_COMMAND_LINE_PARSER_H

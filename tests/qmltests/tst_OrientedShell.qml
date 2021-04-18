@@ -30,7 +30,6 @@ import Utils 0.1
 
 import "../../qml"
 import "../../qml/Components"
-import "../../qml/Components/PanelState"
 import "Stage"
 
 Rectangle {
@@ -83,6 +82,12 @@ Rectangle {
         id: keyboardsModel
         deviceFilter: InputInfo.Keyboard
     }
+
+    QtObject {
+        id: _screenWindow
+        property bool primary: true
+    }
+    property alias screenWindow: _screenWindow
 
     property int physicalOrientation0
     property int physicalOrientation90
@@ -517,8 +522,8 @@ Rectangle {
 
         function test_appSupportingOnlyPrimaryOrientationMakesPhoneShellStayPut() {
             var orientedShell = loadShell("mako");
-            var topLevelSurfaceList = findInvisibleChild(orientedShell, "topLevelSurfaceList");
             var shell = findChild(orientedShell, "shell");
+            var topLevelSurfaceList = shell.topLevelSurfaceList;
 
             var primarySurfaceId = topLevelSurfaceList.nextId;
             var primaryApp = ApplicationManager.startApplication("primary-oriented-app");
@@ -562,7 +567,7 @@ Rectangle {
         function test_appSupportingOnlyPrimaryOrientationWillOnlyRotateInLandscape(data) {
             var orientedShell = loadShell(data.deviceName);
             var shell = findChild(orientedShell, "shell");
-            var topLevelSurfaceList = findInvisibleChild(shell, "topLevelSurfaceList");
+            var topLevelSurfaceList = shell.topLevelSurfaceList;
 
             var primarySurfaceId = topLevelSurfaceList.nextId;
             var primaryApp = ApplicationManager.startApplication("primary-oriented-app");
@@ -651,7 +656,7 @@ Rectangle {
         function test_appRotatesWindowContents(data) {
             var orientedShell = loadShell(data.deviceName);
             var shell = findChild(orientedShell, "shell");
-            var topLevelSurfaceList = findInvisibleChild(shell, "topLevelSurfaceList");
+            var topLevelSurfaceList = shell.topLevelSurfaceList;
 
             if (data.windowed) {
                 usageModeSelector.selectWindowed();
@@ -739,7 +744,7 @@ Rectangle {
         function test_switchingToAppWithDifferentRotation(data) {
             var orientedShell = loadShell(data.deviceName);
             var shell = findChild(orientedShell, "shell");
-            var topLevelSurfaceList = findInvisibleChild(shell, "topLevelSurfaceList");
+            var topLevelSurfaceList = shell.topLevelSurfaceList;
             var gmailSurfaceId = topLevelSurfaceList.nextId;
             var gmailApp = ApplicationManager.startApplication("gmail-webapp");
             verify(gmailApp);
@@ -800,7 +805,7 @@ Rectangle {
         function test_rotateToUnsupportedDeviceOrientation(data) {
             var orientedShell = loadShell("mako");
             var shell = findChild(orientedShell, "shell");
-            var topLevelSurfaceList = findInvisibleChild(shell, "topLevelSurfaceList");
+            var topLevelSurfaceList = shell.topLevelSurfaceList;
             var twitterSurfaceId = topLevelSurfaceList.nextId;
             var twitterApp = ApplicationManager.startApplication("twitter-webapp");
             verify(twitterApp);
@@ -828,7 +833,7 @@ Rectangle {
         function test_launchLandscapeOnlyAppFromPortrait() {
             var orientedShell = loadShell("mako");
             var shell = findChild(orientedShell, "shell");
-            var topLevelSurfaceList = findInvisibleChild(orientedShell, "topLevelSurfaceList");
+            var topLevelSurfaceList = shell.topLevelSurfaceList;
             var weatherSurfaceId = topLevelSurfaceList.nextId;
             var weatherApp = ApplicationManager.startApplication("ubuntu-weather-app");
             verify(weatherApp);
@@ -870,7 +875,7 @@ Rectangle {
         function test_greeterStaysAwayAfterRotation() {
             var orientedShell = loadShell("mako");
             var shell = findChild(orientedShell, "shell");
-            var topLevelSurfaceList = findInvisibleChild(shell, "topLevelSurfaceList");
+            var topLevelSurfaceList = shell.topLevelSurfaceList;
 
             // Load an app which only supports primary
             var primarySurfaceId = topLevelSurfaceList.nextId;
@@ -924,7 +929,7 @@ Rectangle {
             WindowStateStorage.saveStage("twitter-webapp", ApplicationInfoInterface.SideStage)
             var orientedShell = loadShell(data.deviceName);
             var shell = findChild(orientedShell, "shell");
-            var topLevelSurfaceList = findInvisibleChild(shell, "topLevelSurfaceList");
+            var topLevelSurfaceList = shell.topLevelSurfaceList;
 
             var twitterSurfaceId = topLevelSurfaceList.nextId;
             var twitterApp = ApplicationManager.startApplication("twitter-webapp");
@@ -997,7 +1002,8 @@ Rectangle {
         }
         function test_launchedAppHasActiveFocus(data) {
             var orientedShell = loadShell(data.deviceName);
-            var topLevelSurfaceList = findInvisibleChild(orientedShell, "topLevelSurfaceList");
+            var shell = findChild(orientedShell, "shell");
+            var topLevelSurfaceList = shell.topLevelSurfaceList;
 
             var gmailSurfaceId = topLevelSurfaceList.nextId;
             var gmailApp = ApplicationManager.startApplication("gmail-webapp");
@@ -1013,7 +1019,7 @@ Rectangle {
         function test_launchLandscapeOnlyAppOverPortraitOnlyDashThenSwitchToDash() {
             var orientedShell = loadShell("mako");
             var shell = findChild(orientedShell, "shell");
-            var topLevelSurfaceList = findInvisibleChild(shell, "topLevelSurfaceList");
+            var topLevelSurfaceList = shell.topLevelSurfaceList;
 
             var dashSurfaceId = topLevelSurfaceList.nextId;
             var dashApp = ApplicationManager.startApplication("unity8-dash");
@@ -1253,8 +1259,8 @@ Rectangle {
          */
         function test_lockPhoneAfterClosingAppInSpreadThenUnlockAndRotate() {
             var orientedShell = loadShell("mako");
-            var topLevelSurfaceList = findInvisibleChild(orientedShell, "topLevelSurfaceList");
             var shell = findChild(orientedShell, "shell");
+            var topLevelSurfaceList = shell.topLevelSurfaceList;
 
             var primarySurfaceId = topLevelSurfaceList.nextId;
             var primaryApp = ApplicationManager.startApplication("primary-oriented-app");
@@ -1331,8 +1337,8 @@ Rectangle {
         }
         function test_portraitOnlyAppInLandscapeDesktop(data) {
             var orientedShell = loadShell(data.deviceName);
-            var topLevelSurfaceList = findInvisibleChild(orientedShell, "topLevelSurfaceList");
             var shell = findChild(orientedShell, "shell");
+            var topLevelSurfaceList = shell.topLevelSurfaceList;
 
             ////
             // setup preconditions (put shell in Desktop mode and landscape)
@@ -1437,8 +1443,9 @@ Rectangle {
         }
 
         function performEdgeSwipeToSwitchToPreviousApp(orientedShell) {
-            var topLevelSurfaceList = findInvisibleChild(orientedShell, "topLevelSurfaceList");
             var shell = findChild(orientedShell, "shell");
+            var topLevelSurfaceList = shell.topLevelSurfaceList;
+
             // swipe just enough to ensure an app switch action.
             // If we swipe too much we will trigger the spread mode
             // and we don't want that.
@@ -1502,6 +1509,8 @@ Rectangle {
             removeTimeConstraintsFromSwipeAreas(orientedShell);
 
             var shell = findChild(orientedShell, "shell");
+            verify(shell);
+            verify(shell.topLevelSurfaceList);
 
             tryCompare(shell, "waitingOnGreeter", false); // reset by greeter when ready
 
@@ -1546,15 +1555,17 @@ Rectangle {
             }
             var point = surfaceItem.mapToItem(orientedShell, 0, 0);
 
+            var panelState = findInvisibleChild(orientedShell, "panelState");
+
             switch (expectedAngle) {
             case 0:
-                return point.x === 0 && point.y === PanelState.panelHeight;
+                return point.x === 0 && point.y === panelState.panelHeight;
             case 90:
-                return point.x === orientedShell.width - PanelState.panelHeight && point.y === 0;
+                return point.x === orientedShell.width - panelState.panelHeight && point.y === 0;
             case 180:
-                return point.x === orientedShell.width && point.y === orientedShell.height - PanelState.panelHeight;
+                return point.x === orientedShell.width && point.y === orientedShell.height - panelState.panelHeight;
             default: // 270
-                return point.x === PanelState.panelHeight && point.y === orientedShell.height;
+                return point.x === panelState.panelHeight && point.y === orientedShell.height;
             }
         }
 
@@ -1576,7 +1587,8 @@ Rectangle {
         }
 
         function swipeToCloseCurrentAppInSpread(orientedShell) {
-            var topLevelSurfaceList = findInvisibleChild(orientedShell, "topLevelSurfaceList");
+            var shell = findChild(orientedShell, "shell");
+            var topLevelSurfaceList = shell.topLevelSurfaceList;
             var delegateToClose = findChild(orientedShell, "appDelegate_" + topLevelSurfaceList.idAt(0));
             verify(delegateToClose);
 
@@ -1651,7 +1663,8 @@ Rectangle {
 
         function test_focusOnShutdownDialogClose() {
             var orientedShell = loadShell("manta");
-            var topLevelSurfaceList = findInvisibleChild(orientedShell, "topLevelSurfaceList");
+            var shell = findChild(orientedShell, "shell");
+            var topLevelSurfaceList = shell.topLevelSurfaceList;
             usageModeSelector.selectWindowed();
 
             var surfaceId = topLevelSurfaceList.nextId;

@@ -21,11 +21,12 @@ StateGroup {
     id: root
     property var container
     property var surfaceItem
+    property var hadSurface
 
     states: [
         State {
             name: "blank"
-            when: !root.surfaceItem.surface
+            when: !root.surfaceItem.surface && !root.hadSurface
         },
         State {
             name: "ready"
@@ -33,7 +34,7 @@ StateGroup {
         },
         State {
             name: "zombie"
-            when: root.surfaceItem.surface && !root.surfaceItem.live
+            when: root.hadSurface && !root.surfaceItem.live
         }
     ]
     transitions: [

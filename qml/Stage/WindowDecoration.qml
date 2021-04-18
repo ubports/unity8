@@ -35,6 +35,7 @@ MouseArea {
     property bool enableMenus: true
     property bool windowMoving: false
     property alias windowControlButtonsVisible: buttons.visible
+    property PanelState panelState
 
     readonly property real buttonsWidth: buttons.width + row.spacing
 
@@ -146,6 +147,7 @@ MouseArea {
                     enableKeyFilter: valid && root.active && root.enableMenus
                     unityMenuModel: root.menu
                     windowMoving: root.windowMoving
+                    panelState: root.panelState
 
                     onPressed: root.onPressed(mouse)
                     onPressedChangedEx: root.pressedChangedEx(pressed, pressedButtons, mouseX, mouseY)

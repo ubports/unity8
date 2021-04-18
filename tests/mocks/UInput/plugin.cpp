@@ -19,8 +19,13 @@
 
 #include <QtQml/qqml.h>
 
+QObject* uinputSingleton(QQmlEngine*, QJSEngine*)
+{
+    return new MockUInput;
+}
+
 void MockUInputPlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("UInput"));
-    qmlRegisterType<MockUInput>(uri, 0, 1, "UInput");
+    qmlRegisterSingletonType<MockUInput>(uri, 0, 1, "UInput", uinputSingleton);
 }

@@ -19,6 +19,7 @@ import QtQuick.Layouts 1.1
 import Utils 0.1
 import Ubuntu.Components 1.3
 import GlobalShortcut 1.0
+import "../Components/PanelState"
 
 Item {
     id: root
@@ -29,6 +30,7 @@ Item {
     property bool enableKeyFilter: false
     property real overflowWidth: width
     property bool windowMoving: false
+    property PanelState panelState
 
     // read from outside
     readonly property bool valid: rowRepeater.count > 0
@@ -106,7 +108,9 @@ Item {
 
         Component {
             id: menuComponent
-            MenuPopup { }
+            MenuPopup {
+                panelState: root.panelState
+            }
         }
 
         Repeater {

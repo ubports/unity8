@@ -14,11 +14,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SHELLAPPLICATION_H
-#define SHELLAPPLICATION_H
+#ifndef UNITYAPPLICATION_H
+#define UNITYAPPLICATION_H
 
 #include <QGuiApplication>
-#include <QQmlEngine>
+#include <QQmlApplicationEngine>
 #include <QQuickView>
 #include <QScopedPointer>
 
@@ -28,28 +28,20 @@
 #include "MouseTouchAdaptor.h"
 #endif
 
-#include "SecondaryWindow.h"
-#include "ShellView.h"
+#include <qtmir/mirserverapplication.h>
 
-class ShellApplication : public QGuiApplication
+class UnityApplication : public qtmir::MirServerApplication
 {
     Q_OBJECT
 public:
-    ShellApplication(int & argc, char ** argv, bool isMirServer);
-    virtual ~ShellApplication();
+    UnityApplication(int & argc, char ** argv);
+    virtual ~UnityApplication();
 
     void destroyResources();
 
-private Q_SLOTS:
-    void onScreenAdded(QScreen*);
-    void onScreenRemoved(QScreen*);
-
 private:
-    void setupQmlEngine(bool isMirServer);
-    QString m_deviceName;
+    void setupQmlEngine();
     ApplicationArguments m_qmlArgs;
-    ShellView *m_shellView{nullptr};
-    SecondaryWindow *m_secondaryWindow{nullptr};
 
     #ifdef UNITY8_ENABLE_TOUCH_EMULATION
     MouseTouchAdaptor *m_mouseTouchAdaptor{nullptr};
@@ -58,4 +50,4 @@ private:
     QQmlEngine *m_qmlEngine{nullptr};
 };
 
-#endif // SHELLAPPLICATION_H
+#endif // UNITYAPPLICATION_H

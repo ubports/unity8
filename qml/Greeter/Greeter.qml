@@ -24,6 +24,7 @@ import Unity.Launcher 0.1
 import Unity.Session 0.1
 
 import "." 0.1
+import ".." 0.1
 import "../Components"
 
 Showable {
@@ -225,7 +226,7 @@ Showable {
             if (forcedUnlock && shown) {
                 hideView();
                 if (hideNow) {
-                    root.hideNow(); // skip hide animation
+                    ShellNotifier.greeter.hide(true); // skip hide animation
                 }
             }
         }
@@ -373,7 +374,7 @@ Showable {
             onEmergencyCall: root.emergencyCall()
             onRequiredChanged: {
                 if (!loader.item.required) {
-                    root.hide();
+                    ShellNotifier.greeter.hide(false);
                 }
             }
         }
@@ -488,11 +489,28 @@ Showable {
     }
 
     Connections {
+        target: ShellNotifier.greeter
+        onHide: {
+            if (now) {
+                root.hideNow(); // skip hide animation
+            } else {
+                root.hide();
+            }
+        }
+    }
+
+    Binding {
+        target: ShellNotifier.greeter
+        property: "shown"
+        value: root.shown
+    }
+
+    Connections {
         target: DBusUnitySessionService
         onLockRequested: root.forceShow()
         onUnlocked: {
             root.forcedUnlock = true;
-            root.hideNow();
+            ShellNotifier.greeter.hide(true);
         }
     }
 
