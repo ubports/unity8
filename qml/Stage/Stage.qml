@@ -465,22 +465,23 @@ FocusScope {
     Instantiator {
         model: root.applicationManager
         delegate: QtObject {
+            id: applicationDelegate
+            // TODO: figure out some lifecycle policy, like suspending minimized apps
+            //       or something if running windowed.
+            // TODO: If the device has a dozen suspended apps because it was running
+            //       in staged mode, when it switches to Windowed mode it will suddenly
+            //       resume all those apps at once. We might want to avoid that.
+            property var requestedState: root.mode === "windowed"
+                   || (!root.suspended && model.application && priv.focusedAppDelegate &&
+                       (priv.focusedAppDelegate.appId === model.application.appId ||
+                        priv.mainStageAppId === model.application.appId ||
+                        priv.sideStageAppId === model.application.appId))
+                   ? ApplicationInfoInterface.RequestedRunning
+                   : ApplicationInfoInterface.RequestedSuspended
             property var stateBinding: Binding {
                 target: model.application
                 property: "requestedState"
-
-                // TODO: figure out some lifecycle policy, like suspending minimized apps
-                //       or something if running windowed.
-                // TODO: If the device has a dozen suspended apps because it was running
-                //       in staged mode, when it switches to Windowed mode it will suddenly
-                //       resume all those apps at once. We might want to avoid that.
-                value: root.mode === "windowed"
-                       || (!root.suspended && model.application && priv.focusedAppDelegate &&
-                           (priv.focusedAppDelegate.appId === model.application.appId ||
-                            priv.mainStageAppId === model.application.appId ||
-                            priv.sideStageAppId === model.application.appId))
-                       ? ApplicationInfoInterface.RequestedRunning
-                       : ApplicationInfoInterface.RequestedSuspended
+                value: applicationDelegate.requestedState
             }
 
             property var lifecycleBinding: Binding {
