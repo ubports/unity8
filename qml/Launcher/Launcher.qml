@@ -72,7 +72,7 @@ FocusScope {
         if (state == "drawer")
             return;
 
-        if (superPressed) {
+        if (superPressed && root.available) {
             superPressTimer.start();
             superLongPressTimer.start();
         } else {
