@@ -212,35 +212,15 @@ FocusScope {
         }
 
         Label {
-            text: i18n.tr("Cancel")
-            anchors.left: parent.left
-            anchors.leftMargin: units.gu(2)
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            verticalAlignment: Text.AlignVCenter
-            font.weight: Font.Light
-            fontSize: "small"
-           // color: UbuntuColors.slate
-
-            AbstractButton {
-                anchors.fill: parent
-                anchors.leftMargin: -units.gu(2)
-                anchors.rightMargin: -units.gu(2)
-                onClicked: coverPage.show()
-            }
-        }
-
-        Label {
             objectName: "emergencyCallLabel"
             text: callManager.hasCalls ? i18n.tr("Return to Call") : i18n.tr("Emergency")
-            anchors.right: parent.right
+            anchors.horizontalCenter: parent.horizontalCenter
             anchors.rightMargin: units.gu(2)
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             verticalAlignment: Text.AlignVCenter
             font.weight: Font.Light
             fontSize: "small"
-           // color: UbuntuColors.slate
             // TODO: uncomment once bug 1616538 is fixed
             // visible: telepathyHelper.ready && telepathyHelper.emergencyCallsAvailable
             enabled: visible
