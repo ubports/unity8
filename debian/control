@@ -9,6 +9,7 @@ Build-Depends:
  dbus-test-runner,
  debhelper (>= 9),
  dh-apparmor,
+ dh-python,
  doxyqml,
  g++:native,
  gdb,
