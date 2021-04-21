@@ -34,5 +34,6 @@ Item {
         anchors.fill: parent
         aspect: UbuntuShape.Flat
         backgroundColor: theme.palette.normal.background
+        opacity: 0.4
     }
 }
