@@ -173,10 +173,6 @@ Depends:
  lomiri-schemas,
  lomiri-tests | lomiri-application-impl,
  ${misc:Depends},
-Breaks:
- lomiri (<< 7.86),
-Replaces:
- lomiri (<< 7.86),
 Description: Lomiri 8 shell (common files)
  The Lomiri 8 shell is the primary user interface for Lomiri devices.
  .
