@@ -14,7 +14,7 @@ Build-Depends:
  g++:native,
  gdb,
  graphviz,
- gsettings-lomiri-schemas (>= 0.0.2+14.10.20140815),
+ gsettings-ubuntu-schemas (>= 0.0.2+14.10.20140815),
  libandroid-properties-dev,
  libconnectivity-qt1-dev (>= 0.7.1),
  libevdev-dev,
@@ -238,7 +238,7 @@ Pre-Depends:
  ${misc:Pre-Depends},
 Depends:
  accountsservice-lomiri-schemas (>= 0.0.7),
- gsettings-lomiri-schemas (>= 0.0.2+14.10.20140815),
+ gsettings-ubuntu-schemas (>= 0.0.2+14.10.20140815),
  libhardware2,
  qml-module-gsettings1.0,
  qml-module-qtmultimedia,
