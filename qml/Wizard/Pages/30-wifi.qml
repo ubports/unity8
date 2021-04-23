@@ -90,7 +90,7 @@ LocalComponents.Page {
             property QtObject menuData: null
             property var lomiriMenuModel: menuModel
             property var extendedData: menuData && menuData.ext || undefined
-            property var strengthAction: QMenuModel.LomiriMenuAction {
+            property var strengthAction: QMenuModel.UnityMenuAction {
                 model: lomiriMenuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalWifiApStrengthAction", "")

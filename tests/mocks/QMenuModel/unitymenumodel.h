@@ -21,7 +21,7 @@
 
 #include <QAbstractListModel>
 class QQmlComponent;
-class LomiriMenuAction;
+class UnityMenuAction;
 class ActionStateParser;
 
 class Q_DECL_EXPORT UnityMenuModel : public QAbstractListModel
@@ -76,8 +76,8 @@ public:
     Q_INVOKABLE void aboutToShow(int index);
     Q_INVOKABLE void changeState(int index, const QVariant& parameter);
 
-    void registerAction(LomiriMenuAction* action);
-    void unregisterAction(LomiriMenuAction* action);
+    void registerAction(UnityMenuAction* action);
+    void unregisterAction(UnityMenuAction* action);
 
 Q_SIGNALS:
     void busNameChanged();

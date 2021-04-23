@@ -138,7 +138,7 @@ Loader {
                                                      priv.actionsDescription[0] :
                                                      undefined
 
-            property var replyAction: QMenuModel.LomiriMenuAction {
+            property var replyAction: QMenuModel.UnityMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(replyActionDescription, "name", "")
@@ -191,12 +191,12 @@ Loader {
             property var replyActionDescription: priv.actionsDescription && priv.actionsDescription.length > 1 ?
                                                      priv.actionsDescription[1] : undefined
 
-            property var activateAction: QMenuModel.LomiriMenuAction {
+            property var activateAction: QMenuModel.UnityMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(activateActionDescription, "name", "")
             }
-            property var replyAction: QMenuModel.LomiriMenuAction {
+            property var replyAction: QMenuModel.UnityMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(replyActionDescription, "name", "")

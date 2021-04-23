@@ -301,10 +301,10 @@ void UnityMenuModel::changeState(int, const QVariant&)
 {
 }
 
-void UnityMenuModel::registerAction(LomiriMenuAction*)
+void UnityMenuModel::registerAction(UnityMenuAction*)
 {
 }
 
-void UnityMenuModel::unregisterAction(LomiriMenuAction*)
+void UnityMenuModel::unregisterAction(UnityMenuAction*)
 {
 }

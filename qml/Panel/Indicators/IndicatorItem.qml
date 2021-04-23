@@ -274,21 +274,21 @@ IndicatorDelegate {
         }
     }
 
-    LomiriMenuAction {
+    UnityMenuAction {
         id: secondaryAction
         model: menuModel
         index: 0
         name: rootActionState.secondaryAction
     }
 
-    LomiriMenuAction {
+    UnityMenuAction {
         id: scrollAction
         model: menuModel
         index: 0
         name: rootActionState.scrollAction
     }
 
-    LomiriMenuAction {
+    UnityMenuAction {
         id: submenuAction
         model: menuModel
         index: 0
