@@ -98,11 +98,17 @@ LomiriApplication::LomiriApplication(int & argc, char ** argv)
     auto component(new QQmlComponent(m_qmlEngine, m_qmlArgs.qmlfie()));
     component->create();
     if (component->status() == QQmlComponent::Error) {
+        qDebug().nospace().noquote() \
+            << "Lomiri encountered an unrecoverable error while loading:\n"
+            << component->errorString();
         m_qmlEngine->rootContext()->setContextProperty(QStringLiteral("errorString"), component->errorString());
         auto errorComponent(new QQmlComponent(m_qmlEngine,
                                          QUrl::fromLocalFile(::qmlDirectory() + "/ErrorApplication.qml")));
         errorComponent->create();
-        qDebug() << errorComponent->errorString();
+        if (!errorComponent->errorString().isEmpty())
+            qDebug().nospace().noquote() \
+                << "Lomiri encountered an error while loading the error screen:\n"
+                << errorComponent->errorString();
         return;
     }
 
