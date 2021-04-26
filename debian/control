@@ -131,7 +131,7 @@ Depends:
  qml-module-qtqml-statemachine,
  qml-module-qtquick-xmllistmodel,
  qml-module-qtsysteminfo,
- qtdeclarative5-lomiri-telephony0.1,
+# qtdeclarative5-lomiri-telephony0.1,
  qtmir, 
  lomiri-system-settings (>= 0.4),
  lomiri-launcher-impl-13,

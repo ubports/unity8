@@ -15,7 +15,8 @@
  */
 
 import QtQuick 2.4
-import Lomiri.Telephony 0.1 as Telephony
+// FIXME: uncomment this when telephony-service is available in UBports Focal
+// import Lomiri.Telephony 0.1 as Telephony
 import Lomiri.Components 1.3
 import Lomiri.Application 0.1
 import "../Components"
@@ -91,7 +92,8 @@ Item {
                     } else if (d.activeCall.isConference) {
                         return i18n.tr("Conference");
                     } else {
-                        return contactWatcher.alias !== "" ? contactWatcher.alias : contactWatcher.phoneNumber;
+                        // return contactWatcher.alias !== "" ? contactWatcher.alias : contactWatcher.phoneNumber;
+                        return "Pending Lomiri.Telephony dependency!"
                     }
                 }
             }
@@ -188,11 +190,11 @@ Item {
         }
     }
 
-    Telephony.ContactWatcher {
-        id: _contactWatcher
-        objectName: "contactWatcher"
-        phoneNumber: d.activeCall ? d.activeCall.phoneNumber : ""
-    }
+    // Telephony.ContactWatcher {
+    //     id: _contactWatcher
+    //     objectName: "contactWatcher"
+    //     phoneNumber: d.activeCall ? d.activeCall.phoneNumber : ""
+    // }
 
     QtObject {
         id: d

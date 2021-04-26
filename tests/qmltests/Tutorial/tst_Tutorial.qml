@@ -603,6 +603,8 @@ Rectangle {
         }
 
         function test_activeCallInterruptsTutorial() {
+            skip('Uses Lomiri.Telephony, which we commented out in the initial bringup.');
+
             var tutorialLeft = findChild(shell, "tutorialLeft");
             openTutorialLeft();
 
@@ -636,6 +638,8 @@ Rectangle {
             // that we don't blindly resume the tutorial -- our trigger
             // conditions still need to be met.  For example, there need to be
             // enough apps open for the right edge tutorial.
+
+            skip('Uses Lomiri.Telephony, which we commented out in the initial bringup.');
 
             openTutorialRight();
 
