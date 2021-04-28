@@ -330,7 +330,7 @@ void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
         if (!m_qmlSurface->qmlFilePath().isEmpty()) {
             qmlComponentFilePath = m_qmlSurface->qmlFilePath();
         } else {
-            qmlComponentFilePath = QUrl("qrc:///Lomiri/Application/MirSurfaceItem.qml");
+            qmlComponentFilePath = QUrl("qrc:///QtMir/Application/MirSurfaceItem.qml");
         }
 
         m_qmlContentComponent = new QQmlComponent(QQmlEngine::contextForObject(parent())->engine(), qmlComponentFilePath);

@@ -22,7 +22,7 @@ import ".."
 import "../../../qml/Stage"
 import Lomiri.Components 1.3
 import Lomiri.Components.ListItems 1.3 as ListItem
-import Lomiri.Application 0.1
+import QtMir.Application 0.1
 
 Rectangle {
     color: "red"

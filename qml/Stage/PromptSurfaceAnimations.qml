@@ -49,7 +49,7 @@ StateGroup {
                 PropertyAction { target: root.surfaceItem; property: "visible"; value: false }
                 PropertyAction { target: container.parent; property: "clip"; value: false }
                 ScriptAction { script: {
-                    // Lomiri.Application can't destroy a zombie MirSurface if it's still being
+                    // QtMir.Application can't destroy a zombie MirSurface if it's still being
                     // referenced by a MirSurfaceItem.
                     root.surfaceItem.surface = null;
                 } }

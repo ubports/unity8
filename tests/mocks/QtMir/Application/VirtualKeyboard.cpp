@@ -27,8 +27,8 @@ VirtualKeyboard::VirtualKeyboard()
                  Mir::InputMethodType,
                  Mir::MinimizedState,
                  nullptr, /* parentSurface */
-                 QUrl("qrc:///Lomiri/Application/vkb_portrait.png"),
-                 QUrl("qrc:///Lomiri/Application/VirtualKeyboard.qml"))
+                 QUrl("qrc:///QtMir/Application/vkb_portrait.png"),
+                 QUrl("qrc:///QtMir/Application/VirtualKeyboard.qml"))
 {
 }
 

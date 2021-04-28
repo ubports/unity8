@@ -7,7 +7,7 @@ include_directories(
     ${liblomiri-private_SOURCE_DIR}
 )
 
-set(FakeLomiriApplicationQml_SOURCES
+set(FakeQtMirApplicationQml_SOURCES
     plugin.cpp
     ApplicationInfo.cpp
     ApplicationManager.cpp
@@ -28,33 +28,33 @@ set(FakeLomiriApplicationQml_SOURCES
     resources/surfaces.qrc
 )
 
-add_library(FakeLomiriApplicationQml MODULE
-    ${FakeLomiriApplicationQml_SOURCES}
+add_library(FakeQtMirApplicationQml MODULE
+    ${FakeQtMirApplicationQml_SOURCES}
 )
 
-#add_dependencies(FakeLomiriApplicationQml windowmanagementpolicy)
+#add_dependencies(FakeQtMirApplicationQml windowmanagementpolicy)
 
-target_link_libraries(FakeLomiriApplicationQml
+target_link_libraries(FakeQtMirApplicationQml
     ${MIRTEST_LDFLAGS}
     ${MIRAL_LDFLAGS}
     mockwindowmanagmentpolicy
 )
 
-add_library(NonMirLomiriApplicationQml MODULE ${FakeLomiriApplicationQml_SOURCES})
-set_target_properties(NonMirLomiriApplicationQml PROPERTIES OUTPUT_NAME FakeLomiriApplicationQml)
+add_library(NonMirQtMirApplicationQml MODULE ${FakeQtMirApplicationQml_SOURCES})
+set_target_properties(NonMirQtMirApplicationQml PROPERTIES OUTPUT_NAME FakeQtMirApplicationQml)
 
-target_link_libraries(NonMirLomiriApplicationQml
+target_link_libraries(NonMirQtMirApplicationQml
     ${MIRTEST_LDFLAGS}
     ${MIRAL_LDFLAGS}
     mockwindowmanagmentpolicy
     Qt5::Core Qt5::Quick Qt5::DBus
 )
 
-target_link_libraries(FakeLomiriApplicationQml Qt5::Core Qt5::Quick Qt5::DBus)
+target_link_libraries(FakeQtMirApplicationQml Qt5::Core Qt5::Quick Qt5::DBus)
 
-add_lomiri_mock(Lomiri.Application 0.1 Lomiri/Application TARGETS FakeLomiriApplicationQml)
-add_lomiri_mock(Lomiri.Application 0.1 Lomiri/Application
+add_lomiri_mock(QtMir.Application 0.1 QtMir/Application TARGETS FakeQtMirApplicationQml)
+add_lomiri_mock(QtMir.Application 0.1 QtMir/Application
                 PREFIX nonmirplugins
-                TARGETS NonMirLomiriApplicationQml
+                TARGETS NonMirQtMirApplicationQml
                 BINARY_DIR ${CMAKE_BINARY_DIR}/nonmirplugins
                 NO_TYPES)

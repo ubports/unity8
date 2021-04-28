@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.0
-import Lomiri.Application 0.1
+import QtMir.Application 0.1
 import Lomiri.Components 0.1
 
 // TODO: try to share this code with that from the lomiri shell

@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/Lomiri/Application">
+    <qresource prefix="/QtMir/Application">
         <file>Kate.qml</file>
         <file>KateDialog.qml</file>
         <file>KateMenu.qml</file>

@@ -88,7 +88,7 @@ void ApplicationInfo::createPromptSurface()
     QStringList screenshotIds = {"gallery", "map", "facebook", "camera", "browser", "music", "twitter"};
     int i = rand() % screenshotIds.count();
 
-    QUrl screenshotUrl = QString("qrc:///Lomiri/Application/screenshots/%1@12.png")
+    QUrl screenshotUrl = QString("qrc:///QtMir/Application/screenshots/%1@12.png")
             .arg(screenshotIds[i]);
 
     auto surface = surfaceManager->createSurface(QString("prompt foo"),
@@ -189,10 +189,10 @@ void ApplicationInfo::setScreenshotId(const QString &screenshotId)
     QString screenshotFileName;
 
     if (screenshotId.endsWith(".svg")) {
-        screenshotFileName = QString("qrc:///Lomiri/Application/screenshots/%2")
+        screenshotFileName = QString("qrc:///QtMir/Application/screenshots/%2")
             .arg(screenshotId);
     } else {
-        screenshotFileName = QString("qrc:///Lomiri/Application/screenshots/%2@12.png")
+        screenshotFileName = QString("qrc:///QtMir/Application/screenshots/%2@12.png")
             .arg(screenshotId);
     }
 
@@ -203,7 +203,7 @@ void ApplicationInfo::setScreenshotId(const QString &screenshotId)
 
 void ApplicationInfo::setQmlFilename(const QString &qmlFilename)
 {
-    m_qmlFilePath = QString("qrc:///Lomiri/Application/%1").arg(qmlFilename);
+    m_qmlFilePath = QString("qrc:///QtMir/Application/%1").arg(qmlFilename);
 }
 
 void ApplicationInfo::setName(const QString &value)

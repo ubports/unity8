@@ -46,7 +46,7 @@ QObject* surfaceManagerSingleton(QQmlEngine*, QJSEngine*)
 
 } // anonymous namespace
 
-void FakeLomiriApplicationQmlPlugin::registerTypes(const char *uri)
+void FakeQtMirApplicationQmlPlugin::registerTypes(const char *uri)
 {
     qRegisterMetaType<ApplicationInfo*>("ApplicationInfo*");
     qRegisterMetaType<lomiri::shell::application::MirSurfaceInterface*>("lomiri::shell::application::MirSurfaceInterface*");
@@ -68,7 +68,7 @@ void FakeLomiriApplicationQmlPlugin::registerTypes(const char *uri)
     qmlRegisterSingletonType<SurfaceManager>(uri, 0, 1, "SurfaceManager", surfaceManagerSingleton);
 }
 
-void FakeLomiriApplicationQmlPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
+void FakeQtMirApplicationQmlPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
 {
     QQmlExtensionPlugin::initializeEngine(engine, uri);
 }

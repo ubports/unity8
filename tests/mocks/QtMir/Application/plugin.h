@@ -19,7 +19,7 @@
 
 #include <QQmlExtensionPlugin>
 
-class FakeLomiriApplicationQmlPlugin : public QQmlExtensionPlugin
+class FakeQtMirApplicationQmlPlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")

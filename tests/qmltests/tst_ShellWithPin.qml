@@ -23,7 +23,7 @@ import GSettings 1.0
 import LightDMController 0.1
 import LightDM.FullLightDM 0.1 as LightDM
 import Lomiri.Telephony 0.1 as Telephony
-import Lomiri.Application 0.1
+import QtMir.Application 0.1
 import Lomiri.SelfTest 0.1 as UT
 import Powerd 0.1
 

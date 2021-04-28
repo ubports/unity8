@@ -7,9 +7,9 @@ include_directories(
 
 add_executable(TopLevelWindowModelTestExec
     tst_TopLevelWindowModel.cpp
-    LomiriApplicationMocks.h
+    QtMirApplicationMocks.h
 
-    ${CMAKE_SOURCE_DIR}/tests/mocks/Lomiri/Application/MirSurfaceListModel.cpp
+    ${CMAKE_SOURCE_DIR}/tests/mocks/QtMir/Application/MirSurfaceListModel.cpp
 
     ${APPLICATION_API_INCLUDEDIR}/lomiri/shell/application/ApplicationInfoInterface.h
     ${APPLICATION_API_INCLUDEDIR}/lomiri/shell/application/ApplicationManagerInterface.h

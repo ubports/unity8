@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.4
-import Lomiri.Application 0.1
+import QtMir.Application 0.1
 import Lomiri.Components 1.3
 
 QtObject {

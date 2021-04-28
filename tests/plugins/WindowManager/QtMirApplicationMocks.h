@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef LOMIRIAPPLICATIONMOCKS_H
-#define LOMIRIAPPLICATIONMOCKS_H
+#ifndef QTMIRAPPLICATIONMOCKS_H
+#define QTMIRAPPLICATIONMOCKS_H
 
 #include <lomiri/shell/application/ApplicationInfoInterface.h>
 #include <lomiri/shell/application/ApplicationManagerInterface.h>
@@ -23,7 +23,7 @@
 #include <lomiri/shell/application/SurfaceManagerInterface.h>
 
 // from tests/mocks
-#include <Lomiri/Application/MirSurfaceListModel.h>
+#include <QtMir/Application/MirSurfaceListModel.h>
 
 #include "wmpolicyinterface.h"
 
@@ -233,4 +233,4 @@ public:
     void setActiveWorkspace(const std::shared_ptr<miral::Workspace>&) override {}
 };
 
-#endif // LOMIRIAPPLICATIONMOCKS_H
+#endif // QTMIRAPPLICATIONMOCKS_H

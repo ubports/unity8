@@ -1,3 +1,0 @@
-module Lomiri.Application
-plugin FakeLomiriApplicationQml
-typeinfo Application.qmltypes

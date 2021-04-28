@@ -18,7 +18,7 @@
 import QtQuick 2.4
 import QtQuick.Window 2.2
 import AccountsService 0.1
-import Lomiri.Application 0.1
+import QtMir.Application 0.1
 import Lomiri.Components 1.3
 import Lomiri.Components.Popups 1.3
 import Lomiri.Gestures 0.1

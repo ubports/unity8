@@ -26,7 +26,7 @@ import SessionBroadcast 0.1
 import Lomiri.Components 1.3
 import Lomiri.Components.ListItems 1.3 as ListItem
 import Lomiri.Telephony 0.1 as Telephony
-import Lomiri.Application 0.1
+import QtMir.Application 0.1
 import Lomiri.ApplicationMenu 0.1
 import Lomiri.ModemConnectivity 0.1
 import Lomiri.Indicators 0.1

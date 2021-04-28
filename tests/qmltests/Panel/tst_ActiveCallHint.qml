@@ -18,7 +18,7 @@ import QtQuick 2.4
 import QtTest 1.0
 import Lomiri.SelfTest 0.1 as UT
 import Lomiri.Telephony 0.1 as Telephony
-import Lomiri.Application 0.1
+import QtMir.Application 0.1
 import "../../../qml/Panel"
 
 Item {

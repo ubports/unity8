@@ -510,7 +510,7 @@ void MirSurface::openMenu(qreal x, qreal y, qreal width, qreal height)
     auto *menu = SurfaceManager::instance()->createSurface("menu", Mir::MenuType, Mir::HiddenState,
             this /* parentSurface */,
             QUrl() /* screenshot */,
-            QUrl("qrc:///Lomiri/Application/KateMenu.qml"));
+            QUrl("qrc:///QtMir/Application/KateMenu.qml"));
 
     menu->setRequestedPosition(QPoint(x,y));
     menu->resize(width, height);
@@ -524,7 +524,7 @@ void MirSurface::openDialog(qreal x, qreal y, qreal width, qreal height)
     auto *dialog = SurfaceManager::instance()->createSurface("dialog", Mir::DialogType, Mir::HiddenState,
             this /* parentSurface */,
             QUrl() /* screenshot */,
-            QUrl("qrc:///Lomiri/Application/KateDialog.qml"));
+            QUrl("qrc:///QtMir/Application/KateDialog.qml"));
 
     dialog->setRequestedPosition(QPoint(x,y));
     dialog->resize(width, height);

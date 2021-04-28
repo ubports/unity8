@@ -54,7 +54,7 @@ ApplicationManager::ApplicationManager(QObject *parent)
 
     // Emit signal to notify Upstart that Mir is ready to receive client connections
     // see http://upstart.lomiri.com/cookbook/#expect-stop
-    // We do this because some autopilot tests actually use this mock Lomiri.Application module,
+    // We do this because some autopilot tests actually use this mock QtMir.Application module,
     // so we have to mimic what the real ApplicationManager does in that regard.
     if (qgetenv("LOMIRI_MIR_EMITS_SIGSTOP") == "1") {
         raise(SIGSTOP);

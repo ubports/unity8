@@ -18,7 +18,7 @@ import QtQuick 2.4
 // FIXME: uncomment this when telephony-service is available in UBports Focal
 // import Lomiri.Telephony 0.1 as Telephony
 import Lomiri.Components 1.3
-import Lomiri.Application 0.1
+import QtMir.Application 0.1
 import "../Components"
 
 Item {

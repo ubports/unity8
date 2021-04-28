@@ -17,7 +17,7 @@
 import QtQuick 2.4
 import QtQuick.Window 2.2
 import Lomiri.Components 1.3
-import Lomiri.Application 0.1
+import QtMir.Application 0.1
 import "../Components/PanelState"
 import "../Components"
 import Utils 0.1
