@@ -36,6 +36,7 @@ Build-Depends:
  libqt5xmlpatterns5-dev,
  libqtdbusmock1-dev (>= 0.7),
  libqtdbustest1-dev,
+ libsystemd-dev [linux-any],
  liblomirisystemsettings-dev,
  liblomiri-app-launch-dev,
  liblomiri-download-manager-common-dev,

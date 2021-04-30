@@ -23,6 +23,9 @@
 #include <QTranslator>
 #include <QLibraryInfo>
 #include <QLocale>
+#include <QTimer>
+
+#include <systemd/sd-daemon.h>
 
 int main(int argc, const char *argv[])
 {
@@ -58,6 +61,20 @@ int main(int argc, const char *argv[])
     if (qtTranslator.load(QLocale(), QStringLiteral("qt_"), qgetenv("SNAP"), QLibraryInfo::location(QLibraryInfo::TranslationsPath))) {
         application->installTranslator(&qtTranslator);
     }
+
+    // When the event loop starts, signal systemd that we're ready.
+    // Shouldn't do anything if we're not under systemd or it's not waiting
+    // for our answer.
+    QTimer::singleShot(0 /* msec */, []() {
+        sd_notify(
+            /* unset_environment -- we'll do so using Qt's function */ false,
+            /* state */ "READY=1\n"
+                        "STATUS=Lomiri is running and ready to receive connections...");
+
+        // I'm not sure if we ever have children ourself, but just in case.
+        // I don't plan to call sd_notify() again.
+        qunsetenv("NOTIFY_SOCKET");
+    });
 
     int result = application->exec();
 

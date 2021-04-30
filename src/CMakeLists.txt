@@ -44,6 +44,12 @@ if (ENABLE_TOUCH_EMULATION)
 endif()
 
 pkg_check_modules(ANDROID_PROPERTIES REQUIRED libandroid-properties)
+pkg_check_modules(SYSTEMD REQUIRED libsystemd)
+
+include_directories(
+    ${SYSTEMD_INCLUDE_DIRS}
+)
+
 add_executable(${SHELL_APP} ${SOURCE_FILES})
 
 if (NOT "${ANDROID_PROPERTIES_INCLUDE_DIRS}" STREQUAL "")
@@ -54,6 +60,7 @@ target_link_libraries(${SHELL_APP}
     ${ANDROID_PROPERTIES_LDFLAGS}
     ${GSETTINGS_QT_LDFLAGS}
     ${QTMIRSERVER_LDFLAGS}
+    ${SYSTEMD_LDFLAGS}
     LomiriGestures
     connectivity-qt1
     lomiri-private
