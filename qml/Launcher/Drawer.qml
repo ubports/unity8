@@ -61,7 +61,7 @@ FocusScope {
                 // See onDraggingHorizontallyChanged below
                 searchField.focus = hadFocus;
                 searchField.select(oldSelectionStart, oldSelectionEnd);
-            } else if (fullyClosed || fullyOpen) {
+            } else if (fullyClosed || (fullyOpen && !searchField.focus)) {
                 searchField.text = "";
                 resetOldFocus();
             }
