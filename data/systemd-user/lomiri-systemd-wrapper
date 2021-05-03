@@ -1,0 +1,31 @@
+#!/bin/sh -ef
+
+# Ensure the shell always gets unthrottled touch events, so that applications
+# who want full speed low-latency input can get it (LP: #1497105) and so that
+# apps can use QML touch compression safely (the QML touch compression
+# algorithm does not support nesting well - LP: #1486341, LP: #1556763 - so
+# must be fed by the raw input event stream from Unity8).
+export QML_NO_TOUCH_COMPRESSION=1
+
+# TODO: maybe allow this to be configurable somehow?
+export MIR_SERVER_ENABLE_MIRCLIENT=1
+export MIR_SERVER_PROMPT_FILE=1
+
+# Unlikely under systemd, but just in case.
+if [ -z "$XDG_RUNTIME_DIR" ]; then
+    XDG_RUNTIME_DIR=/run/user/$(id -u)
+    export XDG_RUNTIME_DIR
+fi
+
+export MIR_SERVER_FILE="${XDG_RUNTIME_DIR}/mir_socket"
+
+rm -f "$MIR_SERVER_FILE"
+rm -f "${MIR_SERVER_FILE}_trusted"
+
+# Propegate our socket path for launching applications
+dbus-update-activation-environment --systemd MIR_SOCKET="${MIR_SERVER_FILE}"
+
+# Ensure that Lomiri uses the correct QPA.
+export QT_QPA_PLATFORM=mirserver
+
+exec ${BINARY:-lomiri} "$@"

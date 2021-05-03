@@ -75,6 +75,7 @@ Build-Depends:
  qtdeclarative5-dev-tools,
  qtdeclarative5-private-dev (>= 5.6),
  qml-module-lomiri-content,
+ systemd [linux-any],
  ttf-ubuntu-font-family,
  ubports-wallpapers,
  xvfb,
