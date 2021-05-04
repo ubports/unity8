@@ -45,7 +45,7 @@ StyledItem {
                 WideView {
                     id: view
 
-                    background: "/usr/share/backgrounds/warty-final-lomiri.png"
+                    background: "/usr/share/backgrounds/warty-final-ubuntu.png"
                     userModel: LightDM.Users
                     infographicModel: LightDM.Infographic
 

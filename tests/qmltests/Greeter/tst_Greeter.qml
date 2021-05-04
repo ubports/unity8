@@ -30,7 +30,7 @@ Item {
     width: units.gu(120)
     height: units.gu(80)
 
-    property url defaultBackground: "/usr/share/backgrounds/warty-final-lomiri.png"
+    property url defaultBackground: "/usr/share/backgrounds/warty-final-ubuntu.png"
 
     Component.onCompleted: {
         loader.active = true;
