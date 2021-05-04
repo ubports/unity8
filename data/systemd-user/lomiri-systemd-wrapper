@@ -22,8 +22,12 @@ export MIR_SERVER_FILE="${XDG_RUNTIME_DIR}/mir_socket"
 rm -f "$MIR_SERVER_FILE"
 rm -f "${MIR_SERVER_FILE}_trusted"
 
+# TODO: maybe handle some kind of collision?
+export WAYLAND_DISPLAY=wayland-0
+
 # Propegate our socket path for launching applications
 dbus-update-activation-environment --systemd MIR_SOCKET="${MIR_SERVER_FILE}"
+dbus-update-activation-environment --systemd WAYLAND_DISPLAY
 
 # Ensure that Lomiri uses the correct QPA.
 export QT_QPA_PLATFORM=mirserver
