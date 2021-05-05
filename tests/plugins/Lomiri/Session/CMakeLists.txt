@@ -60,7 +60,7 @@ install(TARGETS sessionbackendtestExec
 
 add_lomiri_unittest(SessionBackend dbus-test-runner
     ENVIRONMENT LD_PRELOAD=$<TARGET_FILE:SessionBackendTestPreload>
-                XDG_SESSION_PATH=/session
+                XDG_SESSION_PATH=/session XDG_SESSION_ID=2
     ARG_PREFIX "--parameter"
     ARGS
         --task $<TARGET_FILE:LightDMServer>

@@ -22,6 +22,11 @@ LogindServer::LogindServer(QObject *parent)
 {
 }
 
+QDBusObjectPath LogindServer::GetSession(const QString & /* session_id */)
+{
+    return QDBusObjectPath("/logindsession");
+}
+
 QDBusObjectPath LogindServer::GetSessionByPID(quint32)
 {
     return QDBusObjectPath("/logindsession");

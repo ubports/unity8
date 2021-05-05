@@ -32,4 +32,7 @@ dbus-update-activation-environment --systemd WAYLAND_DISPLAY
 # Ensure that Lomiri uses the correct QPA.
 export QT_QPA_PLATFORM=mirserver
 
+# Allow Lomiri to assume user's logind Display session.
+export LOMIRI_AS_SYSTEMD_UNIT=1
+
 exec ${BINARY:-lomiri} "$@"

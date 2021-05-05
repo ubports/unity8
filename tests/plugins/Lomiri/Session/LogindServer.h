@@ -30,6 +30,7 @@ public:
     explicit LogindServer(QObject *parent = nullptr);
 
 public Q_SLOTS:
+    QDBusObjectPath GetSession(const QString & session_id);
     QDBusObjectPath GetSessionByPID(quint32 pid);
     void Reboot(bool interactive);
     void PowerOff(bool interactive);

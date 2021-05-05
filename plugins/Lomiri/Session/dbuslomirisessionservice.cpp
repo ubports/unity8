@@ -42,6 +42,16 @@
 #define ACTIVE_KEY QStringLiteral("Active")
 #define IDLE_SINCE_KEY QStringLiteral("IdleSinceHint")
 
+// TODO: migrate defines to constant variables in the future.
+static const QString LOGIN1_USER_SELF_PATH =
+        QStringLiteral("/org/freedesktop/login1/user/self");
+static const QString LOGIN1_USER_IFACE =
+        QStringLiteral("org.freedesktop.login1.User");
+static const QString DBUS_PROPERTIES_IFACE =
+        QStringLiteral("org.freedesktop.DBus.Properties");
+
+static const QString DISPLAY_KEY = QStringLiteral("Display");
+
 class DBusLomiriSessionServicePrivate: public QObject
 {
     Q_OBJECT
@@ -56,19 +66,75 @@ public:
         checkActive();
     }
 
+    QString determineLogindSessionPath() {
+        // Simple case: environment variable.
+        auto sessionEnv = qgetenv("XDG_SESSION_ID");
+        if (!sessionEnv.isEmpty()) {
+            QDBusMessage msg = QDBusMessage::createMethodCall(
+                                LOGIN1_SERVICE,
+                                LOGIN1_PATH,
+                                LOGIN1_IFACE,
+                                QStringLiteral("GetSession"));
+            // Can't use QByteArray as-is; QDbus will interpret it as 'ay'
+            msg << QString::fromLocal8Bit(sessionEnv);
+            QDBusReply<QDBusObjectPath> reply = QDBusConnection::SM_BUSNAME().call(msg);
+
+            if (reply.isValid()) {
+                return reply.value().path();
+            } else {
+                qWarning() << "Failed to get logind session path for"
+                           << sessionEnv << ":"
+                           << reply.error().message();
+            }
+        }
+
+        // We're not under the session. If we're running as a systemd user unit,
+        // use the user's Display session, which is what gnome-shell does.
+        // Care must be taken to check if this is actually the case, otherwise
+        // any invocation of Lomiri will become session-like.
+
+        if (qEnvironmentVariableIsSet("LOMIRI_AS_SYSTEMD_UNIT")) {
+            QDBusMessage msg = QDBusMessage::createMethodCall(
+                                LOGIN1_SERVICE,
+                                LOGIN1_USER_SELF_PATH,
+                                DBUS_PROPERTIES_IFACE,
+                                QStringLiteral("Get"));
+            msg << LOGIN1_USER_IFACE;
+            msg << DISPLAY_KEY;
+
+            // org.freedesktop.DBus.Properties.Get returns DBus variant.
+            QDBusReply<QDBusVariant> reply = QDBusConnection::SM_BUSNAME().call(msg);
+
+            if (reply.isValid()) {
+                // We're the only callsite, so it's not worth writing full
+                // C++ struct (un-)marshaling. Let's just un-marshall here.
+                QString sessionName;
+                QDBusObjectPath sessionPath;
+
+                QVariant variant = reply.value().variant();
+                const QDBusArgument arg = variant.value<QDBusArgument>();
+
+                arg.beginStructure();
+                arg >> sessionName >> sessionPath;
+                arg.endStructure();
+
+                return sessionPath.path();
+            } else {
+                qWarning() << "Failed to get user's Display session:"
+                           << reply.error().message();
+            }
+        }
+
+        // Can't find anything, return empty QString.
+        return QString();
+    }
+
     void init()
     {
         // get our logind session path
-        QDBusMessage msg = QDBusMessage::createMethodCall(LOGIN1_SERVICE,
-                                                          LOGIN1_PATH,
-                                                          LOGIN1_IFACE,
-                                                          QStringLiteral("GetSessionByPID"));
-        msg << (quint32) getpid();
+        logindSessionPath = determineLogindSessionPath();
 
-        QDBusReply<QDBusObjectPath> reply = QDBusConnection::SM_BUSNAME().call(msg);
-        if (reply.isValid()) {
-            logindSessionPath = reply.value().path();
-
+        if (!logindSessionPath.isEmpty()) {
             // start watching the Active property
             QDBusConnection::SM_BUSNAME().connect(LOGIN1_SERVICE, logindSessionPath, QStringLiteral("org.freedesktop.DBus.Properties"), QStringLiteral("PropertiesChanged"),
                                                   this, SLOT(onPropertiesChanged(QString,QVariantMap,QStringList)));
@@ -78,8 +144,6 @@ public:
             // re-enable the inhibition upon resume from sleep
             QDBusConnection::SM_BUSNAME().connect(LOGIN1_SERVICE, LOGIN1_PATH, LOGIN1_IFACE, QStringLiteral("PrepareForSleep"),
                                                   this, SLOT(onResuming(bool)));
-        } else {
-            qWarning() << "Failed to get logind session path" << reply.error().message();
         }
     }
 

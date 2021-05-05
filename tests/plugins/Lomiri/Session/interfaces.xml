@@ -3,6 +3,10 @@
     <method name="Lock" />
   </interface>
   <interface name="org.freedesktop.login1.Manager">
+    <method name="GetSession">
+      <arg name="session_id" type="s" direction="in" />
+      <arg name="object_path" type="o" direction="out" />
+    </method>
     <method name="GetSessionByPID">
       <arg name="pid" type="u" direction="in" />
       <arg name="session" type="o" direction="out" />
