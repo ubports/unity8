@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 12:15-0500\n"
+"POT-Creation-Date: 2021-01-29 11:42-0600\n"
 "PO-Revision-Date: 2016-10-27 13:43+0000\n"
 "Last-Translator: Cédric VALMARY (Tot en òc) <cvalmary@yahoo.fr>\n"
 "Language-Team: Occitan (post 1500) <oc@li.org>\n"
@@ -51,16 +51,16 @@ msgstr ""
 msgid "Guest Session"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:48
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Pin shortcut"
 msgstr "Espingolar l'acorchi"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Unity/Launcher/launcheritem.cpp:54
 msgid "Quit"
 msgstr "Quitar"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Unpin shortcut"
 msgstr "Destacar l'acorchi"
 
@@ -83,7 +83,7 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Tampar la session"
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:284
 #: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
@@ -129,13 +129,19 @@ msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Reaviar"
 
+#: qml/Components/Dialogs.qml:276
+#, fuzzy
+#| msgid "Takes a screenshot."
+msgid "Screenshot"
+msgstr "Pren una captura d'ecran."
+
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
 msgstr "Acorchis de clavièr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
-msgstr "Unity 8"
+msgid "Lomiri"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -232,18 +238,6 @@ msgstr "Super + W"
 #| msgid "Open the launcher"
 msgid "Opens the Application Drawer."
 msgstr "Ouvrez lo aviador"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:207
-msgid "Scopes"
-msgstr "Motors de recèrca"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:214
-msgid "Super (Tap)"
-msgstr "Super (quichada corta)"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:219
-msgid "Opens the Scopes home."
-msgstr "Dobrís la pagina d'acuèlh dels motors de recèrca."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
@@ -457,12 +451,20 @@ msgstr "Còdi"
 msgid "Select desktop environment"
 msgstr "Seleccionar l'environament de burèu"
 
-#: qml/Launcher/Drawer.qml:249
+#: qml/Launcher/Drawer.qml:250
 #, fuzzy
 #| msgctxt "Button: Start a search in the current dash scope"
 #| msgid "Search"
 msgid "Search…"
 msgstr "Recercar"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:56
+msgid "Pull to refresh…"
+msgstr "Tirar per actualizar..."
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:61
+msgid "Release to refresh…"
+msgstr "Daissar anar per actualizar..."
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -563,7 +565,7 @@ msgid "Drag using 3 fingers any application from one window to the other"
 msgstr ""
 "Fasètz lisar amb 3 dets quina aplicacion que siá d'una fenèstra a l'autra"
 
-#: qml/Stage/Stage.qml:668
+#: qml/Stage/Stage.qml:671
 msgid "No running apps"
 msgstr ""
 
@@ -862,6 +864,18 @@ msgstr "Senhal feble"
 msgid "Very weak password"
 msgstr "Senhal fòrça feble"
 
+#~ msgid "Unity 8"
+#~ msgstr "Unity 8"
+
+#~ msgid "Scopes"
+#~ msgstr "Motors de recèrca"
+
+#~ msgid "Super (Tap)"
+#~ msgstr "Super (quichada corta)"
+
+#~ msgid "Opens the Scopes home."
+#~ msgstr "Dobrís la pagina d'acuèlh dels motors de recèrca."
+
 #~ msgctxt "Button: Open the Ubuntu Store"
 #~ msgid "Store"
 #~ msgstr "Logitèca"
@@ -912,12 +926,6 @@ msgstr "Senhal fòrça feble"
 
 #~ msgid "Add a review"
 #~ msgstr "Apondre un avís"
-
-#~ msgid "Pull to refresh…"
-#~ msgstr "Tirar per actualizar..."
-
-#~ msgid "Release to refresh…"
-#~ msgstr "Daissar anar per actualizar..."
 
 #~ msgid "Enable location data"
 #~ msgstr "Activar las donadas de localizacion"

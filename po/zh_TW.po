@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2021-02-14 20:35+0000\n"
-"Last-Translator: louies0623 <louies0623@gmail.com>\n"
+"POT-Creation-Date: 2021-01-29 11:42-0600\n"
+"PO-Revision-Date: 2021-04-09 13:06+0000\n"
+"Last-Translator: anonymous <noreply@weblate.org>\n"
 "Language-Team: Chinese (Traditional) <https://translate.ubports.com/projects/"
 "ubports/lomiri/zh_Hant/>\n"
 "Language: zh_TW\n"
@@ -52,16 +52,16 @@ msgstr "登入"
 msgid "Guest Session"
 msgstr "訪客作業階段"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:48
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Pin shortcut"
 msgstr "釘住捷徑"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Unity/Launcher/launcheritem.cpp:54
 msgid "Quit"
 msgstr "結束"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Unpin shortcut"
 msgstr "取消釘住捷徑"
 
@@ -84,7 +84,7 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "登出"
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:284
 #: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
@@ -128,13 +128,17 @@ msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "重新啟動"
 
+#: qml/Components/Dialogs.qml:276
+msgid "Screenshot"
+msgstr "螢幕節圖"
+
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
 msgstr "鍵盤快捷鍵"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
-msgstr "Unity 8"
+msgid "Lomiri"
+msgstr "Lomiri"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -219,18 +223,6 @@ msgstr "Super + A"
 #: qml/Components/KeyboardShortcutsOverlay.qml:195
 msgid "Opens the Application Drawer."
 msgstr "開啟應用程式欄。"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:207
-msgid "Scopes"
-msgstr "範圍"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:214
-msgid "Super (Tap)"
-msgstr "Super (輕按)"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:219
-msgid "Opens the Scopes home."
-msgstr "打開 \"範圍\" 主頁。"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
@@ -429,9 +421,17 @@ msgstr "PIN 密碼"
 msgid "Select desktop environment"
 msgstr "選擇桌面環境"
 
-#: qml/Launcher/Drawer.qml:249
+#: qml/Launcher/Drawer.qml:250
 msgid "Search…"
 msgstr "搜尋…"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:56
+msgid "Pull to refresh…"
+msgstr "下拉以重新整理…"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:61
+msgid "Release to refresh…"
+msgstr "放開以重新整理…"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -525,7 +525,7 @@ msgstr "返回"
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr "使用3根手指將任何應用程式從一個視窗拖到另一個視窗"
 
-#: qml/Stage/Stage.qml:668
+#: qml/Stage/Stage.qml:671
 msgid "No running apps"
 msgstr "沒有執行中的應用程式"
 
@@ -813,6 +813,18 @@ msgstr "密碼強度不足"
 msgid "Very weak password"
 msgstr "密碼強度極弱"
 
+#~ msgid "Unity 8"
+#~ msgstr "Unity 8"
+
+#~ msgid "Scopes"
+#~ msgstr "範圍"
+
+#~ msgid "Super (Tap)"
+#~ msgstr "Super (輕按)"
+
+#~ msgid "Opens the Scopes home."
+#~ msgstr "打開 \"範圍\" 主頁。"
+
 #~ msgctxt "Button: Open the Ubuntu Store"
 #~ msgid "Store"
 #~ msgstr "商城"
@@ -867,12 +879,6 @@ msgstr "密碼強度極弱"
 
 #~ msgid "Add a review"
 #~ msgstr "新增評論"
-
-#~ msgid "Pull to refresh…"
-#~ msgstr "下拉以重新整理…"
-
-#~ msgid "Release to refresh…"
-#~ msgstr "放開以重新整理…"
 
 #~ msgid "Enable location data"
 #~ msgstr "啟用位置資料"

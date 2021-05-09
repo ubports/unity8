@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 12:15-0500\n"
+"POT-Creation-Date: 2021-01-29 11:42-0600\n"
 "PO-Revision-Date: 2020-10-01 20:11+0000\n"
 "Last-Translator: Soohan Park <soobak0313@gmail.com>\n"
 "Language-Team: Korean <https://translate.ubports.com/projects/unity8/unity8/"
@@ -52,16 +52,16 @@ msgstr "로그인"
 msgid "Guest Session"
 msgstr "손님 세션"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:48
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Pin shortcut"
 msgstr "바로 가기를 고정"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Unity/Launcher/launcheritem.cpp:54
 msgid "Quit"
 msgstr "끝내기"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Unpin shortcut"
 msgstr "바로 가기를 고정 해제"
 
@@ -84,7 +84,7 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "로그아웃"
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:284
 #: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
@@ -128,13 +128,19 @@ msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "다시 시작"
 
+#: qml/Components/Dialogs.qml:276
+#, fuzzy
+#| msgid "Takes a screenshot."
+msgid "Screenshot"
+msgstr "화면을 갈무리합니다."
+
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
 msgstr "키보드 단축키"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
-msgstr "유니티 8"
+msgid "Lomiri"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -219,18 +225,6 @@ msgstr "Super + A"
 #: qml/Components/KeyboardShortcutsOverlay.qml:195
 msgid "Opens the Application Drawer."
 msgstr "어플리케이션 서랍을 엽니다."
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:207
-msgid "Scopes"
-msgstr "스코프"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:214
-msgid "Super (Tap)"
-msgstr "Super (한 번 누르기)"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:219
-msgid "Opens the Scopes home."
-msgstr "스코프 홈을 엽니다."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
@@ -430,9 +424,17 @@ msgstr "비밀번호"
 msgid "Select desktop environment"
 msgstr "데스크탑 환경 선택하기"
 
-#: qml/Launcher/Drawer.qml:249
+#: qml/Launcher/Drawer.qml:250
 msgid "Search…"
 msgstr "검색…"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:56
+msgid "Pull to refresh…"
+msgstr "당기면 새로 고침..."
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:61
+msgid "Release to refresh…"
+msgstr "놓으면 새로 고침..."
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -527,9 +529,10 @@ msgstr "뒤로"
 
 #: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
-msgstr "어떤 어플리케이션이든 한 창에서 다른 창으로 세 손가락을 사용해 끌어놓으세요"
+msgstr ""
+"어떤 어플리케이션이든 한 창에서 다른 창으로 세 손가락을 사용해 끌어놓으세요"
 
-#: qml/Stage/Stage.qml:668
+#: qml/Stage/Stage.qml:671
 msgid "No running apps"
 msgstr "실행 중인 앱 없음"
 
@@ -666,7 +669,9 @@ msgstr "장치 업데이트"
 msgid ""
 "There is a system update available and ready to install. Afterwards, the "
 "device will automatically restart."
-msgstr "설치할 준비가 된 시스템 업데이트가 있습니다. 이후에 장치가 자동으로 재시작됩니다."
+msgstr ""
+"설치할 준비가 된 시스템 업데이트가 있습니다. 이후에 장치가 자동으로 재시작됩"
+"니다."
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
@@ -818,6 +823,18 @@ msgstr "약한 암호"
 msgid "Very weak password"
 msgstr "아주 약한 암호"
 
+#~ msgid "Unity 8"
+#~ msgstr "유니티 8"
+
+#~ msgid "Scopes"
+#~ msgstr "스코프"
+
+#~ msgid "Super (Tap)"
+#~ msgstr "Super (한 번 누르기)"
+
+#~ msgid "Opens the Scopes home."
+#~ msgstr "스코프 홈을 엽니다."
+
 #~ msgctxt "Button: Open the Ubuntu Store"
 #~ msgid "Store"
 #~ msgstr "상점"
@@ -854,12 +871,6 @@ msgstr "아주 약한 암호"
 
 #~ msgid "Add a review"
 #~ msgstr "평가 추가"
-
-#~ msgid "Pull to refresh…"
-#~ msgstr "당기면 새로 고침..."
-
-#~ msgid "Release to refresh…"
-#~ msgstr "놓으면 새로 고침..."
 
 #~ msgid "Enable location data"
 #~ msgstr "위치 데이터 사용"
