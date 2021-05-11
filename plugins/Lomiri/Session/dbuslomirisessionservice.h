@@ -25,16 +25,16 @@ typedef QList<QDBusObjectPath> QDbusList;
 Q_DECLARE_METATYPE(QList<QDBusObjectPath>)
 
 /**
- * DBusLomiriSessionService provides com.canonical.Lomiri.Session dbus
+ * DBusLomiriSessionService provides com.lomiri.Shell.Session dbus
  * interface.
  *
- * com.canonical.Lomiri.Session interface provides public methods
+ * com.lomiri.Shell.Session interface provides public methods
  * and signals to handle eg. Logout/Reboot/Shutdown.
  */
 class DBusLomiriSessionService : public LomiriDBusObject
 {
     Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "com.canonical.Lomiri.Session")
+    Q_CLASSINFO("D-Bus Interface", "com.lomiri.Shell.Session")
 
 public:
     DBusLomiriSessionService();

@@ -30,7 +30,7 @@
 class DebuggingController: public LomiriDBusObject
 {
     Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "com.canonical.Lomiri.Debugging")
+    Q_CLASSINFO("D-Bus Interface", "com.lomiri.Shell.Debugging")
 
 public:
     DebuggingController(QObject *parent = nullptr);

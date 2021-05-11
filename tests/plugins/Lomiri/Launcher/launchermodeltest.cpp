@@ -513,7 +513,7 @@ private Q_SLOTS:
     }
 
     void testIntrospection() {
-        QDBusInterface interface("com.canonical.Lomiri.Launcher", "/com/canonical/Lomiri/Launcher", "org.freedesktop.DBus.Introspectable");
+        QDBusInterface interface("com.lomiri.Shell.Launcher", "/com/lomiri/Shell/Launcher", "org.freedesktop.DBus.Introspectable");
         QDBusReply<QString> reply = interface.call("Introspect");
         QStringList nodes = extractNodes(reply.value());
         QCOMPARE(nodes.count(), launcherModel->rowCount());
@@ -549,7 +549,7 @@ private Q_SLOTS:
         QSignalSpy spy(launcherModel, &LauncherModel::dataChanged);
 
         // Call GetAll on abs-icon
-        QDBusInterface interface("com.canonical.Lomiri.Launcher", "/com/canonical/Lomiri/Launcher/abs_2Dicon", "org.freedesktop.DBus.Properties");
+        QDBusInterface interface("com.lomiri.Shell.Launcher", "/com/lomiri/Shell/Launcher/abs_2Dicon", "org.freedesktop.DBus.Properties");
         QDBusReply<QVariantMap> reply = interface.call("GetAll");
         QVariantMap map = reply.value();
 
@@ -567,8 +567,8 @@ private Q_SLOTS:
         QCOMPARE(map.value("countVisible").toBool(), false);
 
         // Now make it visible and set it to 55 through D-Bus
-        interface.call("Set", "com.canonical.Lomiri.Launcher.Item", "count", QVariant::fromValue(QDBusVariant(55)));
-        interface.call("Set", "com.canonical.Lomiri.Launcher.Item", "countVisible", QVariant::fromValue(QDBusVariant(true)));
+        interface.call("Set", "com.lomiri.Shell.Launcher.Item", "count", QVariant::fromValue(QDBusVariant(55)));
+        interface.call("Set", "com.lomiri.Shell.Launcher.Item", "countVisible", QVariant::fromValue(QDBusVariant(true)));
 
         // Fetch it again using GetAll
         reply = interface.call("GetAll");
@@ -643,9 +643,9 @@ private Q_SLOTS:
 
 
         // set the count emblem to visible
-        QDBusInterface interface("com.canonical.Lomiri.Launcher", "/com/canonical/Lomiri/Launcher/abs_2Dicon", "org.freedesktop.DBus.Properties");
-        interface.call("Set", "com.canonical.Lomiri.Launcher.Item", "count", QVariant::fromValue(QDBusVariant(55)));
-        interface.call("Set", "com.canonical.Lomiri.Launcher.Item", "countVisible", QVariant::fromValue(QDBusVariant(true)));
+        QDBusInterface interface("com.lomiri.Shell.Launcher", "/com/lomiri/Shell/Launcher/abs_2Dicon", "org.freedesktop.DBus.Properties");
+        interface.call("Set", "com.lomiri.Shell.Launcher.Item", "count", QVariant::fromValue(QDBusVariant(55)));
+        interface.call("Set", "com.lomiri.Shell.Launcher.Item", "countVisible", QVariant::fromValue(QDBusVariant(true)));
 
         // Make sure item is here and that count is visible
         index = launcherModel->findApplication("abs-icon");
@@ -657,7 +657,7 @@ private Q_SLOTS:
         }
 
         // Hide count emblem again
-        interface.call("Set", "com.canonical.Lomiri.Launcher.Item", "countVisible", QVariant::fromValue(QDBusVariant(false)));
+        interface.call("Set", "com.lomiri.Shell.Launcher.Item", "countVisible", QVariant::fromValue(QDBusVariant(false)));
 
         // Make sure item is shown/hidden as expected
         index = launcherModel->findApplication("abs-icon");
@@ -671,7 +671,7 @@ private Q_SLOTS:
         QVERIFY(launcherModel->get(index)->alerting() == false);
 
         // Call Alert() on "abs-icon"
-        QDBusInterface interface("com.canonical.Lomiri.Launcher", "/com/canonical/Lomiri/Launcher/abs_2Dicon", "com.canonical.Lomiri.Launcher.Item");
+        QDBusInterface interface("com.lomiri.Shell.Launcher", "/com/lomiri/Shell/Launcher/abs_2Dicon", "com.lomiri.Shell.Launcher.Item");
         interface.call("Alert");
 
         // Check that the alerting-status is now true
@@ -706,7 +706,7 @@ private Q_SLOTS:
         }
 
         // Call refresh
-        QDBusInterface interface("com.canonical.Lomiri.Launcher", "/com/canonical/Lomiri/Launcher", "com.canonical.Lomiri.Launcher");
+        QDBusInterface interface("com.lomiri.Shell.Launcher", "/com/lomiri/Shell/Launcher", "com.lomiri.Shell.Launcher");
         QDBusReply<void> reply = interface.call("Refresh");
 
         // Make sure the call to Refresh returned without error.
@@ -801,9 +801,9 @@ private Q_SLOTS:
         QCOMPARE(getASConfig().at(index).value("count").toInt(), 0);
 
         // Change the count of the abs-icon app through D-Bus
-        QDBusInterface interface("com.canonical.Lomiri.Launcher", "/com/canonical/Lomiri/Launcher/abs_2Dicon", "org.freedesktop.DBus.Properties");
-        interface.call("Set", "com.canonical.Lomiri.Launcher.Item", "count", QVariant::fromValue(QDBusVariant(55)));
-        interface.call("Set", "com.canonical.Lomiri.Launcher.Item", "countVisible", QVariant::fromValue(QDBusVariant(true)));
+        QDBusInterface interface("com.lomiri.Shell.Launcher", "/com/lomiri/Shell/Launcher/abs_2Dicon", "org.freedesktop.DBus.Properties");
+        interface.call("Set", "com.lomiri.Shell.Launcher.Item", "count", QVariant::fromValue(QDBusVariant(55)));
+        interface.call("Set", "com.lomiri.Shell.Launcher.Item", "countVisible", QVariant::fromValue(QDBusVariant(true)));
 
         // Make sure it changed to visible and 55
         QCOMPARE(getASConfig().at(index).value("countVisible").toBool(), true);

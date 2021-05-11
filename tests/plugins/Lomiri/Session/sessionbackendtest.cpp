@@ -47,9 +47,9 @@ class SessionBackendTest : public QObject
 private Q_SLOTS:
 
     void initTestCase() {
-        dbusLomiriSession = new QDBusInterface ("com.canonical.Lomiri",
-                                               "/com/canonical/Lomiri/Session",
-                                               "com.canonical.Lomiri.Session",
+        dbusLomiriSession = new QDBusInterface ("com.lomiri.Shell",
+                                               "/com/lomiri/Shell/Session",
+                                               "com.lomiri.Shell.Session",
                                                QDBusConnection::sessionBus());
     }
 
@@ -194,7 +194,7 @@ private Q_SLOTS:
         DBusLomiriSessionService dbusLomiriSessionService;
         QCoreApplication::processEvents(); // to let the service register on DBus
 
-        // Spy on the given signal on the /com/canonical/Lomiri/Session object
+        // Spy on the given signal on the /com/lomiri/Shell/Session object
         // as proof we are actually calling the actual method.
         // .. because QSignalSpy checks the signal signature like this: "if (((aSignal[0] - '0') & 0x03) != QSIGNAL_CODE)"
         QSignalSpy spy(&dbusLomiriSessionService, qPrintable(signal.prepend(QSIGNAL_CODE)));
@@ -202,7 +202,7 @@ private Q_SLOTS:
         DBusGnomeSessionManagerDialogWrapper dbusGnomeSessionManagerDialogWrapper;
         QCoreApplication::processEvents(); // to let the service register on DBus
 
-        QDBusInterface dbusGnomeSessionWrapper("com.canonical.Lomiri",
+        QDBusInterface dbusGnomeSessionWrapper("com.lomiri.Shell",
                                                "/org/gnome/SessionManager/EndSessionDialog",
                                                "org.gnome.SessionManager.EndSessionDialog",
                                                QDBusConnection::sessionBus());

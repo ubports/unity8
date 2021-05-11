@@ -27,7 +27,7 @@
 #include <QDebug>
 
 DBusInterface::DBusInterface(LauncherModel *parent):
-    LomiriDBusVirtualObject(QStringLiteral("/com/canonical/Lomiri/Launcher"), QStringLiteral("com.canonical.Lomiri.Launcher"), true, parent),
+    LomiriDBusVirtualObject(QStringLiteral("/com/lomiri/Shell/Launcher"), QStringLiteral("com.lomiri.Shell.Launcher"), true, parent),
     m_launcherModel(parent)
 {
 }
@@ -35,11 +35,11 @@ DBusInterface::DBusInterface(LauncherModel *parent):
 QString DBusInterface::introspect(const QString &path) const
 {
     /* This case we should just list the nodes */
-    if (path == QLatin1String("/com/canonical/Lomiri/Launcher/") || path == QLatin1String("/com/canonical/Lomiri/Launcher")) {
+    if (path == QLatin1String("/com/lomiri/Shell/Launcher/") || path == QLatin1String("/com/lomiri/Shell/Launcher")) {
         QString nodes;
 
         // Add Refresh to introspect
-        nodes = QStringLiteral("<interface name=\"com.canonical.Lomiri.Launcher\">"
+        nodes = QStringLiteral("<interface name=\"com.lomiri.Shell.Launcher\">"
                 "<method name=\"Refresh\"/>"
                 "</interface>");
 
@@ -53,13 +53,13 @@ QString DBusInterface::introspect(const QString &path) const
     }
 
     /* Should not happen, but let's handle it */
-    if (!path.startsWith(QLatin1String("/com/canonical/Lomiri/Launcher"))) {
+    if (!path.startsWith(QLatin1String("/com/lomiri/Shell/Launcher"))) {
         return QLatin1String("");
     }
 
     /* Now we should be looking at a node */
     QString nodeiface =
-        QStringLiteral("<interface name=\"com.canonical.Lomiri.Launcher.Item\">"
+        QStringLiteral("<interface name=\"com.lomiri.Shell.Launcher.Item\">"
             "<property name=\"count\" type=\"i\" access=\"readwrite\" />"
             "<property name=\"countVisible\" type=\"b\" access=\"readwrite\" />"
             "<property name=\"progress\" type=\"i\" access=\"readwrite\" />"
@@ -127,10 +127,10 @@ bool DBusInterface::handleMessage(const QDBusMessage& message, const QDBusConnec
     /* Break down the path to just the app id */
     bool validpath = true;
     QString pathtemp = message.path();
-    if (!pathtemp.startsWith(QLatin1String("/com/canonical/Lomiri/Launcher/"))) {
+    if (!pathtemp.startsWith(QLatin1String("/com/lomiri/Shell/Launcher/"))) {
         validpath = false;
     }
-    pathtemp.remove(QStringLiteral("/com/canonical/Lomiri/Launcher/"));
+    pathtemp.remove(QStringLiteral("/com/lomiri/Shell/Launcher/"));
     if (pathtemp.indexOf('/') >= 0) {
         validpath = false;
     }
@@ -139,13 +139,13 @@ bool DBusInterface::handleMessage(const QDBusMessage& message, const QDBusConnec
     QString appid = decodeAppId(pathtemp);
 
     // First handle methods of the Launcher interface
-    if (message.interface() == QLatin1String("com.canonical.Lomiri.Launcher")) {
+    if (message.interface() == QLatin1String("com.lomiri.Shell.Launcher")) {
         if (message.member() == QLatin1String("Refresh")) {
             QDBusMessage reply = message.createReply();
             Q_EMIT refreshCalled();
             return connection.send(reply);
         }
-    } else if (message.interface() == QLatin1String("com.canonical.Lomiri.Launcher.Item")) {
+    } else if (message.interface() == QLatin1String("com.lomiri.Shell.Launcher.Item")) {
         // Handle methods of the Launcher-Item interface
         if (message.member() == QLatin1String("Alert") && validpath) {
             QDBusMessage reply = message.createReply();
@@ -160,11 +160,11 @@ bool DBusInterface::handleMessage(const QDBusMessage& message, const QDBusConnec
     }
 
     const QList<QVariant> messageArguments = message.arguments();
-    if (message.member() == QLatin1String("Get") && (messageArguments.count() != 2 || messageArguments[0].toString() != QLatin1String("com.canonical.Lomiri.Launcher.Item"))) {
+    if (message.member() == QLatin1String("Get") && (messageArguments.count() != 2 || messageArguments[0].toString() != QLatin1String("com.lomiri.Shell.Launcher.Item"))) {
         return false;
     }
 
-    if (message.member() == QLatin1String("Set") && (messageArguments.count() != 3 || messageArguments[0].toString() != QLatin1String("com.canonical.Lomiri.Launcher.Item"))) {
+    if (message.member() == QLatin1String("Set") && (messageArguments.count() != 3 || messageArguments[0].toString() != QLatin1String("com.lomiri.Shell.Launcher.Item"))) {
         return false;
     }
 
@@ -194,19 +194,19 @@ bool DBusInterface::handleMessage(const QDBusMessage& message, const QDBusConnec
             int newCount = messageArguments[2].value<QDBusVariant>().variant().toInt();
             if (!item || newCount != item->count()) {
                 Q_EMIT countChanged(appid, newCount);
-                notifyPropertyChanged(QStringLiteral("com.canonical.Lomiri.Launcher.Item"), encodeAppId(appid), QStringLiteral("count"), QVariant(newCount));
+                notifyPropertyChanged(QStringLiteral("com.lomiri.Shell.Launcher.Item"), encodeAppId(appid), QStringLiteral("count"), QVariant(newCount));
             }
         } else if (cachedString == QLatin1String("countVisible")) {
             bool newVisible = messageArguments[2].value<QDBusVariant>().variant().toBool();
             if (!item || newVisible != item->countVisible()) {
                 Q_EMIT countVisibleChanged(appid, newVisible);
-                notifyPropertyChanged(QStringLiteral("com.canonical.Lomiri.Launcher.Item"), encodeAppId(appid), QStringLiteral("countVisible"), newVisible);
+                notifyPropertyChanged(QStringLiteral("com.lomiri.Shell.Launcher.Item"), encodeAppId(appid), QStringLiteral("countVisible"), newVisible);
             }
         } else if (cachedString == QLatin1String("progress")) {
             int newProgress = messageArguments[2].value<QDBusVariant>().variant().toInt();
             if (!item || newProgress != item->progress()) {
                 Q_EMIT progressChanged(appid, newProgress);
-                notifyPropertyChanged(QStringLiteral("com.canonical.Lomiri.Launcher.Item"), encodeAppId(appid), QStringLiteral("progress"), QVariant(newProgress));
+                notifyPropertyChanged(QStringLiteral("com.lomiri.Shell.Launcher.Item"), encodeAppId(appid), QStringLiteral("progress"), QVariant(newProgress));
             }
         }
     } else if (message.member() == QLatin1String("GetAll")) {

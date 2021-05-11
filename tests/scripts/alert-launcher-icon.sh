@@ -16,4 +16,4 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-qdbus com.canonical.Lomiri.Launcher /com/canonical/Lomiri/Launcher/$1 com.canonical.Lomiri.Launcher.Item.Alert
+qdbus com.lomiri.Shell.Launcher /com/lomiri/Shell/Launcher/$1 com.lomiri.Shell.Launcher.Item.Alert

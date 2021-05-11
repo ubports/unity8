@@ -258,7 +258,7 @@ Q_SIGNALS:
 Q_GLOBAL_STATIC(DBusLomiriSessionServicePrivate, d)
 
 DBusLomiriSessionService::DBusLomiriSessionService()
-    : LomiriDBusObject(QStringLiteral("/com/canonical/Lomiri/Session"), QStringLiteral("com.canonical.Lomiri"))
+    : LomiriDBusObject(QStringLiteral("/com/lomiri/Shell/Session"), QStringLiteral("com.lomiri.Shell"))
 {
     if (!d->logindSessionPath.isEmpty()) {
         // connect our PromptLock() slot to the logind's session Lock() signal
@@ -485,9 +485,9 @@ enum class Action : unsigned
 
 void performAsyncLomiriCall(const QString &method)
 {
-    const QDBusMessage msg = QDBusMessage::createMethodCall(QStringLiteral("com.canonical.Lomiri"),
-                                                            QStringLiteral("/com/canonical/Lomiri/Session"),
-                                                            QStringLiteral("com.canonical.Lomiri.Session"),
+    const QDBusMessage msg = QDBusMessage::createMethodCall(QStringLiteral("com.lomiri.Shell"),
+                                                            QStringLiteral("/com/lomiri/Shell/Session"),
+                                                            QStringLiteral("com.lomiri.Shell.Session"),
                                                             method);
     QDBusConnection::sessionBus().asyncCall(msg);
 }
@@ -539,7 +539,7 @@ void DBusGnomeSessionManagerWrapper::Shutdown()
 
 
 DBusGnomeSessionManagerDialogWrapper::DBusGnomeSessionManagerDialogWrapper()
-    : LomiriDBusObject(QStringLiteral("/org/gnome/SessionManager/EndSessionDialog"), QStringLiteral("com.canonical.Lomiri"))
+    : LomiriDBusObject(QStringLiteral("/org/gnome/SessionManager/EndSessionDialog"), QStringLiteral("com.lomiri.Shell"))
 {
 }
 

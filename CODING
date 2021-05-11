@@ -171,18 +171,18 @@ same fashion. There are, however, some additional lomiri-specific notes:
 
 * Enable/disable Qt scenegraph visualizer on the fly:
 
-  $ qdbus com.canonical.Lomiri.Debugging /com/canonical/Lomiri/Debugging SetSceneGraphVisualizer <mode>
+  $ qdbus com.lomiri.Shell.Debugging /com/lomiri/Shell/Debugging SetSceneGraphVisualizer <mode>
 
   This is equivalent to exporting QSG_VISUALIZE=<mode> before running lomiri, except it does it on the
   fly.
 
 * Toggle slow animations on the fly:
 
-  $ qdbus com.canonical.Lomiri.Debugging /com/canonical/Lomiri/Debugging SetSlowAnimations <true|false>
+  $ qdbus com.lomiri.Shell.Debugging /com/lomiri/Shell/Debugging SetSlowAnimations <true|false>
 
 * Change logging filter rules on the fly:
 
-  $ qdbus com.canonical.Lomiri.Debugging /com/canonical/Lomiri/Debugging SetLoggingFilterRules <filter>
+  $ qdbus com.lomiri.Shell.Debugging /com/lomiri/Shell/Debugging SetLoggingFilterRules <filter>
 
   This is equivalent to exporting QT_LOGGING_RULES or defining them in QT_LOGGING_CONF, except it does
   it on the fly.

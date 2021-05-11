@@ -28,9 +28,9 @@ int main(int argc, char *argv[])
 
     // We use the session bus for testing.  The real plugin uses the system bus
     auto connection = QDBusConnection::sessionBus();
-    if (!connection.registerObject("/com/canonical/Lomiri/Greeter/Broadcast", broadcast))
+    if (!connection.registerObject("/com/lomiri/Shell/Greeter/Broadcast", broadcast))
         return 1;
-    if (!connection.registerService("com.canonical.Lomiri.Greeter.Broadcast"))
+    if (!connection.registerService("com.lomiri.Shell.Greeter.Broadcast"))
         return 1;
 
     return a.exec();
