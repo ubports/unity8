@@ -194,7 +194,7 @@ void LauncherModel::refresh()
     if (!m_accounts || m_user.isEmpty()) {
         refreshWithItems(QList<QVariantMap>());
     } else {
-        QDBusPendingCall pendingCall = m_accounts->getUserPropertyAsync(m_user, QStringLiteral("com.canonical.lomiri.AccountsService"), QStringLiteral("LauncherItems"));
+        QDBusPendingCall pendingCall = m_accounts->getUserPropertyAsync(m_user, QStringLiteral("com.lomiri.shell.AccountsService"), QStringLiteral("LauncherItems"));
         QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingCall, this);
         connect(watcher, &QDBusPendingCallWatcher::finished,
             this, [this](QDBusPendingCallWatcher* watcher) {
@@ -296,7 +296,7 @@ void LauncherModel::refreshWithItems(const QList<QVariantMap> &items)
 
 void LauncherModel::propertiesChanged(const QString &user, const QString &interface, const QStringList &changed)
 {
-    if (user != m_user || interface != QLatin1String("com.canonical.lomiri.AccountsService") || !changed.contains(QStringLiteral("LauncherItems"))) {
+    if (user != m_user || interface != QLatin1String("com.lomiri.shell.AccountsService") || !changed.contains(QStringLiteral("LauncherItems"))) {
         return;
     }
     refresh();

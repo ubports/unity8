@@ -17,12 +17,12 @@ add_lomiri_plugin(AccountsService 0.1 AccountsService TARGETS AccountsService-qm
 set(DBUS_IFACE_DIR "${CMAKE_INSTALL_PREFIX}/share/dbus-1/interfaces")
 set(ACCOUNTS_IFACE_DIR "${CMAKE_INSTALL_PREFIX}/share/accountsservice/interfaces")
 
-install(FILES com.canonical.lomiri.AccountsService.xml
+install(FILES com.lomiri.shell.AccountsService.xml
         DESTINATION "${DBUS_IFACE_DIR}"
     )
 
 # Create accountsservice symlink for above dbus interface
 install(CODE "
 execute_process(COMMAND mkdir -p \"\$ENV{DESTDIR}${ACCOUNTS_IFACE_DIR}\")
-execute_process(COMMAND ln -sf ../../dbus-1/interfaces/com.canonical.lomiri.AccountsService.xml \"\$ENV{DESTDIR}${ACCOUNTS_IFACE_DIR}\")
+execute_process(COMMAND ln -sf ../../dbus-1/interfaces/com.lomiri.shell.AccountsService.xml \"\$ENV{DESTDIR}${ACCOUNTS_IFACE_DIR}\")
     ")

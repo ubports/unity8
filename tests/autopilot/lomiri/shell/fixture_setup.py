@@ -47,7 +47,7 @@ class Tutorial(fixtures.Fixture):
             '--dest=org.freedesktop.Accounts',
             '/org/freedesktop/Accounts/User32011',
             'org.freedesktop.DBus.Properties.Get',
-            'string:com.canonical.lomiri.AccountsService',
+            'string:com.lomiri.shell.AccountsService',
             'string:DemoEdges2'
         ]
         output = subprocess.check_output(command, universal_newlines=True)

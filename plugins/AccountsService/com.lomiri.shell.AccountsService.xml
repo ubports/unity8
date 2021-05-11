@@ -1,5 +1,5 @@
 <node>
-  <interface name="com.canonical.lomiri.AccountsService">
+  <interface name="com.lomiri.shell.AccountsService">
 
     <annotation name="org.freedesktop.Accounts.VendorExtension" value="true"/>
 
@@ -39,7 +39,7 @@
        but once we stop running the greeter in user-space, we should
        disallow org.freedesktop.Accounts.Authentication.ChangeOwn from the
        Private inteface.  -->
-  <interface name="com.canonical.lomiri.AccountsService.Private">
+  <interface name="com.lomiri.shell.AccountsService.Private">
 
     <annotation name="org.freedesktop.Accounts.VendorExtension" value="true"/>
 

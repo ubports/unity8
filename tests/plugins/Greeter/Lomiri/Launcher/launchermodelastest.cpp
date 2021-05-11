@@ -106,7 +106,7 @@ private Q_SLOTS:
 
         QVariant wrapped = QVariant::fromValue(QDBusVariant(QVariant::fromValue(items)));
         QDBusReply<void> setReply = userInterface.call(QStringLiteral("Set"),
-                                                       QStringLiteral("com.canonical.lomiri.AccountsService"),
+                                                       QStringLiteral("com.lomiri.shell.AccountsService"),
                                                        QStringLiteral("LauncherItems"),
                                                        wrapped);
         QVERIFY(setReply.isValid());

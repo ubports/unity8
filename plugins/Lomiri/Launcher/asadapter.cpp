@@ -48,7 +48,7 @@ void ASAdapter::syncItems(const QList<LauncherItem*> &list)
             items << itemToVariant(item);
         }
 
-        m_accounts->setUserPropertyAsync(m_user, QStringLiteral("com.canonical.lomiri.AccountsService"), QStringLiteral("LauncherItems"), QVariant::fromValue(items));
+        m_accounts->setUserPropertyAsync(m_user, QStringLiteral("com.lomiri.shell.AccountsService"), QStringLiteral("LauncherItems"), QVariant::fromValue(items));
     }
 }
 

@@ -96,7 +96,7 @@ void PropertiesServer::internalSet(const QString &interface, const QString &prop
         QVariant& oldValue = m_properties[interface][property];
         if (oldValue != newValue) {
             // complex types have an extra layer of wrapping via QDBusArgument
-            if (interface == QStringLiteral("com.canonical.lomiri.AccountsService") &&
+            if (interface == QStringLiteral("com.lomiri.shell.AccountsService") &&
                     property == QStringLiteral("LauncherItems")) {
                 newValue = QVariant::fromValue(qdbus_cast<QList<QVariantMap>>(newValue.value<QDBusArgument>()));
             }
@@ -124,10 +124,10 @@ void PropertiesServer::internalSet(const QString &interface, const QString &prop
 
 void PropertiesServer::Reset()
 {
-    m_properties["com.canonical.lomiri.AccountsService"]["DemoEdges2"] = false;
-    m_properties["com.canonical.lomiri.AccountsService"]["DemoEdgesCompleted"] = QStringList();
-    m_properties["com.canonical.lomiri.AccountsService"]["LauncherItems"] = QVariant::fromValue(QList<QVariantMap>());
-    m_properties["com.canonical.lomiri.AccountsService.Private"]["FailedLogins"] = 0;
+    m_properties["com.lomiri.shell.AccountsService"]["DemoEdges2"] = false;
+    m_properties["com.lomiri.shell.AccountsService"]["DemoEdgesCompleted"] = QStringList();
+    m_properties["com.lomiri.shell.AccountsService"]["LauncherItems"] = QVariant::fromValue(QList<QVariantMap>());
+    m_properties["com.lomiri.shell.AccountsService.Private"]["FailedLogins"] = 0;
     m_properties["com.ubuntu.touch.AccountsService.SecurityPrivacy"]["StatsWelcomeScreen"] = true;
     m_properties["com.ubuntu.AccountsService.Input"]["MousePrimaryButton"] = "right";
     m_properties["com.ubuntu.AccountsService.SecurityPrivacy"]["EnableLauncherWhileLocked"] = true;

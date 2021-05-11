@@ -218,7 +218,7 @@ private:
     QList<QVariantMap> getASConfig() {
         AccountsServiceDBusAdaptor *as = launcherModel->m_asAdapter->m_accounts;
         QDBusReply<QVariant> reply = as->getUserPropertyAsync(QString::fromUtf8(g_get_user_name()),
-                                                              "com.canonical.lomiri.AccountsService",
+                                                              "com.lomiri.shell.AccountsService",
                                                               "LauncherItems");
         return qdbus_cast<QList<QVariantMap>>(reply.value().value<QDBusArgument>());
     }

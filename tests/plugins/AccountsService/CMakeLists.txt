@@ -10,7 +10,7 @@ make_dbus_class(Properties org.freedesktop.DBus.Properties)
 make_dbus_class(SecurityPrivacy com.ubuntu.touch.AccountsService.SecurityPrivacy)
 make_dbus_class(Location com.ubuntu.location.providers.here.AccountsService)
 make_dbus_class(AccountsUser org.freedesktop.Accounts.User)
-make_dbus_class(AccountsPrivate com.canonical.lomiri.AccountsService.Private)
+make_dbus_class(AccountsPrivate com.lomiri.shell.AccountsService.Private)
 make_dbus_class(UscInput com.canonical.Lomiri.Input)
 
 include_directories(
