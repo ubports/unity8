@@ -47,13 +47,13 @@ def wait_for_greeter_gone():
 
 def _get_greeter_dbus_proxy():
     bus = dbus.SessionBus()
-    return bus.get_object('com.canonical.LomiriGreeter', '/')
+    return bus.get_object('com.lomiri.LomiriGreeter', '/')
 
 
 def _is_greeter_active():
     try:
         dbus_proxy = _get_greeter_dbus_proxy()
-        return dbus_proxy.Get('com.canonical.LomiriGreeter', 'IsActive')
+        return dbus_proxy.Get('com.lomiri.LomiriGreeter', 'IsActive')
     except:
         return False
 

@@ -28,7 +28,7 @@ class Greeter;
 class DBusGreeter : public LomiriDBusObject
 {
     Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "com.canonical.LomiriGreeter")
+    Q_CLASSINFO("D-Bus Interface", "com.lomiri.LomiriGreeter")
 
     Q_PROPERTY(bool IsActive READ isActive NOTIFY isActiveChanged) // since 14.10
 

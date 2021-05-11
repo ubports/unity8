@@ -28,7 +28,7 @@ class Greeter;
 class DBusGreeterList : public LomiriDBusObject
 {
     Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "com.canonical.LomiriGreeter.List")
+    Q_CLASSINFO("D-Bus Interface", "com.lomiri.LomiriGreeter.List")
 
     Q_PROPERTY(QString ActiveEntry READ GetActiveEntry WRITE SetActiveEntry NOTIFY EntrySelected) // since 14.04
     Q_PROPERTY(bool EntryIsLocked READ entryIsLocked NOTIFY entryIsLockedChanged) // since 14.04
