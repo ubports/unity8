@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 12:15-0500\n"
+"POT-Creation-Date: 2021-01-29 11:42-0600\n"
 "PO-Revision-Date: 2020-02-15 09:21+0000\n"
 "Last-Translator: HSN80 <hosseinabbasi80@outlook.com>\n"
 "Language-Team: Persian <https://translate.ubports.com/projects/unity8/unity8/"
@@ -52,16 +52,16 @@ msgstr ""
 msgid "Guest Session"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:48
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Pin shortcut"
 msgstr "سنجاق کردن میانبر"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Unity/Launcher/launcheritem.cpp:54
 msgid "Quit"
 msgstr "خروج"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Unpin shortcut"
 msgstr "برداشتن سنجاق میانبر"
 
@@ -84,7 +84,7 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "خروج"
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:284
 #: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
@@ -130,13 +130,19 @@ msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "راه‌اندازی دوباره"
 
+#: qml/Components/Dialogs.qml:276
+#, fuzzy
+#| msgid "Takes a screenshot."
+msgid "Screenshot"
+msgstr "اسکیرین شات."
+
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
 msgstr "میان‌برهای صفحه‌کلید"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
-msgstr "یونیتی ۸"
+msgid "Lomiri"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -233,18 +239,6 @@ msgstr "سوپر + W"
 #| msgid "Open the launcher"
 msgid "Opens the Application Drawer."
 msgstr "گشودن اجراگر"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:207
-msgid "Scopes"
-msgstr "حوزه‌ها"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:214
-msgid "Super (Tap)"
-msgstr "سوپر (ضربه)"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:219
-msgid "Opens the Scopes home."
-msgstr "گشودن خانهٔ حوزه‌ها."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
@@ -451,11 +445,19 @@ msgstr "رمزعبور"
 msgid "Select desktop environment"
 msgstr "گزینش محیط میزکار"
 
-#: qml/Launcher/Drawer.qml:249
+#: qml/Launcher/Drawer.qml:250
 #, fuzzy
 #| msgid "Search"
 msgid "Search…"
 msgstr "جست‌وجو"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:56
+msgid "Pull to refresh…"
+msgstr "برای تازه‌سازی بکشید…"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:61
+msgid "Release to refresh…"
+msgstr "برای تازه‌سازی رها کنید…"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -552,7 +554,7 @@ msgstr "بازگشت"
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr "هر پنجره‌ای را با کشیدن سه‌انگشت از پنجره‌ای به ینجرهٔ دیگر ببرید"
 
-#: qml/Stage/Stage.qml:668
+#: qml/Stage/Stage.qml:671
 msgid "No running apps"
 msgstr ""
 
@@ -849,6 +851,18 @@ msgstr "گذرواژهٔ ضعیف"
 msgid "Very weak password"
 msgstr "گذرواژهٔ خیلی ضعیف"
 
+#~ msgid "Unity 8"
+#~ msgstr "یونیتی ۸"
+
+#~ msgid "Scopes"
+#~ msgstr "حوزه‌ها"
+
+#~ msgid "Super (Tap)"
+#~ msgstr "سوپر (ضربه)"
+
+#~ msgid "Opens the Scopes home."
+#~ msgstr "گشودن خانهٔ حوزه‌ها."
+
 #~ msgctxt "Button: Open the Ubuntu Store"
 #~ msgid "Store"
 #~ msgstr "ذخیره"
@@ -903,12 +917,6 @@ msgstr "گذرواژهٔ خیلی ضعیف"
 
 #~ msgid "Add a review"
 #~ msgstr "افزودن یک بازبینی"
-
-#~ msgid "Pull to refresh…"
-#~ msgstr "برای تازه‌سازی بکشید…"
-
-#~ msgid "Release to refresh…"
-#~ msgstr "برای تازه‌سازی رها کنید…"
 
 #~ msgid "Enable location data"
 #~ msgstr "فعّال کردن داده‌های موقعیّت"

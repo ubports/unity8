@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 12:15-0500\n"
+"POT-Creation-Date: 2021-01-29 11:42-0600\n"
 "PO-Revision-Date: 2016-08-29 11:37+0000\n"
 "Last-Translator: Fohanno Thierry <thierry.fohanno@ofis-bzh.org>\n"
 "Language-Team: Breton <br@li.org>\n"
@@ -51,16 +51,16 @@ msgstr ""
 msgid "Guest Session"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:48
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Pin shortcut"
 msgstr "Spilhennañ ar verradenn"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Unity/Launcher/launcheritem.cpp:54
 msgid "Quit"
 msgstr "Mont kuit"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Unpin shortcut"
 msgstr "Dispilhennañ ar verradenn"
 
@@ -83,7 +83,7 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Digevreañ"
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:284
 #: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
@@ -129,13 +129,19 @@ msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Adloc'hañ"
 
+#: qml/Components/Dialogs.qml:276
+#, fuzzy
+#| msgid "Takes a screenshot."
+msgid "Screenshot"
+msgstr "Tapout ur skeudenn eus ar skramm"
+
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
 msgstr "Berradennoù klavier"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
-msgstr "Unity 8"
+msgid "Lomiri"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -226,18 +232,6 @@ msgstr ""
 #| msgid "Open the launcher"
 msgid "Opens the Application Drawer."
 msgstr "Digeriñ al lañser"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:207
-msgid "Scopes"
-msgstr "Kefluskerioù enklask"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:214
-msgid "Super (Tap)"
-msgstr ""
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:219
-msgid "Opens the Scopes home."
-msgstr "Digeriñ pajenn degemer ar c'hefluskerioù enklask."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
@@ -449,11 +443,19 @@ msgstr "Kod-tremen"
 msgid "Select desktop environment"
 msgstr ""
 
-#: qml/Launcher/Drawer.qml:249
+#: qml/Launcher/Drawer.qml:250
 #, fuzzy
 #| msgid "Search"
 msgid "Search…"
 msgstr "Klask"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:56
+msgid "Pull to refresh…"
+msgstr "Tennañ evit freskaat..."
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:61
+msgid "Release to refresh…"
+msgstr "Lezel da vont evit freskaat..."
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -553,7 +555,7 @@ msgstr "Distreiñ"
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr ""
 
-#: qml/Stage/Stage.qml:668
+#: qml/Stage/Stage.qml:671
 msgid "No running apps"
 msgstr ""
 
@@ -850,6 +852,15 @@ msgstr "Ger-tremen diasur"
 msgid "Very weak password"
 msgstr "Ger-tremen diasur-kenañ"
 
+#~ msgid "Unity 8"
+#~ msgstr "Unity 8"
+
+#~ msgid "Scopes"
+#~ msgstr "Kefluskerioù enklask"
+
+#~ msgid "Opens the Scopes home."
+#~ msgstr "Digeriñ pajenn degemer ar c'hefluskerioù enklask."
+
 #~ msgctxt "Button: Open the Ubuntu Store"
 #~ msgid "Store"
 #~ msgstr "Stal"
@@ -904,12 +915,6 @@ msgstr "Ger-tremen diasur-kenañ"
 
 #~ msgid "Add a review"
 #~ msgstr "Ouzhpennañ un ali"
-
-#~ msgid "Pull to refresh…"
-#~ msgstr "Tennañ evit freskaat..."
-
-#~ msgid "Release to refresh…"
-#~ msgstr "Lezel da vont evit freskaat..."
 
 #~ msgid "Enable location data"
 #~ msgstr "Gweredekaat ar roadennoù lec'hiañ"

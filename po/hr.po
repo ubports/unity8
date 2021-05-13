@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 12:15-0500\n"
+"POT-Creation-Date: 2021-01-29 11:42-0600\n"
 "PO-Revision-Date: 2020-09-16 16:49+0000\n"
 "Last-Translator: milotype <mail@milotype.de>\n"
 "Language-Team: Croatian <https://translate.ubports.com/projects/unity8/"
@@ -16,8 +16,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
-"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.11.3\n"
 "X-Launchpad-Export-Date: 2016-11-23 06:35+0000\n"
 
@@ -53,16 +53,16 @@ msgstr "Prijava"
 msgid "Guest Session"
 msgstr "Sesija gosta"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:48
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Pin shortcut"
 msgstr "Pričvrsti kraticu"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Unity/Launcher/launcheritem.cpp:54
 msgid "Quit"
 msgstr "Zatvori"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Unpin shortcut"
 msgstr "Ukloni kraticu"
 
@@ -85,7 +85,7 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Odjava"
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:284
 #: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
@@ -131,13 +131,19 @@ msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Ponovo pokreni"
 
+#: qml/Components/Dialogs.qml:276
+#, fuzzy
+#| msgid "Takes a screenshot."
+msgid "Screenshot"
+msgstr "Uslikava zaslon."
+
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
 msgstr "Tipkovnički prečaci"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
-msgstr "Unity 8"
+msgid "Lomiri"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -222,18 +228,6 @@ msgstr "Super + A"
 #: qml/Components/KeyboardShortcutsOverlay.qml:195
 msgid "Opens the Application Drawer."
 msgstr "Otvara ladicu programa."
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:207
-msgid "Scopes"
-msgstr "Djelokruzi"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:214
-msgid "Super (Tap)"
-msgstr "Super (Dotaknite)"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:219
-msgid "Opens the Scopes home."
-msgstr "Otvara naslovnicu djelokruga."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
@@ -437,9 +431,17 @@ msgstr "Kôd"
 msgid "Select desktop environment"
 msgstr "Odaberi okruženje radne površine"
 
-#: qml/Launcher/Drawer.qml:249
+#: qml/Launcher/Drawer.qml:250
 msgid "Search…"
 msgstr "Pretraživanje …"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:56
+msgid "Pull to refresh…"
+msgstr "Povuci za osvježavanje..."
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:61
+msgid "Release to refresh…"
+msgstr "Otpusti za osvježavanje..."
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -539,7 +541,7 @@ msgstr "Natrag"
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr "Povucite pomoću 3 prsta bilo koju aplikaciju iz jednog prozora u drugi"
 
-#: qml/Stage/Stage.qml:668
+#: qml/Stage/Stage.qml:671
 msgid "No running apps"
 msgstr "Nema pokrenutih aplikacija"
 
@@ -831,6 +833,18 @@ msgstr "Slaba lozinka"
 msgid "Very weak password"
 msgstr "Vrlo slaba lozinka"
 
+#~ msgid "Unity 8"
+#~ msgstr "Unity 8"
+
+#~ msgid "Scopes"
+#~ msgstr "Djelokruzi"
+
+#~ msgid "Super (Tap)"
+#~ msgstr "Super (Dotaknite)"
+
+#~ msgid "Opens the Scopes home."
+#~ msgstr "Otvara naslovnicu djelokruga."
+
 #~ msgctxt "Button: Open the Ubuntu Store"
 #~ msgid "Store"
 #~ msgstr "Trgovina"
@@ -885,12 +899,6 @@ msgstr "Vrlo slaba lozinka"
 
 #~ msgid "Add a review"
 #~ msgstr "Dodaj recenziju"
-
-#~ msgid "Pull to refresh…"
-#~ msgstr "Povuci za osvježavanje..."
-
-#~ msgid "Release to refresh…"
-#~ msgstr "Otpusti za osvježavanje..."
 
 #~ msgid "Enable location data"
 #~ msgstr "Omogući podatke lokacije"

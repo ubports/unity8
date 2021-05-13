@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 12:15-0500\n"
+"POT-Creation-Date: 2021-01-29 11:42-0600\n"
 "PO-Revision-Date: 2020-04-12 01:02+0000\n"
 "Last-Translator: Neutrum N <neutro@tutanota.com>\n"
 "Language-Team: Galician <https://translate.ubports.com/projects/unity8/"
@@ -52,16 +52,16 @@ msgstr ""
 msgid "Guest Session"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:48
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Pin shortcut"
 msgstr "Fixar o atallo"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Unity/Launcher/launcheritem.cpp:54
 msgid "Quit"
 msgstr "Saír"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Unpin shortcut"
 msgstr "Eliminar o atallo"
 
@@ -84,7 +84,7 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Pechar a sesión"
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:284
 #: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
@@ -130,13 +130,19 @@ msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Reiniciar"
 
+#: qml/Components/Dialogs.qml:276
+#, fuzzy
+#| msgid "Takes a screenshot."
+msgid "Screenshot"
+msgstr "Captura a pantalla."
+
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
 msgstr "Atallos do teclado"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
-msgstr "Unity 8"
+msgid "Lomiri"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -233,18 +239,6 @@ msgstr "Super + W"
 #| msgid "Open the launcher"
 msgid "Opens the Application Drawer."
 msgstr "Abrir o Iniciador"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:207
-msgid "Scopes"
-msgstr "Ámbitos"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:214
-msgid "Super (Tap)"
-msgstr "Super (tocar)"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:219
-msgid "Opens the Scopes home."
-msgstr "Abre os Ámbitos."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
@@ -453,11 +447,19 @@ msgstr "Clave"
 msgid "Select desktop environment"
 msgstr "Seleccione o ambiente de escritorio"
 
-#: qml/Launcher/Drawer.qml:249
+#: qml/Launcher/Drawer.qml:250
 #, fuzzy
 #| msgid "Search"
 msgid "Search…"
 msgstr "Buscar"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:56
+msgid "Pull to refresh…"
+msgstr "Tirar para actualizar…"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:61
+msgid "Release to refresh…"
+msgstr "Soltar para actualizar…"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -557,7 +559,7 @@ msgstr "Atrás"
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr "Arrastre con 3 dedos calquera aplicativo dunha xanela á outra"
 
-#: qml/Stage/Stage.qml:668
+#: qml/Stage/Stage.qml:671
 msgid "No running apps"
 msgstr ""
 
@@ -856,6 +858,18 @@ msgstr "O contrasinal é feble"
 msgid "Very weak password"
 msgstr "O contrasinal é moi feble"
 
+#~ msgid "Unity 8"
+#~ msgstr "Unity 8"
+
+#~ msgid "Scopes"
+#~ msgstr "Ámbitos"
+
+#~ msgid "Super (Tap)"
+#~ msgstr "Super (tocar)"
+
+#~ msgid "Opens the Scopes home."
+#~ msgstr "Abre os Ámbitos."
+
 #~ msgctxt "Button: Open the Ubuntu Store"
 #~ msgid "Store"
 #~ msgstr "Tenda"
@@ -910,12 +924,6 @@ msgstr "O contrasinal é moi feble"
 
 #~ msgid "Add a review"
 #~ msgstr "Engadir unha opinión"
-
-#~ msgid "Pull to refresh…"
-#~ msgstr "Tirar para actualizar…"
-
-#~ msgid "Release to refresh…"
-#~ msgstr "Soltar para actualizar…"
 
 #~ msgid "Enable location data"
 #~ msgstr "Activar datos da localización"

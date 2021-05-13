@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2021-02-03 22:27+0000\n"
+"POT-Creation-Date: 2021-01-29 11:42-0600\n"
+"PO-Revision-Date: 2021-04-30 20:44+0000\n"
 "Last-Translator: Milan Korecký <milan.korecky@gmail.com>\n"
 "Language-Team: Czech <https://translate.ubports.com/projects/ubports/lomiri/"
 "cs/>\n"
@@ -52,16 +52,16 @@ msgstr "Zahájit relaci"
 msgid "Guest Session"
 msgstr "Sezení hosta"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:48
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Pin shortcut"
 msgstr "Připnout zástupce"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Unity/Launcher/launcheritem.cpp:54
 msgid "Quit"
 msgstr "Ukončit"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Unpin shortcut"
 msgstr "Zrušit připnutí zástupce"
 
@@ -84,7 +84,7 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Odhlásit se"
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:284
 #: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
@@ -130,12 +130,16 @@ msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Restartovat"
 
+#: qml/Components/Dialogs.qml:276
+msgid "Screenshot"
+msgstr "Snímek obrazovky"
+
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
 msgstr "Klávesové zkratky"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
+msgid "Lomiri"
 msgstr "Lomiri"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
@@ -222,18 +226,6 @@ msgstr "Super + A"
 msgid "Opens the Application Drawer."
 msgstr "Otevře seznam s aplikacemi."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:207
-msgid "Scopes"
-msgstr "Scopes"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:214
-msgid "Super (Tap)"
-msgstr "Super (klepnutí)"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:219
-msgid "Opens the Scopes home."
-msgstr "Otevře domovskou sekci Scopes."
-
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
 msgstr "Přepínání"
@@ -316,7 +308,7 @@ msgstr "Tísňové volání"
 
 #: qml/Components/Lockscreen.qml:245
 msgid "OK"
-msgstr "OK"
+msgstr "Přijmout"
 
 #: qml/Components/MediaServices/VideoPlayerControls.qml:44
 #, qt-format
@@ -440,9 +432,17 @@ msgstr "Přístupový kód"
 msgid "Select desktop environment"
 msgstr "Vybrat desktopové prostředí"
 
-#: qml/Launcher/Drawer.qml:249
+#: qml/Launcher/Drawer.qml:250
 msgid "Search…"
 msgstr "Vyhledat…"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:56
+msgid "Pull to refresh…"
+msgstr "Znovu načtete vysunutím…"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:61
+msgid "Release to refresh…"
+msgstr "Znovu načtete uvolněním…"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -465,16 +465,16 @@ msgstr "Nic se nepřehrává"
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 hodina"
-msgstr[1] "%1 hodiny"
-msgstr[2] "%1 hodin"
+msgstr[1] "%1 hodin"
+msgstr[2] "%1 hodiny"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1001
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 minuta"
-msgstr[1] "%1 minuty"
-msgstr[2] "%1 minut"
+msgstr[1] "%1 minut"
+msgstr[2] "%1 minuty"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1006
 #, qt-format
@@ -544,7 +544,7 @@ msgstr ""
 "Jakoukoli z aplikací přetáhnete z jednoho okna do druhého za použití třech "
 "prstů"
 
-#: qml/Stage/Stage.qml:668
+#: qml/Stage/Stage.qml:671
 msgid "No running apps"
 msgstr "Nejsou spuštěny žádné aplikace"
 
@@ -834,6 +834,18 @@ msgstr "Prolomitelné heslo"
 msgid "Very weak password"
 msgstr "Velmi snadno prolomitelné heslo"
 
+#~ msgid "Unity 8"
+#~ msgstr "Lomiri"
+
+#~ msgid "Scopes"
+#~ msgstr "Scopes"
+
+#~ msgid "Super (Tap)"
+#~ msgstr "Super (klepnutí)"
+
+#~ msgid "Opens the Scopes home."
+#~ msgstr "Otevře domovskou sekci Scopes."
+
 #~ msgctxt "Button: Open the Ubuntu Store"
 #~ msgid "Store"
 #~ msgstr "Obchod"
@@ -888,12 +900,6 @@ msgstr "Velmi snadno prolomitelné heslo"
 
 #~ msgid "Add a review"
 #~ msgstr "Přidat recenzi"
-
-#~ msgid "Pull to refresh…"
-#~ msgstr "Znovu načtete vysunutím…"
-
-#~ msgid "Release to refresh…"
-#~ msgstr "Znovu načtete uvolněním…"
 
 #~ msgid "Enable location data"
 #~ msgstr "Povolit údaje o umístění"

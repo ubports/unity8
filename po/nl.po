@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2021-03-17 11:27+0000\n"
+"POT-Creation-Date: 2021-01-29 11:42-0600\n"
+"PO-Revision-Date: 2021-03-21 15:22+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch <https://translate.ubports.com/projects/ubports/lomiri/"
 "nl/>\n"
@@ -52,16 +52,16 @@ msgstr "Inloggen"
 msgid "Guest Session"
 msgstr "Gastsessie"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:48
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Pin shortcut"
-msgstr "Snelkoppeling vastzetten"
+msgstr "Snelkoppeling vastmaken"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Unity/Launcher/launcheritem.cpp:54
 msgid "Quit"
 msgstr "Afsluiten"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Unpin shortcut"
 msgstr "Snelkoppeling losmaken"
 
@@ -84,7 +84,7 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Uitloggen"
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:284
 #: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
@@ -130,13 +130,17 @@ msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Herstarten"
 
+#: qml/Components/Dialogs.qml:276
+msgid "Screenshot"
+msgstr "Schermfoto"
+
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
 msgstr "Sneltoetsen"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
-msgstr "Unity 8"
+msgid "Lomiri"
+msgstr "Lomiri"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -221,18 +225,6 @@ msgstr "Super + A"
 #: qml/Components/KeyboardShortcutsOverlay.qml:195
 msgid "Opens the Application Drawer."
 msgstr "Opent het appoverzicht."
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:207
-msgid "Scopes"
-msgstr "Scopes"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:214
-msgid "Super (Tap)"
-msgstr "Super (indrukken)"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:219
-msgid "Opens the Scopes home."
-msgstr "Opent de Scopes-startpagina."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
@@ -438,9 +430,17 @@ msgstr "Toegangscode"
 msgid "Select desktop environment"
 msgstr "Werkomgeving kiezen"
 
-#: qml/Launcher/Drawer.qml:249
+#: qml/Launcher/Drawer.qml:250
 msgid "Search…"
 msgstr "Zoeken…"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:56
+msgid "Pull to refresh…"
+msgstr "Trek om te verversen…"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:61
+msgid "Release to refresh…"
+msgstr "Laat los om te verversen…"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -537,7 +537,7 @@ msgstr "Vorige"
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr "Versleep een app met 3 vingers van het ene venster naar het andere"
 
-#: qml/Stage/Stage.qml:668
+#: qml/Stage/Stage.qml:671
 msgid "No running apps"
 msgstr "Je hebt geen geopende apps"
 
@@ -616,7 +616,7 @@ msgstr "Overslaan"
 
 #: qml/Wizard/Pages/30-wifi.qml:31
 msgid "Connect to Wi‑Fi"
-msgstr "Verbinden met Wi-Fi"
+msgstr "Verbinden met wifi"
 
 #: qml/Wizard/Pages/30-wifi.qml:139
 msgid "Connected"
@@ -624,11 +624,11 @@ msgstr "Verbonden"
 
 #: qml/Wizard/Pages/30-wifi.qml:172
 msgid "Available Wi-Fi networks"
-msgstr "Beschikbare Wi-Fi-netwerken"
+msgstr "Beschikbare wifi-netwerken"
 
 #: qml/Wizard/Pages/30-wifi.qml:173
 msgid "No available Wi-Fi networks"
-msgstr "Geen Wi-Fi-netwerken beschikbaar"
+msgstr "Geen wifi-netwerken beschikbaar"
 
 #: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
@@ -827,6 +827,18 @@ msgstr "Zwak wachtwoord"
 msgid "Very weak password"
 msgstr "Zeer zwak wachtwoord"
 
+#~ msgid "Unity 8"
+#~ msgstr "Unity 8"
+
+#~ msgid "Scopes"
+#~ msgstr "Scopes"
+
+#~ msgid "Super (Tap)"
+#~ msgstr "Super (indrukken)"
+
+#~ msgid "Opens the Scopes home."
+#~ msgstr "Opent de Scopes-startpagina."
+
 #~ msgctxt "Button: Open the Ubuntu Store"
 #~ msgid "Store"
 #~ msgstr "Winkel"
@@ -881,12 +893,6 @@ msgstr "Zeer zwak wachtwoord"
 
 #~ msgid "Add a review"
 #~ msgstr "Recensie schrijven"
-
-#~ msgid "Pull to refresh…"
-#~ msgstr "Trek om te verversen…"
-
-#~ msgid "Release to refresh…"
-#~ msgstr "Laat los om te verversen…"
 
 #~ msgid "Enable location data"
 #~ msgstr "Locatiegegevens inschakelen"

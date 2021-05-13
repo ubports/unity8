@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2021-03-18 20:39+0000\n"
+"POT-Creation-Date: 2021-01-29 11:42-0600\n"
+"PO-Revision-Date: 2021-03-21 15:22+0000\n"
 "Last-Translator: Anne Onyme <anneonyme017@netcourrier.com>\n"
 "Language-Team: French <https://translate.ubports.com/projects/ubports/lomiri/"
 "fr/>\n"
@@ -52,16 +52,16 @@ msgstr "Connexion"
 msgid "Guest Session"
 msgstr "Session invité(e)"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:48
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Pin shortcut"
 msgstr "Épingler le raccourci"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Unity/Launcher/launcheritem.cpp:54
 msgid "Quit"
 msgstr "Quitter"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Unpin shortcut"
 msgstr "Détacher le raccourci"
 
@@ -84,7 +84,7 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Fermer la session"
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:284
 #: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
@@ -130,13 +130,17 @@ msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Redémarrer"
 
+#: qml/Components/Dialogs.qml:276
+msgid "Screenshot"
+msgstr "Capture d'écran"
+
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
 msgstr "Raccourcis clavier"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
-msgstr "Unity 8"
+msgid "Lomiri"
+msgstr "Lomiri"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -221,18 +225,6 @@ msgstr "Super + A"
 #: qml/Components/KeyboardShortcutsOverlay.qml:195
 msgid "Opens the Application Drawer."
 msgstr "Ouvre le lanceur d'applications."
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:207
-msgid "Scopes"
-msgstr "Scopes"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:214
-msgid "Super (Tap)"
-msgstr "Super (appui court)"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:219
-msgid "Opens the Scopes home."
-msgstr "Ouvre la page d'accueil des Scopes."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
@@ -441,9 +433,17 @@ msgstr "Code"
 msgid "Select desktop environment"
 msgstr "Sélectionner l'environnement de bureau"
 
-#: qml/Launcher/Drawer.qml:249
+#: qml/Launcher/Drawer.qml:250
 msgid "Search…"
 msgstr "Rechercher…"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:56
+msgid "Pull to refresh…"
+msgstr "Tirer pour actualiser…"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:61
+msgid "Release to refresh…"
+msgstr "Relâcher pour actualiser…"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -542,7 +542,7 @@ msgstr ""
 "Faire glisser avec 3 doigts n'importe quelle application d'une fenêtre à "
 "l'autre"
 
-#: qml/Stage/Stage.qml:668
+#: qml/Stage/Stage.qml:671
 msgid "No running apps"
 msgstr "Aucune application en cours"
 
@@ -841,6 +841,18 @@ msgstr "Mot de passe faible"
 msgid "Very weak password"
 msgstr "Mot de passe très faible"
 
+#~ msgid "Unity 8"
+#~ msgstr "Unity 8"
+
+#~ msgid "Scopes"
+#~ msgstr "Scopes"
+
+#~ msgid "Super (Tap)"
+#~ msgstr "Super (appui court)"
+
+#~ msgid "Opens the Scopes home."
+#~ msgstr "Ouvre la page d'accueil des Scopes."
+
 #~ msgctxt "Button: Open the Ubuntu Store"
 #~ msgid "Store"
 #~ msgstr "Logithèque"
@@ -895,12 +907,6 @@ msgstr "Mot de passe très faible"
 
 #~ msgid "Add a review"
 #~ msgstr "Ajouter un avis"
-
-#~ msgid "Pull to refresh…"
-#~ msgstr "Tirer pour actualiser…"
-
-#~ msgid "Release to refresh…"
-#~ msgstr "Relâcher pour actualiser…"
 
 #~ msgid "Enable location data"
 #~ msgstr "Activer les données de localisation"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 12:15-0500\n"
+"POT-Creation-Date: 2021-01-29 11:42-0600\n"
 "PO-Revision-Date: 2016-08-22 20:43+0000\n"
 "Last-Translator: Bojan Bogdanović <Unknown>\n"
 "Language-Team: српски <xfce4@xfce4.org>\n"
@@ -53,16 +53,16 @@ msgstr ""
 msgid "Guest Session"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:48
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Pin shortcut"
 msgstr "Прикачи пречицу"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Unity/Launcher/launcheritem.cpp:54
 msgid "Quit"
 msgstr "Напусти"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Unpin shortcut"
 msgstr "Откачи пречицу"
 
@@ -85,7 +85,7 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Одјави ме"
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:284
 #: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
@@ -131,13 +131,19 @@ msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Покрени поново"
 
+#: qml/Components/Dialogs.qml:276
+#, fuzzy
+#| msgid "Takes a screenshot."
+msgid "Screenshot"
+msgstr "Слика екран"
+
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
 msgstr "Пречице тастатуре"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
-msgstr "Јунити 8"
+msgid "Lomiri"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -234,18 +240,6 @@ msgstr "Super + W"
 #| msgid "Open the launcher"
 msgid "Opens the Application Drawer."
 msgstr "Отвори покретач"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:207
-msgid "Scopes"
-msgstr "Опсези"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:214
-msgid "Super (Tap)"
-msgstr "Super (Тапни)"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:219
-msgid "Opens the Scopes home."
-msgstr "Отвара почетну страницу Опсега."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
@@ -453,11 +447,19 @@ msgstr "Приступни код"
 msgid "Select desktop environment"
 msgstr ""
 
-#: qml/Launcher/Drawer.qml:249
+#: qml/Launcher/Drawer.qml:250
 #, fuzzy
 #| msgid "Search"
 msgid "Search…"
 msgstr "Претрага"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:56
+msgid "Pull to refresh…"
+msgstr "Повуци ради освежавања…"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:61
+msgid "Release to refresh…"
+msgstr "Отпусти ради освежавања…"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -560,7 +562,7 @@ msgstr "Назад"
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr "Превуците користећи 3 прста било који програм са једног у други прозор"
 
-#: qml/Stage/Stage.qml:668
+#: qml/Stage/Stage.qml:671
 msgid "No running apps"
 msgstr ""
 
@@ -858,6 +860,18 @@ msgstr "Слаба лозинка"
 msgid "Very weak password"
 msgstr "Веома слаба лозинка"
 
+#~ msgid "Unity 8"
+#~ msgstr "Јунити 8"
+
+#~ msgid "Scopes"
+#~ msgstr "Опсези"
+
+#~ msgid "Super (Tap)"
+#~ msgstr "Super (Тапни)"
+
+#~ msgid "Opens the Scopes home."
+#~ msgstr "Отвара почетну страницу Опсега."
+
 #~ msgctxt "Button: Open the Ubuntu Store"
 #~ msgid "Store"
 #~ msgstr "Продавница"
@@ -912,12 +926,6 @@ msgstr "Веома слаба лозинка"
 
 #~ msgid "Add a review"
 #~ msgstr "Напиши оцену"
-
-#~ msgid "Pull to refresh…"
-#~ msgstr "Повуци ради освежавања…"
-
-#~ msgid "Release to refresh…"
-#~ msgstr "Отпусти ради освежавања…"
 
 #~ msgid "Enable location data"
 #~ msgstr "Омогући податке о положају"

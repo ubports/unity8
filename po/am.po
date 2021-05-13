@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 12:15-0500\n"
+"POT-Creation-Date: 2021-01-29 11:42-0600\n"
 "PO-Revision-Date: 2021-01-31 01:03+0000\n"
 "Last-Translator: Samson <sambelet@yahoo.com>\n"
 "Language-Team: Amharic <https://translate.ubports.com/projects/unity8/unity8/"
@@ -52,16 +52,16 @@ msgstr "መግቢያ"
 msgid "Guest Session"
 msgstr "የ እንግዳ ክፍለ ጊዜ"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:48
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Pin shortcut"
 msgstr "አቋራጭ ማጣበቂያ"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Unity/Launcher/launcheritem.cpp:54
 msgid "Quit"
 msgstr "ማጥፊያ"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Unpin shortcut"
 msgstr "አቋራጭ መለያያ"
 
@@ -84,7 +84,7 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "መውጫ"
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:284
 #: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
@@ -130,13 +130,19 @@ msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "እንደገና ማስጀመሪያ"
 
+#: qml/Components/Dialogs.qml:276
+#, fuzzy
+#| msgid "Takes a screenshot."
+msgid "Screenshot"
+msgstr "መመልከቻ ፎቶ ማንሻ"
+
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
 msgstr "የ ፊደል ገበታ አቋራጮች"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
-msgstr "Unity 8"
+msgid "Lomiri"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -221,18 +227,6 @@ msgstr "Super + A"
 #: qml/Components/KeyboardShortcutsOverlay.qml:195
 msgid "Opens the Application Drawer."
 msgstr "የ መሳያ መተግበሪያ ማስጀመሪያ"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:207
-msgid "Scopes"
-msgstr "ክልል"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:214
-msgid "Super (Tap)"
-msgstr "Super (Tap)"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:219
-msgid "Opens the Scopes home."
-msgstr "የ ክልል ቤት መክፈቻ"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
@@ -431,9 +425,17 @@ msgstr "ማለፊያ ኮድ"
 msgid "Select desktop environment"
 msgstr "የ ዴስክቶፕ አይነት ይምረጡ"
 
-#: qml/Launcher/Drawer.qml:249
+#: qml/Launcher/Drawer.qml:250
 msgid "Search…"
 msgstr "መፈለጊያ…"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:56
+msgid "Pull to refresh…"
+msgstr "ይሳቡ ለማነቃቃት…"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:61
+msgid "Release to refresh…"
+msgstr "ይልቀቁ ለማነቃቃት…"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -530,7 +532,7 @@ msgstr "ወደ ኋላ"
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr "መጎተቻ 3 ጣቶች በ መጠቀም ማንኛውንም መተግበሪያ ከ አንድ መስኮት ወደ ሌላ"
 
-#: qml/Stage/Stage.qml:668
+#: qml/Stage/Stage.qml:671
 msgid "No running apps"
 msgstr ""
 
@@ -823,6 +825,18 @@ msgstr "ደካማ የ መግቢያ ቃል"
 msgid "Very weak password"
 msgstr "በጣም ደካማ የ መግቢያ ቃል"
 
+#~ msgid "Unity 8"
+#~ msgstr "Unity 8"
+
+#~ msgid "Scopes"
+#~ msgstr "ክልል"
+
+#~ msgid "Super (Tap)"
+#~ msgstr "Super (Tap)"
+
+#~ msgid "Opens the Scopes home."
+#~ msgstr "የ ክልል ቤት መክፈቻ"
+
 #~ msgctxt "Button: Open the Ubuntu Store"
 #~ msgid "Store"
 #~ msgstr "ማስቀመጫ"
@@ -877,12 +891,6 @@ msgstr "በጣም ደካማ የ መግቢያ ቃል"
 
 #~ msgid "Add a review"
 #~ msgstr "ግምገማ መጨመሪያ"
-
-#~ msgid "Pull to refresh…"
-#~ msgstr "ይሳቡ ለማነቃቃት…"
-
-#~ msgid "Release to refresh…"
-#~ msgstr "ይልቀቁ ለማነቃቃት…"
 
 #~ msgid "Enable location data"
 #~ msgstr "የአካባቢ ዳታ ማስቻያ"

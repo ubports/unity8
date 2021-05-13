@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 12:15-0500\n"
+"POT-Creation-Date: 2021-01-29 11:42-0600\n"
 "PO-Revision-Date: 2021-03-09 04:22+0000\n"
 "Last-Translator: idea.logue <nathan.fielding1990@gmail.com>\n"
 "Language-Team: Turkish <https://translate.ubports.com/projects/ubports/"
@@ -52,16 +52,16 @@ msgstr ""
 msgid "Guest Session"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:48
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Pin shortcut"
 msgstr "Kısayolu iğnele"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Unity/Launcher/launcheritem.cpp:54
 msgid "Quit"
 msgstr "Çıkış"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Unpin shortcut"
 msgstr "Kısayol iğnesini kaldır"
 
@@ -84,7 +84,7 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Oturumu Kapat"
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:284
 #: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
@@ -128,13 +128,19 @@ msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Yeniden başlat"
 
+#: qml/Components/Dialogs.qml:276
+#, fuzzy
+#| msgid "Takes a screenshot."
+msgid "Screenshot"
+msgstr "Ekran görüntüsü al"
+
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
 msgstr "Klavye Kısayolları"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
-msgstr "Unity 8"
+msgid "Lomiri"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -231,18 +237,6 @@ msgstr "Super + W"
 #| msgid "Open the launcher"
 msgid "Opens the Application Drawer."
 msgstr "Başlatıcıyı aç"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:207
-msgid "Scopes"
-msgstr "Kapsamlar"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:214
-msgid "Super (Tap)"
-msgstr "Super (Tıklat)"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:219
-msgid "Opens the Scopes home."
-msgstr "Kapsamları eve açar.  http://cevirsozluk.com/"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
@@ -451,11 +445,19 @@ msgstr "Parola"
 msgid "Select desktop environment"
 msgstr "Masaüstü ortamını seçin"
 
-#: qml/Launcher/Drawer.qml:249
+#: qml/Launcher/Drawer.qml:250
 #, fuzzy
 #| msgid "Search"
 msgid "Search…"
 msgstr "Ara"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:56
+msgid "Pull to refresh…"
+msgstr "Yenilemek için çekin..."
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:61
+msgid "Release to refresh…"
+msgstr "Yenilemek için bırakın..."
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -554,7 +556,7 @@ msgstr ""
 "Diğer bir pencereden herhangi bir uygulamayı 3 parmağınızı  kullanarak "
 "sürükleyin"
 
-#: qml/Stage/Stage.qml:668
+#: qml/Stage/Stage.qml:671
 msgid "No running apps"
 msgstr ""
 
@@ -852,6 +854,18 @@ msgstr "Zayıf parola"
 msgid "Very weak password"
 msgstr "Çok zayıf şifre"
 
+#~ msgid "Unity 8"
+#~ msgstr "Unity 8"
+
+#~ msgid "Scopes"
+#~ msgstr "Kapsamlar"
+
+#~ msgid "Super (Tap)"
+#~ msgstr "Super (Tıklat)"
+
+#~ msgid "Opens the Scopes home."
+#~ msgstr "Kapsamları eve açar.  http://cevirsozluk.com/"
+
 #~ msgctxt "Button: Open the Ubuntu Store"
 #~ msgid "Store"
 #~ msgstr "Mağaza"
@@ -906,12 +920,6 @@ msgstr "Çok zayıf şifre"
 
 #~ msgid "Add a review"
 #~ msgstr "Bir inceleme ekle"
-
-#~ msgid "Pull to refresh…"
-#~ msgstr "Yenilemek için çekin..."
-
-#~ msgid "Release to refresh…"
-#~ msgstr "Yenilemek için bırakın..."
 
 #~ msgid "Enable location data"
 #~ msgstr "Konum bilgisi aktif"
