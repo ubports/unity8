@@ -149,7 +149,7 @@ Item {
 
         Rectangle {
             id: panelAreaBackground
-            color: callHint.visible ? theme.palette.normal.positive : theme.palette.normal.background
+            color: callHint.visible ? theme.palette.normal.activity : theme.palette.normal.background
             anchors {
                 top: parent.top
                 left: parent.left
