@@ -2287,7 +2287,17 @@ Rectangle {
             GSettingsController.setAutohideLauncher(true);
             tryCompare(launcherPanel, "x", -launcher.panelWidth)
             waitForRendering(shell)
+
+            // FIXME: we have to wait for visuallyMaximized's animation to
+            // finish before taking our hiddenSize measurement. This is the
+            // best way I can think of without doing wait(250) in one shot.
             var hiddenSize = appDelegate.width;
+            var hiddenSizePrev;
+            do {
+                wait(20);
+                hiddenSizePrev = hiddenSize;
+                hiddenSize = appDelegate.width;
+            } while (hiddenSizePrev != hiddenSize);
 
             GSettingsController.setAutohideLauncher(false);
             tryCompare(launcherPanel, "x", 0)
