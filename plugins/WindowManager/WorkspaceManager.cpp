@@ -27,7 +27,11 @@
 
 WorkspaceManager *WorkspaceManager::instance()
 {
-    static WorkspaceManager* workspaceManager(new WorkspaceManager());
+    static WorkspaceManager* workspaceManager = ([]() {
+        auto w = new WorkspaceManager();
+        QQmlEngine::setObjectOwnership(w, QQmlEngine::CppOwnership);
+        return w;
+    }());
     return workspaceManager;
 }
 
