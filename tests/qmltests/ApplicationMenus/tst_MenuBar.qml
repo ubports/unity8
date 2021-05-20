@@ -364,7 +364,7 @@ Item {
 
             expectFail("", "FIXME: thing broken here");
 
-            tryVerify(function() {return findChild(menuBar, "overflow-menu-item0-menu-item0-actionItem")});
+            tryVerify(function() { return findChild(menuBar, "overflow-menu-item0-menu-item0-actionItem")}, 1);
 
             tryCompareFunction(function() {
                 menuBackend.removeRow(0);
