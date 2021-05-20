@@ -104,7 +104,7 @@ LomiriShape {
         property real __minimumWidth: units.gu(20)
         property real __maximumWidth: ApplicationMenusLimits.screenWidth * 0.7
         property real __minimumHeight: units.gu(2)
-        property real __maximumHeight: ApplicationMenusLimits.screenHeight - panelState.panelHeight
+        property real __maximumHeight: panelState ? ApplicationMenusLimits.screenHeight - panelState.panelHeight : 0
 
         signal dismissAll()
 
