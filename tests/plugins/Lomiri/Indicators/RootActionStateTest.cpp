@@ -85,9 +85,9 @@ private Q_SLOTS:
         QVERIFY(paramResult.contains("icons"));
 
         QStringList serializedIcons = paramResult["icons"].toStringList();
-        QVERIFY(serializedIcons[0] == "image://theme/testIcon0");
-        QVERIFY(serializedIcons[1] == "image://theme/testIcon1");
-        QVERIFY(serializedIcons[2] == "image://theme/testIcon2");
+        QVERIFY(serializedIcons[0].contains(QRegularExpression("^image://theme/testIcon0(,testIcon0-symbolic)?$")));
+        QVERIFY(serializedIcons[1].contains(QRegularExpression("^image://theme/testIcon1(,testIcon1-symbolic)?$")));
+        QVERIFY(serializedIcons[2].contains(QRegularExpression("^image://theme/testIcon2(,testIcon2-symbolic)?$")));
     }
 };
 
