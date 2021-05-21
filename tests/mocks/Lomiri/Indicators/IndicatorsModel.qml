@@ -166,7 +166,7 @@ Indicators.FakeIndicatorsModel {
                                            getLomiriMenuModelData("fake-indicator-power",
                                                                  "Battery (F)",
                                                                  "",
-                                                                 [ "image://theme/battery-020" ],
+                                                                 [ "image://theme/battery-020,unity-battery-020" ],
                                                                  root.light));
         Indicators.LomiriMenuModelCache.setCachedModelData("/com/canonical/indicators/fake7",
                                            getLomiriMenuModelData("fake-indicator-datetime",

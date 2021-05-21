@@ -358,7 +358,7 @@ var fakeMenuData = {
             "rowData": {
                 "action": "indicator._header",
                 "actionState": {
-                    "icons": [ "image://theme/battery-020" ],
+                    "icons": [ "image://theme/battery-020,unity-battery-020" ],
                     "label": "",
                     "title": "Battery (F)",
                     "visible": true
