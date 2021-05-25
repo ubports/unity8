@@ -80,10 +80,10 @@ AccountsService::AccountsService(QObject* parent, const QString &user)
     : QObject(parent)
     , m_service(new AccountsServiceDBusAdaptor(this))
 {
-    m_lomiriInput = new QDBusInterface(QStringLiteral("com.canonical.Lomiri.Input"),
-                                      QStringLiteral("/com/canonical/Lomiri/Input"),
-                                      QStringLiteral("com.canonical.Lomiri.Input"),
-                                      QDBusConnection::SM_BUSNAME(), this);
+    m_syscompInput = new QDBusInterface(QStringLiteral("com.lomiri.SystemCompositor.Input"),
+                                        QStringLiteral("/com/lomiri/SystemCompositor/Input"),
+                                        QStringLiteral("com.lomiri.SystemCompositor.Input"),
+                                        QDBusConnection::SM_BUSNAME(), this);
 
     connect(m_service, &AccountsServiceDBusAdaptor::propertiesChanged, this, &AccountsService::onPropertiesChanged);
     connect(m_service, &AccountsServiceDBusAdaptor::maybeChanged, this, &AccountsService::onMaybeChanged);
@@ -103,31 +103,31 @@ AccountsService::AccountsService(QObject* parent, const QString &user)
     registerProperty(IFACE_LOMIRI_PRIVATE, PROP_FAILED_LOGINS, QStringLiteral("failedLoginsChanged"));
 
     registerProxy(IFACE_UBUNTU_INPUT, PROP_MOUSE_CURSOR_SPEED,
-                  m_lomiriInput, QStringLiteral("setMouseCursorSpeed"));
+                  m_syscompInput, QStringLiteral("setMouseCursorSpeed"));
     registerProxy(IFACE_UBUNTU_INPUT, PROP_MOUSE_DOUBLE_CLICK_SPEED,
-                  m_lomiriInput, QStringLiteral("setMouseDoubleClickSpeed"));
+                  m_syscompInput, QStringLiteral("setMouseDoubleClickSpeed"));
     registerProxy(IFACE_UBUNTU_INPUT, PROP_MOUSE_PRIMARY_BUTTON,
-                  m_lomiriInput, QStringLiteral("setMousePrimaryButton"),
+                  m_syscompInput, QStringLiteral("setMousePrimaryButton"),
                   primaryButtonConverter);
     registerProxy(IFACE_UBUNTU_INPUT, PROP_MOUSE_SCROLL_SPEED,
-                  m_lomiriInput, QStringLiteral("setMouseScrollSpeed"));
+                  m_syscompInput, QStringLiteral("setMouseScrollSpeed"));
     registerProxy(IFACE_UBUNTU_INPUT, PROP_TOUCHPAD_CURSOR_SPEED,
-                  m_lomiriInput, QStringLiteral("setTouchpadCursorSpeed"));
+                  m_syscompInput, QStringLiteral("setTouchpadCursorSpeed"));
     registerProxy(IFACE_UBUNTU_INPUT, PROP_TOUCHPAD_SCROLL_SPEED,
-                  m_lomiriInput, QStringLiteral("setTouchpadScrollSpeed"));
+                  m_syscompInput, QStringLiteral("setTouchpadScrollSpeed"));
     registerProxy(IFACE_UBUNTU_INPUT, PROP_TOUCHPAD_DISABLE_WHILE_TYPING,
-                  m_lomiriInput, QStringLiteral("setTouchpadDisableWhileTyping"));
+                  m_syscompInput, QStringLiteral("setTouchpadDisableWhileTyping"));
     registerProxy(IFACE_UBUNTU_INPUT, PROP_TOUCHPAD_DISABLE_WITH_MOUSE,
-                  m_lomiriInput, QStringLiteral("setTouchpadDisableWithMouse"));
+                  m_syscompInput, QStringLiteral("setTouchpadDisableWithMouse"));
     registerProxy(IFACE_UBUNTU_INPUT, PROP_TOUCHPAD_DOUBLE_CLICK_SPEED,
-                  m_lomiriInput, QStringLiteral("setTouchpadDoubleClickSpeed"));
+                  m_syscompInput, QStringLiteral("setTouchpadDoubleClickSpeed"));
     registerProxy(IFACE_UBUNTU_INPUT, PROP_TOUCHPAD_PRIMARY_BUTTON,
-                  m_lomiriInput, QStringLiteral("setTouchpadPrimaryButton"),
+                  m_syscompInput, QStringLiteral("setTouchpadPrimaryButton"),
                   primaryButtonConverter);
     registerProxy(IFACE_UBUNTU_INPUT, PROP_TOUCHPAD_TAP_TO_CLICK,
-                  m_lomiriInput, QStringLiteral("setTouchpadTapToClick"));
+                  m_syscompInput, QStringLiteral("setTouchpadTapToClick"));
     registerProxy(IFACE_UBUNTU_INPUT, PROP_TOUCHPAD_TWO_FINGER_SCROLL,
-                  m_lomiriInput, QStringLiteral("setTouchpadTwoFingerScroll"));
+                  m_syscompInput, QStringLiteral("setTouchpadTwoFingerScroll"));
 
     setUser(!user.isEmpty() ? user : QString::fromUtf8(g_get_user_name()));
 }

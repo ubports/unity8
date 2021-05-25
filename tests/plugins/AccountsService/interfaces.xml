@@ -58,7 +58,7 @@
   </interface>
   <interface name="com.lomiri.shell.AccountsService.Private" />
 
-  <interface name="com.canonical.Lomiri.Input">
+  <interface name="com.lomiri.SystemCompositor.Input">
     <method name="setMousePrimaryButton">
       <arg name="button" type="i" direction="in" />
     </method>

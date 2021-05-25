@@ -15,14 +15,25 @@
  * <http://www.gnu.org/licenses/>
  */
 
-#include "UscServer.h"
+#ifndef LOMIRI_LSCSERVER_H
+#define LOMIRI_LSCSERVER_H
 
-UscServer::UscServer(QObject *parent)
-    : QObject(parent)
-{
-}
+#include <QDBusContext>
+#include <QObject>
 
-void UscServer::setMousePrimaryButton(int button)
+class LscServer: public QObject, protected QDBusContext
 {
-    Q_EMIT setMousePrimaryButtonCalled(button);
-}
+    Q_OBJECT
+
+public:
+    explicit LscServer(QObject *parent = nullptr);
+
+public Q_SLOTS:
+    void setMousePrimaryButton(int button);
+
+Q_SIGNALS:
+    // mock only.
+    void setMousePrimaryButtonCalled(int button);
+};
+
+#endif

@@ -149,7 +149,7 @@ private:
     typedef QHash< QString, QHash<QString, PropertyInfo> > PropertyHash;
     PropertyHash m_properties;
     AccountsServiceDBusAdaptor *m_service;
-    QDBusInterface *m_lomiriInput;
+    QDBusInterface *m_syscompInput;
     QString m_user;
 };
 

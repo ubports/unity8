@@ -11,7 +11,7 @@ make_dbus_class(SecurityPrivacy com.ubuntu.touch.AccountsService.SecurityPrivacy
 make_dbus_class(Location com.ubuntu.location.providers.here.AccountsService)
 make_dbus_class(AccountsUser org.freedesktop.Accounts.User)
 make_dbus_class(AccountsPrivate com.lomiri.shell.AccountsService.Private)
-make_dbus_class(UscInput com.canonical.Lomiri.Input)
+make_dbus_class(LscInput com.lomiri.SystemCompositor.Input)
 
 include_directories(
     ${GLIB_INCLUDE_DIRS}
@@ -34,11 +34,11 @@ add_executable(mock-server
     ${CMAKE_CURRENT_BINARY_DIR}/PropertiesAdaptor.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/LocationAdaptor.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/SecurityPrivacyAdaptor.cpp
-    ${CMAKE_CURRENT_BINARY_DIR}/UscInputAdaptor.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/LscInputAdaptor.cpp
     server.cpp
     AccountsServer.cpp
     PropertiesServer.cpp
-    UscServer.cpp
+    LscServer.cpp
     )
 target_link_libraries(mock-server Qt5::Core Qt5::DBus)
 install(TARGETS mock-server

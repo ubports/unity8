@@ -46,13 +46,13 @@ public:
         , m_spy(this, &AccountsServiceTest::propertiesChanged)
         , m_mousePrimaryButtonSpy(this, &AccountsServiceTest::setMousePrimaryButtonCalled)
     {
-        m_uscInputInterface = new QDBusInterface("com.canonical.Lomiri.Input",
-                                                 "/com/canonical/Lomiri/Input",
-                                                 "com.canonical.Lomiri.Input",
-                                                 QDBusConnection::sessionBus(),
-                                                 this);
+        m_syscompInputInterface = new QDBusInterface("com.lomiri.SystemCompositor.Input",
+                                                     "/com/lomiri/SystemCompositor/Input",
+                                                     "com.lomiri.SystemCompositor.Input",
+                                                     QDBusConnection::sessionBus(),
+                                                     this);
 
-        QObject::connect(m_uscInputInterface, SIGNAL(setMousePrimaryButtonCalled(int)),
+        QObject::connect(m_syscompInputInterface, SIGNAL(setMousePrimaryButtonCalled(int)),
                          this, SIGNAL(setMousePrimaryButtonCalled(int)));
 
         qDBusRegisterMetaType<StringMap>();
@@ -344,7 +344,7 @@ Q_SIGNALS:
     void setMousePrimaryButtonCalled(int button);
 
 private:
-    QDBusInterface* m_uscInputInterface;
+    QDBusInterface* m_syscompInputInterface;
     QDBusInterface* m_userInterface;
     QSignalSpy m_spy;
     QSignalSpy m_mousePrimaryButtonSpy;

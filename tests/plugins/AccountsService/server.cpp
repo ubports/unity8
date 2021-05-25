@@ -24,8 +24,8 @@
 #include "SecurityPrivacyAdaptor.h"
 #include "LocationAdaptor.h"
 #include "AccountsPrivateAdaptor.h"
-#include "UscInputAdaptor.h"
-#include "UscServer.h"
+#include "LscInputAdaptor.h"
+#include "LscServer.h"
 #include <QCoreApplication>
 
 int main(int argc, char *argv[])
@@ -39,14 +39,14 @@ int main(int argc, char *argv[])
     new LocationAdaptor(accounts);
     new AccountsPrivateAdaptor(accounts);
 
-    auto usc = new UscServer(&a);
-    new UscInputAdaptor(usc);
+    auto usc = new LscServer(&a);
+    new LscInputAdaptor(usc);
 
     // We use the session bus for testing.  The real plugin uses the system bus
     auto connection = QDBusConnection::sessionBus();
-    if (!connection.registerObject("/com/canonical/Lomiri/Input", usc))
+    if (!connection.registerObject("/com/lomiri/SystemCompositor/Input", usc))
         return 1;
-    if (!connection.registerService("com.canonical.Lomiri.Input"))
+    if (!connection.registerService("com.lomiri.SystemCompositor.Input"))
         return 1;
     if (!connection.registerObject("/org/freedesktop/Accounts", accounts))
         return 1;
