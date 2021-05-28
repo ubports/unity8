@@ -18,22 +18,10 @@ import QtQuick 2.4
 import Ubuntu.Components 1.3
 
 Item {
-    BorderImage {
-        anchors {
-            fill: parent
-            topMargin: -units.gu(1)
-            leftMargin: -units.gu(1.5)
-            rightMargin: -units.gu(1.5)
-            bottomMargin: -units.gu(1.5)
-        }
-        source: "../graphics/dropshadow2gu.sci"
-        opacity: 0.35
-    }
-
     UbuntuShape {
         anchors.fill: parent
         aspect: UbuntuShape.Flat
         backgroundColor: theme.palette.normal.background
-        opacity: 0.4
+        opacity: 0.3
     }
 }
