@@ -115,6 +115,14 @@ FocusScope {
             source: root.background
         }
 
+        // Darken background to match CoverPage
+        Rectangle {
+            objectName: "lockscreenShade"
+            anchors.fill: parent
+            color: "black"
+            opacity: root.hasCustomBackground ? 0.4 : 0
+        }
+
         LoginList {
             id: loginList
             objectName: "loginList"
