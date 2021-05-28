@@ -208,7 +208,7 @@ FocusScope {
 
         Rectangle {
             color: theme.palette.normal.background
-            opacity: 0.7
+            opacity: 0.3
             anchors.fill: parent
         }
 
