@@ -42,8 +42,8 @@ Item {
             source: modelData
             height: 0
             width: 0
-            sourceSize.height: 0
-            sourceSize.width: 0
+            sourceSize.height: 1
+            sourceSize.width: 1
         }
     }
 }
