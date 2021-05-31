@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2016 Canonical, Ltd.
- * Copyright (C) 2020 UBports Foundation.
+ * Copyright (C) 2020-2021 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -56,16 +56,7 @@ FocusScope {
     property var oldSelectionEnd: null
 
     anchors {
-        onRightMarginChanged: {
-            if (fullyOpen && hadFocus) {
-                // See onDraggingHorizontallyChanged below
-                searchField.focus = hadFocus;
-                searchField.select(oldSelectionStart, oldSelectionEnd);
-            } else if (fullyClosed || fullyOpen) {
-                searchField.text = "";
-                resetOldFocus();
-            }
-        }
+        onRightMarginChanged: refocusInputAfterUserLetsGo()
     }
 
     Behavior on anchors.rightMargin {
@@ -77,10 +68,8 @@ FocusScope {
     }
 
     onDraggingHorizontallyChanged: {
+        // See refocusInputAfterUserLetsGo()
         if (draggingHorizontally) {
-            // Remove (and put back using anchors.onRightMarginChanged) the
-            // focus for the searchfield in order to hide the copy/paste
-            // popover when we move the drawer
             hadFocus = searchField.focus;
             oldSelectionStart = searchField.selectionStart;
             oldSelectionEnd = searchField.selectionEnd;
@@ -91,6 +80,7 @@ FocusScope {
             } else {
                 openRequested();
             }
+            refocusInputAfterUserLetsGo();
         }
     }
 
@@ -106,9 +96,24 @@ FocusScope {
         hadFocus = false;
         oldSelectionStart = null;
         oldSelectionEnd = null;
-        appList.currentIndex = 0;
-        searchField.focus = false;
-        appList.focus = false;
+    }
+
+    function refocusInputAfterUserLetsGo() {
+        if (!draggingHorizontally) {
+            if (fullyOpen && hadFocus) {
+                searchField.focus = hadFocus;
+                searchField.select(oldSelectionStart, oldSelectionEnd);
+            } else if (fullyOpen || fullyClosed) {
+                resetOldFocus();
+            }
+
+            if (fullyClosed) {
+                searchField.text = "";
+                appList.currentIndex = 0;
+                searchField.focus = false;
+                appList.focus = false;
+            }
+        }
     }
 
     function focusInput() {
