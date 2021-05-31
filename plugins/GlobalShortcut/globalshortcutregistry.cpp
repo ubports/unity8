@@ -98,9 +98,9 @@ bool GlobalShortcutRegistry::eventFilter(QObject *obj, QEvent *event)
                         keyEvent->text(),
                         keyEvent->isAutoRepeat(),
                         keyEvent->count());
-        eCopy.ignore();
 
         int seq = keyEvent->key() + keyEvent->modifiers();
+        bool acceptedAtLeastOnce = false;
         if (m_shortcuts.contains(seq)) {
             const auto shortcuts = m_shortcuts.value(seq);
             Q_FOREACH(const auto &shortcut, shortcuts) {
@@ -108,12 +108,13 @@ bool GlobalShortcutRegistry::eventFilter(QObject *obj, QEvent *event)
                     auto window = windowForShortcut(shortcut);
                     if (!window || window == obj) { // accept shortcut if it's not attached to a window or it's window is active.
                         qApp->sendEvent(shortcut, &eCopy);
+                        acceptedAtLeastOnce = acceptedAtLeastOnce || eCopy.isAccepted();
                     }
                 }
             }
         }
 
-        return eCopy.isAccepted();
+        return acceptedAtLeastOnce;
     }
 
     return QObject::eventFilter(obj, event);
