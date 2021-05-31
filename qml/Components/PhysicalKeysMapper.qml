@@ -65,7 +65,7 @@ Item {
         property bool superPressed: false
         property bool superTabPressed: false
 
-        property var powerButtonPressStart: 0
+        property var powerButtonPressStart: -1
     }
 
     InputEventGenerator {
@@ -75,9 +75,9 @@ Item {
     function onKeyPressed(event, currentEventTimestamp) {
         if (event.key == Qt.Key_PowerDown || event.key == Qt.Key_PowerOff) {
             if (event.isAutoRepeat) {
-                if (d.powerButtonPressStart > 0
+                if (d.powerButtonPressStart != -1
                         && currentEventTimestamp - d.powerButtonPressStart >= powerKeyLongPressTime) {
-                    d.powerButtonPressStart = 0;
+                    d.powerButtonPressStart = -1;
                     root.powerKeyLongPressed();
                 }
             } else {
@@ -132,7 +132,7 @@ Item {
 
     function onKeyReleased(event, currentEventTimestamp) {
         if (event.key == Qt.Key_PowerDown || event.key == Qt.Key_PowerOff) {
-            d.powerButtonPressStart = 0;
+            d.powerButtonPressStart = -1;
             event.accepted = true;
         } else if (event.key == Qt.Key_VolumeDown) {
             if (!d.ignoreVolumeEvents) root.volumeDownTriggered();
