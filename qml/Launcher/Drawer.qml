@@ -202,6 +202,7 @@ FocusScope {
             function reset() {
                 root.draggingHorizontally = false;
                 handle.active = false;
+                root.dragDistance = 0;
             }
 
             Handle {

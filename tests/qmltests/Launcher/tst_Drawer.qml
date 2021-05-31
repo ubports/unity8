@@ -421,5 +421,28 @@ StyledItem {
 
             tryCompare(searchField, "focus", false);
         }
+
+        function test_dragDistanceReset() {
+            // Regression test: If the user dragged the Drawer open further than
+            // necessary, dragging the Drawer closed would take an equal amount
+            // of distance to start the animation as the original overshoot.
+
+            var drawer = dragDrawerIntoView();
+            var dragY = drawer.height / 2;
+            // Drag the Drawer most of the way closed, then *way* open
+            mousePress(root, drawer.width - units.gu(1), dragY);
+            mouseMove(root, 10, dragY, 500);
+            mouseMove(root, units.gu(100), dragY, 500);
+            mouseRelease(root, units.gu(100), dragY);
+
+            // Ensure the Drawer's margin changes correctly on the next drag closed
+            mousePress(root, drawer.width - units.gu(1), dragY);
+            mouseMove(root, 1, dragY);
+            // If the Drawer's position is within 2gu of hidden, it's probably okay.
+            tryVerify(function () {return drawer.x < -(drawer.width - units.gu(2))});
+            // But it should not be completely hidden.
+            tryCompare(drawer, "visible", true);
+            mouseRelease(root, 1, dragY);
+        }
     }
 }
