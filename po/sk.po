@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-29 11:42-0600\n"
-"PO-Revision-Date: 2021-04-16 13:44+0000\n"
+"PO-Revision-Date: 2021-05-22 21:42+0000\n"
 "Last-Translator: dano6 <dano.kutka@gmail.com>\n"
 "Language-Team: Slovak <https://translate.ubports.com/projects/ubports/lomiri/"
 "sk/>\n"
@@ -184,7 +184,7 @@ msgstr "Spustí aplikáciu terminál."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:131
 msgid "Launcher"
-msgstr "Launcher"
+msgstr "Spúšťací panel"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:138
 msgid "Super (Hold)"
@@ -421,11 +421,11 @@ msgstr "Tiesňový hovor"
 
 #: qml/Greeter/PromptList.qml:126
 msgid "Passphrase"
-msgstr "Prístupová fráza"
+msgstr "Heslo"
 
 #: qml/Greeter/PromptList.qml:126
 msgid "Passcode"
-msgstr "Heslo"
+msgstr "Číselný kód"
 
 #: qml/Greeter/SessionsList.qml:124
 msgid "Select desktop environment"
@@ -453,7 +453,7 @@ msgstr "Kliknúť pre návrat k hovoru..."
 
 #: qml/Panel/ActiveCallHint.qml:92
 msgid "Conference"
-msgstr "Konferencia"
+msgstr "Konferenčný hovor"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:869
 msgid "Nothing is playing"
@@ -463,8 +463,8 @@ msgstr "Nič nehrá"
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
-msgstr[0] "%1 hodín"
-msgstr[1] "%1 hodina"
+msgstr[0] "%1 hodina"
+msgstr[1] "%1 hodín"
 msgstr[2] "%1 hodiny"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1001
@@ -511,7 +511,7 @@ msgstr "Zrušené"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1027
 msgid "Finished"
-msgstr "Ukončené"
+msgstr "Dokončené"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1029
 msgid "Failed, tap to retry"
@@ -583,7 +583,7 @@ msgstr "Jazyk"
 #: qml/Wizard/Pages/passcode-desktop.qml:154
 #: qml/Wizard/Pages/password-set.qml:153
 msgid "Next"
-msgstr "Nasledujúci"
+msgstr "Ďalej"
 
 #: qml/Wizard/Pages/10-welcome-update.qml:91
 msgid "Welcome to "
@@ -621,7 +621,7 @@ msgstr "Preskočiť"
 
 #: qml/Wizard/Pages/30-wifi.qml:31
 msgid "Connect to Wi‑Fi"
-msgstr "Pripojiť k Wifi"
+msgstr "Pripojiť k Wi-Fi"
 
 #: qml/Wizard/Pages/30-wifi.qml:139
 msgid "Connected"
@@ -699,7 +699,7 @@ msgstr "Môže to trvať niekoľko minút..."
 
 #: qml/Wizard/Pages/79-system-update.qml:109
 msgid "Install and restart now"
-msgstr "Teraz nainštalovať a reštartovať"
+msgstr "Inštalovať a reštartovať teraz"
 
 #: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome Back"
@@ -724,7 +724,7 @@ msgstr "Začať"
 #: qml/Wizard/Pages/passcode-confirm.qml:43
 #: qml/Wizard/Pages/passcode-desktop.qml:104
 msgid "Confirm passcode"
-msgstr "Potvrdiť heslo"
+msgstr "Potvrďte číselný kód"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgid "Incorrect passcode."
@@ -746,7 +746,7 @@ msgstr "Zadajte 4 čísla pre nastavenie hesla"
 #: qml/Wizard/Pages/passcode-desktop.qml:84
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
-msgstr "Zvoliť heslo"
+msgstr "Zvoľte číselný kód"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:139
 msgid "Passcode too short"
@@ -794,7 +794,7 @@ msgstr "Musíte reštartovať zariadenie pre prístup k mobilnej sieti."
 
 #: qml/Wizard/Pages/sim.qml:59
 msgid "Restart"
-msgstr "Reštart"
+msgstr "Reštartovať"
 
 #: qml/Wizard/Pages/sim.qml:78
 msgid "You won’t be able to make calls or use text messaging without a SIM."
