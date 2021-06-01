@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2013-2015 Canonical, Ltd.
+ * Copyright (C) 2021 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -566,10 +567,12 @@ FocusScope {
             name: "" // hidden state. Must be the default state ("") because "when:" falls back to this.
             PropertyChanges {
                 target: panel
+                restoreEntryValues: false
                 x: -root.panelWidth
             }
             PropertyChanges {
                 target: drawer
+                restoreEntryValues: false
                 anchors.rightMargin: 0
                 focus: false
             }
@@ -578,25 +581,30 @@ FocusScope {
             name: "visible"
             PropertyChanges {
                 target: panel
+                restoreEntryValues: false
                 x: -root.x // so we never go past panelWidth, even when teased by tutorial
                 focus: true
             }
             PropertyChanges {
                 target: drawer
+                restoreEntryValues: false
                 anchors.rightMargin: 0
                 focus: false
             }
         },
         State {
             name: "drawer"
-            extend: "visible"
-            PropertyChanges {
-                target: drawer
-                anchors.rightMargin: -drawer.width + root.x // so we never go past panelWidth, even when teased by tutorial
-                focus: true
-            }
             PropertyChanges {
                 target: panel
+                restoreEntryValues: false
+                x: -root.x // so we never go past panelWidth, even when teased by tutorial
+                focus: false
+            }
+            PropertyChanges {
+                target: drawer
+                restoreEntryValues: false
+                anchors.rightMargin: -drawer.width + root.x // so we never go past panelWidth, even when teased by tutorial
+                focus: true
             }
         },
         State {
@@ -604,6 +612,7 @@ FocusScope {
             extend: "visible"
             PropertyChanges {
                 target: root
+                restoreEntryValues: false
                 autohideEnabled: true
             }
         },
@@ -612,6 +621,7 @@ FocusScope {
             when: teaseTimer.running && teaseTimer.mode == "teasing"
             PropertyChanges {
                 target: panel
+                restoreEntryValues: false
                 x: -root.panelWidth + units.gu(2)
             }
         },
@@ -620,6 +630,7 @@ FocusScope {
             when: teaseTimer.running && teaseTimer.mode == "hinting"
             PropertyChanges {
                 target: panel
+                restoreEntryValues: false
                 x: 0
             }
         }

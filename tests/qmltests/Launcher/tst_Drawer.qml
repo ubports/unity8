@@ -1,5 +1,6 @@
 /*
  * Copyright 2013-2016 Canonical Ltd.
+ * Copyright (C) 2021 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -420,6 +421,100 @@ StyledItem {
             touchFlick(drawer, startX, startY, startX, startY+units.gu(1))
 
             tryCompare(searchField, "focus", false);
+        }
+
+        function test_dragDistanceReset() {
+            // Regression test: If the user dragged the Drawer open further than
+            // necessary, dragging the Drawer closed would take an equal amount
+            // of distance to start the animation as the original overshoot.
+
+            var drawer = dragDrawerIntoView();
+            var dragY = drawer.height / 2;
+            // Drag the Drawer most of the way closed, then *way* open
+            mousePress(root, drawer.width - units.gu(1), dragY);
+            mouseMove(root, 10, dragY, 500);
+            mouseMove(root, units.gu(100), dragY, 500);
+            mouseRelease(root, units.gu(100), dragY);
+
+            // Ensure the Drawer's margin changes correctly on the next drag closed
+            mousePress(root, drawer.width - units.gu(1), dragY);
+            mouseMove(root, 1, dragY);
+            // If the Drawer's position is within 2gu of hidden, it's probably okay.
+            tryVerify(function () {return drawer.x < -(drawer.width - units.gu(2))});
+            // But it should not be completely hidden.
+            tryCompare(drawer, "visible", true);
+            mouseRelease(root, 1, dragY);
+        }
+
+        function test_userCancellingExitWithSearch_data() {
+            return [
+                {tag: "drag all the way back to fullyOpen", fullyOpen: true, cursorPosition: 3, selectedText: ""},
+                {tag: "do not drag all the way back to fullyOpen", fullyOpen: false, cursorPosition: 3, selectedText: ""},
+                {tag: "move cursor and drag all the way back to fullyOpen", fullyOpen: true, cursorPosition: 2, selectionStart: 2, selectionEnd: 2, selectedText: ""},
+                {tag: "move cursor and do not drag all the way back to fullyOpen", fullyOpen: false, cursorPosition: 2, selectionStart: 2, selectionEnd: 2, selectedText: ""},
+                {tag: "select text and drag all the way back to fullyOpen", fullyOpen: true, cursorPosition: 2, selectionStart: 0, selectionEnd: 2, selectedText: "ca"},
+                {tag: "select text and do not drag all the way back to fullyOpen", fullyOpen: false, cursorPosition: 2, selectionStart: 0, selectionEnd: 2, selectedText: "ca"}
+            ]
+        }
+
+        function test_userCancellingExitWithSearch(data) {
+            // * If I open the Drawer, start searching, start closing the
+            //   drawer, then change my mind and cancel my closing gesture, my
+            //   search remains.
+            // * If I start searching, place my cursor at a different point in
+            //   the text field or select text, then start closing the Drawer:
+            //   - The keyboard text selection handles and copy/paste dialog
+            //     become invisible or move with the text box. Our keyboard
+            //     isn't quite fancy enough for the handles to move with the
+            //     search box, so we remove the search field's focus to remove
+            //     the handles.
+            //   - If I cancel my Drawer close action, my search, cursor
+            //     position, and selection rectangles are retained.
+            var drawer = dragDrawerIntoView();
+            var searchField = drawer.searchTextField;
+            var dragY = drawer.height / 2;
+            if (data.fullyOpen) {
+                var dragEndPointX = drawer.width + units.gu(20);
+            } else {
+                var dragEndPointX = drawer.width - units.gu(10);
+            }
+
+            typeString("cam");
+            tryCompare(searchField, "displayText", "cam");
+            tryCompare(searchField, "focus", true);
+
+            if (data.selectionStart !== undefined) {
+                searchField.select(data.selectionStart, data.selectionEnd);
+            }
+
+            // Simply clicking the drag handle shouldn't be enough to remove focus
+            mousePress(root, drawer.width - units.gu(1), dragY);
+            tryCompare(searchField, "focus", true);
+
+            // The search field should not have focus during the drag so the
+            // cursor or drag handles don't float in place.
+            mouseMove(root, 10, dragY, 500);
+            tryCompare(drawer, "fullyOpen", false);
+            tryCompare(searchField, "focus", false);
+            mouseMove(root, dragEndPointX, dragY, 500);
+            tryCompare(drawer, "fullyOpen", data.fullyOpen);
+
+            // The search field should not get focus back until the user lets go
+            tryCompare(searchField, "focus", false);
+            mouseRelease(root, dragEndPointX, dragY);
+            // Wait for animations to stop so anything that results from them
+            // can resolve
+            wait(1000);
+            tryCompare(drawer, "fullyOpen", true);
+            tryCompare(searchField, "displayText", "cam");
+            tryCompare(searchField, "focus", true);
+            tryCompare(searchField, "cursorPosition", data.cursorPosition);
+            tryCompare(searchField, "selectedText", data.selectedText);
+            if (data.selectionStart) {
+                // The selected area should be the same as it was before the drag
+                tryCompare(searchField, "selectionStart", data.selectionStart);
+                tryCompare(searchField, "selectionEnd", data.selectionEnd);
+            }
         }
     }
 }
