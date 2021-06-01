@@ -42,14 +42,14 @@ Powerd::Powerd(QObject* parent)
     lomiriScreen(nullptr),
     cachedStatus(Status::On)
 {
-    lomiriScreen = new QDBusInterface(QStringLiteral("com.canonical.Lomiri.Screen"),
-                                     QStringLiteral("/com/canonical/Lomiri/Screen"),
-                                     QStringLiteral("com.canonical.Lomiri.Screen"),
+    lomiriScreen = new QDBusInterface(QStringLiteral("com.canonical.Unity.Screen"),
+                                     QStringLiteral("/com/canonical/Unity/Screen"),
+                                     QStringLiteral("com.canonical.Unity.Screen"),
                                      QDBusConnection::SM_BUSNAME(), this);
 
-    lomiriScreen->connection().connect(QStringLiteral("com.canonical.Lomiri.Screen"),
-                                      QStringLiteral("/com/canonical/Lomiri/Screen"),
-                                      QStringLiteral("com.canonical.Lomiri.Screen"),
+    lomiriScreen->connection().connect(QStringLiteral("com.canonical.Unity.Screen"),
+                                      QStringLiteral("/com/canonical/Unity/Screen"),
+                                      QStringLiteral("com.canonical.Unity.Screen"),
                                       QStringLiteral("DisplayPowerStateChange"),
                                       this,
                                       SLOT(handleDisplayPowerStateChange(int, int)));
