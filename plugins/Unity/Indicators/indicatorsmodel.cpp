@@ -52,6 +52,7 @@
 */
 IndicatorsModel::IndicatorsModel(QObject *parent)
     : QAbstractListModel(parent)
+    , m_light(false)
 {
     m_manager = new IndicatorsManager(this);
     QObject::connect(m_manager, &IndicatorsManager::indicatorLoaded, this, &IndicatorsModel::onIndicatorLoaded);

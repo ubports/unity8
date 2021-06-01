@@ -35,7 +35,8 @@ LauncherItem::LauncherItem(const QString &appId, const QString &name, const QStr
     m_countVisible(false),
     m_focused(false),
     m_alerting(false),
-    m_quickList(new QuickListModel(this))
+    m_quickList(new QuickListModel(this)),
+    m_popularity(0)
 {
     QuickListEntry nameAction;
     nameAction.setActionId(QStringLiteral("launch_item"));
