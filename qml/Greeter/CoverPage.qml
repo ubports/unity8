@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2013-2016 Canonical, Ltd.
+ * Copyright (C) 2021 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,7 +27,7 @@ Showable {
     property real launcherOffset
     property alias background: greeterBackground.source
     property alias hasCustomBackground: backgroundShade.visible
-    property real backgroundTopMargin
+    property real panelHeight
     property var infographicModel
     property bool draggable: true
 
@@ -88,7 +89,6 @@ Showable {
         objectName: "greeterBackground"
         anchors {
             fill: parent
-            topMargin: root.backgroundTopMargin
         }
     }
 
@@ -105,12 +105,13 @@ Showable {
     Infographics {
         id: infographics
         objectName: "infographics"
-        height: parent.height
         model: root.infographicModel
         clip: true // clip large data bubbles
 
         anchors {
-            verticalCenter: parent.verticalCenter
+            topMargin: root.panelHeight
+            top: parent.top
+            bottom: parent.bottom
             left: parent.left
             right: parent.right
         }
