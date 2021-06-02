@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015-2016 Canonical, Ltd.
+ * Copyright (C) 2021 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,7 +28,7 @@ FocusScope {
     property alias launcherOffset: coverPage.launcherOffset
     property alias currentIndex: loginList.currentIndex
     property alias delayMinutes: delayedLockscreen.delayMinutes
-    property alias backgroundTopMargin: coverPage.backgroundTopMargin
+    property real panelHeight
     property url background
     property bool hasCustomBackground
     property bool locked
@@ -110,7 +111,6 @@ FocusScope {
             objectName: "lockscreenBackground"
             anchors {
                 fill: parent
-                topMargin: root.backgroundTopMargin
             }
             source: root.background
         }
@@ -171,6 +171,7 @@ FocusScope {
         width: parent.width
         background: root.background
         hasCustomBackground: root.hasCustomBackground
+        panelHeight: root.panelHeight
         draggable: !root.waiting
         onTease: root.tease()
         onClicked: hide()
@@ -188,7 +189,7 @@ FocusScope {
         Clock {
             anchors {
                 top: parent.top
-                topMargin: units.gu(2)
+                topMargin: units.gu(2) + panelHeight
                 horizontalCenter: parent.horizontalCenter
             }
         }

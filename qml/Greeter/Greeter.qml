@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2013-2016 Canonical, Ltd.
+ * Copyright (C) 2021 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,6 +38,9 @@ Showable {
 
     // How far to offset the top greeter layer during a launcher left-drag
     property real launcherOffset
+
+    // How far down to position the greeter's interface to avoid the Panel
+    property real panelHeight
 
     readonly property bool active: required || hasLockedApp
     readonly property bool fullyShown: loader.item ? loader.item.fullyShown : false
@@ -380,8 +384,8 @@ Showable {
 
         Binding {
             target: loader.item
-            property: "backgroundTopMargin"
-            value: -root.y
+            property: "panelHeight"
+            value: root.panelHeight
         }
 
         Binding {

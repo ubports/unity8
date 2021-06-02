@@ -1,5 +1,6 @@
 /*
  * Copyright 2014-2016 Canonical Ltd.
+ * Copyright 2021 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -52,7 +53,7 @@ StyledItem {
                     launcherOffset: parseFloat(launcherOffsetField.text)
                     currentIndex: parseInt(currentIndexField.text, 10)
                     delayMinutes: parseInt(delayMinutesField.text, 10)
-                    backgroundTopMargin: parseFloat(backgroundTopMarginField.text)
+                    panelHeight: parseFloat(panelHeightField.text)
                     locked: lockedCheckBox.checked
                     inputMethod: fakeInputMethod
 
@@ -196,12 +197,12 @@ StyledItem {
                 }
                 Row {
                     TextField {
-                        id: backgroundTopMarginField
+                        id: panelHeightField
                         width: units.gu(10)
                         text: "0"
                     }
                     Label {
-                        text: "backgroundTopMargin"
+                        text: "panelHeight"
                     }
                 }
                 Row {
