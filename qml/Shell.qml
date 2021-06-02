@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (C) 2013-2016 Canonical, Ltd.
- * Copyright (C) 2019-2020 UBports Foundation
+ * Copyright (C) 2019-2021 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -391,7 +391,6 @@ StyledItem {
         id: greeterLoader
         objectName: "greeterLoader"
         anchors.fill: parent
-        anchors.topMargin: panel.panelHeight
         sourceComponent: shell.mode != "shell" ? integratedGreeter :
             Qt.createComponent(Qt.resolvedUrl("Greeter/ShimGreeter.qml"));
         onLoaded: {
@@ -428,6 +427,7 @@ StyledItem {
             allowFingerprint: !dialogs.hasActiveDialog &&
                               !notifications.topmostIsFullscreen &&
                               !panel.indicators.shown
+            panelHeight: panel.panelHeight
 
             // avoid overlapping with Launcher's edge drag area
             // FIXME: Fix TouchRegistry & friends and remove this workaround

@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2021 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +26,7 @@ Item {
     property real launcherOffset
     property int currentIndex
     property int delayMinutes
-    property real backgroundTopMargin
+    property real panelHeight
     property url background
     property bool hasCustomBackground
     property bool locked

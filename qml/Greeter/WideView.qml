@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015-2016 Canonical, Ltd.
+ * Copyright (C) 2021 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +26,7 @@ FocusScope {
     focus: true
 
     property alias background: coverPage.background
-    property alias backgroundTopMargin: coverPage.backgroundTopMargin
+    property alias panelHeight: coverPage.panelHeight
     property alias hasCustomBackground: coverPage.hasCustomBackground
     property alias dragHandleLeftMargin: coverPage.dragHandleLeftMargin
     property alias infographicModel: coverPage.infographicModel

@@ -359,12 +359,6 @@ Item {
             }
         }
 
-        function test_backgroundTopMargin() {
-            compare(view.backgroundTopMargin, 0);
-            greeter.y = 5;
-            compare(view.backgroundTopMargin, -5);
-        }
-
         function test_authError() {
             selectUser("auth-error");
             tryCompare(viewAuthenticationFailedSpy, "count", 1);
