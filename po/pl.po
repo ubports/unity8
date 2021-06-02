@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-29 11:42-0600\n"
-"PO-Revision-Date: 2021-04-20 21:41+0000\n"
+"PO-Revision-Date: 2021-06-01 23:45+0000\n"
 "Last-Translator: Daniel Frańczak <danielfranczak5@wp.pl>\n"
 "Language-Team: Polish <https://translate.ubports.com/projects/ubports/lomiri/"
 "pl/>\n"
@@ -60,7 +60,7 @@ msgstr "Przypnij skrót"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:54
 msgid "Quit"
-msgstr "Zakończ"
+msgstr "Wyjdź"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Unpin shortcut"
@@ -441,7 +441,7 @@ msgstr "Zwolnij by odświeżyć…"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
-msgstr "Wyświetl hasło"
+msgstr "Pokaż hasło"
 
 #: qml/Panel/ActiveCallHint.qml:79
 msgid "Tap to return to call..."
@@ -507,7 +507,7 @@ msgstr "Anulowano"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1027
 msgid "Finished"
-msgstr "Zakończono"
+msgstr "Ukończono"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1029
 msgid "Failed, tap to retry"
@@ -596,7 +596,7 @@ msgstr "Co nowego"
 
 #: qml/Wizard/Pages/11-changelog.qml:74
 msgid "Loading..."
-msgstr "Ładowanie…"
+msgstr "Wczytywanie..."
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
