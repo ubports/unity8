@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2014-2017 Canonical, Ltd.
+ * Copyright (C) 2021 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,6 +37,7 @@ FocusScope {
     property QtObject topLevelSurfaceList
     property bool altTabPressed
     property url background
+    property alias backgroundSourceSize: wallpaper.sourceSize
     property int dragAreaWidth
     property real nativeHeight
     property real nativeWidth
@@ -625,6 +627,7 @@ FocusScope {
 
         Wallpaper {
             id: wallpaper
+            objectName: "stageBackground"
             anchors.fill: parent
             source: root.background
             // Make sure it's the lowest item. Due to the left edge drag we sometimes need

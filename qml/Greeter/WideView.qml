@@ -26,6 +26,7 @@ FocusScope {
     focus: true
 
     property alias background: coverPage.background
+    property alias backgroundSourceSize: coverPage.backgroundSourceSize
     property alias panelHeight: coverPage.panelHeight
     property alias hasCustomBackground: coverPage.hasCustomBackground
     property alias dragHandleLeftMargin: coverPage.dragHandleLeftMargin

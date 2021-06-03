@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2013-2017 Canonical, Ltd.
+ * Copyright (C) 2021 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,6 +54,7 @@ Showable {
     property int maxPinLength: -1
 
     property url background: ""
+    property alias backgroundSourceSize: backgroundImage.sourceSize
     // Use this to put a black overlay above the background
     // 0: normal background, 1: black background
     property real darkenBackground: 0

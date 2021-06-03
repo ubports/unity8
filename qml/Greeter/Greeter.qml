@@ -35,6 +35,7 @@ Showable {
 
     property url background
     property bool hasCustomBackground
+    property real backgroundSourceSize
 
     // How far to offset the top greeter layer during a launcher left-drag
     property real launcherOffset
@@ -410,6 +411,12 @@ Showable {
             target: loader.item
             property: "background"
             value: root.background
+        }
+
+        Binding {
+            target: loader.item
+            property: "backgroundSourceSize"
+            value: root.backgroundSourceSize
         }
 
         Binding {
