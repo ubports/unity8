@@ -33,6 +33,7 @@ FocusScope {
     readonly property Item searchTextField: searchField
     readonly property real delegateWidth: units.gu(10)
     property url background
+    property alias backgroundSourceSize: background.sourceSize
     visible: x > -width
     property var fullyOpen: x === 0
     property var fullyClosed: x === -width
@@ -159,6 +160,7 @@ FocusScope {
 
         Wallpaper {
             id: background
+            objectName: "drawerBackground"
             anchors.fill: parent
             source: root.background
         }

@@ -26,6 +26,7 @@ Showable {
     property real dragHandleLeftMargin
     property real launcherOffset
     property alias background: greeterBackground.source
+    property alias backgroundSourceSize: greeterBackground.sourceSize
     property alias hasCustomBackground: backgroundShade.visible
     property real panelHeight
     property var infographicModel
