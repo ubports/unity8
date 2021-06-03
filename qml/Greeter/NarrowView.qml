@@ -30,6 +30,7 @@ FocusScope {
     property alias delayMinutes: delayedLockscreen.delayMinutes
     property real panelHeight
     property url background
+    property real backgroundSourceSize
     property bool hasCustomBackground
     property bool locked
     property alias alphanumeric: loginList.alphanumeric
@@ -113,6 +114,7 @@ FocusScope {
                 fill: parent
             }
             source: root.background
+            sourceSize: root.backgroundSourceSize
         }
 
         // Darken background to match CoverPage
@@ -175,6 +177,7 @@ FocusScope {
         draggable: !root.waiting
         onTease: root.tease()
         onClicked: hide()
+        backgroundSourceSize: root.backgroundSourceSize
 
         onShowProgressChanged: {
             if (showProgress === 0) {

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.4
+import QtQuick 2.8
 import QtQuick.Window 2.2
 import AccountsService 0.1
 import Unity.Application 0.1
@@ -70,6 +70,20 @@ StyledItem {
     property bool hasKeyboard: false
     property bool hasTouchscreen: false
     property bool supportsMultiColorLed: true
+
+    // The largest dimension, in pixels, of all of the screens this Shell is
+    // operating on.
+    // If a script sets the shell to 240x320 when it was 320x240, we could
+    // end up in a situation where our dimensions are 240x240 for a short time.
+    // Notifying the Wallpaper of both events would make it reload the image
+    // twice. So, we use a Binding { delayed: true }.
+    property real largestScreenDimension
+    Binding {
+        target: shell
+        delayed: true
+        property: "largestScreenDimension"
+        value: Math.max(nativeWidth, nativeHeight)
+    }
 
     // Used by tests
     property alias lightIndicators: indicatorsModel.light
@@ -308,6 +322,7 @@ StyledItem {
 
             dragAreaWidth: shell.edgeSize
             background: wallpaperResolver.background
+            backgroundSourceSize: shell.largestScreenDimension
 
             applicationManager: ApplicationManager
             topLevelSurfaceList: topLevelSurfaceList
@@ -423,6 +438,7 @@ StyledItem {
             tabletMode: shell.usageScenario != "phone"
             forcedUnlock: wizard.active || shell.mode === "full-shell"
             background: wallpaperResolver.background
+            backgroundSourceSize: shell.largestScreenDimension
             hasCustomBackground: wallpaperResolver.hasCustomBackground
             allowFingerprint: !dialogs.hasActiveDialog &&
                               !notifications.topmostIsFullscreen &&
@@ -588,6 +604,7 @@ StyledItem {
             drawerEnabled: !greeter.active && tutorial.launcherLongSwipeEnabled
             privateMode: greeter.active
             background: wallpaperResolver.background
+            backgroundSourceSize: shell.largestScreenDimension
 
             // It can be assumed that the Launcher and Panel would overlap if
             // the Panel is open and taking up the full width of the shell
