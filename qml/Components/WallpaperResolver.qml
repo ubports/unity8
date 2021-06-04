@@ -24,13 +24,21 @@ Item {
     // Provide a list of wallpapers to resolve here, preferred ones first
     property var candidates: []
 
+    property bool cache: true
+
     readonly property url background: {
         for (var i = 0; i < repeater.count; i++) {
-            if (repeater.itemAt(i).status === Image.Ready)
+            var image = repeater.itemAt(i);
+            var expectedImageSource = Qt.resolvedUrl(candidates[i]);
+            if (image.source != expectedImageSource)
+                return "";
+            if (image.status === Image.Ready)
                 return candidates[i];
+            if (image.status === Image.Loading)
+                return "";
         }
-        if (i > 0) {
-            return candidates[i - 1]; // last item is last resort
+        if (candidates.length > 0) {
+            return candidates.slice(-1)[0]; // last item is last resort
         } else {
             return "";
         }
@@ -38,9 +46,11 @@ Item {
 
     Repeater {
         id: repeater
-        model: root.candidates
+        model: root.candidates.slice(0, -1)
         delegate: Image {
             source: modelData
+            asynchronous: true
+            cache: root.cache
             height: 0
             width: 0
             sourceSize.height: 1

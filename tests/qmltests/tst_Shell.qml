@@ -1307,7 +1307,7 @@ Rectangle {
 
             AccountsService.backgroundFile = Qt.resolvedUrl("../graphics/applicationIcons/dash.png");
             tryCompare(greeter, "hasCustomBackground", true);
-            compare(wallpaperResolver.background, AccountsService.backgroundFile);
+            tryCompare(wallpaperResolver, "background", AccountsService.backgroundFile);
         }
 
         function test_tapOnRightEdgeReachesApplicationSurface() {

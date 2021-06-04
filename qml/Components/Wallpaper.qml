@@ -38,9 +38,7 @@ Item {
         anchors.fill: parent
         fillMode: Image.PreserveAspectCrop
 
-        // Setting this to true stops the UI from pausing when the shell's
-        // dimensions change but causes the image to flash on screen.
-        asynchronous: false
+        asynchronous: true
 
         property real oldSourceSize: 0.0
         property real intermediarySourceSize: {
@@ -71,6 +69,18 @@ Item {
 
         sourceSize: Qt.size(intermediarySourceSize, intermediarySourceSize)
         source: intermediarySourceSize !== -1.0 ? root.source : ""
+    }
+
+    Rectangle {
+        id: wallpaperFadeRectangle
+        objectName: "wallpaperFadeRectangle"
+        color: theme.palette.normal.background
+        anchors.fill: parent
+        opacity: image.status === Image.Ready ? 0: 1
+        visible: opacity !== 0
+        Behavior on opacity {
+            UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
+        }
     }
 
     Timer {
