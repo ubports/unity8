@@ -54,6 +54,7 @@ Item {
 
         function init() {
             root.sourceSize = 0;
+            root.defaultBackground = "../../data/unity/backgrounds/20x30.png";
         }
 
         // Ensures that the Wallpaper's sourceSize causes the image to be
@@ -99,6 +100,19 @@ Item {
             // than the event triggering the warning and we end up waiting
             // forever.
             wait(3000);
+        }
+
+        // Ensures there is a blocker over the wallpaper before it has loaded
+        // which goes away once loading finishes
+        function test_wallpaperBlock() {
+            root.sourceSize = 1;
+            root.defaultBackground = "";
+            var wallpaper = createTemporaryObject(wallpaperComponent, root);
+            var wallpaperFadeRectangle = findChild(wallpaper, "wallpaperFadeRectangle");
+            compare(wallpaperFadeRectangle.opacity, 1);
+            root.defaultBackground = "../../data/unity/backgrounds/red.png";
+            tryCompare(wallpaperFadeRectangle, "opacity", 0);
+            compare(wallpaperFadeRectangle.visible, false);
         }
     }
 }
