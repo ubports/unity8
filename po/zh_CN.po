@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-29 11:42-0600\n"
-"PO-Revision-Date: 2021-05-03 03:50+0000\n"
-"Last-Translator: Enceka <enceka@yeah.net>\n"
+"PO-Revision-Date: 2021-06-13 20:42+0000\n"
+"Last-Translator: Ito Rimai <ItoRimai@foxmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://translate.ubports.com/projects/"
 "ubports/lomiri/zh_Hans/>\n"
 "Language: zh_CN\n"
@@ -140,7 +140,7 @@ msgstr "键盘快捷键"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
 msgid "Lomiri"
-msgstr ""
+msgstr "Lomiri"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -359,15 +359,12 @@ msgstr ""
 "动。"
 
 #: qml/Components/VirtualTouchPad.qml:327
-#, fuzzy
-#| msgid "Tap to return to call..."
 msgid "Tap left button to click."
-msgstr "Tap left button to click."
+msgstr "点击左处按钮以左键。"
 
 #: qml/Components/VirtualTouchPad.qml:339
-#, fuzzy
 msgid "Tap right button to right click."
-msgstr "Tap right button to right click."
+msgstr "点击右处按钮以右键。"
 
 #: qml/Components/VirtualTouchPad.qml:351
 msgid "Swipe with two fingers to scroll."
@@ -445,7 +442,7 @@ msgstr "显示密码"
 
 #: qml/Panel/ActiveCallHint.qml:79
 msgid "Tap to return to call..."
-msgstr "点击回到通话..."
+msgstr "点击返回通话..."
 
 #: qml/Panel/ActiveCallHint.qml:92
 msgid "Conference"
@@ -525,7 +522,7 @@ msgstr "回电"
 
 #: qml/Panel/PanelMenuPage.qml:92
 msgid "Back"
-msgstr "上一步"
+msgstr "返回"
 
 #: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
@@ -572,7 +569,7 @@ msgstr "语言"
 #: qml/Wizard/Pages/passcode-desktop.qml:154
 #: qml/Wizard/Pages/password-set.qml:153
 msgid "Next"
-msgstr "下一步"
+msgstr "下一个"
 
 #: qml/Wizard/Pages/10-welcome-update.qml:91
 msgid "Welcome to "
@@ -588,7 +585,7 @@ msgstr "有什么新的"
 
 #: qml/Wizard/Pages/11-changelog.qml:74
 msgid "Loading..."
-msgstr "载入中…"
+msgstr "加载中..."
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
