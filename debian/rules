@@ -15,7 +15,7 @@ DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
 testskip_architectures := arm64 powerpc ppc64el s390x
 
 %:
-	dh $@ --parallel --fail-missing --with python3
+	dh $@ --parallel --fail-missing --with python3,migrations
 
 override_dh_auto_configure:
 	# Debian defines CMAKE_INSTALL_LOCALSTATEDIR as /usr/var, which is wrong.

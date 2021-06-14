@@ -24,3 +24,5 @@ usr/share/lomiri/Stage
 usr/share/lomiri/Tutorial
 usr/share/lomiri/Wizard
 var/lib/lomiri/version
+
+debian/session-migrations/com.canonical.unity.AccountsService.xml usr/share/dbus-1/interfaces/
