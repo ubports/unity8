@@ -43,8 +43,7 @@ System::System()
 
 QString System::wizardEnabledPath()
 {
-    // Uses lomiri-system-settings namespace for historic compatibility reasons
-    return QDir::home().filePath(QStringLiteral(".config/lomiri-system-settings/wizard-has-run"));
+    return QDir::home().filePath(QStringLiteral(".config/lomiri/wizard-has-run"));
 }
 
 QString System::currentFrameworkPath()
