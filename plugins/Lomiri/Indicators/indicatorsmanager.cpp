@@ -61,7 +61,7 @@ void IndicatorsManager::load()
 
     Q_FOREACH(const QString& xdgLocation, xdgLocations)
     {
-        const QString indicator_path = QDir::cleanPath(xdgLocation + "/lomiri/indicators");
+        const QString indicator_path = QDir::cleanPath(xdgLocation + "/unity/indicators");
         QDir indicator_dir(indicator_path);
         if (indicator_dir.exists())
         {
@@ -131,7 +131,7 @@ void IndicatorsManager::loadFile(const QFileInfo& file_info)
         QStringList xdgLocations = shellDataDirs();
         for (int i = 0; i < xdgLocations.size(); i++)
         {
-            const QString indicatorDir = QDir::cleanPath(xdgLocations[i] + "/lomiri/indicators");
+            const QString indicatorDir = QDir::cleanPath(xdgLocations[i] + "/unity/indicators");
 
             if (newFileInfoDir == indicatorDir)
             {
