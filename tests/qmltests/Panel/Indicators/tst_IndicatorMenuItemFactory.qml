@@ -122,7 +122,7 @@ Item {
 
                 { tag: 'wifisection', type: "lomiri.widgets.systemsettings.tablet.wifisection", objectName: "wifiSection" },
                 { tag: 'accesspoint', type: "lomiri.widgets.systemsettings.tablet.accesspoint", objectName: "accessPoint" },
-                { tag: 'modeminfoitem', type: "com.canonical.indicator.network.modeminfoitem", objectName: "modemInfoItem" },
+                { tag: 'modeminfoitem', type: "com.lomiri.indicator.network.modeminfoitem", objectName: "modemInfoItem" },
 
                 { tag: 'calendar', type: "com.canonical.indicator.calendar", objectName: "calendarMenu" },
 
@@ -604,15 +604,15 @@ Item {
         }
 
         function test_create_modemInfoItem(data) {
-            menuData.type = "com.canonical.indicator.network.modeminfoitem";
+            menuData.type = "com.lomiri.indicator.network.modeminfoitem";
             menuData.sensitive = data.enabled;
             menuData.ext = {
-                'xCanonicalModemStatusLabelAction': data.statusLabelAction,
-                'xCanonicalModemStatusIconAction': data.statusIconAction,
-                'xCanonicalModemConnectivityIconAction': data.connectivityIconAction,
-                'xCanonicalModemSimIdentifierLabelAction': data.simIdentifierLabelAction,
-                'xCanonicalModemRoamingAction': data.roamingAction,
-                'xCanonicalModemLockedAction': data.unlockAction,
+                'xLomiriModemStatusLabelAction': data.statusLabelAction,
+                'xLomiriModemStatusIconAction': data.statusIconAction,
+                'xLomiriModemConnectivityIconAction': data.connectivityIconAction,
+                'xLomiriModemSimIdentifierLabelAction': data.simIdentifierLabelAction,
+                'xLomiriModemRoamingAction': data.roamingAction,
+                'xLomiriModemLockedAction': data.unlockAction,
             };
 
             loadData(menuData);

@@ -1014,12 +1014,12 @@ var fakeMenuData = {
                     "rowData": {
                         "actionState": false,
                         "ext": {
-                            "xCanonicalModemConnectivityIconAction": "indicator.modem.1::connectivity-icon",
-                            "xCanonicalModemLockedAction": "indicator.modem.1::locked",
-                            "xCanonicalModemRoamingAction": "indicator.modem.1::roaming",
-                            "xCanonicalModemSimIdentifierLabelAction": "indicator.modem.1::sim-identifier-label",
-                            "xCanonicalModemStatusIconAction": "indicator.modem.1::status-icon",
-                            "xCanonicalModemStatusLabelAction": "indicator.modem.1::status-label"
+                            "xLomiriModemConnectivityIconAction": "indicator.modem.1::connectivity-icon",
+                            "xLomiriModemLockedAction": "indicator.modem.1::locked",
+                            "xLomiriModemRoamingAction": "indicator.modem.1::roaming",
+                            "xLomiriModemSimIdentifierLabelAction": "indicator.modem.1::sim-identifier-label",
+                            "xLomiriModemStatusIconAction": "indicator.modem.1::status-icon",
+                            "xLomiriModemStatusLabelAction": "indicator.modem.1::status-label"
                         },
                         "icon": "",
                         "isCheck": false,
@@ -1028,7 +1028,7 @@ var fakeMenuData = {
                         "isToggled": false,
                         "label": "",
                         "sensitive": true,
-                        "type": "com.canonical.indicator.network.modeminfoitem",
+                        "type": "com.lomiri.indicator.network.modeminfoitem",
                         "visible": false
                     }
                 },

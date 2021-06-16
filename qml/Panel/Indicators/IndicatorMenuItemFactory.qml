@@ -61,7 +61,7 @@ Item {
 
             "lomiri.widgets.systemsettings.tablet.wifisection" : wifiSection,
             "lomiri.widgets.systemsettings.tablet.accesspoint" : accessPoint,
-            "com.canonical.indicator.network.modeminfoitem" : modeminfoitem,
+            "com.lomiri.indicator.network.modeminfoitem" : modeminfoitem,
 
             "com.canonical.indicator.calendar": calendarMenu,
             "com.canonical.indicator.location": timezoneMenu,
@@ -747,42 +747,42 @@ Item {
             property var statusLabelAction: UnityMenuAction {
                 model: menuModel
                 index: menuIndex
-                name: getExtendedProperty(extendedData, "xCanonicalModemStatusLabelAction", "")
+                name: getExtendedProperty(extendedData, "xLomiriModemStatusLabelAction", "")
             }
             statusText: statusLabelAction.valid ? statusLabelAction.state : ""
 
             property var statusIconAction: UnityMenuAction {
                 model: menuModel
                 index: menuIndex
-                name: getExtendedProperty(extendedData, "xCanonicalModemStatusIconAction", "")
+                name: getExtendedProperty(extendedData, "xLomiriModemStatusIconAction", "")
             }
             statusIcon: statusIconAction.valid ? statusIconAction.state : ""
 
             property var connectivityIconAction: UnityMenuAction {
                 model: menuModel
                 index: menuIndex
-                name: getExtendedProperty(extendedData, "xCanonicalModemConnectivityIconAction", "")
+                name: getExtendedProperty(extendedData, "xLomiriModemConnectivityIconAction", "")
             }
             connectivityIcon: connectivityIconAction.valid ? connectivityIconAction.state : ""
 
             property var simIdentifierLabelAction: UnityMenuAction {
                 model: menuModel
                 index: menuIndex
-                name: getExtendedProperty(extendedData, "xCanonicalModemSimIdentifierLabelAction", "")
+                name: getExtendedProperty(extendedData, "xLomiriModemSimIdentifierLabelAction", "")
             }
             simIdentifierText: simIdentifierLabelAction.valid ? simIdentifierLabelAction.state : ""
 
             property var roamingAction: UnityMenuAction {
                 model: menuModel
                 index: menuIndex
-                name: getExtendedProperty(extendedData, "xCanonicalModemRoamingAction", "")
+                name: getExtendedProperty(extendedData, "xLomiriModemRoamingAction", "")
             }
             roaming: roamingAction.valid ? roamingAction.state : false
 
             property var unlockAction: UnityMenuAction {
                 model: menuModel
                 index: menuIndex
-                name: getExtendedProperty(extendedData, "xCanonicalModemLockedAction", "")
+                name: getExtendedProperty(extendedData, "xLomiriModemLockedAction", "")
             }
             onUnlock: {
                 unlockAction.activate();
@@ -798,12 +798,12 @@ Item {
 
             function loadAttributes() {
                 if (!menuModel || menuIndex == -1) return;
-                menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-modem-status-label-action': 'string',
-                                                             'x-canonical-modem-status-icon-action': 'string',
-                                                             'x-canonical-modem-connectivity-icon-action': 'string',
-                                                             'x-canonical-modem-sim-identifier-label-action': 'string',
-                                                             'x-canonical-modem-roaming-action': 'string',
-                                                             'x-canonical-modem-locked-action': 'string'});
+                menuModel.loadExtendedAttributes(menuIndex, {'x-lomiri-modem-status-label-action': 'string',
+                                                             'x-lomiri-modem-status-icon-action': 'string',
+                                                             'x-lomiri-modem-connectivity-icon-action': 'string',
+                                                             'x-lomiri-modem-sim-identifier-label-action': 'string',
+                                                             'x-lomiri-modem-roaming-action': 'string',
+                                                             'x-lomiri-modem-locked-action': 'string'});
             }
         }
     }
