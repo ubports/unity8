@@ -6,6 +6,7 @@
       "unity8": {
         "builder": "cmake",
         "src_dir": "${ROOT}",
+        "test": "make xvfballtests -j${NUM_PROCS}",
         "dependencies_host": [
           "android-headers",
           "cmake",
