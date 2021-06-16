@@ -1,6 +1,6 @@
 add_subdirectory(liblomiri-private)
 
-pkg_check_modules(CONNECTIVITY REQUIRED connectivity-qt1)
+pkg_check_modules(CONNECTIVITY REQUIRED lomiri-connectivity-qt1)
 pkg_check_modules(GSETTINGS_QT REQUIRED gsettings-qt)
 
 include_directories(
@@ -62,7 +62,7 @@ target_link_libraries(${SHELL_APP}
     ${QTMIRSERVER_LDFLAGS}
     ${SYSTEMD_LDFLAGS}
     LomiriGestures
-    connectivity-qt1
+    lomiri-connectivity-qt1
     lomiri-private
 )
 
