@@ -44,8 +44,7 @@ FocusScope {
     readonly property bool required: coverPage.required
     readonly property alias sessionToStart: loginList.currentSession
 
-    // so that it can be replaced in tests with a mock object
-    property var inputMethod: Qt.inputMethod
+    property rect inputMethodRect
 
     signal selected(int index)
     signal responded(string response)
@@ -125,8 +124,7 @@ FocusScope {
             }
 
             boxVerticalOffset: (height - highlightedHeight -
-                               (inputMethod && inputMethod.visible ?
-                                inputMethod.keyboardRectangle.height : 0)) / 2
+                               inputMethodRect.height) / 2
             Behavior on boxVerticalOffset { UbuntuNumberAnimation {} }
 
             model: root.userModel
