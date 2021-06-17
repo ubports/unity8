@@ -440,6 +440,7 @@ StyledItem {
             background: wallpaperResolver.background
             backgroundSourceSize: shell.largestScreenDimension
             hasCustomBackground: wallpaperResolver.hasCustomBackground
+            inputMethodRect: inputMethod.visibleRect
             allowFingerprint: !dialogs.hasActiveDialog &&
                               !notifications.topmostIsFullscreen &&
                               !panel.indicators.shown

@@ -66,6 +66,8 @@ Showable {
 
     readonly property bool animating: loader.item ? loader.item.animating : false
 
+    property rect inputMethodRect
+
     signal tease()
     signal sessionStarted()
     signal emergencyCall()
@@ -459,6 +461,12 @@ Showable {
             target: loader.item
             property: "infographicModel"
             value: LightDMService.infographic
+        }
+
+        Binding {
+            target: loader.item
+            property: "inputMethodRect"
+            value: root.inputMethodRect
         }
     }
 

@@ -42,8 +42,7 @@ FocusScope {
     readonly property bool required: coverPage.required || lockscreen.required
     readonly property bool animating: coverPage.showAnimation.running || coverPage.hideAnimation.running
 
-    // so that it can be replaced in tests with a mock object
-    property var inputMethod: Qt.inputMethod
+    property rect inputMethodRect
 
     signal selected(int index)
     signal responded(string response)
@@ -207,8 +206,7 @@ FocusScope {
         anchors.right: parent.right
         anchors.top: parent.bottom
         anchors.topMargin: - height * (1 - coverPage.showProgress)
-                           - (inputMethod && inputMethod.visible ?
-                              inputMethod.keyboardRectangle.height : 0)
+                           - ( inputMethodRect.height )
 
         Rectangle {
             color: UbuntuColors.porcelain // matches OSK background
@@ -264,8 +262,7 @@ FocusScope {
     //        during OSK animations.
     Rectangle {
         visible: bottomBar.visible
-        height: inputMethod && inputMethod.visible ?
-                inputMethod.keyboardRectangle.height : 0
+        height: inputMethodRect.height
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right

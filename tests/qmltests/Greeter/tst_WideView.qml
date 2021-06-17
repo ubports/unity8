@@ -55,7 +55,8 @@ StyledItem {
                     delayMinutes: parseInt(delayMinutesField.text, 10)
                     panelHeight: parseFloat(panelHeightField.text)
                     locked: lockedCheckBox.checked
-                    inputMethod: fakeInputMethod
+                    inputMethodRect: fakeKeyboard.childrenRect
+                    property var testKeyboard: fakeKeyboard
 
                     Component.onDestruction: {
                         loader.itemDestroyed = true
@@ -66,24 +67,13 @@ StyledItem {
                             currentIndexField.text = index;
                     }
 
-                    QtObject {
-                        id: fakeInputMethod
-                        property bool visible: fakeKeyboard.visible
-                        property var keyboardRectangle: QtObject {
-                            property real x: fakeKeyboard.x
-                            property real y: fakeKeyboard.y
-                            property real width: fakeKeyboard.width
-                            property real height: fakeKeyboard.height
-                        }
-                    }
-
                     Rectangle {
                         id: fakeKeyboard
                         color: "green"
                         opacity: 0.7
                         anchors.bottom: view.bottom
                         width: view.width
-                        height: view.height * 0.6
+                        height: visible ? view.height * 0.6 : 0
                         visible: keyboardVisibleCheckBox.checked
                         Text {
                             text: "Keyboard Rectangle"
@@ -672,13 +662,13 @@ StyledItem {
             keyboardVisibleCheckBox.checked = true;
 
             var halfway = (view.height - loginList.highlightedHeight) / 2;
-            var halfwayWithOsk = halfway - view.inputMethod.keyboardRectangle.height / 2;
+            var halfwayWithOsk = halfway - view.inputMethodRect.height / 2;
             tryCompare(loginList, "boxVerticalOffset", halfwayWithOsk);
 
             var highlightItem = findChild(loginList, "highlightItem");
             tryCompareFunction( function() {
                 var highlightRect = highlightItem.mapToItem(view, 0, 0, highlightItem.width, highlightItem.height);
-                return highlightRect.y + highlightRect.height <= view.inputMethod.keyboardRectangle.y;
+                return highlightRect.y + highlightRect.height <= view.testKeyboard.y;
             }, true);
 
             // once the vkb goes away, loginList goes back to its full height
