@@ -83,10 +83,6 @@ pkg_check_modules(QMENUMODEL REQUIRED qmenumodel)
 pkg_check_modules(GD3 REQUIRED gnome-desktop-3.0)
 pkg_check_modules(UAL REQUIRED ubuntu-app-launch-2)
 pkg_check_modules(UBUNTUGESTURES REQUIRED UbuntuGestures)
-pkg_check_modules(QTDBUSTEST REQUIRED
-    libqtdbustest-1
-    libqtdbusmock-1
-    )
 
 ### Check UbuntuGestures private headers. No pkg-config (.pc) file is provided for them
 find_path(UBUNTUGESTUREPRIV
@@ -183,6 +179,10 @@ add_subdirectory(qml)
 # Tests
 set(NO_TESTS OFF CACHE BOOL "Disable tests.")
 if (NOT NO_TESTS)
+    pkg_check_modules(QTDBUSTEST REQUIRED
+        libqtdbustest-1
+        libqtdbusmock-1
+        )
     include(CTest)
     enable_testing()
     add_subdirectory(tests)

@@ -14,13 +14,17 @@ DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
 # Skip tests on the archs they are known to be flaky  with current configuration
 testskip_architectures := arm64 powerpc ppc64el s390x
 
+ifneq (,$(findstring nocheck,$(DEB_BUILD_OPTIONS)))
+	CONFIGURE_OPTS += "-DNO_TESTS=ON"
+endif
+
 %:
 	dh $@ --parallel --fail-missing --with python3
 
 override_dh_auto_configure:
 	# Debian defines CMAKE_INSTALL_LOCALSTATEDIR as /usr/var, which is wrong.
 	# So until Debian bug 719148 is fixed, do it ourselves.
-	dh_auto_configure -- -DCMAKE_INSTALL_LOCALSTATEDIR="/var"
+	dh_auto_configure -- -DCMAKE_INSTALL_LOCALSTATEDIR="/var" $(CONFIGURE_OPTS)
 
 override_dh_auto_build:
 	# doc is not a default target
@@ -39,12 +43,17 @@ endif
 endif
 
 override_dh_install:
+ifeq ($(DEB_BUILD_GNU_TYPE),$(DEB_HOST_GNU_TYPE))
 	# install autopilot tests
 	cd tests/autopilot; \
 	set -ex; for python in $(shell py3versions -r); do \
 	    $$python setup.py install --root=$(CURDIR)/debian/tmp --install-layout=deb; \
 	done; \
 	cd $(CURDIR)
+else
+	rm -f debian/tmp/usr/share/unity8/unlock-device
+	rm -rf debian/tmp/usr/lib/*/unity8/qml/mocks
+endif
 	dh_install -X'*.pyc' --fail-missing
 
 # use private lib directories

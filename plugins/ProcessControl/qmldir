@@ -1,0 +1,3 @@
+module ProcessControl
+plugin ProcessControl-qml
+typeinfo ProcessControl.qmltypes
