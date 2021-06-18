@@ -123,6 +123,8 @@ StyledItem {
 
         readonly property bool movingInternally: moveTimer.running || userList.moving
 
+        onMovingChanged: if (!moving) root.selected(currentIndex)
+
         onCurrentIndexChanged: {
             moveTimer.start();
         }
