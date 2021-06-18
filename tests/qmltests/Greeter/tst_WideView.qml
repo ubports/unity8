@@ -767,5 +767,34 @@ StyledItem {
             var greeterPrompt = findChild(view, "greeterPrompt0");
             verify(greeterPrompt.activeFocus);
         }
+
+        function test_scrollChangesIndex() {
+            /* Check if the index of the current user gets changed
+             * if we scroll through the list.
+             * Expected result: the list has moved at least by one
+             * user and the index of the user is reported using the
+             * selected signal in LoginList.qml
+             * https://github.com/ubports/unity8/issues/397
+             */
+            var loginList = findChild(view, "loginList");
+            // FIXME: Fix scrolling sensitivity (scrolling by -1 shouldn't move more than one user down)
+            mouseWheel( loginList, loginList.width / 2, loginList.height / 2, 0, -1, null );
+            selectedSpy.wait();
+            tryVerify(function(){ return selectedSpy.signalArguments[0][0] > 0 });
+        }
+
+        function test_dragChangesIndex() {
+            /* Check if the index of the current user gets changed
+             * if we drag the list or swipe.on it.
+             * Expected result: the list has moved two users 
+             * and the index of the user is reported using the
+             * selected signal in LoginList.qml
+             * https://github.com/ubports/unity8/issues/397
+             */
+            var loginList = findChild(view, "loginList");
+            touchFlick(loginList, loginList.width/2, loginList.height/3, loginList.width/2, loginList.height/3 -units.gu(2.1));
+            selectedSpy.wait();
+            compare(selectedSpy.signalArguments[0][0], 2);
+        }
     }
 }
