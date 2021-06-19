@@ -29,6 +29,7 @@ FocusScope {
     property string text
     property bool isSecret
     property bool interactive: true
+    property bool loginError: false
     readonly property alias enteredText: passwordInput.text
 
     signal clicked()
@@ -64,10 +65,15 @@ FocusScope {
 
     Rectangle {
         anchors.fill: parent
-        border.width: units.dp(1)
-        border.color: d.drawColor
         radius: units.gu(0.5)
-        color: "transparent"
+        color: "#7A111111"
+        Behavior on border.color {
+            ColorAnimation{}
+        }
+        border {
+            color: loginError ? d.errorColor : d.drawColor
+            width: loginError ? units.dp(3): units.dp(2)
+        }
     }
 
     Component.onCompleted: updateFocus()
@@ -95,15 +101,15 @@ FocusScope {
             }
         }
 
-        Rectangle {
-            height: parent.height;
-            width: parent.width
-            color: "transparent"
-            border {
-                color: d.textColor
-                width: units.dp(1)
-            }
-        }
+//        Rectangle {
+//            height: parent.height;
+//            width: parent.width
+//            color: "transparent"
+//            border {
+//                color: d.drawColor
+//                width: units.dp(1)
+//            }
+//        }
 
         Keys.onSpacePressed: triggered();
         Keys.onReturnPressed: triggered();
@@ -115,7 +121,7 @@ FocusScope {
 
         Label {
             anchors.centerIn: parent
-            color: d.textColor
+            color: d.drawColor
             text: root.text
         }
     }
@@ -138,7 +144,10 @@ FocusScope {
         echoMode: root.isSecret ? TextInput.Password : TextInput.Normal
         hasClearButton: false
 
-        readonly property real frameSpacing: units.gu(0.5)
+        passwordCharacter: "●"
+        color: d.drawColor
+
+        readonly property real frameSpacing: units.gu(1)
 
         style: StyledItem {
             anchors.fill: parent
@@ -163,22 +172,45 @@ FocusScope {
             Row {
                 id: extraIcons
                 spacing: passwordInput.frameSpacing
+                anchors.verticalCenter: passwordInput.verticalCenter
                 Icon {
                     name: "keyboard-caps-enabled"
                     height: units.gu(3)
                     width: units.gu(3)
-                    color: d.textColor
+                    color: d.drawColor
                     visible: root.isSecret && false // TODO: detect when caps lock is on
+                    anchors.verticalCenter: parent.verticalCenter
                 }
                 Icon {
                     name: "input-keyboard-symbolic"
                     height: units.gu(3)
                     width: units.gu(3)
-                    color: d.textColor
+                    color: d.drawColor
                     visible: !unity8Settings.alwaysShowOsk
+                    anchors.verticalCenter: parent.verticalCenter
                     MouseArea {
                         anchors.fill: parent
                         onClicked: unity8Settings.alwaysShowOsk = true
+                    }
+                }
+                Icon {
+                    name: "dialog-warning-symbolic"
+                    height: units.gu(3)
+                    width: units.gu(3)
+                    color: d.drawColor
+                    visible: root.loginError
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+                Icon {
+                    name: "toolkit_chevron-ltr_2gu"
+                    height: units.gu(2.5)
+                    width: units.gu(2.5)
+                    color: d.drawColor
+                    visible: !root.loginError
+                    anchors.verticalCenter: parent.verticalCenter
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: root.accepted()
                     }
                 }
             }
@@ -188,6 +220,7 @@ FocusScope {
             // We use onDisplayTextChanged instead of onTextChanged because
             // displayText changes after text and if we did this before it
             // updated, we would use the wrong displayText for fakeLabel.
+            root.loginError = false;
             if (!isAlphanumeric && text.length >= 4) {
                 // hard limit of 4 for passcodes right now
                 respond();
@@ -217,7 +250,7 @@ FocusScope {
                 left: parent ? parent.left  : undefined
                 right: parent ? parent.right  : undefined
                 verticalCenter: parent ? parent.verticalCenter  : undefined
-                leftMargin: units.gu(1.5)
+                leftMargin: units.gu(2)
                 rightMargin: anchors.leftMargin + extraIcons.width
             }
             text: root.text

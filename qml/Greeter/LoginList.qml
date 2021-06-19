@@ -48,6 +48,7 @@ StyledItem {
     }
 
     function showError() {
+        promptList.loginError = true;
         wrongPasswordAnimation.start();
     }
 
@@ -79,6 +80,7 @@ StyledItem {
 
     onCurrentIndexChanged: {
         userList.currentIndex = currentIndex;
+        promptList.loginError = false;
     }
 
     LoginAreaContainer {
@@ -94,17 +96,20 @@ StyledItem {
         height: Math.max(units.gu(15), promptList.height + units.gu(8))
         Behavior on height { NumberAnimation { duration: root.moveDuration; easing.type: Easing.InOutQuad; } }
 
-        Label {
-          // HACK: Work around https://github.com/ubports/unity8/issues/185
-          text: _realName ? _realName : LightDMService.greeter.authenticationUser
-          visible: userList.count == 1
-          anchors {
-            left: parent.left
-            top: parent.top
-            topMargin: units.gu(2)
-            leftMargin: units.gu(2)
-          }
-        }
+//        Label {
+//          // HACK: Work around https://github.com/ubports/unity8/issues/185
+//          text: _realName ? _realName : LightDMService.greeter.authenticationUser
+//          visible: userList.count == 1
+//          color: theme.palette.normal.raisedSecondaryText
+//          font.weight: Font.Bold
+//          font.pointSize: 16
+//          anchors {
+//            left: parent.left
+//            top: parent.top
+//            topMargin: units.gu(2)
+//            leftMargin: units.gu(2)
+//          }
+//        }
     }
 
     ListView {
@@ -115,8 +120,8 @@ StyledItem {
         anchors.leftMargin: units.gu(2)
         anchors.rightMargin: units.gu(2)
 
-        preferredHighlightBegin: highlightItem.y
-        preferredHighlightEnd: highlightItem.y
+        preferredHighlightBegin: highlightItem.y + units.gu(1.5)
+        preferredHighlightEnd: highlightItem.y + units.gu(1.5)
         highlightRangeMode: ListView.StrictlyEnforceRange
         highlightMoveDuration: root.moveDuration
         interactive: count > 1
@@ -134,6 +139,7 @@ StyledItem {
             height: root.cellHeight
 
             readonly property bool belowHighlight: (userList.currentIndex < 0 && index > 0) || (userList.currentIndex >= 0 && index > userList.currentIndex)
+            readonly property bool aboveCurrent: (userList.currentIndex > 0 && index < 0) || (userList.currentIndex >= 0 && index < userList.currentIndex)
             readonly property int belowOffset: root.highlightedHeight - root.cellHeight
             readonly property string userSession: session
             readonly property string username: name
@@ -156,40 +162,77 @@ StyledItem {
                 return 1 - Math.min(1, (Math.abs(highlightDist) + root.cellHeight) / ((root.numAboveBelow + 1) * root.cellHeight))
             }
 
-            FadingLabel {
-                objectName: "username" + index
-                visible: userList.count != 1 // HACK Hide username label until someone sorts out the anchoring with the keyboard-dismiss animation, Work around https://github.com/ubports/unity8/issues/185
+            Row {
+                spacing: units.gu(1)
+//                visible: userList.count != 1 // HACK Hide username label until someone sorts out the anchoring with the keyboard-dismiss animation, Work around https://github.com/ubports/unity8/issues/185
 
                 anchors {
-                    left: parent.left
                     leftMargin: units.gu(2)
-                    right: parent.right
                     rightMargin: units.gu(2)
+                    horizontalCenter: parent.horizontalCenter
                     bottom: parent.top
                     // Add an offset to bottomMargin for any items below the highlight
-                    bottomMargin: -(units.gu(4) + (parent.belowHighlight ? parent.belowOffset : 0))
+                    bottomMargin: -(units.gu(4) + (parent.belowHighlight ? parent.belowOffset : parent.aboveCurrent ? -units.gu(5) : 0))
                 }
-                text: userList.currentIndex === index
-                      && name === "*other"
-                      && LightDMService.greeter.authenticationUser !== ""
-                      ?  LightDMService.greeter.authenticationUser : realName
-                color: userList.currentIndex !== index ? theme.palette.normal.raised
-                                                       : theme.palette.normal.raisedText
-
-                Component.onCompleted: _realName = realName
-
-                Behavior on anchors.topMargin { NumberAnimation { duration: root.moveDuration; easing.type: Easing.InOutQuad; } }
 
                 Rectangle {
                     id: activeIndicator
-                    anchors.horizontalCenter: parent.left
-                    anchors.horizontalCenterOffset: -units.gu(1)
                     anchors.verticalCenter: parent.verticalCenter
-                    color: userList.currentIndex !== index ? theme.palette.normal.raised
-                                                           : theme.palette.normal.focus
+                    color: theme.palette.normal.raised
                     visible: userList.count > 1 && loggedIn
-                    height: units.gu(0.5)
+                    height: visible ? units.gu(0.5) : 0
                     width: height
+                }
+
+                Icon {
+                    id: "userIcon"
+                    name: "account"
+//                    visible: userList.currentIndex === index
+                    height: userList.currentIndex === index ? units.gu(6) : units.gu(3)
+                    width: userList.currentIndex === index ? units.gu(6) : units.gu(3)
+                    color: theme.palette.normal.raisedSecondaryText
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+
+                Column {
+                    anchors.verticalCenter: parent.verticalCenter
+                    spacing: units.gu(0.25)
+
+                    FadingLabel {
+                        objectName: "username" + index
+
+                        text: userList.currentIndex === index
+                              && name === "*other"
+                              && LightDMService.greeter.authenticationUser !== ""
+                              ?  LightDMService.greeter.authenticationUser : realName
+                        color: userList.currentIndex !== index ? theme.palette.normal.raised
+                                                               : theme.palette.normal.raisedSecondaryText
+                        font.weight: userList.currentIndex === index ? Font.Bold : Font.Light
+                        font.pointSize: units.gu(2)
+
+                        // FIXME: Should be set as width to change width correctly when required
+                        onWidthChanged: {
+                            let maxWidth = highlightItem.width - userIcon.width - units.gu(4);
+                            if (highlightItem.width && width > maxWidth)
+                                width = maxWidth;
+                        }
+
+                        Component.onCompleted: _realName = realName
+
+                        Behavior on anchors.topMargin { NumberAnimation { duration: root.moveDuration; easing.type: Easing.InOutQuad; } }
+                    }
+
+                    Row {
+                        spacing: units.gu(1)
+
+                        FadingLabel {
+                            text: root.alphanumeric ? "Login with password" : "Login with pin"
+                            color: theme.palette.normal.raisedSecondaryText
+                            visible: userList.currentIndex === index && false
+                            font.weight: Font.Light
+                            font.pointSize: units.gu(1.25)
+                        }
+                    }
                 }
             }
 
@@ -199,7 +242,7 @@ StyledItem {
                     right: parent.right
                     top: parent.top
                     // Add an offset to topMargin for any items below the highlight
-                    topMargin: parent.belowHighlight ? parent.belowOffset : 0
+                    topMargin: parent.belowHighlight ? parent.belowOffset : parent.aboveCurrent ? -units.gu(5) : 0
                 }
                 height: parent.height
                 enabled: userList.currentIndex !== index && parent.opacity > 0
