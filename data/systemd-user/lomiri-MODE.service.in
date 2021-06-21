@@ -10,6 +10,7 @@ Conflicts=@CONFLICT_UNITS@
 
 [Service]
 Type=notify
+SyslogIdentifier=lomiri
 ExecStart=@CMAKE_INSTALL_FULL_LIBEXECDIR@/lomiri-systemd-wrapper --mode=@MODE@
 ExecStopPost=/usr/bin/dbus-update-activation-environment --systemd WAYLAND_DISPLAY= MIR_SOCKET=
 Restart=on-failure
