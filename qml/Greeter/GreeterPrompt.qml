@@ -65,6 +65,7 @@ FocusScope {
 
     Rectangle {
         anchors.fill: parent
+        visible: root.isAlphanumeric
         radius: units.gu(0.5)
         color: "#7A111111"
         Behavior on border.color {
@@ -129,10 +130,17 @@ FocusScope {
     TextField {
         id: passwordInput
         objectName: "promptField"
-        anchors.fill: parent
+        anchors.fill: root.isAlphanumeric ? parent : undefined
+        anchors.left: !root.isAlphanumeric ? pinHint.left : undefined
+
+        width: !root.isAlphanumeric ? pinHint.width + units.gu(4) : undefined
+
         visible: root.isPrompt
         opacity: fakeLabel.visible ? 0 : 1
         activeFocusOnTab: true
+
+        onSelectedTextChanged: passwordInput.deselect()
+        onCursorPositionChanged: if (!root.isAlphanumeric) cursorPosition = length
 
         validator: RegExpValidator {
             regExp: root.isAlphanumeric ? /^.*$/ : /^\d{4}$/
@@ -144,10 +152,20 @@ FocusScope {
         echoMode: root.isSecret ? TextInput.Password : TextInput.Normal
         hasClearButton: false
 
+        cursorDelegate: Rectangle {
+            visible: root.isAlphanumeric
+            color: theme.palette.normal.focus
+            width: units.dp(2)
+        }
+
         passwordCharacter: "●"
         color: d.drawColor
 
-        readonly property real frameSpacing: units.gu(1)
+        font.pixelSize: !root.isAlphanumeric ? units.gu(2.5) : units.gu(1.75)
+        font.letterSpacing: letterSpacing
+
+        readonly property real frameSpacing: root.isAlphanumeric ? units.gu(1) : 0
+        readonly property real letterSpacing: !root.isAlphanumeric ? units.gu(1.75) : 0
 
         style: StyledItem {
             anchors.fill: parent
@@ -172,7 +190,11 @@ FocusScope {
             Row {
                 id: extraIcons
                 spacing: passwordInput.frameSpacing
-                anchors.verticalCenter: passwordInput.verticalCenter
+                anchors {
+                    verticalCenter: root.isAlphanumeric ? parent.verticalCenter : undefined
+                    horizontalCenter: !root.isAlphanumeric ? parent.horizontalCenter : undefined
+                    top: !root.isAlphanumeric ? parent.bottom : undefined
+                }
                 Icon {
                     name: "keyboard-caps-enabled"
                     height: units.gu(3)
@@ -187,7 +209,7 @@ FocusScope {
                     height: units.gu(3)
                     width: units.gu(3)
                     color: d.drawColor
-                    visible: !unity8Settings.alwaysShowOsk
+                    visible: !unity8Settings.alwaysShowOsk && root.isAlphanumeric  // TODO: find a place for icons in pin mode
                     anchors.verticalCenter: parent.verticalCenter
                     MouseArea {
                         anchors.fill: parent
@@ -199,7 +221,7 @@ FocusScope {
                     height: units.gu(3)
                     width: units.gu(3)
                     color: d.drawColor
-                    visible: root.loginError
+                    visible: root.loginError && root.isAlphanumeric // TODO: find a place for icons in pin mode
                     anchors.verticalCenter: parent.verticalCenter
                 }
                 Icon {
@@ -207,7 +229,7 @@ FocusScope {
                     height: units.gu(2.5)
                     width: units.gu(2.5)
                     color: d.drawColor
-                    visible: !root.loginError
+                    visible: !root.loginError && root.isAlphanumeric
                     anchors.verticalCenter: parent.verticalCenter
                     MouseArea {
                         anchors.fill: parent
@@ -240,26 +262,45 @@ FocusScope {
             root.canceled();
             event.accepted = true;
         }
+    }
 
-        // We use our own custom placeholder label instead of the standard
-        // TextField one because the standard one hardcodes baseText as the
-        // palette color, whereas we want raisedSecondaryText.
-        Label {
-            id: hint
-            objectName: "promptHint"
-            anchors {
-                left: parent ? parent.left  : undefined
-                right: parent ? parent.right  : undefined
-                verticalCenter: parent ? parent.verticalCenter  : undefined
-                leftMargin: units.gu(2)
-                rightMargin: anchors.leftMargin + extraIcons.width
-            }
-            text: root.text
-            visible: passwordInput.text == "" && !passwordInput.inputMethodComposing
-            enabled: visible
-            color: d.drawColor
-            elide: Text.ElideRight
+    // We use our own custom placeholder label instead of the standard
+    // TextField one because the standard one hardcodes baseText as the
+    // palette color, whereas we want raisedSecondaryText.
+    Label {
+        id: passwordHint
+        objectName: "promptHint"
+        anchors {
+            left: passwordInput ? passwordInput.left : undefined
+            right: passwordInput ? passwordInput.right : undefined
+            verticalCenter: passwordInput ? passwordInput.verticalCenter  : undefined
+            leftMargin: units.gu(2)
+            rightMargin: anchors.leftMargin + extraIcons.width
         }
+        text: root.text
+        visible: passwordInput.text == "" && root.isAlphanumeric && !passwordInput.inputMethodComposing
+        enabled: visible
+        color: d.drawColor
+        elide: Text.ElideRight
+    }
+
+    Label {
+        id: pinHint
+        objectName: "promptPinHint"
+        anchors {
+            horizontalCenter: passwordInput ? parent.horizontalCenter : undefined
+            horizontalCenterOffset: passwordInput.letterSpacing / 2
+            verticalCenter: passwordInput ? passwordInput.verticalCenter  : undefined
+        }
+        text: "○○○○"
+        visible: !root.isAlphanumeric && !passwordInput.inputMethodComposing
+        enabled: visible
+        color: loginError ? d.errorColor : d.drawColor
+        font {
+            pixelSize: units.gu(2.5)
+            letterSpacing: units.gu(1.75)
+        }
+        elide: Text.ElideRight
     }
 
     // Have a fake label that covers the text field after the user presses
@@ -278,7 +319,7 @@ FocusScope {
         anchors.rightMargin: passwordInput.frameSpacing * 2 + extraIcons.width
         color: d.drawColor
         text: passwordInput.displayText
-        visible: root.isPrompt && !root.interactive
+        visible: root.isPrompt && !root.interactive && root.isAlphanumeric  // TODO: move to the correct position in pin mode
         enabled: visible
     }
 }
