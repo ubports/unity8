@@ -182,6 +182,7 @@ FocusScope {
                     anchors.verticalCenter: parent.verticalCenter
                 }
                 Icon {
+                    objectName: "greeterPromptKeyboardButton"
                     name: "input-keyboard-symbolic"
                     height: units.gu(3)
                     width: units.gu(3)

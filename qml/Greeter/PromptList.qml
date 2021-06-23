@@ -26,6 +26,7 @@ FocusScope {
     property bool alphanumeric: true
     property bool interactive: true
     property bool loginError: false
+    property bool hasKeyboard: false
 
     signal responded(string text)
     signal clicked()
@@ -127,6 +128,7 @@ FocusScope {
             isPrompt: model.type !== LightDMService.prompts.Button
             isSecret: model.type === LightDMService.prompts.Secret
             loginError: root.loginError
+            hasKeyboard: root.hasKeyboard
             text: model.text ? model.text : (isAlphanumeric ? i18n.tr("Passphrase") : i18n.tr("Passcode"))
 
             onClicked: root.clicked()

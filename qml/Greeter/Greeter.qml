@@ -68,6 +68,8 @@ Showable {
 
     property rect inputMethodRect
 
+    property bool hasKeyboard: false
+
     signal tease()
     signal sessionStarted()
     signal emergencyCall()
@@ -467,6 +469,12 @@ Showable {
             target: loader.item
             property: "inputMethodRect"
             value: root.inputMethodRect
+        }
+
+        Binding {
+            target: loader.item
+            property: "hasKeyboard"
+            value: root.hasKeyboard
         }
     }
 

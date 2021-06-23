@@ -240,6 +240,23 @@ Rectangle {
                     LightDM.Greeter.showGreeter();
                 }
             }
+
+
+            Label {
+                text: "LightDM mock mode"
+            }
+
+            ListItem.ItemSelector {
+                anchors { left: parent.left; right: parent.right }
+                activeFocusOnPress: false
+                model: ["single", "single-passphrase", "single-pin", "full"]
+                onSelectedIndexChanged: {
+                    testCase.tearDown();
+                    LightDMController.userMode = model[selectedIndex];
+                    testCase.init();
+                }
+            }
+
             Label {
                 text: "Physical Orientation:"
             }
@@ -1482,7 +1499,8 @@ Rectangle {
             touchFlick(shell, touchX, touchY, orientedShell.width * 0.1, touchY);
 
             // wait until the animation has finished
-            tryCompare(greeter, "shown", false);
+            if (LightDMController.userMode == "single")
+                tryCompare(greeter, "shown", false);
             waitForRendering(greeter);
         }
 
@@ -1696,6 +1714,29 @@ Rectangle {
 
             MockInputDeviceBackend.removeDevice("/touchscreen");
             tryCompare(tutorial, "paused", true);
+        }
+
+        /* Check if the keyboard icon on the greeter screen
+         * is only shown when an external keyboard is attached 
+         * and if it is hidden when no keyboard is attached.
+         */
+        function test_greeterKeyboardDetection() {
+            LightDMController.userMode = "single-passphrase"
+            var orientedShell = loadShell("mako");
+            MockInputDeviceBackend.removeDevice("/indicator_kbd0");
+
+            var greeterPrompt = findChild(orientedShell, "greeterPrompt0");
+            verify(greeterPrompt);
+
+            var promptKeyboard = findChild(greeterPrompt, "greeterPromptKeyboardButton");
+
+            tryCompare(promptKeyboard, "visible", false);
+
+            MockInputDeviceBackend.addMockDevice("/kbd0", InputInfo.Keyboard);
+
+            tryCompare(promptKeyboard, "visible", true);
+
+            LightDMController.userMode = "single"
         }
     }
 }

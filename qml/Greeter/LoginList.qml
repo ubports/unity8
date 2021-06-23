@@ -26,6 +26,7 @@ StyledItem {
 
     property alias model: userList.model
     property alias alphanumeric: promptList.alphanumeric
+    property alias hasKeyboard: promptList.hasKeyboard
     property int currentIndex
     property bool locked
     property bool waiting
