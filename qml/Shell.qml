@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (C) 2013-2016 Canonical, Ltd.
  * Copyright (C) 2019-2021 UBports Foundation
  *
@@ -412,6 +412,7 @@ StyledItem {
             item.objectName = "greeter"
         }
         property bool toggleDrawerAfterUnlock: false
+        property bool hasKeyboard: shell.hasKeyboard
         Connections {
             target: greeter
             onActiveChanged: {
@@ -441,6 +442,7 @@ StyledItem {
             backgroundSourceSize: shell.largestScreenDimension
             hasCustomBackground: wallpaperResolver.hasCustomBackground
             inputMethodRect: inputMethod.visibleRect
+            hasKeyboard: shell.hasKeyboard
             allowFingerprint: !dialogs.hasActiveDialog &&
                               !notifications.topmostIsFullscreen &&
                               !panel.indicators.shown

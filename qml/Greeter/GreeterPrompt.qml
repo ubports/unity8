@@ -29,6 +29,7 @@ FocusScope {
     property string text
     property bool isSecret
     property bool interactive: true
+    property bool hasKeyboard: false
     readonly property alias enteredText: passwordInput.text
 
     signal clicked()
@@ -171,11 +172,12 @@ FocusScope {
                     visible: root.isSecret && false // TODO: detect when caps lock is on
                 }
                 Icon {
+                    objectName: "greeterPromptKeyboardButton"
                     name: "input-keyboard-symbolic"
                     height: units.gu(3)
                     width: units.gu(3)
                     color: d.textColor
-                    visible: !unity8Settings.alwaysShowOsk
+                    visible: !unity8Settings.alwaysShowOsk && root.hasKeyboard
                     MouseArea {
                         anchors.fill: parent
                         onClicked: unity8Settings.alwaysShowOsk = true
