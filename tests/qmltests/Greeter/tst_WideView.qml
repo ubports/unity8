@@ -691,9 +691,9 @@ StyledItem {
 
         function test_passcode() {
             var index = selectUser("has-pin");
-            var promptField = findChild(view, "promptField");
-
             view.alphanumeric = false;
+
+            var promptField = findChild(view, "promptField");
             compare(promptField.inputMethodHints & Qt.ImhDigitsOnly, Qt.ImhDigitsOnly);
 
             keyClick(Qt.Key_D);

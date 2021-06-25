@@ -96,21 +96,6 @@ StyledItem {
 
         height: Math.max(units.gu(15), promptList.height + units.gu(8))
         Behavior on height { NumberAnimation { duration: root.moveDuration; easing.type: Easing.InOutQuad; } }
-
-//        Label {
-//          // HACK: Work around https://github.com/ubports/unity8/issues/185
-//          text: _realName ? _realName : LightDMService.greeter.authenticationUser
-//          visible: userList.count == 1
-//          color: theme.palette.normal.raisedSecondaryText
-//          font.weight: Font.Bold
-//          font.pointSize: 16
-//          anchors {
-//            left: parent.left
-//            top: parent.top
-//            topMargin: units.gu(2)
-//            leftMargin: units.gu(2)
-//          }
-//        }
     }
 
     ListView {
@@ -186,11 +171,10 @@ StyledItem {
                 }
 
                 Icon {
-                    id: "userIcon"
+                    id: userIcon
                     name: "account"
-//                    visible: userList.currentIndex === index
                     height: userList.currentIndex === index ? units.gu(6) : units.gu(3)
-                    width: userList.currentIndex === index ? units.gu(6) : units.gu(3)
+                    width: height
                     color: theme.palette.normal.raisedSecondaryText
                     anchors.verticalCenter: parent.verticalCenter
                 }
@@ -333,6 +317,8 @@ StyledItem {
             margins: units.gu(2)
         }
         width: highlightItem.width - anchors.margins * 2
+
+        focus: true
 
         onClicked: {
             interactive = false;
