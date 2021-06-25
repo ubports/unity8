@@ -17,6 +17,7 @@
 
 import QtQuick 2.4
 import QtQuick.Window 2.2
+import QtGraphicalEffects 1.12
 import Ubuntu.Components 1.3
 import Ubuntu.Telephony 0.1 as Telephony
 import "../Components"
@@ -89,6 +90,10 @@ FocusScope {
             lockscreen.hide();
         }
     }
+
+    Keys.onSpacePressed: coverPage.hide();
+    Keys.onReturnPressed: coverPage.hide();
+    Keys.onEnterPressed: coverPage.hide();
 
     Showable {
         id: lockscreen

@@ -97,6 +97,18 @@ FocusScope {
         width: parent.width
         draggable: !root.locked && !root.waiting
         state: "LoginList"
+        blurAreaHeight: loginList.highlightedHeight + units.gu(4.5)
+        blurAreaWidth: loginList.width + units.gu(3)
+        blurAreaX: loginList.x - units.gu(1.5)
+        blurAreaY: loginList.boxVerticalOffset + loginList.y - units.gu(3)
+
+        // Darken background to match CoverPage
+        Rectangle {
+            objectName: "lockscreenShade"
+            anchors.fill: parent
+            color: "black"
+            opacity: root.hasCustomBackground ? 0.1 : 0
+        }
 
         infographics {
             anchors.topMargin: parent.height * 0.125
