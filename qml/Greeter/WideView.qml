@@ -186,6 +186,66 @@ FocusScope {
             }
         }
 
+        // Use an AbstractButton due to icon limitations with Button
+        AbstractButton {
+            id: sessionChooser
+            objectName: "sessionChooserButton"
+
+            readonly property url icon: LightDMService.sessions.iconUrl(loginList.currentSession)
+
+            visible: LightDMService.sessions.count > 1 &&
+                !LightDMService.users.data(loginList.currentUserIndex, LightDMService.userRoles.LoggedInRole)
+
+            height: units.gu(3.5)
+            width: units.gu(3.5)
+
+            activeFocusOnTab: true
+            anchors {
+                right: parent.right
+                rightMargin: units.gu(2)
+
+                bottom: parent.bottom
+                bottomMargin: units.gu(1.5)
+            }
+
+            Rectangle {
+                id: badgeHighlight
+
+                anchors.fill: parent
+                visible: parent.activeFocus
+                color: "transparent"
+                border.color: theme.palette.normal.focus
+                border.width: units.dp(1)
+                radius: 3
+            }
+
+            Icon {
+                id: badge
+                anchors.fill: parent
+                anchors.margins: units.dp(3)
+                keyColor: "#ffffff" // icon providers give us white icons
+                color: theme.palette.normal.raisedSecondaryText
+                source: sessionChooser.icon
+            }
+
+            Keys.onReturnPressed: {
+                parent.state = "SessionsList";
+            }
+
+            onClicked: {
+                parent.state = "SessionsList";
+            }
+
+            // Refresh the icon path if looking at different places at runtime
+            // this is mainly for testing
+            Connections {
+                target: LightDMService.sessions
+                onIconSearchDirectoriesChanged: {
+                    badge.source = LightDMService.sessions.iconUrl(root.currentSession)
+                }
+            }
+        }
+
         states: [
             State {
                 name: "SessionsList"

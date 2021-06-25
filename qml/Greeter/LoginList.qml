@@ -40,6 +40,8 @@ StyledItem {
     property string currentSession // Initially set by LightDM
     readonly property string currentUser: userList.currentItem.username
 
+    readonly property alias currentUserIndex: userList.currentIndex
+
     signal responded(string response)
     signal selected(int index)
     signal sessionChooserButtonClicked()
@@ -244,67 +246,6 @@ StyledItem {
             running: false
             repeat: false
             interval: root.moveDuration
-        }
-    }
-
-    // Use an AbstractButton due to icon limitations with Button
-    AbstractButton {
-        id: sessionChooser
-        objectName: "sessionChooserButton"
-
-        readonly property alias icon: badge.source
-
-        visible: LightDMService.sessions.count > 1 &&
-            !LightDMService.users.data(userList.currentIndex, LightDMService.userRoles.LoggedInRole)
-
-        height: units.gu(3.5)
-        width: units.gu(3.5)
-
-        activeFocusOnTab: true
-        anchors {
-            right: highlightItem.right
-            rightMargin: units.gu(2)
-
-            top: highlightItem.top
-            topMargin: units.gu(1.5)
-        }
-
-        Rectangle {
-            id: badgeHighlight
-
-            anchors.fill: parent
-            visible: parent.activeFocus
-            color: "transparent"
-            border.color: theme.palette.normal.focus
-            border.width: units.dp(1)
-            radius: 3
-        }
-
-        Icon {
-            id: badge
-            anchors.fill: parent
-            anchors.margins: units.dp(3)
-            keyColor: "#ffffff" // icon providers give us white icons
-            color: theme.palette.normal.raisedSecondaryText
-            source: LightDMService.sessions.iconUrl(root.currentSession)
-        }
-
-        Keys.onReturnPressed: {
-            sessionChooserButtonClicked();
-            event.accepted = true;
-        }
-
-        onClicked: {
-            sessionChooserButtonClicked();
-        }
-
-        // Refresh the icon path if looking at different places at runtime
-        // this is mainly for testing
-        Connections {
-            target: LightDMService.sessions
-            onIconSearchDirectoriesChanged: {
-                badge.source = LightDMService.sessions.iconUrl(root.currentSession)
-            }
         }
     }
 
