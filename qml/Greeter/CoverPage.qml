@@ -16,6 +16,7 @@
  */
 
 import QtQuick 2.4
+import QtGraphicalEffects 1.12
 import Ubuntu.Components 1.3
 import Ubuntu.Gestures 0.1
 import "../Components"
@@ -33,6 +34,11 @@ Showable {
     property bool draggable: true
 
     property alias infographics: infographics
+
+    property alias blurAreaHeight: loginBoxEffects.height
+    property alias blurAreaWidth: loginBoxEffects.width
+    property alias blurAreaX: loginBoxEffects.x
+    property alias blurAreaY: loginBoxEffects.y
 
     readonly property real showProgress: MathUtils.clamp((width - Math.abs(x + launcherOffset)) / width, 0, 1)
 
@@ -91,6 +97,29 @@ Showable {
         anchors {
             fill: parent
         }
+    }
+
+    Rectangle {
+        id: loginBoxEffects
+        color: "transparent"
+    }
+
+    ShaderEffectSource {
+        id: effectSource
+
+        sourceItem: greeterBackground
+        anchors.centerIn: loginBoxEffects
+        width: loginBoxEffects.width
+        height: loginBoxEffects.height
+        sourceRect: Qt.rect(x,y, width, height)
+    }
+
+    FastBlur {
+        visible: !draggable
+        anchors.fill: effectSource
+        source: effectSource
+        radius: 64
+        transparentBorder: true 
     }
 
     // Darkens wallpaper so that we can read text on it and see infographic
