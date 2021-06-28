@@ -197,12 +197,10 @@ StyledItem {
                         font.weight: userList.currentIndex === index ? Font.Bold : Font.Light
                         font.pointSize: units.gu(2)
 
-                        // FIXME: Should be set as width to change width correctly when required
-                        onWidthChanged: {
-                            let maxWidth = highlightItem.width - userIcon.width - units.gu(4);
-                            if (highlightItem.width && width > maxWidth)
-                                width = maxWidth;
-                        }
+                        width: highlightItem.width 
+                                && contentWidth > highlightItem.width - userIcon.width - units.gu(4)
+                                    ? highlightItem.width - userIcon.width - units.gu(4)
+                                    : contentWidth
 
                         Component.onCompleted: _realName = realName
 
