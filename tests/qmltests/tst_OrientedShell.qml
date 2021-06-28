@@ -40,11 +40,12 @@ Rectangle {
     height: units.gu(100)
 
     property var tryShell: null
+    property string ldmUserMode: "single"
 
     Binding {
         target: LightDMController
         property: "userMode"
-        value: "single"
+        value: ldmUserMode
     }
 
     QtObject {
@@ -252,7 +253,7 @@ Rectangle {
                 model: ["single", "single-passphrase", "single-pin", "full"]
                 onSelectedIndexChanged: {
                     testCase.tearDown();
-                    LightDMController.userMode = model[selectedIndex];
+                    ldmUserMode = model[selectedIndex];
                     testCase.init();
                 }
             }
@@ -1511,8 +1512,10 @@ Rectangle {
             tryCompare(greeter, "fullyShown", true);
         }
 
-        function loadShell(deviceName) {
+        function loadShell(deviceName, userMode = "single") {
             applicationArguments.deviceName = deviceName;
+
+            ldmUserMode = userMode; // Set the mode for LightDM ( default is "single" )
 
             // reload our test subject to get it in a fresh state once again
             var orientedShell = createTemporaryObject(shellComponent, shellRect);
@@ -1721,8 +1724,7 @@ Rectangle {
          * and if it is hidden when no keyboard is attached.
          */
         function test_greeterKeyboardDetection() {
-            LightDMController.userMode = "single-passphrase"
-            var orientedShell = loadShell("mako");
+            var orientedShell = loadShell("mako", "single-passphrase");
             MockInputDeviceBackend.removeDevice("/indicator_kbd0");
 
             var greeterPrompt = findChild(orientedShell, "greeterPrompt0");
@@ -1735,8 +1737,6 @@ Rectangle {
             MockInputDeviceBackend.addMockDevice("/kbd0", InputInfo.Keyboard);
 
             tryCompare(promptKeyboard, "visible", true);
-
-            LightDMController.userMode = "single"
         }
     }
 }
