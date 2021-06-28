@@ -17,7 +17,7 @@ FocusScope {
 
     signal clicked()
     signal canceled()
-    signal accepted()
+    signal accepted(string response)
 
     Keys.onSpacePressed: triggered();
     Keys.onReturnPressed: triggered();

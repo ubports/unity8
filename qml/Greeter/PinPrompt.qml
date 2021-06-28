@@ -16,7 +16,7 @@ FocusScope {
 
     signal clicked()
     signal canceled()
-    signal accepted()
+    signal accepted(string response)
 
     StyledItem {
         id: d
@@ -106,7 +106,7 @@ FocusScope {
 
         function respond() {
             if (root.interactive) {
-                root.accepted();
+                root.accepted(passwordInput.text);
             }
         }
 
