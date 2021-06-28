@@ -128,6 +128,7 @@ FocusScope {
             isPrompt: model.type !== LightDMService.prompts.Button
             isSecret: model.type === LightDMService.prompts.Secret
             loginError: root.loginError
+            hasKeyboard: root.hasKeyboard
             text: model.text ? model.text : (isAlphanumeric ? i18n.tr("Passphrase") : i18n.tr("Passcode"))
 
             onClicked: root.clicked()

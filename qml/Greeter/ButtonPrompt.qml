@@ -11,6 +11,7 @@ FocusScope {
     property bool isSecret
     property bool interactive: true
     property bool loginError: false
+    property bool hasKeyboard: false
     property string enteredText: ""
     property bool inputFocus
 

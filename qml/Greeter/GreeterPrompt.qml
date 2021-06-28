@@ -88,5 +88,11 @@ FocusScope {
             property: "inputFocus"
             value: true
         }
+
+        Binding {
+            target: loader.item
+            property: "hasKeyboard"
+            value: root.hasKeyboard
+        }
     }
 }

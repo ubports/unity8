@@ -10,6 +10,7 @@ FocusScope {
     property bool isSecret
     property bool interactive: true
     property bool loginError: false
+    property bool hasKeyboard: false
     property alias enteredText: passwordInput.text
     property alias inputFocus: passwordInput.focus
 
@@ -147,11 +148,12 @@ FocusScope {
             anchors.verticalCenter: parent.verticalCenter
         }
         Icon {
+            objectName: "greeterPromptKeyboardButton"
             name: "input-keyboard-symbolic"
             height: units.gu(3)
             width: height
             color: d.drawColor
-            visible: !unity8Settings.alwaysShowOsk
+            visible: !unity8Settings.alwaysShowOsk && root.hasKeyboard
             anchors.verticalCenter: parent.verticalCenter
             MouseArea {
                 anchors.fill: parent
