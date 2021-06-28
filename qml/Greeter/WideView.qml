@@ -35,6 +35,7 @@ FocusScope {
     property alias currentIndex: loginList.currentIndex
     property int delayMinutes // TODO
     property alias alphanumeric: loginList.alphanumeric
+    property alias hasKeyboard: loginList.hasKeyboard
     property alias locked: loginList.locked
     property alias waiting: loginList.waiting
     property var userModel // Set from outside

@@ -35,6 +35,7 @@ FocusScope {
     property bool hasCustomBackground
     property bool locked
     property alias alphanumeric: loginList.alphanumeric
+    property alias hasKeyboard: loginList.hasKeyboard
     property alias userModel: loginList.model
     property alias infographicModel: coverPage.infographicModel
     property string sessionToStart

@@ -31,6 +31,7 @@ FocusScope {
     property bool interactive: true
     property bool loginError: false
     readonly property string enteredText: loader.item.enteredText
+    property bool hasKeyboard: false
 
     signal clicked()
     signal canceled()

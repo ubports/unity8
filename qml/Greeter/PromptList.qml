@@ -26,6 +26,7 @@ FocusScope {
     property bool alphanumeric: true
     property bool interactive: true
     property bool loginError: false
+    property bool hasKeyboard: false
 
     signal responded(string text)
     signal clicked()
