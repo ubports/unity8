@@ -211,40 +211,21 @@ FocusScope {
                               inputMethod.keyboardRectangle.height : 0)
 
         Rectangle {
-            color: UbuntuColors.porcelain // matches OSK background
+            color: theme.palette.normal.background
+            opacity: 0.3
             anchors.fill: parent
-        }
-
-        Label {
-            text: i18n.tr("Cancel")
-            anchors.left: parent.left
-            anchors.leftMargin: units.gu(2)
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            verticalAlignment: Text.AlignVCenter
-            font.weight: Font.Light
-            fontSize: "small"
-            color: UbuntuColors.slate
-
-            AbstractButton {
-                anchors.fill: parent
-                anchors.leftMargin: -units.gu(2)
-                anchors.rightMargin: -units.gu(2)
-                onClicked: coverPage.show()
-            }
         }
 
         Label {
             objectName: "emergencyCallLabel"
             text: callManager.hasCalls ? i18n.tr("Return to Call") : i18n.tr("Emergency")
-            anchors.right: parent.right
+            anchors.horizontalCenter: parent.horizontalCenter
             anchors.rightMargin: units.gu(2)
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             verticalAlignment: Text.AlignVCenter
             font.weight: Font.Light
             fontSize: "small"
-            color: UbuntuColors.slate
             // TODO: uncomment once bug 1616538 is fixed
             // visible: telepathyHelper.ready && telepathyHelper.emergencyCallsAvailable
             enabled: visible
@@ -258,17 +239,4 @@ FocusScope {
         }
     }
 
-    // FIXME: It's difficult to keep something tied closely to the OSK (bug
-    //        1616163).  But as a hack to avoid the background peeking out,
-    //        we add an extra Rectangle that just serves to hide the background
-    //        during OSK animations.
-    Rectangle {
-        visible: bottomBar.visible
-        height: inputMethod && inputMethod.visible ?
-                inputMethod.keyboardRectangle.height : 0
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
-        color: UbuntuColors.porcelain
-    }
 }

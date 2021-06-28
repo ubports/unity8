@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 Canonical, Ltd.
- *
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 3.
@@ -18,21 +18,10 @@ import QtQuick 2.4
 import Ubuntu.Components 1.3
 
 Item {
-    BorderImage {
-        anchors {
-            fill: parent
-            topMargin: -units.gu(1)
-            leftMargin: -units.gu(1.5)
-            rightMargin: -units.gu(1.5)
-            bottomMargin: -units.gu(1.5)
-        }
-        source: "../graphics/dropshadow2gu.sci"
-        opacity: 0.35
-    }
-
     UbuntuShape {
         anchors.fill: parent
         aspect: UbuntuShape.Flat
-        backgroundColor: theme.palette.normal.raised
+        backgroundColor: theme.palette.normal.background
+        opacity: 0.3
     }
 }
