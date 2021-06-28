@@ -763,13 +763,16 @@ Rectangle {
             var greeter = findChild(shell, "greeter")
             tryCompare(greeter, "fullyShown", true);
 
-            var promptButton = findChild(greeter, "promptButton");
-            tryCompare(promptButton, "visible", isButton);
-
-            var promptField = findChild(greeter, "promptField");
-            tryCompare(promptField, "visible", !isButton);
-
-            mouseClick(promptButton);
+            if (isButton) {
+                var promptButton = findChild(greeter, "promptButton");
+                verify(promptButton);
+                tryCompare(promptButton, "visible", true);
+                mouseClick(promptButton);
+            } else {
+                var promptField = findChild(greeter, "promptField");
+                verify(promptField);
+                tryCompare(promptField, "visible", true);
+            }
         }
 
         function confirmLoggedIn(loggedIn) {
