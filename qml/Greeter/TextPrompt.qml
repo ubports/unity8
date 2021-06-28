@@ -16,7 +16,7 @@ FocusScope {
 
     signal clicked()
     signal canceled()
-    signal accepted()
+    signal accepted(string response)
 
     StyledItem {
         id: d
@@ -131,7 +131,7 @@ FocusScope {
                     anchors.verticalCenter: parent.verticalCenter
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: root.accepted()
+                        onClicked: root.accepted(passwordInput.text)
                     }
                 }
             }
@@ -148,7 +148,7 @@ FocusScope {
 
         function respond() {
             if (root.interactive) {
-                root.accepted();
+                root.accepted(passwordInput.text);
             }
         }
 
@@ -194,7 +194,7 @@ FocusScope {
         anchors.rightMargin: passwordInput.frameSpacing * 2 + extraIcons.width
         color: d.drawColor
         text: passwordInput.displayText
-        visible: !root.interactive  // TODO: move to the correct position in pin mode
+        visible: !root.interactive
         enabled: visible
     }
 }

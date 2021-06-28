@@ -32,6 +32,7 @@ FocusScope {
     property bool loginError: false
     readonly property string enteredText: loader.item.enteredText
     property bool hasKeyboard: false
+    property bool waitingToAccept: false
 
     signal clicked()
     signal canceled()
@@ -41,6 +42,8 @@ FocusScope {
         id: unity8Settings
         schema.id: "com.canonical.Unity8"
     }
+
+    onEnteredTextChanged: if (waitingToAccept) root.accepted()
 
     Loader {
         id: loader
@@ -56,7 +59,12 @@ FocusScope {
             target: loader.item
             onClicked: root.clicked()
             onCanceled: root.canceled()
-            onAccepted: root.accepted()
+            onAccepted: {
+                if (response == enteredText) 
+                    root.accepted();
+                else
+                    waitingToAccept = true;
+            }
         }
 
         Binding {
