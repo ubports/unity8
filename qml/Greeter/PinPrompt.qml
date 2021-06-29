@@ -31,15 +31,6 @@ FocusScope {
                                                                   : theme.palette.disabled.negative
     }
 
-    function showFakePassword() {
-        // Just a silly hack for looking like 4 pin numbers got entered, if
-        // a fingerprint was used and we happen to be using a pin.  This was
-        // a request from Design.
-        if (isSecret) {
-            passwordInput.text = "...."; // actual text doesn't matter
-        }
-    }
-
     TextField {
         id: passwordInput
         objectName: "promptField"

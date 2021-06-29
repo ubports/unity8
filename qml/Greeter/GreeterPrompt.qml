@@ -45,6 +45,15 @@ FocusScope {
 
     onEnteredTextChanged: if (waitingToAccept) root.accepted()
 
+    function showFakePassword() {
+        // Just a silly hack for looking like 4 pin numbers got entered, if
+        // a fingerprint was used and we happen to be using a pin.  This was
+        // a request from Design.
+        if (isSecret) {
+            loader.item.enteredText = "...."; // actual text doesn't matter
+        }
+    }
+
     Loader {
         id: loader
         objectName: "promptLoader"
