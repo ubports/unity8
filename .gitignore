@@ -13,3 +13,6 @@
 /.kdev4/
 /build/
 /*.kdev4
+# Clickable files
+/.clickable
+/CMakeLists.txt.user.shared

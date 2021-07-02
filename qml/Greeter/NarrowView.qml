@@ -17,6 +17,7 @@
 
 import QtQuick 2.4
 import QtQuick.Window 2.2
+import QtGraphicalEffects 1.12
 import Ubuntu.Components 1.3
 import Ubuntu.Telephony 0.1 as Telephony
 import "../Components"
@@ -34,6 +35,7 @@ FocusScope {
     property bool hasCustomBackground
     property bool locked
     property alias alphanumeric: loginList.alphanumeric
+    property alias hasKeyboard: loginList.hasKeyboard
     property alias userModel: loginList.model
     property alias infographicModel: coverPage.infographicModel
     property string sessionToStart
@@ -42,8 +44,7 @@ FocusScope {
     readonly property bool required: coverPage.required || lockscreen.required
     readonly property bool animating: coverPage.showAnimation.running || coverPage.hideAnimation.running
 
-    // so that it can be replaced in tests with a mock object
-    property var inputMethod: Qt.inputMethod
+    property rect inputMethodRect
 
     signal selected(int index)
     signal responded(string response)
@@ -89,6 +90,10 @@ FocusScope {
             lockscreen.hide();
         }
     }
+
+    Keys.onSpacePressed: coverPage.hide();
+    Keys.onReturnPressed: coverPage.hide();
+    Keys.onEnterPressed: coverPage.hide();
 
     Showable {
         id: lockscreen
@@ -207,8 +212,7 @@ FocusScope {
         anchors.right: parent.right
         anchors.top: parent.bottom
         anchors.topMargin: - height * (1 - coverPage.showProgress)
-                           - (inputMethod && inputMethod.visible ?
-                              inputMethod.keyboardRectangle.height : 0)
+                           - ( inputMethodRect.height )
 
         Rectangle {
             color: UbuntuColors.porcelain // matches OSK background
@@ -264,8 +268,7 @@ FocusScope {
     //        during OSK animations.
     Rectangle {
         visible: bottomBar.visible
-        height: inputMethod && inputMethod.visible ?
-                inputMethod.keyboardRectangle.height : 0
+        height: inputMethodRect.height
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
