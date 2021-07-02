@@ -119,7 +119,7 @@ Showable {
         anchors.fill: effectSource
         source: effectSource
         radius: 64
-        transparentBorder: true 
+        transparentBorder: true
     }
 
     // Darkens wallpaper so that we can read text on it and see infographic
