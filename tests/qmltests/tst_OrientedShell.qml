@@ -1720,7 +1720,7 @@ Rectangle {
         }
 
         /* Check if the keyboard icon on the greeter screen
-         * is only shown when an external keyboard is attached 
+         * is only shown when an external keyboard is attached
          * and if it is hidden when no keyboard is attached.
          */
         function test_greeterKeyboardDetection() {
