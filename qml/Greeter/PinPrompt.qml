@@ -60,7 +60,7 @@ FocusScope {
         readonly property real letterSpacing: units.gu(1.75)
         readonly property real frameSpacing: letterSpacing
 
-        font.pixelSize: units.gu(2.5)
+        font.pixelSize: units.gu(3)
         font.letterSpacing: letterSpacing
 
         style: StyledItem {
@@ -125,7 +125,7 @@ FocusScope {
             enabled: visible
             color: loginError ? d.errorColor : d.drawColor
             font {
-                pixelSize: units.gu(2.5)
+                pixelSize: units.gu(3)
                 letterSpacing: units.gu(1.75)
             }
             elide: Text.ElideRight
