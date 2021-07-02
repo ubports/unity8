@@ -123,7 +123,7 @@ FocusScope {
             text: "○○○○"
             visible: !passwordInput.inputMethodComposing
             enabled: visible
-            color: loginError ? d.errorColor : d.drawColor
+            color: d.drawColor
             font {
                 pixelSize: units.gu(3)
                 letterSpacing: units.gu(1.75)
