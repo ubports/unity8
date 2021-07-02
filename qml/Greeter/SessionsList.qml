@@ -119,13 +119,14 @@ Item {
 
                 padding.leading: 0 // handled by parent's margins
 
-                title.color: theme.palette.normal.raisedText
+                title.color: theme.palette.normal.raisedSecondaryText
                 title.font.pixelSize: units.gu(2.1)
                 title.text: i18n.tr("Select desktop environment")
 
                 Icon {
                     id: icon
                     width: units.gu(3)
+                    color: theme.palette.normal.raisedSecondaryText
                     SlotsLayout.position: SlotsLayout.Leading
                     name: "go-previous"
 
@@ -187,7 +188,7 @@ Item {
                 ListItemLayout {
                     id: layout
 
-                    readonly property color itemColor: theme.palette.normal.raisedText
+                    readonly property color itemColor: theme.palette.normal.raisedSecondaryText
                     SessionIcon {
                         id: sessionIcon
                         source: icon_url
