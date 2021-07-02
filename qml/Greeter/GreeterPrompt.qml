@@ -69,7 +69,7 @@ FocusScope {
             onClicked: root.clicked()
             onCanceled: root.canceled()
             onAccepted: {
-                if (response == enteredText) 
+                if (response == enteredText)
                     root.accepted();
                 else
                     waitingToAccept = true;

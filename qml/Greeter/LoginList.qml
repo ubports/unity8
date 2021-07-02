@@ -197,7 +197,7 @@ StyledItem {
                         font.weight: userList.currentIndex === index ? Font.Bold : Font.Light
                         font.pointSize: units.gu(2)
 
-                        width: highlightItem.width 
+                        width: highlightItem.width
                                 && contentWidth > highlightItem.width - userIcon.width - units.gu(4)
                                     ? highlightItem.width - userIcon.width - units.gu(4)
                                     : contentWidth
