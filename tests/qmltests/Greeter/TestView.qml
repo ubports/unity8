@@ -38,6 +38,13 @@ Item {
     readonly property bool required: _required
     readonly property bool animating: _animating
 
+    property bool multiUser
+    property int orientation
+    property string usageMode
+    property bool hasKeyboard
+    property real backgroundSourceSize
+    property rect inputMethodRect
+
     property bool _fullyShown: true
     property bool _required: true
     property bool _animating: true

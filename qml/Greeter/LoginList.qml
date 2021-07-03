@@ -122,6 +122,8 @@ StyledItem {
             moveTimer.start();
         }
 
+        onCountChanged: if (root.currentIndex >= count) root.selected(0)
+
         delegate: Item {
             width: userList.width
             height: root.cellHeight
@@ -130,7 +132,7 @@ StyledItem {
             readonly property bool aboveCurrent: (userList.currentIndex > 0 && index < 0) || (userList.currentIndex >= 0 && index < userList.currentIndex)
             readonly property int belowOffset: root.highlightedHeight - root.cellHeight
             readonly property string userSession: session
-            readonly property string username: name
+            readonly property string username: name ? name : ""
 
             opacity: {
                 // The goal here is to make names less and less opaque as they
@@ -191,7 +193,7 @@ StyledItem {
                         text: userList.currentIndex === index
                               && name === "*other"
                               && LightDMService.greeter.authenticationUser !== ""
-                              ?  LightDMService.greeter.authenticationUser : realName
+                              ?  LightDMService.greeter.authenticationUser : realName ? realName : ""
                         color: userList.currentIndex !== index ? theme.palette.normal.raised
                                                                : theme.palette.normal.raisedSecondaryText
                         font.weight: userList.currentIndex === index ? Font.Normal : Font.Light
