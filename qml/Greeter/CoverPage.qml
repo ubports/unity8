@@ -33,7 +33,11 @@ Showable {
     property var infographicModel
     property bool draggable: true
 
-    property alias infographics: infographics
+    property alias showInfographic: infographicsLoader.active
+    property real infographicsLeftMargin: 0
+    property real infographicsTopMargin: 0
+    property real infographicsRightMargin: 0
+    property real infographicsBottomMargin: 0
 
     property alias blurAreaHeight: loginBoxEffects.height
     property alias blurAreaWidth: loginBoxEffects.width
@@ -132,14 +136,20 @@ Showable {
         visible: false
     }
 
-    Infographics {
-        id: infographics
-        objectName: "infographics"
-        model: root.infographicModel
-        clip: true // clip large data bubbles
+    Loader {
+        id: infographicsLoader
+        sourceComponent:Infographics {
+            id: infographics
+            objectName: "infographics"
+            model: root.infographicModel
+            clip: true // clip large data bubbles
+        }
 
         anchors {
-            topMargin: root.panelHeight
+            leftMargin: root.infographicsLeftMargin
+            topMargin: root.infographicsTopMargin ? root.infographicsTopMargin : root.panelHeight
+            rightMargin: root.infographicsRightMargin
+            bottomMargin: root.infographicsBottomMargin
             top: parent.top
             bottom: parent.bottom
             left: parent.left
