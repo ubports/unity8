@@ -47,7 +47,7 @@ FocusScope {
     property bool isLandscape: root.orientation == Qt.LandscapeOrientation ||
                                root.orientation == Qt.InvertedLandscapeOrientation ||
                                usageMode == "desktop"
-    property bool isPortrait: (root.orientation == Qt.PortraitOrientation || 
+    property bool isPortrait: (root.orientation == Qt.PortraitOrientation ||
                               root.orientation == Qt.InvertedPortraitOrientation) &&
                               usageMode != "desktop"
 
@@ -74,17 +74,18 @@ FocusScope {
     }
 
     function tryToUnlock(toTheRight) {
+        var coverChanged = coverPage.shown;
+        if (toTheRight) {
+            coverPage.hideRight();
+        } else {
+            coverPage.hide();
+        }
         if (root.locked) {
             lockscreen.show();
             loginList.tryToUnlock();
             return false;
         } else {
-            var coverChanged = coverPage.shown;
-            if (toTheRight) {
-                coverPage.hideRight();
-            } else {
-                coverPage.hide();
-            }
+            root.responded("");
             return coverChanged;
         }
     }
@@ -527,7 +528,7 @@ FocusScope {
                 anchors.horizontalCenter: undefined;
                 anchors.left: lockscreen.left;
             }
-            PropertyChanges { 
+            PropertyChanges {
                 target: loginList;
                 anchors.leftMargin: Math.min(lockscreen.width * 0.16, units.gu(8));
             }

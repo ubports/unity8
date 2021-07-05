@@ -619,43 +619,6 @@ Rectangle {
             compare(shell.transformRotationAngle, root.primaryOrientationAngle + 180);
         }
 
-        function test_greeterRemainsInPrimaryOrientation_data() {
-            return [
-                {tag: "mako", deviceName: "mako"},
-                {tag: "manta", deviceName: "manta"},
-                {tag: "flo", deviceName: "flo"}
-            ];
-        }
-        function test_greeterRemainsInPrimaryOrientation(data) {
-            var orientedShell = loadShell(data.deviceName);
-            var shell = findChild(orientedShell, "shell");
-
-            var gmailApp = ApplicationManager.startApplication("gmail-webapp");
-            verify(gmailApp);
-
-            // ensure the mock gmail-webapp is as we expect
-            compare(gmailApp.rotatesWindowContents, false);
-            compare(gmailApp.supportedOrientations, Qt.PortraitOrientation | Qt.LandscapeOrientation
-                    | Qt.InvertedPortraitOrientation | Qt.InvertedLandscapeOrientation);
-
-            // wait until it's able to rotate
-            tryCompare(shell, "orientationChangesEnabled", true);
-
-            compare(shell.transformRotationAngle, root.primaryOrientationAngle);
-            rotateTo(90, orientedShell);
-            tryCompare(shell, "transformRotationAngle", root.primaryOrientationAngle + 90);
-
-            showGreeter(orientedShell);
-
-            tryCompare(shell, "transformRotationAngle", root.primaryOrientationAngle);
-            rotateTo(180, orientedShell);
-            compare(shell.transformRotationAngle, root.primaryOrientationAngle);
-            rotateTo(270, orientedShell);
-            compare(shell.transformRotationAngle, root.primaryOrientationAngle);
-            rotateTo(0, orientedShell);
-            compare(shell.transformRotationAngle, root.primaryOrientationAngle);
-        }
-
         function test_appRotatesWindowContents_data() {
             return [
                 {tag: "mako", deviceName: "mako", orientationAngleAfterRotation: 90},
@@ -1247,7 +1210,7 @@ Rectangle {
 
             showGreeter(orientedShell);
 
-            tryCompare(shell, "transformRotationAngle", root.primaryOrientationAngle);
+            tryCompare(shell, "transformRotationAngle", root.primaryOrientationAngle + 90);
         }
 
         /*
