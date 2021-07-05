@@ -1267,5 +1267,112 @@ StyledItem {
             view.orientation = Qt.LandscapeOrientation;
             tryCompare(greeterPrompt, "enteredText", "test");
         }
+
+        function test_infographicsShownOnRotation_data() {
+            return [
+                {
+                    tag: "phone-portrait-singleuser",
+                    multiUser: false,
+                    usageMode: "phone",
+                    orientation: Qt.PortraitOrientation,
+                    coverPage: true,
+                    lockscreen: false
+                },
+                {
+                    tag: "phone-portrait-multiuser",
+                    multiUser: true,
+                    usageMode: "phone",
+                    orientation: Qt.PortraitOrientation,
+                    coverPage: false,
+                    lockscreen: false
+                },
+                {
+                    tag: "phone-landscape-singleuser",
+                    multiUser: false,
+                    usageMode: "phone",
+                    orientation: Qt.LandscapeOrientation,
+                    coverPage: true,
+                    lockscreen: false
+                },
+                {
+                    tag: "phone-landscape-multiuser",
+                    multiUser: true,
+                    usageMode: "phone",
+                    orientation: Qt.LandscapeOrientation,
+                    coverPage: false,
+                    lockscreen: false
+                },
+                {
+                    tag: "tablet-landscape-singleuser",
+                    multiUser: false,
+                    usageMode: "tablet",
+                    orientation: Qt.LandscapeOrientation,
+                    coverPage: false,
+                    lockscreen: true
+                },
+                {
+                    tag: "tablet-landscape-multiuser",
+                    multiUser: true,
+                    usageMode: "tablet",
+                    orientation: Qt.LandscapeOrientation,
+                    coverPage: false,
+                    lockscreen: true
+                },
+                {
+                    tag: "tablet-portrait-singleuser",
+                    multiUser: false,
+                    usageMode: "tablet",
+                    orientation: Qt.PortraitOrientation,
+                    coverPage: true,
+                    lockscreen: false
+                },
+                {
+                    tag: "tablet-portrait-multiuser",
+                    multiUser: true,
+                    usageMode: "tablet",
+                    orientation: Qt.PortraitOrientation,
+                    coverPage: false,
+                    lockscreen: false
+                },
+                {
+                    tag: "desktop-singleuser",
+                    multiUser: false,
+                    usageMode: "desktop",
+                    orientation: Qt.LandscapeOrientation,
+                    coverPage: false,
+                    lockscreen: true
+                },
+                {
+                    tag: "desktop-multiuser",
+                    multiUser: true,
+                    usageMode: "desktop",
+                    orientation: Qt.LandscapeOrientation,
+                    coverPage: false,
+                    lockscreen: true
+                }
+            ]
+        }
+
+        function test_infographicsShownOnRotation(data) {
+            /* Check if infographics is shown in the correct
+             * places. This test runs in all the combinations
+             * of orientation and usage mode.
+             */
+            setUsageMode(data.usageMode);
+            view.orientation = data.orientation;
+            view.multiUser = data.multiUser;
+            view.locked = true;
+
+            let coverPage = findChild(view, "coverPage");
+            let lockscreen = findChild(view, "lockscreen");
+            let coverPageInfographics = findChild(coverPage, "infographicsLoader");
+            let lockscreenInfographics = findChild(lockscreen, "infographicsLoader");
+            verify(coverPageInfographics);
+            verify(lockscreenInfographics);
+
+            tryCompare(coverPageInfographics, "active", data.coverPage);
+            swipeAwayCover();
+            tryCompare(lockscreenInfographics, "active", data.lockscreen);
+        }
     }
 }
