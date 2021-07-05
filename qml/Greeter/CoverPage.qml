@@ -138,6 +138,7 @@ Showable {
 
     Loader {
         id: infographicsLoader
+        objectName: "infographicsLoader"
         sourceComponent:Infographics {
             id: infographics
             objectName: "infographics"
