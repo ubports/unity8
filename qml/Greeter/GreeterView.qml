@@ -509,7 +509,7 @@ FocusScope {
     states: [
         State {
             name: "phone"
-            when: root.usageMode == "phone"
+            when: root.usageMode == "phone" || (root.usageMode == "tablet" && isPortrait)
             AnchorChanges {
                 target: loginList;
                 anchors.horizontalCenter: lockscreen.horizontalCenter;
@@ -522,7 +522,7 @@ FocusScope {
         },
         State {
             name: "tablet"
-            when: root.usageMode == "tablet"
+            when: root.usageMode == "tablet" && isLandscape
             AnchorChanges {
                 target: loginList;
                 anchors.horizontalCenter: undefined;
