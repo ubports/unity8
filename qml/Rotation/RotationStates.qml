@@ -139,9 +139,6 @@ StateGroup {
             } else if (Powerd.status === Powerd.Off) {
                 // There's no point in animating if the user can't see it (display is off).
                 d.animationType = d.noAnimation;
-            } else if (root.shell.showingGreeter) {
-                // A rotating greeter looks weird.
-                d.animationType = d.noAnimation;
             } else {
                 if (!root.shell.mainApp) {
                     // shouldn't happen but, anyway
