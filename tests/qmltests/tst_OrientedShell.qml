@@ -110,6 +110,22 @@ Rectangle {
             }
         },
         State {
+            name: "has-notch"
+            PropertyChanges {
+                target: shellRect
+                width: units.gu(40)
+                height: units.gu(71)
+            }
+            PropertyChanges {
+                target: root
+                physicalOrientation0: Qt.PortraitOrientation
+                physicalOrientation90: Qt.InvertedLandscapeOrientation
+                physicalOrientation180: Qt.InvertedPortraitOrientation
+                physicalOrientation270: Qt.LandscapeOrientation
+                primaryOrientationAngle: 0
+            }
+        },
+        State {
             name: "manta"
             PropertyChanges {
                 target: shellRect
@@ -320,7 +336,7 @@ Rectangle {
                 anchors { left: parent.left; right: parent.right }
                 activeFocusOnPress: false
                 text: "Device Name"
-                model: ["mako", "manta", "flo", "desktop"]
+                model: ["mako", "has-notch", "manta", "flo", "desktop"]
                 onSelectedIndexChanged: {
                     destroyShell();
                     applicationArguments.deviceName = model[selectedIndex];
@@ -1700,6 +1716,22 @@ Rectangle {
             MockInputDeviceBackend.addMockDevice("/kbd0", InputInfo.Keyboard);
 
             tryCompare(promptKeyboard, "visible", true);
+        function test_disableTopMarginSetting_data() {
+            return [
+                {tag: "top margin enabled", disabled: false, expectedMargin: 20},
+                {tag: "top margin disabled", disabled: true, expectedMargin: 0}
+            ]
+        }
+
+        function test_disableTopMarginSetting(data) {
+            /* Test the GSettings option to disable the topMargin
+             * that reverts to the previous behavior when a
+             * topMargin is specified for the notch.
+             */
+            var orientedShell = loadShell("has-notch");
+            GSettingsController.setDisableTopMargin(data.disabled);
+
+            tryCompare(orientedShell.anchors, "topMargin", data.expectedMargin);
         }
     }
 }

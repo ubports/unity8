@@ -29,6 +29,7 @@ GSettingsControllerQml::GSettingsControllerQml()
     , m_edgeDragWidth(2)
     , m_enableIndicatorMenu(true)
     , m_oskSwitchVisible(false)
+    , m_disableTopMargin(false)
 {
 }
 
@@ -173,6 +174,19 @@ void GSettingsControllerQml::setOskSwitchVisible(bool oskSwitchVisible)
     }
 }
 
+bool GSettingsControllerQml::disableTopMargin() const
+{
+    return m_disableTopMargin;
+}
+
+void GSettingsControllerQml::setDisableTopMargin(bool disableTopMargin)
+{
+    if (m_disableTopMargin != disableTopMargin) {
+        m_disableTopMargin = disableTopMargin;
+        Q_EMIT disableTopMarginChanged(disableTopMargin);
+    }
+}
+
 GSettingsSchemaQml::GSettingsSchemaQml(QObject *parent): QObject(parent) {
 }
 
@@ -241,6 +255,8 @@ void GSettingsQml::componentComplete()
             this, &GSettingsQml::enableIndicatorMenuChanged);
     connect(GSettingsControllerQml::instance(), &GSettingsControllerQml::oskSwitchVisibleChanged,
             this, &GSettingsQml::oskSwitchVisibleChanged);
+    connect(GSettingsControllerQml::instance(), &GSettingsControllerQml::disableTopMarginChanged,
+            this, &GSettingsQml::disableTopMarginChanged);
 
     Q_EMIT disableHeightChanged();
     Q_EMIT pictureUriChanged();
@@ -374,6 +390,14 @@ QVariant GSettingsQml::oskSwitchVisible() const
     return QVariant();
 }
 
+QVariant GSettingsQml::disableTopMargin() const
+{
+    if (m_valid && m_schema->id() == "com.canonical.Unity8") {
+        return GSettingsControllerQml::instance()->disableTopMargin();
+    }
+    return QVariant();
+}
+
 void GSettingsQml::setLifecycleExemptAppids(const QVariant &appIds)
 {
     if (m_valid && m_schema->id() == "com.canonical.qtmir") {
@@ -413,5 +437,12 @@ void GSettingsQml::setOskSwitchVisible(const QVariant &oskSwitchVisible)
 {
     if (m_valid && m_schema->id() == "com.canonical.Unity8") {
         GSettingsControllerQml::instance()->setOskSwitchVisible(oskSwitchVisible.toBool());
+    }
+}
+
+void GSettingsQml::setDisableTopMargin(const QVariant &disableTopMargin)
+{
+    if (m_valid && m_schema->id() == "com.canonical.Unity8") {
+        GSettingsControllerQml::instance()->setDisableTopMargin(disableTopMargin.toBool());
     }
 }

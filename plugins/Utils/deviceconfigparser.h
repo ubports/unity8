@@ -34,6 +34,7 @@ class DeviceConfigParser: public QObject
     Q_PROPERTY(Qt::ScreenOrientation invertedPortraitOrientation READ invertedPortraitOrientation NOTIFY changed)
     Q_PROPERTY(QString category READ category NOTIFY changed)
     Q_PROPERTY(bool supportsMultiColorLed READ supportsMultiColorLed NOTIFY changed)
+    Q_PROPERTY(int topMargin READ topMargin NOTIFY changed)
 
 public:
     DeviceConfigParser(QObject *parent = nullptr);
@@ -49,6 +50,7 @@ public:
     Qt::ScreenOrientation invertedPortraitOrientation() const;
     QString category() const;
     bool supportsMultiColorLed() const;
+    int topMargin() const;
 
 Q_SIGNALS:
     void changed();
@@ -61,6 +63,7 @@ private:
     QString readOrientationFromConfig(const QString &key) const;
     Qt::ScreenOrientation stringToOrientation(const QString &orientationString, Qt::ScreenOrientation defaultValue) const;
     bool readBoolFromConfig(const QString &key, bool defaultValue) const;
+    int readIntegerFromConfig(const QString &key, int defaultValue) const;
 };
 
 #endif
