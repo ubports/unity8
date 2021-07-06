@@ -134,6 +134,24 @@ bool DeviceConfigParser::readBoolFromConfig(const QString &key, bool defaultValu
     return ret;
 }
 
+int DeviceConfigParser::topMargin() const
+{
+    return readIntegerFromConfig("TopMargin", 0);
+}
+
+int DeviceConfigParser::readIntegerFromConfig(const QString &key, int defaultValue) const
+{
+    m_config->beginGroup(m_name);
+
+    int ret = defaultValue;
+    if (m_config->contains(key)) {
+        ret = m_config->value(key).toInt();
+    }
+
+    m_config->endGroup();
+    return ret;
+}
+
 QStringList DeviceConfigParser::readOrientationsFromConfig(const QString &key) const
 {
     m_config->beginGroup(m_name);

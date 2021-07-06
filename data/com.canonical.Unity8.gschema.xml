@@ -63,6 +63,11 @@
       <summary>Whether the OSK switch should be visible</summary>
       <description>Toggle the visibility of the OSK switch</description>
     </key>
+    <key type="b" name="disable-top-margin">
+      <default>false</default>
+      <summary>Disable top margin for the notch</summary>
+      <description>This will restore the previous behavior on devices with a notch. If this option is enabled some indicators might not be visible.</description>
+    </key>
   </schema>
 
   <schema path="/com/canonical/unity8/greeter/" id="com.canonical.Unity8.Greeter" gettext-domain="unity8">
