@@ -1428,8 +1428,8 @@ Rectangle {
         }
 
         function test_tabletLogin(data) {
-            loadShell("tablet");
             setLightDMMockMode("full");
+            loadShell("tablet");
             swipeAwayGreeterCover();
 
             selectUser(data.user);
