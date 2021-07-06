@@ -1,0 +1,3 @@
+module Broadcaster
+plugin Broadcaster-qml
+typeinfo Broadcaster.qmltypes
