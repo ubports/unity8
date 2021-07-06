@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (C) 2013-2016 Canonical, Ltd.
  * Copyright (C) 2019-2021 UBports Foundation
  *
@@ -93,7 +93,7 @@ StyledItem {
 
     readonly property bool orientationChangesEnabled: panel.indicators.fullyClosed
             && stage.orientationChangesEnabled
-            && (!greeter || !greeter.animating)
+            && (!greeter.animating)
 
     readonly property bool showingGreeter: greeter && greeter.shown
 
@@ -104,7 +104,7 @@ StyledItem {
         if (startingUp) {
             // Ensure we don't rotate during start up
             return Qt.PrimaryOrientation;
-        } else if (showingGreeter || notifications.topmostIsFullscreen) {
+        } else if (notifications.topmostIsFullscreen) {
             return Qt.PrimaryOrientation;
         } else {
             return shell.orientations ? shell.orientations.map(stage.supportedOrientations) : Qt.PrimaryOrientation;
@@ -412,6 +412,7 @@ StyledItem {
             item.objectName = "greeter"
         }
         property bool toggleDrawerAfterUnlock: false
+        property bool hasKeyboard: shell.hasKeyboard
         Connections {
             target: greeter
             onActiveChanged: {
@@ -436,10 +437,14 @@ StyledItem {
             enabled: panel.indicators.fullyClosed // hides OSK when panel is open
             hides: [launcher, panel.indicators, panel.applicationMenus]
             tabletMode: shell.usageScenario != "phone"
+            usageMode: shell.usageScenario
+            orientation: shell.orientation
             forcedUnlock: wizard.active || shell.mode === "full-shell"
             background: wallpaperResolver.background
             backgroundSourceSize: shell.largestScreenDimension
             hasCustomBackground: wallpaperResolver.hasCustomBackground
+            inputMethodRect: inputMethod.visibleRect
+            hasKeyboard: shell.hasKeyboard
             allowFingerprint: !dialogs.hasActiveDialog &&
                               !notifications.topmostIsFullscreen &&
                               !panel.indicators.shown
