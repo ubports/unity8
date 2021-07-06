@@ -152,11 +152,9 @@ Breaks:
  lomiri-keyboard (<< 0.100),
  lomiri-touch-session (<< 0.107),
  lomiri-scope-tool,
- lomiri-greeter (<< 7.89),
 Replaces:
  lomiri-touch-session (<< 0.82~),
  lomiri-scope-tool,
- lomiri-greeter (<< 7.89),
 Conflicts:
  lomiri-system-settings-wizard,
 Description: Lomiri 8 shell
