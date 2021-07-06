@@ -65,6 +65,32 @@ Item {
 
             "com.canonical.indicator.calendar": calendarMenu,
             "com.canonical.indicator.location": timezoneMenu,
+
+            "org.ayatana.indicator.button"         : buttonMenu,
+            "org.ayatana.indicator.div"            : separatorMenu,
+            "org.ayatana.indicator.section"        : sectionMenu,
+            "org.ayatana.indicator.progress"       : progressMenu,
+            "org.ayatana.indicator.slider"         : sliderMenu,
+            "org.ayatana.indicator.switch"         : switchMenu,
+            "org.ayatana.indicator.alarm"          : alarmMenu,
+            "org.ayatana.indicator.appointment"    : appointmentMenu,
+            "org.ayatana.indicator.transfer"       : transferMenu,
+            "org.ayatana.indicator.button-section" : buttonSectionMenu,
+            "org.ayatana.indicator.link"           : linkMenu,
+
+            "org.ayatana.indicator.messages.messageitem"  : messageItem,
+            "org.ayatana.indicator.messages.sourceitem"   : groupedMessage,
+
+            "org.ayatana.unity.slider"    : sliderMenu,
+            "org.ayatana.unity.switch"    : switchMenu,
+
+            "org.ayatana.unity.media-player"    : mediaPayerMenu,
+            "org.ayatana.unity.playback-item"   : playbackItemMenu,
+
+            "org.ayatana.indicator.network.modeminfoitem" : modeminfoitem,
+
+            "org.ayatana.indicator.calendar": calendarMenu,
+            "org.ayatana.indicator.location": timezoneMenu,
         },
         "indicator-session": {
             "indicator.user-menu-item": Platform.isPC ? userMenuItem : null,
@@ -73,6 +99,14 @@ Item {
         },
         "indicator-messages": {
             "com.canonical.indicator.button": messagesButtonMenu
+        },
+        "ayatana-indicator-session": {
+            "indicator.user-menu-item": Platform.isPC ? userMenuItem : null,
+            "indicator.guest-menu-item": Platform.isPC ? userMenuItem : null,
+            "org.ayatana.indicator.switch": Math.min(Screen.width, Screen.height) > units.gu(60) ? switchMenu : null // Desktop mode switch
+        },
+        "ayatana-indicator-messages": {
+            "org.ayatana.indicator.button": messagesButtonMenu
         }
     }
 
@@ -84,6 +118,16 @@ Item {
             "indicator.reboot": Platform.isPC ? undefined : null
         },
         "indicator-keyboard": {
+            "indicator.map": null,
+            "indicator.chart": null
+        },
+        "ayatana-indicator-session": {
+            "indicator.logout": Platform.isPC ? undefined : null,
+            "indicator.suspend": Platform.isPC ? undefined : null,
+            "indicator.hibernate": Platform.isPC ? undefined : null,
+            "indicator.reboot": Platform.isPC ? undefined : null
+        },
+        "ayatana-indicator-keyboard": {
             "indicator.map": null,
             "indicator.chart": null
         }
