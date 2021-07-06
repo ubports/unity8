@@ -32,6 +32,8 @@ Item {
     implicitWidth: units.gu(40)
     implicitHeight: units.gu(71)
 
+    anchors.topMargin: !unity8Settings.disableTopMargin ? deviceConfiguration.topMargin : 0
+
     onWidthChanged: calculateUsageMode();
 
     DeviceConfiguration {
