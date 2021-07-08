@@ -36,8 +36,8 @@ static QObject *greeter_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
     Q_UNUSED(scriptEngine)
 
     Greeter *greeter = Greeter::instance();
-    new DBusGreeter(greeter, QStringLiteral("/"));
-    new DBusGreeterList(greeter, QStringLiteral("/list"));
+    new DBusGreeter(greeter, QStringLiteral("/com/lomiri/LomiriGreeter"));
+    new DBusGreeterList(greeter, QStringLiteral("/com/lomiri/LomiriGreeter/list"));
 
     engine->setObjectOwnership(greeter, QQmlEngine::CppOwnership);
 

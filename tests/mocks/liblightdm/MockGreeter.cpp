@@ -238,7 +238,7 @@ bool Greeter::startSessionSync(const QString &session)
     // but when testing, we don't want the bother of mocking that out. Instead,
     // just send the request directly ourselves.
     QDBusInterface iface("com.lomiri.LomiriGreeter",
-                         "/",
+                         "/com/lomiri/LomiriGreeter",
                          "com.lomiri.LomiriGreeter",
                          QDBusConnection::sessionBus());
     iface.asyncCall("HideGreeter");

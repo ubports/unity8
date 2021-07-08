@@ -43,14 +43,14 @@ private Q_SLOTS:
         // to watch.
         QDBusConnection::sessionBus().connect(
             "com.lomiri.LomiriGreeter",
-            "/",
+            "/com/lomiri/LomiriGreeter",
             "org.freedesktop.DBus.Properties",
             "PropertiesChanged",
             this,
             SIGNAL(PropertiesChangedRelay(const QString&, const QVariantMap&, const QStringList&)));
         QDBusConnection::sessionBus().connect(
             "com.lomiri.LomiriGreeter",
-            "/list",
+            "/com/lomiri/LomiriGreeter/list",
             "org.freedesktop.DBus.Properties",
             "PropertiesChanged",
             this,
@@ -68,13 +68,13 @@ private Q_SLOTS:
         QTest::qWaitForWindowExposed(view);
 
         dbusMain = new QDBusInterface("com.lomiri.LomiriGreeter",
-                                      "/",
+                                      "/com/lomiri/LomiriGreeter",
                                       "com.lomiri.LomiriGreeter",
                                       QDBusConnection::sessionBus(), view);
         QVERIFY(dbusMain->isValid());
 
         dbusList = new QDBusInterface("com.lomiri.LomiriGreeter",
-                                      "/list",
+                                      "/com/lomiri/LomiriGreeter/list",
                                       "com.lomiri.LomiriGreeter.List",
                                       QDBusConnection::sessionBus(), view);
         QVERIFY(dbusList->isValid());

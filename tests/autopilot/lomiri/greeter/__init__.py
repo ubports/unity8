@@ -47,7 +47,7 @@ def wait_for_greeter_gone():
 
 def _get_greeter_dbus_proxy():
     bus = dbus.SessionBus()
-    return bus.get_object('com.lomiri.LomiriGreeter', '/')
+    return bus.get_object('com.lomiri.LomiriGreeter', "/com/lomiri/LomiriGreeter")
 
 
 def _is_greeter_active():
