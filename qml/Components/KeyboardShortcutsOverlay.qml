@@ -241,19 +241,6 @@ Rectangle {
                 }
 
                 Label {
-                    text: i18n.tr("Super + S")
-                    fontSize: "small"
-                    font.weight: Font.Medium
-                }
-                Label {
-                    text: i18n.tr("Shows or hides the side stage.")
-                    fontSize: "small"
-                    font.weight: Font.Light
-                    wrapMode: Text.Wrap
-                    Layout.maximumWidth: maxTextSize
-                }
-
-                Label {
                     text: i18n.tr("Cursor Left or Right")
                     fontSize: "small"
                     font.weight: Font.Medium
@@ -336,6 +323,42 @@ Rectangle {
                 }
                 Label {
                     text: i18n.tr("Closes the current window.")
+                    fontSize: "small"
+                    font.weight: Font.Light
+                    wrapMode: Text.Wrap
+                    Layout.maximumWidth: maxTextSize
+                }
+
+                // Stages section
+                Item { Layout.columnSpan: 2; height: units.gu(2) }
+                Label {
+                    Layout.columnSpan: 2
+                    text: i18n.tr("Stages")
+                    font.weight: Font.Light
+                    color: theme.palette.normal.baseText
+                    lineHeight: 1.3
+                }
+
+                Label {
+                    text: i18n.tr("Super + S")
+                    fontSize: "small"
+                    font.weight: Font.Medium
+                }
+                Label {
+                    text: i18n.tr("Shows or hides the side stage.")
+                    fontSize: "small"
+                    font.weight: Font.Light
+                    wrapMode: Text.Wrap
+                    Layout.maximumWidth: maxTextSize
+                }
+
+                Label {
+                    text: i18n.tr("Ctrl + Super + Left or Right")
+                    fontSize: "small"
+                    font.weight: Font.Medium
+                }
+                Label {
+                    text: i18n.tr("Moves app between main stage and side stage.")
                     fontSize: "small"
                     font.weight: Font.Light
                     wrapMode: Text.Wrap
