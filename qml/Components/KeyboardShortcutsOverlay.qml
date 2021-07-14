@@ -241,6 +241,19 @@ Rectangle {
                 }
 
                 Label {
+                    text: i18n.tr("Super + S")
+                    fontSize: "small"
+                    font.weight: Font.Medium
+                }
+                Label {
+                    text: i18n.tr("Shows or hides the side stage.")
+                    fontSize: "small"
+                    font.weight: Font.Light
+                    wrapMode: Text.Wrap
+                    Layout.maximumWidth: maxTextSize
+                }
+
+                Label {
                     text: i18n.tr("Cursor Left or Right")
                     fontSize: "small"
                     font.weight: Font.Medium

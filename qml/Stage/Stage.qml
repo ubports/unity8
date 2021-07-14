@@ -207,6 +207,15 @@ FocusScope {
     }
 
     GlobalShortcut {
+        id: toggleSideStageShortcut
+        shortcut: Qt.MetaModifier|Qt.Key_S
+        active: priv.sideStageEnabled
+        onTriggered: {
+           priv.toggleSideStage()
+        }
+    }
+
+    GlobalShortcut {
         id: minimizeAllShortcut
         shortcut: Qt.MetaModifier|Qt.ControlModifier|Qt.Key_D
         onTriggered: priv.minimizeAllWindows()
@@ -327,6 +336,15 @@ FocusScope {
         onSideStageDelegateChanged: {
             if (!sideStageDelegate) {
                 sideStage.hide();
+            }
+        }
+
+        function toggleSideStage() {
+            if (sideStage.shown) {
+                sideStage.hide();
+            } else  {
+                sideStage.show();
+                updateMainAndSideStageIndexes()
             }
         }
 
@@ -2189,12 +2207,7 @@ FocusScope {
         }
 
         onClicked: {
-            if (sideStage.shown) {
-                sideStage.hide();
-            } else  {
-                sideStage.show();
-                priv.updateMainAndSideStageIndexes()
-            }
+            priv.toggleSideStage()
         }
 
         onDragStarted: {
