@@ -199,8 +199,8 @@ FocusScope {
             drawer.focusInput();
         }
         if (state === "drawer" && !onlyOpen)
-            if (alsoToggleLauncher && !root.lockedVisible)
-                switchToNextState("");
+            if (alsoToggleLauncher)
+                hide();
             else
                 switchToNextState("visible");
         else
