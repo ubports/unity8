@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-29 11:42-0600\n"
-"PO-Revision-Date: 2021-05-29 18:40+0000\n"
+"PO-Revision-Date: 2021-06-30 19:36+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch <https://translate.ubports.com/projects/ubports/lomiri/"
 "nl/>\n"
@@ -594,7 +594,7 @@ msgstr "Wijzigingslog"
 
 #: qml/Wizard/Pages/11-changelog.qml:74
 msgid "Loading..."
-msgstr "Bezig met laden..."
+msgstr "Bezig met laden…"
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
@@ -797,7 +797,7 @@ msgstr "Zonder simkaart kun je niet bellen of sms'en."
 
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
-msgstr "Druk op 'Overslaan' om door te gaan zonder simkaart."
+msgstr "Druk op ‘Overslaan’ om door te gaan zonder simkaart."
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
