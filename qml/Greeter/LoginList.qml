@@ -175,7 +175,7 @@ StyledItem {
                 Icon {
                     id: userIcon
                     name: "account"
-                    height: userList.currentIndex === index ? units.gu(6) : units.gu(3)
+                    height: userList.currentIndex === index ? units.gu(4.5) : units.gu(3)
                     width: height
                     color: theme.palette.normal.raisedSecondaryText
                     anchors.verticalCenter: parent.verticalCenter
@@ -194,7 +194,7 @@ StyledItem {
                               ?  LightDMService.greeter.authenticationUser : realName
                         color: userList.currentIndex !== index ? theme.palette.normal.raised
                                                                : theme.palette.normal.raisedSecondaryText
-                        font.weight: userList.currentIndex === index ? Font.Bold : Font.Light
+                        font.weight: userList.currentIndex === index ? Font.Normal : Font.Light
                         font.pointSize: units.gu(2)
 
                         width: highlightItem.width

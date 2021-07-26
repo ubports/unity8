@@ -34,7 +34,7 @@ FocusScope {
         }
         border {
             color: root.loginError ? theme.palette.normal.negative : theme.palette.normal.raisedSecondaryText
-            width: root.loginError ? units.dp(3): units.dp(2)
+            width: root.loginError ? units.dp(2): units.dp(1)
         }
     }
 
