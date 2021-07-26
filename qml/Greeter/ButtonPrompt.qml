@@ -5,23 +5,21 @@ import "../Components"
 FocusScope {
     id: root
     objectName: "promptButton"
-    focus: true
 
-    property string text
+    property alias text: buttonLabel.text
+    property alias interactive: root.enabled
     property bool isSecret
-    property bool interactive: true
     property bool loginError: false
     property bool hasKeyboard: false
     property string enteredText: ""
-    property bool inputFocus
 
     signal clicked()
     signal canceled()
     signal accepted(string response)
 
-    Keys.onSpacePressed: triggered();
-    Keys.onReturnPressed: triggered();
-    Keys.onEnterPressed: triggered();
+    Keys.onSpacePressed: clicked();
+    Keys.onReturnPressed: clicked();
+    Keys.onEnterPressed: clicked();
 
     anchors.fill: parent
 
@@ -35,25 +33,19 @@ FocusScope {
             ColorAnimation{}
         }
         border {
-            color: loginError ? theme.palette.normal.negative : theme.palette.normal.raisedSecondaryText
-            width: loginError ? units.dp(3): units.dp(2)
-        }
-    }
-
-    function triggered() {
-        if (root.interactive) {
-            root.clicked();
+            color: root.loginError ? theme.palette.normal.negative : theme.palette.normal.raisedSecondaryText
+            width: root.loginError ? units.dp(3): units.dp(2)
         }
     }
 
     MouseArea {
         anchors.fill: parent
-        onClicked: parent.triggered();
+        onClicked: parent.clicked();
     }
 
     Label {
+        id: buttonLabel
         anchors.centerIn: parent
         color: theme.palette.normal.raisedSecondaryText
-        text: root.text
     }
 }

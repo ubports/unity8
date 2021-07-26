@@ -4,7 +4,6 @@ import "../Components"
 
 FocusScope {
     id: root
-    focus: true
 
     property string text
     property bool isSecret
@@ -12,7 +11,6 @@ FocusScope {
     property bool loginError: false
     property bool hasKeyboard: false
     property alias enteredText: passwordInput.text
-    property alias inputFocus: passwordInput.focus
 
     signal clicked()
     signal canceled()
@@ -39,8 +37,8 @@ FocusScope {
             ColorAnimation{}
         }
         border {
-            color: loginError ? d.errorColor : d.drawColor
-            width: loginError ? units.dp(3): units.dp(2)
+            color: root.loginError ? d.errorColor : d.drawColor
+            width: root.loginError ? units.dp(3): units.dp(2)
         }
     }
 
@@ -48,6 +46,7 @@ FocusScope {
         id: passwordInput
         objectName: "promptField"
         anchors.fill: parent
+        focus: root.focus
 
         opacity: fakeLabel.visible ? 0 : 1
         activeFocusOnTab: true
@@ -59,8 +58,7 @@ FocusScope {
         }
 
         inputMethodHints: Qt.ImhSensitiveData | Qt.ImhNoPredictiveText |
-                          Qt.ImhMultiLine | // so OSK doesn't close on Enter
-                          Qt.ImhNone
+                          Qt.ImhMultiLine // so OSK doesn't close on Enter
         echoMode: root.isSecret ? TextInput.Password : TextInput.Normal
         hasClearButton: false
 

@@ -4,7 +4,6 @@ import "../Components"
 
 FocusScope {
     id: root
-    focus: true
 
     property string text
     property bool isSecret
@@ -12,7 +11,6 @@ FocusScope {
     property bool loginError: false
     property bool hasKeyboard: false
     property alias enteredText: passwordInput.text
-    property alias inputFocus: passwordInput.focus
 
     signal clicked()
     signal canceled()
@@ -35,6 +33,7 @@ FocusScope {
         id: passwordInput
         objectName: "promptField"
         anchors.left: extraIcons.left
+        focus: root.focus
 
         opacity: fakeLabel.visible ? 0 : 1
         activeFocusOnTab: true
@@ -49,7 +48,7 @@ FocusScope {
         inputMethodHints: Qt.ImhSensitiveData | Qt.ImhNoPredictiveText |
                           Qt.ImhMultiLine | // so OSK doesn't close on Enter
                           Qt.ImhDigitsOnly
-        echoMode: root.isSecret ? TextInput.Password : TextInput.Normal
+        echoMode: TextInput.Password
         hasClearButton: false
 
         cursorDelegate: Item {}
@@ -121,7 +120,6 @@ FocusScope {
             objectName: "promptPinHint"
 
             text: "○○○○"
-            visible: !passwordInput.inputMethodComposing
             enabled: visible
             color: d.drawColor
             font {
@@ -135,7 +133,7 @@ FocusScope {
             height: units.gu(3)
             width: height
             color: d.drawColor
-            visible: root.isSecret && false // TODO: detect when caps lock is on
+            visible: false // TODO: detect when caps lock is on
             anchors.verticalCenter: parent.verticalCenter
         }
         Icon {

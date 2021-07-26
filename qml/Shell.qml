@@ -412,7 +412,6 @@ StyledItem {
             item.objectName = "greeter"
         }
         property bool toggleDrawerAfterUnlock: false
-        property bool hasKeyboard: shell.hasKeyboard
         Connections {
             target: greeter
             onActiveChanged: {

@@ -62,8 +62,6 @@ FocusScope {
 
         anchors.fill: parent
 
-        source: !root.isPrompt ? "ButtonPrompt.qml" : root.isAlphanumeric ? "TextPrompt.qml" : "PinPrompt.qml"
-
         Connections {
             target: loader.item
             onClicked: root.clicked()
@@ -102,7 +100,7 @@ FocusScope {
 
         Binding {
             target: loader.item
-            property: "inputFocus"
+            property: "focus"
             value: true
         }
 
@@ -112,4 +110,22 @@ FocusScope {
             value: root.hasKeyboard
         }
     }
+
+    states: [
+        State {
+            name: "ButtonPrompt"
+            when: !root.isPrompt
+            PropertyChanges { target: loader; source: "ButtonPrompt.qml" }
+        },
+        State {
+            name: "PinPrompt"
+            when: root.isPrompt && !root.isAlphanumeric && root.isSecret
+            PropertyChanges { target: loader; source: "PinPrompt.qml" }
+        },
+        State {
+            name: "TextPrompt"
+            when: root.isPrompt
+            PropertyChanges { target: loader; source: "TextPrompt.qml" }
+        }
+    ]
 }
