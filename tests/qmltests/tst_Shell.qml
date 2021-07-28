@@ -23,20 +23,20 @@ import GSettings 1.0
 import LightDMController 0.1
 import LightDM.FullLightDM 0.1 as LightDM
 import SessionBroadcast 0.1
-import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.3 as ListItem
-import Ubuntu.Telephony 0.1 as Telephony
-import Unity.Application 0.1
-import Unity.ApplicationMenu 0.1
-import Unity.Connectivity 0.1
-import Unity.Indicators 0.1
-import Unity.Notifications 1.0
-import Unity.Launcher 0.1
-import Unity.Test 0.1
+import Lomiri.Components 1.3
+import Lomiri.Components.ListItems 1.3 as ListItem
+import Lomiri.Telephony 0.1 as Telephony
+import QtMir.Application 0.1
+import Lomiri.ApplicationMenu 0.1
+import Lomiri.ModemConnectivity 0.1
+import Lomiri.Indicators 0.1
+import Lomiri.Notifications 1.0
+import Lomiri.Launcher 0.1
+import Lomiri.SelfTest 0.1
 import Powerd 0.1
 import Wizard 0.1 as Wizard
 import Utils 0.1
-import Unity.Indicators 0.1 as Indicators
+import Lomiri.Indicators 0.1 as Indicators
 
 import "../../qml"
 import "../../qml/Components"
@@ -529,7 +529,7 @@ Rectangle {
 
     SignalSpy {
         id: unlockAllModemsSpy
-        target: Connectivity
+        target: ModemConnectivity
         signalName: "unlockingAllModems"
     }
 
@@ -629,7 +629,7 @@ Rectangle {
         }
 
         function addApps(count) {
-            // Start apps up to count, but skip unity8-dash since it's the first
+            // Start apps up to count, but skip lomiri-dash since it's the first
             // available application and it's treated specially
             for (var i = 0; i < count; i++) {
                 var startingAppId = ApplicationManager.availableApplications[ApplicationManager.count + 1];
@@ -915,7 +915,7 @@ Rectangle {
 
             notifications.model = mockNotificationsModel;
 
-            // FIXME: Hack: UnitySortFilterProxyModelQML doesn't work with QML ListModels which we use
+            // FIXME: Hack: LomiriSortFilterProxyModelQML doesn't work with QML ListModels which we use
             // for mocking here (RoleType can't be found in the QML model). As we only need to show
             // one SnapDecision lets just disable the filtering and make appear any notification as a
             // SnapDecision.
@@ -1316,7 +1316,7 @@ Rectangle {
             swipeAwayGreeter();
 
             var appSurfaceId = topLevelSurfaceList.nextId;
-            var app = ApplicationManager.startApplication("unity8-dash")
+            var app = ApplicationManager.startApplication("lomiri-dash")
             waitUntilAppWindowIsFullyLoaded(appSurfaceId);
 
             var topmostSpreadDelegate = findChild(shell, "appDelegate_" + topLevelSurfaceList.idAt(0));
@@ -1350,7 +1350,7 @@ Rectangle {
             swipeAwayGreeter();
 
             var appSurfaceId = topLevelSurfaceList.nextId;
-            var app = ApplicationManager.startApplication("unity8-dash")
+            var app = ApplicationManager.startApplication("lomiri-dash")
             waitUntilAppWindowIsFullyLoaded(appSurfaceId);
 
             var topmostSpreadDelegate = findChild(shell, "appDelegate_" + topLevelSurfaceList.idAt(0));
@@ -1474,7 +1474,7 @@ Rectangle {
 
             // not running, should start
             keyClick(Qt.Key_T, Qt.ControlModifier|Qt.AltModifier);
-            tryCompare(ApplicationManager, "focusedApplicationId", "ubuntu-terminal-app");
+            tryCompare(ApplicationManager, "focusedApplicationId", "lomiri-terminal-app");
 
             // start something else
             ApplicationManager.startApplication("dialer-app");
@@ -1482,7 +1482,7 @@ Rectangle {
 
             // terminal running in background, should get focused
             keyClick(Qt.Key_T, Qt.ControlModifier|Qt.AltModifier);
-            tryCompare(ApplicationManager, "focusedApplicationId", "ubuntu-terminal-app");
+            tryCompare(ApplicationManager, "focusedApplicationId", "lomiri-terminal-app");
         }
 
         function test_launcherInverted_data() {
@@ -1506,7 +1506,7 @@ Rectangle {
             shell.usageScenario = "desktop";
 
             var appSurfaceId = topLevelSurfaceList.nextId;
-            var app = ApplicationManager.startApplication("unity8-dash")
+            var app = ApplicationManager.startApplication("lomiri-dash")
             waitUntilAppWindowIsFullyLoaded(appSurfaceId);
 
             var webBrowserSurfaceId = topLevelSurfaceList.nextId;
@@ -1517,8 +1517,8 @@ Rectangle {
             var galleryApp = ApplicationManager.startApplication("gallery-app");
             waitUntilAppWindowIsFullyLoaded(gallerySurfaceId);
 
-            ApplicationManager.requestFocusApplication("unity8-dash");
-            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
+            ApplicationManager.requestFocusApplication("lomiri-dash");
+            tryCompare(ApplicationManager, "focusedApplicationId", "lomiri-dash");
 
             compare(webBrowserApp.requestedState, ApplicationInfoInterface.RequestedRunning);
             compare(galleryApp.requestedState, ApplicationInfoInterface.RequestedRunning);
@@ -1534,7 +1534,7 @@ Rectangle {
             shell.usageScenario = "tablet";
 
             var appSurfaceId = topLevelSurfaceList.nextId;
-            var app = ApplicationManager.startApplication("unity8-dash")
+            var app = ApplicationManager.startApplication("lomiri-dash")
             waitUntilAppWindowIsFullyLoaded(appSurfaceId);
 
             var webBrowserSurfaceId = topLevelSurfaceList.nextId;
@@ -1545,8 +1545,8 @@ Rectangle {
             var galleryApp = ApplicationManager.startApplication("gallery-app");
             waitUntilAppWindowIsFullyLoaded(gallerySurfaceId);
 
-            ApplicationManager.requestFocusApplication("unity8-dash");
-            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
+            ApplicationManager.requestFocusApplication("lomiri-dash");
+            tryCompare(ApplicationManager, "focusedApplicationId", "lomiri-dash");
 
             compare(webBrowserApp.requestedState, ApplicationInfoInterface.RequestedSuspended);
             compare(galleryApp.requestedState, ApplicationInfoInterface.RequestedSuspended);
@@ -1802,7 +1802,7 @@ Rectangle {
 
             // load some more apps
             ApplicationManager.startApplication("twitter-webapp")
-            ApplicationManager.startApplication("ubuntu-weather-app")
+            ApplicationManager.startApplication("lomiri-weather-app")
             ApplicationManager.startApplication("notes-app")
             for (var i = 0; i < topLevelSurfaceList.count; ++i) {
                 waitUntilAppWindowIsFullyLoaded(topLevelSurfaceList.idAt(i));
@@ -2287,7 +2287,17 @@ Rectangle {
             GSettingsController.setAutohideLauncher(true);
             tryCompare(launcherPanel, "x", -launcher.panelWidth)
             waitForRendering(shell)
+
+            // FIXME: we have to wait for visuallyMaximized's animation to
+            // finish before taking our hiddenSize measurement. This is the
+            // best way I can think of without doing wait(250) in one shot.
             var hiddenSize = appDelegate.width;
+            var hiddenSizePrev;
+            do {
+                wait(20);
+                hiddenSizePrev = hiddenSize;
+                hiddenSize = appDelegate.width;
+            } while (hiddenSizePrev != hiddenSize);
 
             GSettingsController.setAutohideLauncher(false);
             tryCompare(launcherPanel, "x", 0)
@@ -2378,28 +2388,28 @@ Rectangle {
                 {tag: "empty", accounts: "", gsettings: "", output: "defaultBackground"},
 
                 {tag: "as-specified",
-                 accounts: Qt.resolvedUrl("../data/unity/backgrounds/blue.png"),
+                 accounts: Qt.resolvedUrl("../data/lomiri/backgrounds/blue.png"),
                  gsettings: "",
-                 output: Qt.resolvedUrl("../data/unity/backgrounds/blue.png")},
+                 output: Qt.resolvedUrl("../data/lomiri/backgrounds/blue.png")},
 
                 {tag: "gs-specified",
                  accounts: "",
-                 gsettings: Qt.resolvedUrl("../data/unity/backgrounds/red.png"),
-                 output: Qt.resolvedUrl("../data/unity/backgrounds/red.png")},
+                 gsettings: Qt.resolvedUrl("../data/lomiri/backgrounds/red.png"),
+                 output: Qt.resolvedUrl("../data/lomiri/backgrounds/red.png")},
 
                 {tag: "both-specified",
-                 accounts: Qt.resolvedUrl("../data/unity/backgrounds/blue.png"),
-                 gsettings: Qt.resolvedUrl("../data/unity/backgrounds/red.png"),
-                 output: Qt.resolvedUrl("../data/unity/backgrounds/blue.png")},
+                 accounts: Qt.resolvedUrl("../data/lomiri/backgrounds/blue.png"),
+                 gsettings: Qt.resolvedUrl("../data/lomiri/backgrounds/red.png"),
+                 output: Qt.resolvedUrl("../data/lomiri/backgrounds/blue.png")},
 
                 {tag: "invalid-as",
-                 accounts: Qt.resolvedUrl("../data/unity/backgrounds/nope.png"),
-                 gsettings: Qt.resolvedUrl("../data/unity/backgrounds/red.png"),
-                 output: Qt.resolvedUrl("../data/unity/backgrounds/red.png")},
+                 accounts: Qt.resolvedUrl("../data/lomiri/backgrounds/nope.png"),
+                 gsettings: Qt.resolvedUrl("../data/lomiri/backgrounds/red.png"),
+                 output: Qt.resolvedUrl("../data/lomiri/backgrounds/red.png")},
 
                 {tag: "invalid-both",
-                 accounts: Qt.resolvedUrl("../data/unity/backgrounds/nope.png"),
-                 gsettings: Qt.resolvedUrl("../data/unity/backgrounds/stillnope.png"),
+                 accounts: Qt.resolvedUrl("../data/lomiri/backgrounds/nope.png"),
+                 gsettings: Qt.resolvedUrl("../data/lomiri/backgrounds/stillnope.png"),
                  output: "defaultBackground"},
             ]
         }
@@ -2689,7 +2699,7 @@ Rectangle {
             shell.oskEnabled = data.oskEnabled;
 
             var appSurfaceId = topLevelSurfaceList.nextId;
-            var app = ApplicationManager.startApplication("unity8-dash")
+            var app = ApplicationManager.startApplication("lomiri-dash")
             waitUntilAppWindowIsFullyLoaded(appSurfaceId);
 
             var oldOSKState = topLevelSurfaceList.inputMethodSurface.state;
@@ -2936,7 +2946,7 @@ Rectangle {
             loadShell("desktop", 0);
 
             var appSurfaceId = topLevelSurfaceList.nextId;
-            var app = ApplicationManager.startApplication("unity8-dash")
+            var app = ApplicationManager.startApplication("lomiri-dash")
             waitUntilAppWindowIsFullyLoaded(appSurfaceId);
 
             appSurfaceId = topLevelSurfaceList.nextId;
@@ -2965,7 +2975,7 @@ Rectangle {
             tryCompare(ApplicationManager, "count", 2);
 
             // Now the dash should be highlighted
-            tryCompareFunction(function() {return appRepeater.itemAt(spread.highlightedIndex).appId == "unity8-dash"}, true);
+            tryCompareFunction(function() {return appRepeater.itemAt(spread.highlightedIndex).appId == "lomiri-dash"}, true);
 
             keyClick(Qt.Key_Tab);
             tryCompareFunction(function() {return appRepeater.itemAt(spread.highlightedIndex).appId == "calendar-app"}, true);
@@ -2986,7 +2996,7 @@ Rectangle {
             waitUntilAppWindowIsFullyLoaded(appSurfaceId);
 
             // First focus the dash so it'll be the leftmost in the spread
-            ApplicationManager.requestFocusApplication("unity8-dash");
+            ApplicationManager.requestFocusApplication("lomiri-dash");
 
             keyPress(Qt.Key_Alt);
             keyClick(Qt.Key_Tab);
@@ -3136,7 +3146,7 @@ Rectangle {
             loadShell("desktop", 0);
 
             var appSurfaceId = topLevelSurfaceList.nextId;
-            var app = ApplicationManager.startApplication("unity8-dash")
+            var app = ApplicationManager.startApplication("lomiri-dash")
             waitUntilAppWindowIsFullyLoaded(appSurfaceId);
 
             var appDelegate = startApplication("music-app")

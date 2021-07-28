@@ -11,20 +11,20 @@ include_directories(
 
 set(QMLPLUGIN_SRC
     activefocuslogger.cpp
-    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
-    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
+    ${APPLICATION_API_INCLUDEDIR}/lomiri/shell/application/ApplicationManagerInterface.h
+    ${APPLICATION_API_INCLUDEDIR}/lomiri/shell/application/ApplicationInfoInterface.h
     applicationsfiltermodel.cpp
-    ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/AppDrawerModelInterface.h
-    ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherItemInterface.h
-    ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherModelInterface.h
+    ${LAUNCHER_API_INCLUDEDIR}/lomiri/shell/launcher/AppDrawerModelInterface.h
+    ${LAUNCHER_API_INCLUDEDIR}/lomiri/shell/launcher/LauncherItemInterface.h
+    ${LAUNCHER_API_INCLUDEDIR}/lomiri/shell/launcher/LauncherModelInterface.h
     appdrawerproxymodel.cpp
     constants.cpp
     WindowInputMonitor.cpp
     inputwatcher.cpp
     qlimitproxymodelqml.cpp
-    unitysortfilterproxymodelqml.cpp
+    lomirisortfilterproxymodelqml.cpp
     Timer.cpp
-    unitymenumodelpaths.cpp
+    lomirimenumodelpaths.cpp
     windowinputfilter.cpp
     easingcurve.cpp
     windowstatestorage.cpp
@@ -53,4 +53,4 @@ target_link_libraries(Utils-qml
 # files directly in targets.
 set_target_properties(Utils-qml PROPERTIES COMPILE_FLAGS -fvisibility=default)
 
-add_unity8_plugin(Utils 0.1 Utils TARGETS Utils-qml)
+add_lomiri_plugin(Utils 0.1 Utils TARGETS Utils-qml)

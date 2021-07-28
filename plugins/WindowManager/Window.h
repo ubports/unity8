@@ -14,19 +14,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef UNITY_WINDOW_H
-#define UNITY_WINDOW_H
+#ifndef LOMIRI_WINDOW_H
+#define LOMIRI_WINDOW_H
 
 #include <QLoggingCategory>
 #include <QObject>
 #include <QPoint>
 
-// Unity API
-#include <unity/shell/application/Mir.h>
+// Lomiri API
+#include <lomiri/shell/application/Mir.h>
 
 #include "WindowManagerGlobal.h"
 
-namespace unity {
+namespace lomiri {
     namespace shell {
         namespace application {
             class MirSurfaceInterface;
@@ -34,7 +34,7 @@ namespace unity {
     }
 }
 
-Q_DECLARE_LOGGING_CATEGORY(UNITY_WINDOW)
+Q_DECLARE_LOGGING_CATEGORY(LOMIRI_WINDOW)
 
 /**
    @brief A slightly higher concept than MirSurface
@@ -89,7 +89,7 @@ class WINDOWMANAGERQML_EXPORT Window : public QObject
      * the corresponding application has been killed (but can still get restarted to continue from
      * where it left)
      */
-    Q_PROPERTY(unity::shell::application::MirSurfaceInterface* surface READ surface NOTIFY surfaceChanged)
+    Q_PROPERTY(lomiri::shell::application::MirSurfaceInterface* surface READ surface NOTIFY surfaceChanged)
 
     /**
      * @brief Whether to comply to resize requests coming from the client side
@@ -108,9 +108,9 @@ public:
     bool focused() const;
     bool confinesMousePointer() const;
     int id() const;
-    unity::shell::application::MirSurfaceInterface* surface() const;
+    lomiri::shell::application::MirSurfaceInterface* surface() const;
 
-    void setSurface(unity::shell::application::MirSurfaceInterface *surface);
+    void setSurface(lomiri::shell::application::MirSurfaceInterface *surface);
     void setFocused(bool value);
 
     bool allowClientResize() const;
@@ -144,7 +144,7 @@ Q_SIGNALS:
     void stateChanged(Mir::State value);
     void focusedChanged(bool value);
     void confinesMousePointerChanged(bool value);
-    void surfaceChanged(unity::shell::application::MirSurfaceInterface *surface);
+    void surfaceChanged(lomiri::shell::application::MirSurfaceInterface *surface);
     void allowClientResizeChanged(bool value);
     void liveChanged(bool value);
 
@@ -165,7 +165,7 @@ private:
     int m_id;
     Mir::State m_state{Mir::RestoredState};
     bool m_stateRequested{false};
-    unity::shell::application::MirSurfaceInterface *m_surface{nullptr};
+    lomiri::shell::application::MirSurfaceInterface *m_surface{nullptr};
 
     bool m_allowClientResize{true};
 };
@@ -173,4 +173,4 @@ private:
 QDebug operator<<(QDebug dbg, const Window *window);
 
 Q_DECLARE_METATYPE(Window*)
-#endif // UNITY_WINDOW_H
+#endif // LOMIRI_WINDOW_H

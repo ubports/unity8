@@ -14,8 +14,8 @@ Therefore it should be reset when a test function finishes or before the next
 one starts. A convenient way of doing so is using the init() function of the
 TestCase component. It gets called automatically before each test function.
 
-The name property of [Unity]TestCase does not include a 'Test' suffix.
-Both [Unity]TestCase and their functions are placed after properties
+The name property of [Lomiri]TestCase does not include a 'Test' suffix.
+Both [Lomiri]TestCase and their functions are placed after properties
 and Components being tested.
 e.g.:
     Item {

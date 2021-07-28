@@ -33,13 +33,13 @@ DeviceConfigParser::DeviceConfigParser(QObject *parent): QObject(parent)
     }
 
     // Check if there is an override in the device tarball (/system/etc/)
-    if (path.isEmpty() && QFileInfo::exists("/system/etc/ubuntu/devices.conf")) {
-        path = "/system/etc/ubuntu/devices.conf";
+    if (path.isEmpty() && QFileInfo::exists("/system/etc/lomiri/devices.conf")) {
+        path = "/system/etc/lomiri/devices.conf";
     }
 
     // No higher priority files found. Use standard of /etc/
     if (path.isEmpty()) {
-        path = "/etc/ubuntu/devices.conf";
+        path = "/etc/lomiri/devices.conf";
     }
 
     qDebug() << "Using" << path << "as device configuration file";

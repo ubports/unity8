@@ -16,7 +16,7 @@
 
 import QtQuick 2.4
 import QtQuick.Window 2.2
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import WindowManager 1.0
 
 Instantiator {
@@ -53,7 +53,7 @@ Instantiator {
                     spacing: units.gu(1)
 
                     Label {
-                        text: "Unity encountered an unrecoverable error while loading:"
+                        text: "Lomiri encountered an unrecoverable error while loading:"
                         fontSize: "large"
                     }
 

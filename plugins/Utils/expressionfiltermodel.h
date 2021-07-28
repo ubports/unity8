@@ -17,10 +17,10 @@
 #ifndef EXPRESSIONFILTERMODEL_H
 #define EXPRESSIONFILTERMODEL_H
 
-#include "unitysortfilterproxymodelqml.h"
+#include "lomirisortfilterproxymodelqml.h"
 #include <QJSValue>
 
-class ExpressionFilterModel : public UnitySortFilterProxyModelQML
+class ExpressionFilterModel : public LomiriSortFilterProxyModelQML
 {
     Q_OBJECT
     Q_PROPERTY(QJSValue matchExpression READ matchExpression WRITE setMatchExpression NOTIFY matchExpressionChanged)

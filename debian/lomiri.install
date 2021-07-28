@@ -1,0 +1,28 @@
+data/devices.conf etc/lomiri/
+data/test.sensors etc/lomirisensors/
+data/lomiri-filewatcher.conf usr/share/upstart/sessions/
+data/lomiri.conf usr/share/upstart/sessions/
+usr/bin/lomiri
+usr/lib/systemd/user/*
+usr/libexec/lomiri-systemd-wrapper
+usr/share/applications/lomiri.desktop
+usr/share/lomiri/ApplicationMenus
+usr/share/lomiri/DeviceConfiguration.qml
+usr/share/lomiri/DisabledScreenNotice.qml
+usr/share/lomiri/Greeter
+usr/share/lomiri/Launcher
+usr/share/lomiri/OrientedShell.qml
+usr/share/lomiri/Panel
+usr/share/lomiri/Rotation
+usr/share/lomiri/ErrorApplication.qml
+usr/share/lomiri/qmldir
+usr/share/lomiri/Shell.qml
+usr/share/lomiri/ShellApplication.qml
+usr/share/lomiri/ShellNotifier.qml
+usr/share/lomiri/ShellScreen.qml
+usr/share/lomiri/Stage
+usr/share/lomiri/Tutorial
+usr/share/lomiri/Wizard
+var/lib/lomiri/version
+
+debian/session-migrations/com.canonical.unity.AccountsService.xml usr/share/dbus-1/interfaces/

@@ -72,4 +72,4 @@ private:
     typedef QMultiMap<std::shared_ptr<miral::Workspace>, miral::Window> WorkspaceWindows;
     WorkspaceWindows m_windows;
 };
-#endif // UNITY_WINDOWMANAGEMENTPOLICY_H
+#endif // LOMIRI_WINDOWMANAGEMENTPOLICY_H

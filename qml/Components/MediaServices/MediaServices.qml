@@ -16,7 +16,7 @@
 
 import QtQuick 2.4
 import QtMultimedia 5.0
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 
 FocusScope {
     id: root
@@ -309,7 +309,7 @@ FocusScope {
                     PropertyAction { property: "visible" }
                     NumberAnimation {
                         properties: "anchors.bottomMargin,anchors.topMargin"
-                        duration: UbuntuAnimation.FastDuration
+                        duration: LomiriAnimation.FastDuration
                     }
                     PropertyAction { target: root; property: "clip"; value: false }
                 }
@@ -320,7 +320,7 @@ FocusScope {
                     PropertyAction { target: root; property: "clip"; value: true }
                     NumberAnimation {
                         properties: "anchors.bottomMargin,anchors.topMargin"
-                        duration: UbuntuAnimation.FastDuration
+                        duration: LomiriAnimation.FastDuration
                     }
                     PropertyAction { property: "visible" }
                     PropertyAction { target: root; property: "clip"; value: false }
@@ -347,7 +347,7 @@ FocusScope {
 
         transitions: Transition {
             ParentAnimation {
-                UbuntuNumberAnimation { properties: "x,y,width,implicitHeight"; duration: UbuntuAnimation.FastDuration }
+                LomiriNumberAnimation { properties: "x,y,width,implicitHeight"; duration: LomiriAnimation.FastDuration }
             }
         }
     }

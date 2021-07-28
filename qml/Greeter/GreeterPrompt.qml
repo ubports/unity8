@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import GSettings 1.0
 import "../Components"
 
@@ -45,8 +45,8 @@ FocusScope {
     }
 
     GSettings {
-        id: unity8Settings
-        schema.id: "com.canonical.Unity8"
+        id: lomiriSettings
+        schema.id: "com.lomiri.Shell"
     }
 
     StyledItem {
@@ -175,10 +175,10 @@ FocusScope {
                     height: units.gu(3)
                     width: units.gu(3)
                     color: d.textColor
-                    visible: !unity8Settings.alwaysShowOsk
+                    visible: !lomiriSettings.alwaysShowOsk
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: unity8Settings.alwaysShowOsk = true
+                        onClicked: lomiriSettings.alwaysShowOsk = true
                     }
                 }
             }

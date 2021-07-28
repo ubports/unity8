@@ -288,7 +288,7 @@ main (int argc, char **argv)
 
     // Access Point
     item = g_menu_item_new("Access Point", "indicator.action.accessPoint");
-    g_menu_item_set_attribute (item, "x-canonical-type", "s", "unity.widgets.systemsettings.tablet.accesspoint");
+    g_menu_item_set_attribute (item, "x-canonical-type", "s", "lomiri.widgets.systemsettings.tablet.accesspoint");
     g_menu_append_item(submenu, item);
 
 

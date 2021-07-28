@@ -15,8 +15,8 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
-import Ubuntu.Gestures 0.1
+import Lomiri.Components 1.3
+import Lomiri.Gestures 0.1
 import "."
 
 /*

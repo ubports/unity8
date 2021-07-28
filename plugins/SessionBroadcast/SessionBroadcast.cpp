@@ -28,11 +28,11 @@ SessionBroadcast::SessionBroadcast(QObject* parent)
 
     auto connection = QDBusConnection::SM_BUSNAME();
     auto interface = connection.interface();
-    interface->startService(QStringLiteral("com.canonical.Unity.Greeter.Broadcast"));
+    interface->startService(QStringLiteral("com.lomiri.Shell.Greeter.Broadcast"));
 
-    m_broadcaster = new QDBusInterface(QStringLiteral("com.canonical.Unity.Greeter.Broadcast"),
-                                       QStringLiteral("/com/canonical/Unity/Greeter/Broadcast"),
-                                       QStringLiteral("com.canonical.Unity.Greeter.Broadcast"),
+    m_broadcaster = new QDBusInterface(QStringLiteral("com.lomiri.Shell.Greeter.Broadcast"),
+                                       QStringLiteral("/com/lomiri/Shell/Greeter/Broadcast"),
+                                       QStringLiteral("com.lomiri.Shell.Greeter.Broadcast"),
                                        connection, this);
 
     connect(m_broadcaster, SIGNAL(StartUrl(const QString &, const QString &)),

@@ -25,12 +25,12 @@
 #include <QQuickWindow>
 #include <QMutex>
 
-#include "unitydbusobject.h"
+#include "lomiridbusobject.h"
 
-class DebuggingController: public UnityDBusObject
+class DebuggingController: public LomiriDBusObject
 {
     Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "com.canonical.Unity8.Debugging")
+    Q_CLASSINFO("D-Bus Interface", "com.lomiri.Shell.Debugging")
 
 public:
     DebuggingController(QObject *parent = nullptr);

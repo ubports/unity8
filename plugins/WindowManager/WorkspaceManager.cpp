@@ -18,7 +18,7 @@
 #include "Workspace.h"
 #include "TopLevelWindowModel.h"
 #include "WindowManagerObjects.h"
-#include <unity/shell/application/SurfaceManagerInterface.h>
+#include <lomiri/shell/application/SurfaceManagerInterface.h>
 
 // Qt
 #include <QGuiApplication>
@@ -27,7 +27,11 @@
 
 WorkspaceManager *WorkspaceManager::instance()
 {
-    static WorkspaceManager* workspaceManager(new WorkspaceManager());
+    static WorkspaceManager* workspaceManager = ([]() {
+        auto w = new WorkspaceManager();
+        QQmlEngine::setObjectOwnership(w, QQmlEngine::CppOwnership);
+        return w;
+    }());
     return workspaceManager;
 }
 
@@ -41,7 +45,12 @@ WorkspaceManager::WorkspaceManager()
     setSurfaceManager(WindowManagerObjects::instance()->surfaceManager());
 }
 
-void WorkspaceManager::setSurfaceManager(unity::shell::application::SurfaceManagerInterface *surfaceManager)
+WorkspaceManager::~WorkspaceManager()
+{
+    m_allWorkspaces.clear();
+}
+
+void WorkspaceManager::setSurfaceManager(lomiri::shell::application::SurfaceManagerInterface *surfaceManager)
 {
     if (m_surfaceManager == surfaceManager) return;
 
@@ -92,7 +101,7 @@ void WorkspaceManager::destroyWorkspace(Workspace *workspace)
     disconnect(workspace, 0, this, 0);
 }
 
-void WorkspaceManager::moveSurfaceToWorkspace(unity::shell::application::MirSurfaceInterface *surface, Workspace *workspace)
+void WorkspaceManager::moveSurfaceToWorkspace(lomiri::shell::application::MirSurfaceInterface *surface, Workspace *workspace)
 {
     if (m_surfaceManager) {
         m_surfaceManager->moveSurfaceToWorkspace(surface, workspace->workspace());

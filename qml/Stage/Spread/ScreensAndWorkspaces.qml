@@ -1,8 +1,24 @@
+/*
+ * Copyright (C) 2017 Canonical, Ltd.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; version 3.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 import QtQuick 2.4
-import Ubuntu.Components 1.3
-import Ubuntu.Components.Popups 1.3
+import Lomiri.Components 1.3
+import Lomiri.Components.Popups 1.3
 import WindowManager 1.0
-import Unity.Application 0.1
+import QtMir.Application 0.1
 import ".."
 
 Item {
@@ -20,7 +36,7 @@ Item {
         id: row
         anchors.bottom: parent.bottom
         anchors.horizontalCenter: parent.horizontalCenter
-        Behavior on anchors.horizontalCenterOffset { NumberAnimation { duration: UbuntuAnimation.SlowDuration } }
+        Behavior on anchors.horizontalCenterOffset { NumberAnimation { duration: LomiriAnimation.SlowDuration } }
         spacing: units.gu(1)
 
         property var selectedIndex: undefined
@@ -59,7 +75,7 @@ Item {
                         }
                     }
 
-                    UbuntuShape {
+                    LomiriShape {
                         anchors.fill: parent
                         backgroundColor: "white"
                         opacity: header.isCurrent || header.isSelected ? 1.0 : 0.5
@@ -132,7 +148,7 @@ Item {
 
                     Component {
                         id: screensMenuComponent
-                        UbuntuShape {
+                        LomiriShape {
                             id: screensMenu
                             width: units.gu(20)
                             height: contentColumn.childrenRect.height
@@ -185,7 +201,7 @@ Item {
                         return Math.max(workspaces.minimumWidth, width);
                     }
 
-                    Behavior on width { UbuntuNumberAnimation {} }
+                    Behavior on width { LomiriNumberAnimation {} }
                     anchors.bottom: parent.bottom
                     anchors.bottomMargin: units.gu(1)
                     anchors.horizontalCenter: parent.horizontalCenter
@@ -244,7 +260,7 @@ Item {
     Timer {
         repeat: true
         running: leftScrollArea.containsMouse || rightScrollArea.containsMouse || leftFakeDropArea.containsDrag || rightFakeDropArea.containsDrag
-        interval: UbuntuAnimation.SlowDuration
+        interval: LomiriAnimation.SlowDuration
         triggeredOnStart: true
         onTriggered: {
             var newOffset = row.anchors.horizontalCenterOffset;

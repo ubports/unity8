@@ -5,4 +5,4 @@ add_library(MockSessionBroadcast-qml MODULE
 
 target_link_libraries(MockSessionBroadcast-qml Qt5::Qml)
 
-add_unity8_mock(SessionBroadcast 0.1 SessionBroadcast TARGETS MockSessionBroadcast-qml)
+add_lomiri_mock(SessionBroadcast 0.1 SessionBroadcast TARGETS MockSessionBroadcast-qml)

@@ -58,7 +58,10 @@ void GlobalShortcut::setActive(bool active)
 
 void GlobalShortcut::keyPressEvent(QKeyEvent * event)
 {
-    if (!m_active) return;
+    if (!m_active) {
+        event->ignore();
+        return;
+    }
 
     event->accept();
     Q_EMIT triggered(m_shortcut.toString());
@@ -66,7 +69,10 @@ void GlobalShortcut::keyPressEvent(QKeyEvent * event)
 
 void GlobalShortcut::keyReleaseEvent(QKeyEvent * event)
 {
-    if (!m_active) return;
+    if (!m_active) {
+        event->ignore();
+        return;
+    }
 
     event->accept();
     Q_EMIT released(m_shortcut.toString());

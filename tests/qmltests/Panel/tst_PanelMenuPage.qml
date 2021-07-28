@@ -16,10 +16,10 @@
 
 import QtQuick 2.4
 import QtTest 1.0
-import Ubuntu.Components 1.3
-import Unity.Test 0.1 as UT
+import Lomiri.Components 1.3
+import Lomiri.SelfTest 0.1 as UT
 import QMenuModel 0.1
-import Ubuntu.Settings.Menus 0.1 as Menus
+import Lomiri.Settings.Menus 0.1 as Menus
 import "../../../qml/Panel"
 import "../../../qml/Panel/Indicators"
 
@@ -29,7 +29,7 @@ Item {
     height: units.gu(70)
 
     UnityMenuModel {
-        id: unityMenuModel
+        id: lomiriMenuModel
         modelData: fullMenuData
     }
 
@@ -37,7 +37,7 @@ Item {
         id: page
         anchors.fill: parent
 
-        menuModel: unityMenuModel
+        menuModel: lomiriMenuModel
         submenuIndex: 0
 
         factory: Item {
@@ -130,24 +130,24 @@ Item {
             "submenu": []
         }]; // end row 1
 
-    UT.UnityTestCase {
+    UT.LomiriTestCase {
         name: "IndicatorPage"
 
         function init() {
             page.submenuIndex = 0;
-            unityMenuModel.modelData = [];
+            lomiriMenuModel.modelData = [];
             tryCompareFunction(function() { return page.currentPage == null }, true);
         }
 
         function test_loadData() {
-            unityMenuModel.modelData = fullMenuData;
+            lomiriMenuModel.modelData = fullMenuData;
 
             tryCompareFunction(function() { return page.currentPage != null }, true);
             var listView = findChild(page.currentPage, "listView", 50);
             verify(listView);
             tryCompare(listView, "count", 3);
 
-            unityMenuModel.modelData = [];
+            lomiriMenuModel.modelData = [];
             tryCompareFunction(function() { return page.currentPage == null }, true);
         }
 
@@ -160,7 +160,7 @@ Item {
 
         function test_traverse_submenuIndex(data) {
             page.submenuIndex = data.submenuIndex;
-            unityMenuModel.modelData = fullMenuData;
+            lomiriMenuModel.modelData = fullMenuData;
 
             tryCompareFunction(function() { return page.currentPage != null }, data.expectedCount > 0);
             if (data.expectedCount > 0) {
@@ -177,7 +177,7 @@ Item {
         }
 
         function test_remove_selected_item(data) {
-            unityMenuModel.modelData = fullMenuData;
+            lomiriMenuModel.modelData = fullMenuData;
             var listView = findChild(page.currentPage, "listView", 50);
 
             var menuId = "menu"+data.remove

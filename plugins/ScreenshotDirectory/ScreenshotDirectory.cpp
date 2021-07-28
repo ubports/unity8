@@ -27,7 +27,7 @@ ScreenshotDirectory::ScreenshotDirectory(QObject *parent)
     : QObject(parent)
 {
     QDir screenshotsDir;
-    if (qEnvironmentVariableIsSet("UNITY_TESTING")) {
+    if (qEnvironmentVariableIsSet("LOMIRI_TESTING")) {
         QTemporaryDir tDir;
         tDir.setAutoRemove(false);
         screenshotsDir = tDir.path();

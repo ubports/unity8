@@ -16,7 +16,7 @@
 
 import QtQuick 2.4
 import QtTest 1.0
-import Unity.Test 0.1
+import Lomiri.SelfTest 0.1
 import "../../qml"
 
 Item {
@@ -28,7 +28,7 @@ Item {
         id: deviceConfiguration
     }
 
-    UnityTestCase {
+    LomiriTestCase {
         id: testCase
         name: "DeviceConfiguration"
         when: windowShown

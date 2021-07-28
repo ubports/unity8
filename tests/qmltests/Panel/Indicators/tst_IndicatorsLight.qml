@@ -16,9 +16,9 @@
 
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
-import Unity.Test 0.1 as UT
-import Unity.Indicators 0.1 as Indicators
-import Ubuntu.Components 1.3
+import Lomiri.SelfTest 0.1 as UT
+import Lomiri.Indicators 0.1 as Indicators
+import Lomiri.Components 1.3
 import Powerd 0.1
 import Lights 0.1
 import QMenuModel 0.1
@@ -146,7 +146,7 @@ Item {
     property color white: "white"
     property color orangeRed: "orangeRed"
 
-    UT.UnityTestCase {
+    UT.LomiriTestCase {
         name: "IndicatorsLight"
         when: windowShown
 

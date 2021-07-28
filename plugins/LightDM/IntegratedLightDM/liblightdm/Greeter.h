@@ -18,8 +18,8 @@
  * Author: David Edmundson <kde@davidedmundson.co.uk>
  */
 
-#ifndef UNITY_MOCK_GREETER_H
-#define UNITY_MOCK_GREETER_H
+#ifndef LOMIRI_MOCK_GREETER_H
+#define LOMIRI_MOCK_GREETER_H
 
 #include <QtCore/QObject>
 #include <QtCore/QVariant>
@@ -105,4 +105,4 @@ private:
 };
 }
 
-#endif // UNITY_MOCK_GREETER_H
+#endif // LOMIRI_MOCK_GREETER_H

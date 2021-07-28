@@ -18,12 +18,12 @@
 #include "TopLevelWindowModel.h"
 #include "WindowManagerObjects.h"
 
-// unity-api
-#include <unity/shell/application/ApplicationInfoInterface.h>
-#include <unity/shell/application/ApplicationManagerInterface.h>
-#include <unity/shell/application/MirSurfaceInterface.h>
-#include <unity/shell/application/MirSurfaceListInterface.h>
-#include <unity/shell/application/SurfaceManagerInterface.h>
+// lomiri-api
+#include <lomiri/shell/application/ApplicationInfoInterface.h>
+#include <lomiri/shell/application/ApplicationManagerInterface.h>
+#include <lomiri/shell/application/MirSurfaceInterface.h>
+#include <lomiri/shell/application/MirSurfaceListInterface.h>
+#include <lomiri/shell/application/SurfaceManagerInterface.h>
 
 // Qt
 #include <QDebug>
@@ -38,7 +38,7 @@ Q_LOGGING_CATEGORY(TOPLEVELWINDOWMODEL, "toplevelwindowmodel", QtInfoMsg)
 #define DEBUG_MSG qCDebug(TOPLEVELWINDOWMODEL).nospace().noquote() << __func__
 #define INFO_MSG qCInfo(TOPLEVELWINDOWMODEL).nospace().noquote() << __func__
 
-namespace unityapi = unity::shell::application;
+namespace lomiriapi = lomiri::shell::application;
 
 TopLevelWindowModel::TopLevelWindowModel(Workspace* workspace)
     : m_nullWindow(createWindow(nullptr)),
@@ -62,7 +62,7 @@ TopLevelWindowModel::~TopLevelWindowModel()
 {
 }
 
-void TopLevelWindowModel::setApplicationManager(unityapi::ApplicationManagerInterface* value)
+void TopLevelWindowModel::setApplicationManager(lomiriapi::ApplicationManagerInterface* value)
 {
     if (m_applicationManager == value) {
         return;
@@ -108,7 +108,7 @@ void TopLevelWindowModel::setApplicationManager(unityapi::ApplicationManagerInte
     m_modelState = IdleState;
 }
 
-void TopLevelWindowModel::setSurfaceManager(unityapi::SurfaceManagerInterface *surfaceManager)
+void TopLevelWindowModel::setSurfaceManager(lomiriapi::SurfaceManagerInterface *surfaceManager)
 {
     if (surfaceManager == m_surfaceManager) {
         return;
@@ -128,10 +128,10 @@ void TopLevelWindowModel::setSurfaceManager(unityapi::SurfaceManagerInterface *s
     m_surfaceManager = surfaceManager;
 
     if (m_surfaceManager) {
-        connect(m_surfaceManager, &unityapi::SurfaceManagerInterface::surfacesAddedToWorkspace, this, &TopLevelWindowModel::onSurfacesAddedToWorkspace);
-        connect(m_surfaceManager, &unityapi::SurfaceManagerInterface::surfacesRaised, this, &TopLevelWindowModel::onSurfacesRaised);
-        connect(m_surfaceManager, &unityapi::SurfaceManagerInterface::modificationsStarted, this, &TopLevelWindowModel::onModificationsStarted);
-        connect(m_surfaceManager, &unityapi::SurfaceManagerInterface::modificationsEnded, this, &TopLevelWindowModel::onModificationsEnded);
+        connect(m_surfaceManager, &lomiriapi::SurfaceManagerInterface::surfacesAddedToWorkspace, this, &TopLevelWindowModel::onSurfacesAddedToWorkspace);
+        connect(m_surfaceManager, &lomiriapi::SurfaceManagerInterface::surfacesRaised, this, &TopLevelWindowModel::onSurfacesRaised);
+        connect(m_surfaceManager, &lomiriapi::SurfaceManagerInterface::modificationsStarted, this, &TopLevelWindowModel::onModificationsStarted);
+        connect(m_surfaceManager, &lomiriapi::SurfaceManagerInterface::modificationsEnded, this, &TopLevelWindowModel::onModificationsEnded);
     }
 
     refreshWindows();
@@ -140,16 +140,16 @@ void TopLevelWindowModel::setSurfaceManager(unityapi::SurfaceManagerInterface *s
     m_modelState = IdleState;
 }
 
-void TopLevelWindowModel::addApplication(unityapi::ApplicationInfoInterface *application)
+void TopLevelWindowModel::addApplication(lomiriapi::ApplicationInfoInterface *application)
 {
     DEBUG_MSG << "(" << application->appId() << ")";
 
-    if (application->state() != unityapi::ApplicationInfoInterface::Stopped && application->surfaceList()->count() == 0) {
+    if (application->state() != lomiriapi::ApplicationInfoInterface::Stopped && application->surfaceList()->count() == 0) {
         prependPlaceholder(application);
     }
 }
 
-void TopLevelWindowModel::removeApplication(unityapi::ApplicationInfoInterface *application)
+void TopLevelWindowModel::removeApplication(lomiriapi::ApplicationInfoInterface *application)
 {
     DEBUG_MSG << "(" << application->appId() << ")";
 
@@ -165,14 +165,14 @@ void TopLevelWindowModel::removeApplication(unityapi::ApplicationInfoInterface *
     }
 }
 
-void TopLevelWindowModel::prependPlaceholder(unityapi::ApplicationInfoInterface *application)
+void TopLevelWindowModel::prependPlaceholder(lomiriapi::ApplicationInfoInterface *application)
 {
     INFO_MSG << "(" << application->appId() << ")";
 
     prependSurfaceHelper(nullptr, application);
 }
 
-void TopLevelWindowModel::prependSurface(unityapi::MirSurfaceInterface *surface, unityapi::ApplicationInfoInterface *application)
+void TopLevelWindowModel::prependSurface(lomiriapi::MirSurfaceInterface *surface, lomiriapi::ApplicationInfoInterface *application)
 {
     Q_ASSERT(surface != nullptr);
 
@@ -196,7 +196,7 @@ void TopLevelWindowModel::prependSurface(unityapi::MirSurfaceInterface *surface,
     }
 }
 
-void TopLevelWindowModel::prependSurfaceHelper(unityapi::MirSurfaceInterface *surface, unityapi::ApplicationInfoInterface *application)
+void TopLevelWindowModel::prependSurfaceHelper(lomiriapi::MirSurfaceInterface *surface, lomiriapi::ApplicationInfoInterface *application)
 {
 
     Window *window = createWindow(surface);
@@ -223,7 +223,7 @@ void TopLevelWindowModel::prependSurfaceHelper(unityapi::MirSurfaceInterface *su
     INFO_MSG << " after " << toString();
 }
 
-void TopLevelWindowModel::prependWindow(Window *window, unityapi::ApplicationInfoInterface *application)
+void TopLevelWindowModel::prependWindow(Window *window, lomiriapi::ApplicationInfoInterface *application)
 {
     if (m_modelState == IdleState) {
         m_modelState = InsertingState;
@@ -314,9 +314,9 @@ void TopLevelWindowModel::activateEmptyWindow(Window *window)
     }
 }
 
-void TopLevelWindowModel::connectSurface(unityapi::MirSurfaceInterface *surface)
+void TopLevelWindowModel::connectSurface(lomiriapi::MirSurfaceInterface *surface)
 {
-    connect(surface, &unityapi::MirSurfaceInterface::liveChanged, this, [this, surface](bool live){
+    connect(surface, &lomiriapi::MirSurfaceInterface::liveChanged, this, [this, surface](bool live){
             if (!live) {
                 onSurfaceDied(surface);
             }
@@ -324,7 +324,7 @@ void TopLevelWindowModel::connectSurface(unityapi::MirSurfaceInterface *surface)
     connect(surface, &QObject::destroyed, this, [this, surface](){ this->onSurfaceDestroyed(surface); });
 }
 
-void TopLevelWindowModel::onSurfaceDied(unityapi::MirSurfaceInterface *surface)
+void TopLevelWindowModel::onSurfaceDied(lomiriapi::MirSurfaceInterface *surface)
 {
     if (surface->type() == Mir::InputMethodType) {
         removeInputMethodWindow();
@@ -339,9 +339,9 @@ void TopLevelWindowModel::onSurfaceDied(unityapi::MirSurfaceInterface *surface)
     auto application = m_windowModel[i].application;
 
     // can't be starting if it already has a surface
-    Q_ASSERT(application->state() != unityapi::ApplicationInfoInterface::Starting);
+    Q_ASSERT(application->state() != lomiriapi::ApplicationInfoInterface::Starting);
 
-    if (application->state() == unityapi::ApplicationInfoInterface::Running) {
+    if (application->state() == lomiriapi::ApplicationInfoInterface::Running) {
         m_windowModel[i].removeOnceSurfaceDestroyed = true;
     } else {
         // assume it got killed by the out-of-memory daemon.
@@ -352,7 +352,7 @@ void TopLevelWindowModel::onSurfaceDied(unityapi::MirSurfaceInterface *surface)
     }
 }
 
-void TopLevelWindowModel::onSurfaceDestroyed(unityapi::MirSurfaceInterface *surface)
+void TopLevelWindowModel::onSurfaceDestroyed(lomiriapi::MirSurfaceInterface *surface)
 {
     int i = indexOf(surface);
     if (i == -1) {
@@ -370,7 +370,7 @@ void TopLevelWindowModel::onSurfaceDestroyed(unityapi::MirSurfaceInterface *surf
     }
 }
 
-Window *TopLevelWindowModel::createWindow(unityapi::MirSurfaceInterface *surface)
+Window *TopLevelWindowModel::createWindow(lomiriapi::MirSurfaceInterface *surface)
 {
     int id = m_nextId.fetchAndAddAcquire(1);
     return createWindowWithId(surface, id);
@@ -381,7 +381,7 @@ Window *TopLevelWindowModel::createNullWindow()
     return createWindowWithId(nullptr, 0);
 }
 
-Window *TopLevelWindowModel::createWindowWithId(unityapi::MirSurfaceInterface *surface, int id)
+Window *TopLevelWindowModel::createWindowWithId(lomiriapi::MirSurfaceInterface *surface, int id)
 {
     Window *qmlWindow = new Window(id, this);
     connectWindow(qmlWindow);
@@ -392,7 +392,7 @@ Window *TopLevelWindowModel::createWindowWithId(unityapi::MirSurfaceInterface *s
 }
 
 void TopLevelWindowModel::onSurfacesAddedToWorkspace(const std::shared_ptr<miral::Workspace>& workspace,
-                                                     const QVector<unity::shell::application::MirSurfaceInterface*> surfaces)
+                                                     const QVector<lomiri::shell::application::MirSurfaceInterface*> surfaces)
 {
     if (!m_workspace || !m_applicationManager) return;
     if (workspace != m_workspace->workspace()) {
@@ -419,9 +419,9 @@ void TopLevelWindowModel::onSurfacesAddedToWorkspace(const std::shared_ptr<miral
                 if (application) {
                     if (surface->state() == Mir::HiddenState) {
                         // Ignore it until it's finally shown
-                        connect(surface, &unityapi::MirSurfaceInterface::stateChanged, this, [=](Mir::State newState) {
+                        connect(surface, &lomiriapi::MirSurfaceInterface::stateChanged, this, [=](Mir::State newState) {
                             Q_ASSERT(newState != Mir::HiddenState);
-                            disconnect(surface, &unityapi::MirSurfaceInterface::stateChanged, this, 0);
+                            disconnect(surface, &lomiriapi::MirSurfaceInterface::stateChanged, this, 0);
                             prependSurface(surface, application);
                         });
                     } else {
@@ -442,7 +442,7 @@ void TopLevelWindowModel::onSurfacesAddedToWorkspace(const std::shared_ptr<miral
     }
 }
 
-void TopLevelWindowModel::removeSurfaces(const QVector<unity::shell::application::MirSurfaceInterface *> surfaces)
+void TopLevelWindowModel::removeSurfaces(const QVector<lomiri::shell::application::MirSurfaceInterface *> surfaces)
 {
     int start = -1;
     int end = -1;
@@ -586,7 +586,7 @@ void TopLevelWindowModel::removeInputMethodWindow()
     }
 }
 
-void TopLevelWindowModel::onSurfacesRaised(const QVector<unityapi::MirSurfaceInterface*> &surfaces)
+void TopLevelWindowModel::onSurfacesRaised(const QVector<lomiriapi::MirSurfaceInterface*> &surfaces)
 {
     DEBUG_MSG << "(" << surfaces << ")";
     const int raiseCount = surfaces.size();
@@ -638,7 +638,7 @@ QString TopLevelWindowModel::toString()
     return str;
 }
 
-int TopLevelWindowModel::indexOf(unityapi::MirSurfaceInterface *surface)
+int TopLevelWindowModel::indexOf(lomiriapi::MirSurfaceInterface *surface)
 {
     for (int i = 0; i < m_windowModel.count(); ++i) {
         if (m_windowModel.at(i).window->surface() == surface) {
@@ -667,7 +667,7 @@ Window *TopLevelWindowModel::windowAt(int index) const
     }
 }
 
-unityapi::MirSurfaceInterface *TopLevelWindowModel::surfaceAt(int index) const
+lomiriapi::MirSurfaceInterface *TopLevelWindowModel::surfaceAt(int index) const
 {
     if (index >=0 && index < m_windowModel.count()) {
         return m_windowModel[index].window->surface();
@@ -676,7 +676,7 @@ unityapi::MirSurfaceInterface *TopLevelWindowModel::surfaceAt(int index) const
     }
 }
 
-unityapi::ApplicationInfoInterface *TopLevelWindowModel::applicationAt(int index) const
+lomiriapi::ApplicationInfoInterface *TopLevelWindowModel::applicationAt(int index) const
 {
     if (index >=0 && index < m_windowModel.count()) {
         return m_windowModel[index].application;
@@ -746,7 +746,7 @@ void TopLevelWindowModel::setFocusedWindow(Window *window)
     m_pendingActivation = false;
 }
 
-unityapi::MirSurfaceInterface* TopLevelWindowModel::inputMethodSurface() const
+lomiriapi::MirSurfaceInterface* TopLevelWindowModel::inputMethodSurface() const
 {
     return m_inputMethodWindow ? m_inputMethodWindow->surface() : nullptr;
 }
@@ -820,7 +820,7 @@ void TopLevelWindowModel::refreshWindows()
 
     if (!m_workspace || !m_applicationManager || !m_surfaceManager) return;
 
-    m_surfaceManager->forEachSurfaceInWorkspace(m_workspace->workspace(), [this](unity::shell::application::MirSurfaceInterface* surface) {
+    m_surfaceManager->forEachSurfaceInWorkspace(m_workspace->workspace(), [this](lomiri::shell::application::MirSurfaceInterface* surface) {
         if (surface->parentSurface()) {
             // Wrap it in a Window so that we keep focusedWindow() up to date.
             Window *window = createWindow(surface);

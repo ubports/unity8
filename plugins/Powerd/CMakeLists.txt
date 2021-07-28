@@ -14,4 +14,4 @@ target_link_libraries(Powerd-qml
     ${GIO_LDFLAGS}
     )
 
-add_unity8_plugin(Powerd 0.1 Powerd TARGETS Powerd-qml)
+add_lomiri_plugin(Powerd 0.1 Powerd TARGETS Powerd-qml)

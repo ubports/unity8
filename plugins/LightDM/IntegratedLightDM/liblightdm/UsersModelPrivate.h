@@ -16,8 +16,8 @@
  * Author: Michael Terry <michael.terry@canonical.com>
  */
 
-#ifndef UNITY_MOCK_USERSMODEL_PRIVATE_H
-#define UNITY_MOCK_USERSMODEL_PRIVATE_H
+#ifndef LOMIRI_MOCK_USERSMODEL_PRIVATE_H
+#define LOMIRI_MOCK_USERSMODEL_PRIVATE_H
 
 #include <QList>
 #include <QObject>
@@ -69,4 +69,4 @@ private:
 
 }
 
-#endif // UNITY_MOCK_USERSMODEL_PRIVATE_H
+#endif // LOMIRI_MOCK_USERSMODEL_PRIVATE_H

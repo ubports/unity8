@@ -16,8 +16,8 @@
 
 import QtQuick 2.4
 import QtMultimedia 5.0
-import Ubuntu.Components 1.3
-import Ubuntu.Thumbnailer 0.1
+import Lomiri.Components 1.3
+import Lomiri.Thumbnailer 0.1
 import "../../Components"
 
 Item {
@@ -72,7 +72,7 @@ Item {
             scaleTo: "width"
             lastScaledDimension: playButton.height + units.gu(2)
             initialHeight: lastScaledDimension
-            useUbuntuShape: false
+            useLomiriShape: false
 
             visible: !mediaPlayer || mediaPlayer.playbackState === MediaPlayer.StoppedState
         }
@@ -119,7 +119,7 @@ Item {
         opacity: 0.85
         radius: width/2
 
-        Behavior on width { UbuntuNumberAnimation {} }
+        Behavior on width { LomiriNumberAnimation {} }
 
         Icon {
             id: playButtonIcon

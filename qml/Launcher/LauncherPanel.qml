@@ -16,9 +16,9 @@
 
 import QtQuick 2.4
 import QtQml.StateMachine 1.0 as DSM
-import Ubuntu.Components 1.3
-import Unity.Launcher 0.1
-import Ubuntu.Components.Popups 1.3
+import Lomiri.Components 1.3
+import Lomiri.Launcher 0.1
+import Lomiri.Components.Popups 1.3
 import Utils 0.1
 import "../Components"
 
@@ -87,7 +87,7 @@ Rectangle {
             objectName: "buttonShowDashHome"
             width: parent.width
             height: width * .9
-            color: UbuntuColors.orange
+            color: LomiriColors.orange
             readonly property bool highlighted: root.highlightIndex == -1;
 
             Icon {
@@ -189,21 +189,21 @@ Rectangle {
                     property bool draggingTransitionRunning: false
                     property int scheduledMoveTo: -1
 
-                    UbuntuNumberAnimation {
+                    LomiriNumberAnimation {
                         id: snapToBottomAnimation
                         target: launcherListView
                         property: "contentY"
                         to: launcherListView.originY + launcherListView.topMargin
                     }
 
-                    UbuntuNumberAnimation {
+                    LomiriNumberAnimation {
                         id: snapToTopAnimation
                         target: launcherListView
                         property: "contentY"
                         to: launcherListView.contentHeight - launcherListView.height + launcherListView.originY - launcherListView.topMargin
                     }
 
-                    UbuntuNumberAnimation {
+                    LomiriNumberAnimation {
                         id: moveAnimation
                         objectName: "moveAnimation"
                         target: launcherListView
@@ -227,7 +227,7 @@ Rectangle {
                     }
 
                     displaced: Transition {
-                        NumberAnimation { properties: "x,y"; duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
+                        NumberAnimation { properties: "x,y"; duration: LomiriAnimation.FastDuration; easing: LomiriAnimation.StandardEasing }
                     }
 
                     delegate: FoldingLauncherDelegate {
@@ -266,23 +266,23 @@ Rectangle {
                             PropertyAction { target: root; property: "visible"; value: (launcher.visibleWidth === 0) ? 1 : 0 }
                             PropertyAction { target: launcherListViewItem; property: "clip"; value: 0 }
 
-                            UbuntuNumberAnimation {
+                            LomiriNumberAnimation {
                                 target: launcherDelegate
                                 alwaysRunToEnd: true
                                 loops: 1
                                 properties: "x"
                                 to: (units.gu(.5) + launcherListView.width * .5) * (root.inverted ? -1 : 1)
-                                duration: UbuntuAnimation.BriskDuration
+                                duration: LomiriAnimation.BriskDuration
                             }
 
                             // hiding
-                            UbuntuNumberAnimation {
+                            LomiriNumberAnimation {
                                 target: launcherDelegate
                                 alwaysRunToEnd: true
                                 loops: 1
                                 properties: "x"
                                 to: 0
-                                duration: UbuntuAnimation.BriskDuration
+                                duration: LomiriAnimation.BriskDuration
                             }
 
                             PropertyAction { target: launcherListViewItem; property: "clip"; value: 1 }
@@ -357,19 +357,19 @@ Rectangle {
                             Transition {
                                 from: ""
                                 to: "selected"
-                                NumberAnimation { properties: "itemOpacity"; duration: UbuntuAnimation.FastDuration }
+                                NumberAnimation { properties: "itemOpacity"; duration: LomiriAnimation.FastDuration }
                             },
                             Transition {
                                 from: "*"
                                 to: "expanded"
-                                NumberAnimation { properties: "itemOpacity"; duration: UbuntuAnimation.FastDuration }
-                                UbuntuNumberAnimation { properties: "angle,offset" }
+                                NumberAnimation { properties: "itemOpacity"; duration: LomiriAnimation.FastDuration }
+                                LomiriNumberAnimation { properties: "angle,offset" }
                             },
                             Transition {
                                 from: "expanded"
                                 to: ""
-                                NumberAnimation { properties: "itemOpacity"; duration: UbuntuAnimation.BriskDuration }
-                                UbuntuNumberAnimation { properties: "angle,offset" }
+                                NumberAnimation { properties: "itemOpacity"; duration: LomiriAnimation.BriskDuration }
+                                LomiriNumberAnimation { properties: "angle,offset" }
                             },
                             Transition {
                                 id: draggingTransition
@@ -378,8 +378,8 @@ Rectangle {
                                 SequentialAnimation {
                                     PropertyAction { target: launcherListView; property: "draggingTransitionRunning"; value: true }
                                     ParallelAnimation {
-                                        UbuntuNumberAnimation { properties: "height" }
-                                        NumberAnimation { target: dropIndicator; properties: "opacity"; duration: UbuntuAnimation.FastDuration }
+                                        LomiriNumberAnimation { properties: "height" }
+                                        NumberAnimation { target: dropIndicator; properties: "opacity"; duration: LomiriAnimation.FastDuration }
                                     }
                                     ScriptAction {
                                         script: {
@@ -396,11 +396,11 @@ Rectangle {
                             Transition {
                                 from: "dragging"
                                 to: "*"
-                                NumberAnimation { target: dropIndicator; properties: "opacity"; duration: UbuntuAnimation.SnapDuration }
-                                NumberAnimation { properties: "itemOpacity"; duration: UbuntuAnimation.BriskDuration }
+                                NumberAnimation { target: dropIndicator; properties: "opacity"; duration: LomiriAnimation.SnapDuration }
+                                NumberAnimation { properties: "itemOpacity"; duration: LomiriAnimation.BriskDuration }
                                 SequentialAnimation {
                                     ScriptAction { script: if (index == launcherListView.count-1) launcherListView.flick(0, -launcherListView.clickFlickSpeed); }
-                                    UbuntuNumberAnimation { properties: "height" }
+                                    LomiriNumberAnimation { properties: "height" }
                                     ScriptAction { script: if (index == launcherListView.count-1) launcherListView.flick(0, -launcherListView.clickFlickSpeed); }
                                     PropertyAction { target: dndArea; property: "postDragging"; value: false }
                                     PropertyAction { target: dndArea; property: "draggedIndex"; value: -1 }
@@ -645,7 +645,7 @@ Rectangle {
                     fakeDragItemAnimation.start();
                 }
 
-                UbuntuNumberAnimation {
+                LomiriNumberAnimation {
                     id: fakeDragItemAnimation
                     target: fakeDragItem;
                     properties: "angle,offset";
@@ -655,20 +655,20 @@ Rectangle {
         }
     }
 
-    UbuntuShape {
+    LomiriShape {
         id: quickListShape
         objectName: "quickListShape"
         anchors.fill: quickList
         opacity: quickList.state === "open" ? 0.95 : 0
         visible: opacity > 0
         rotation: root.rotation
-        aspect: UbuntuShape.Flat
+        aspect: LomiriShape.Flat
 
         // Denotes that the shape is not animating, to prevent race conditions during testing
         readonly property bool ready: (visible && (!quickListShapeOpacityFade.running))
 
         Behavior on opacity {
-            UbuntuNumberAnimation {
+            LomiriNumberAnimation {
                 id: quickListShapeOpacityFade
             }
         }
@@ -847,8 +847,8 @@ Rectangle {
                         height: label.implicitHeight + label.anchors.topMargin + label.anchors.bottomMargin
                         color: model.clickable ? (selected ? theme.palette.highlighted.background : "transparent") : theme.palette.disabled.background
                         highlightColor: !model.clickable ? quickList.color : undefined // make disabled items visually unclickable
-                        divider.colorFrom: UbuntuColors.inkstone
-                        divider.colorTo: UbuntuColors.inkstone
+                        divider.colorFrom: LomiriColors.inkstone
+                        divider.colorTo: LomiriColors.inkstone
                         divider.visible: model.hasSeparator
 
                         Label {

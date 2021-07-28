@@ -1,16 +1,16 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Canonical Ltd.
-# This file is distributed under the same license as the unity8 package.
+# This file is distributed under the same license as the lomiri package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity8\n"
+"Project-Id-Version: lomiri\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
 "PO-Revision-Date: 2020-12-03 09:42+0000\n"
 "Last-Translator: Seiwer121 <vladimir_seiwer@yahoo.com>\n"
-"Language-Team: Kazakh <https://translate.ubports.com/projects/unity8/unity8/"
+"Language-Team: Kazakh <https://translate.ubports.com/projects/lomiri/lomiri/"
 "kk/>\n"
 "Language: kk\n"
 "MIME-Version: 1.0\n"
@@ -51,16 +51,16 @@ msgstr "Кіру"
 msgid "Guest Session"
 msgstr "Қонақ сессиясы"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:49
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Pin shortcut"
 msgstr "Бекітпе сілтемесі"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Lomiri/Launcher/launcheritem.cpp:55
 msgid "Quit"
 msgstr "Шығу"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
 msgstr "Төте жолды босату"
 
@@ -134,8 +134,8 @@ msgid "Keyboard Shortcuts"
 msgstr "Жылдам пернелер"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
-msgstr "Unity 8"
+msgid "Lomiri 8"
+msgstr "Lomiri 8"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -675,8 +675,8 @@ msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr "Ubuntu Touch жүйесі"
+msgid "Lomiri Touch system"
+msgstr "Lomiri Touch жүйесі"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -697,8 +697,8 @@ msgid "Welcome Back"
 msgstr "қайта келуінмен"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Ubuntu-ға қош келдіңіз"
+msgid "Welcome to Lomiri"
+msgstr "Lomiri-ға қош келдіңіз"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"

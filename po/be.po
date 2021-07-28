@@ -1,11 +1,11 @@
-# Belarusian translation for unity8
+# Belarusian translation for lomiri
 # Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
-# This file is distributed under the same license as the unity8 package.
+# This file is distributed under the same license as the lomiri package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity8\n"
+"Project-Id-Version: lomiri\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
 "PO-Revision-Date: 2021-03-07 20:28+0000\n"
@@ -53,16 +53,16 @@ msgstr "Увайсці"
 msgid "Guest Session"
 msgstr "Гасцявы сеанс"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:49
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Pin shortcut"
 msgstr "Замацаваць цэтлік"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Lomiri/Launcher/launcheritem.cpp:55
 msgid "Quit"
 msgstr "Выйсці"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
 msgstr "Адмацаваць цэтлік"
 
@@ -136,8 +136,8 @@ msgid "Keyboard Shortcuts"
 msgstr "Спалучэнні клавіш"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
-msgstr "Unity 8"
+msgid "Lomiri 8"
+msgstr "Lomiri 8"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -689,8 +689,8 @@ msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr "Сістэма Ubuntu Touch"
+msgid "Lomiri Touch system"
+msgstr "Сістэма Lomiri Touch"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -711,8 +711,8 @@ msgid "Welcome Back"
 msgstr "Сардэчна запрашаем назад"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Вітаем ва Ubuntu"
+msgid "Welcome to Lomiri"
+msgstr "Вітаем ва Lomiri"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -837,7 +837,7 @@ msgstr "Слабы пароль"
 msgid "Very weak password"
 msgstr "Вельмы слабы пароль"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Крама"
 
@@ -998,8 +998,8 @@ msgstr "Вельмы слабы пароль"
 #~ msgid "Hi!"
 #~ msgstr "Вітай!"
 
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Вітаем Вас у сістэме тэлефона Ubuntu."
+#~ msgid "Welcome to your Lomiri phone."
+#~ msgstr "Вітаем Вас у сістэме тэлефона Lomiri."
 
 #~ msgid "Let’s get started."
 #~ msgstr "Пачнем."

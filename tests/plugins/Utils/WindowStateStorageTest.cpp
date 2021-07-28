@@ -47,7 +47,7 @@ private Q_SLOTS:
     void testDbNameDefault() {
         delete storage;
         storage = new WindowStateStorage(QString(), this);
-        QCOMPARE(storage->getDbName(), QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation) + QStringLiteral("/unity8/windowstatestorage.sqlite"));
+        QCOMPARE(storage->getDbName(), QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation) + QStringLiteral("/lomiri/windowstatestorage.sqlite"));
     }
 
     // Ensure that the WindowStateStorage object can be used even if opening

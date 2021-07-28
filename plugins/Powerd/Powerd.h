@@ -17,8 +17,8 @@
  *          Michael Terry <michael.terry@canonical.com>
  */
 
-#ifndef UNITY_POWERD_H
-#define UNITY_POWERD_H
+#ifndef LOMIRI_POWERD_H
+#define LOMIRI_POWERD_H
 
 #include <gio/gio.h>
 #include <QtCore/QObject>
@@ -62,7 +62,7 @@ private Q_SLOTS:
     void handleDisplayPowerStateChange(int status, int reason);
 
 private:
-    QDBusInterface *unityScreen;
+    QDBusInterface *lomiriScreen;
     GSettings *systemSettings;
     Status cachedStatus;
 };

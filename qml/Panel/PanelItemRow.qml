@@ -16,7 +16,7 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import "../Components"
 
 Item {
@@ -193,7 +193,7 @@ Item {
             }
         }
 
-        Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
+        Behavior on opacity { NumberAnimation { duration: LomiriAnimation.SnapDuration } }
     }
 
     Rectangle {
@@ -209,7 +209,7 @@ Item {
         width: currentItem ? currentItem.width : 0
         Behavior on width {
             enabled: !d.firstItemSwitch && expanded
-            UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
+            LomiriNumberAnimation { duration: LomiriAnimation.FastDuration; easing: LomiriAnimation.StandardEasing }
         }
 
         // micromovements of the highlight line when user moves the finger across the items while pulling
@@ -234,14 +234,14 @@ Item {
             return (distanceFromCenter / (currentItem.width / 4)) * units.gu(1);
         }
         Behavior on highlightCenterOffset {
-            NumberAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
+            NumberAnimation { duration: LomiriAnimation.FastDuration; easing: LomiriAnimation.StandardEasing }
         }
 
         property real currentItemX: currentItem ? currentItem.x - row.contentX : 0
         Behavior on currentItemX {
             id: currentItemXBehavior
             enabled: !d.firstItemSwitch && expanded && !d.forceAlignmentAnimationDisabled
-            NumberAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
+            NumberAnimation { duration: LomiriAnimation.FastDuration; easing: LomiriAnimation.StandardEasing }
         }
         x: currentItemX + highlightCenterOffset
     }
@@ -262,8 +262,8 @@ Item {
         Transition {
             PropertyAnimation {
                 properties: "opacity";
-                duration: UbuntuAnimation.SnapDuration
-                easing: UbuntuAnimation.StandardEasing
+                duration: LomiriAnimation.SnapDuration
+                easing: LomiriAnimation.StandardEasing
             }
         }
     ]

@@ -15,8 +15,8 @@
  * <http://www.gnu.org/licenses/>
  */
 
-#ifndef UNITY_BROADCASTSERVER_H
-#define UNITY_BROADCASTSERVER_H
+#ifndef LOMIRI_BROADCASTSERVER_H
+#define LOMIRI_BROADCASTSERVER_H
 
 #include <QDBusContext>
 #include <QObject>

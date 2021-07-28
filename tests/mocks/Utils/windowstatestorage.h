@@ -18,8 +18,8 @@
 #include <QVariantMap>
 #include <QRect>
 
-// unity-api
-#include <unity/shell/application/Mir.h>
+// lomiri-api
+#include <lomiri/shell/application/Mir.h>
 
 class WindowStateStorage: public QObject
 {

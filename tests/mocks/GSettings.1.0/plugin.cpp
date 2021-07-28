@@ -38,7 +38,7 @@ void FakeGSettingsQmlPlugin::initializeEngine(QQmlEngine *engine, const char *ur
 {
     QQmlExtensionPlugin::initializeEngine(engine, uri);
 
-    QString usageType = qgetenv("UNITY_MOCK_DESKTOP");
+    QString usageType = qgetenv("LOMIRI_MOCK_DESKTOP");
     if (!usageType.isEmpty()) {
         GSettingsControllerQml::instance()->setUsageMode("Windowed");
     }

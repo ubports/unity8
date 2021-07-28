@@ -1,17 +1,17 @@
-# Asturian translation for unity8
+# Asturian translation for lomiri
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the unity8 package.
+# This file is distributed under the same license as the lomiri package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity8\n"
+"Project-Id-Version: lomiri\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
 "PO-Revision-Date: 2019-10-30 03:35+0000\n"
 "Last-Translator: enolp <enolp@softastur.org>\n"
-"Language-Team: Asturian <https://translate.ubports.com/projects/unity8/"
-"unity8/ast/>\n"
+"Language-Team: Asturian <https://translate.ubports.com/projects/lomiri/"
+"lomiri/ast/>\n"
 "Language: ast\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,16 +52,16 @@ msgstr ""
 msgid "Guest Session"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:49
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Pin shortcut"
 msgstr "Fixar l'atayu"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Lomiri/Launcher/launcheritem.cpp:55
 msgid "Quit"
 msgstr "Colar"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
 msgstr "Quitar l'atayu"
 
@@ -135,8 +135,8 @@ msgid "Keyboard Shortcuts"
 msgstr "Atayos del tecláu"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
-msgstr "Unity 8"
+msgid "Lomiri 8"
+msgstr "Lomiri 8"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -701,10 +701,10 @@ msgstr ""
 #: qml/Wizard/Pages/79-system-update.qml:76
 #, fuzzy
 #| msgctxt "string identifying name of the update"
-#| msgid "Ubuntu system"
+#| msgid "Lomiri system"
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr "Sistema Ubuntu"
+msgid "Lomiri Touch system"
+msgstr "Sistema Lomiri"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -725,8 +725,8 @@ msgid "Welcome Back"
 msgstr "Volvi afayate"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Afáyate n'Ubuntu"
+msgid "Welcome to Lomiri"
+msgstr "Afáyate n'Lomiri"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -851,7 +851,7 @@ msgstr "Contraseña feble"
 msgid "Very weak password"
 msgstr "Contraseña perfeble"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Tienda"
 
@@ -1269,8 +1269,8 @@ msgstr "Contraseña perfeble"
 #~ msgid "Swipe"
 #~ msgstr "Eslizar"
 
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Bienllegáu/ada al to teléfonu d'Ubuntu"
+#~ msgid "Welcome to your Lomiri phone."
+#~ msgstr "Bienllegáu/ada al to teléfonu d'Lomiri"
 
 #~ msgid "Let’s get started."
 #~ msgstr "Entamemos."

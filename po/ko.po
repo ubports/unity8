@@ -1,16 +1,16 @@
-# Korean translation for unity
+# Korean translation for lomiri
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the unity package.
+# This file is distributed under the same license as the lomiri package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity\n"
+"Project-Id-Version: lomiri\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
 "PO-Revision-Date: 2020-10-01 20:11+0000\n"
 "Last-Translator: Soohan Park <soobak0313@gmail.com>\n"
-"Language-Team: Korean <https://translate.ubports.com/projects/unity8/unity8/"
+"Language-Team: Korean <https://translate.ubports.com/projects/lomiri/lomiri/"
 "ko/>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -52,16 +52,16 @@ msgstr "로그인"
 msgid "Guest Session"
 msgstr "손님 세션"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:49
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Pin shortcut"
 msgstr "바로 가기를 고정"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Lomiri/Launcher/launcheritem.cpp:55
 msgid "Quit"
 msgstr "끝내기"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
 msgstr "바로 가기를 고정 해제"
 
@@ -133,7 +133,7 @@ msgid "Keyboard Shortcuts"
 msgstr "키보드 단축키"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
+msgid "Lomiri 8"
 msgstr "유니티 8"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
@@ -670,8 +670,8 @@ msgstr "설치할 준비가 된 시스템 업데이트가 있습니다. 이후�
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr "Ubuntu Touch 시스템"
+msgid "Lomiri Touch system"
+msgstr "Lomiri Touch 시스템"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -692,8 +692,8 @@ msgid "Welcome Back"
 msgstr "돌아오신 것을 환영합니다"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Ubuntu에 오신 것을 환영합니다"
+msgid "Welcome to Lomiri"
+msgstr "Lomiri에 오신 것을 환영합니다"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -818,7 +818,7 @@ msgstr "약한 암호"
 msgid "Very weak password"
 msgstr "아주 약한 암호"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "상점"
 
@@ -1015,7 +1015,7 @@ msgstr "아주 약한 암호"
 #~ msgid "Hi!"
 #~ msgstr "안녕!"
 
-#~ msgid "Welcome to your Ubuntu phone."
+#~ msgid "Welcome to your Lomiri phone."
 #~ msgstr "우분투 폰을 사용해주셔서 감사합니다."
 
 #~ msgid "Let’s get started."

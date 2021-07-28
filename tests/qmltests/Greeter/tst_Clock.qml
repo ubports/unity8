@@ -18,9 +18,9 @@ import QtQuick 2.4
 import QtTest 1.0
 import ".."
 import "../../../qml/Greeter"
-import Ubuntu.Components 1.3
-import Unity.Indicators 0.1 as Indicators
-import Unity.Test 0.1 as UT
+import Lomiri.Components 1.3
+import Lomiri.Indicators 0.1 as Indicators
+import Lomiri.SelfTest 0.1 as UT
 
 Rectangle {
     width: units.gu(60)
@@ -37,7 +37,7 @@ Rectangle {
     }
 
     function updateDatetimeModelTime(label) {
-        Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicator/datetime/phone",
+        Indicators.LomiriMenuModelCache.setCachedModelData("/com/canonical/indicator/datetime/phone",
             [{
                 "rowData": {
                     "actionState": { "label": label }
@@ -45,7 +45,7 @@ Rectangle {
             }]);
     }
 
-    UT.UnityTestCase {
+    UT.LomiriTestCase {
         name: "Clock"
         when: windowShown
 

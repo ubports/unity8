@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 
 Item {
     property string password: ""
@@ -100,7 +100,7 @@ Item {
 
             return i18n.tr("Very weak password");
         }
-        color: UbuntuColors.ash
+        color: LomiriColors.ash
         fontSize: "small"
         font.weight: Font.Light
         visible: password.length > 0

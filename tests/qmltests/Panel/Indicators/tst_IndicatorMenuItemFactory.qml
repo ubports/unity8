@@ -16,8 +16,8 @@
 
 import QtQuick 2.4
 import QtTest 1.0
-import Unity.Test 0.1 as UT
-import Ubuntu.Settings.Menus 0.1 as Menus
+import Lomiri.SelfTest 0.1 as UT
+import Lomiri.Settings.Menus 0.1 as Menus
 import QMenuModel 0.1
 import Utils 0.1 as Utils
 import "../../../../qml/Panel/Indicators"
@@ -50,7 +50,7 @@ Item {
         }
     }
 
-    UT.UnityTestCase {
+    UT.LomiriTestCase {
         name: "IndicatorMenuItemFactory"
         when: windowShown
 
@@ -97,8 +97,8 @@ Item {
 
         function test_createTypes_data() {
             return [
-                { tag: 'volume', type: "unity.widgets.systemsettings.tablet.volumecontrol", objectName: "sliderMenu" },
-                { tag: 'switch1', type: "unity.widgets.systemsettings.tablet.switch", objectName: "switchMenu" },
+                { tag: 'volume', type: "lomiri.widgets.systemsettings.tablet.volumecontrol", objectName: "sliderMenu" },
+                { tag: 'switch1', type: "lomiri.widgets.systemsettings.tablet.switch", objectName: "switchMenu" },
 
                 { tag: 'button', type: "com.canonical.indicator.button", objectName: "buttonMenu" },
                 { tag: 'separator', type: "com.canonical.indicator.div", objectName: "separatorMenu" },
@@ -114,15 +114,15 @@ Item {
                 { tag: 'messageItem', type: "com.canonical.indicator.messages.messageitem", objectName: "messageItem" },
                 { tag: 'sourceItem', type: "com.canonical.indicator.messages.sourceitem", objectName: "groupedMessage" },
 
-                { tag: 'slider2', type: "com.canonical.unity.slider", objectName: "sliderMenu" },
-                { tag: 'switch3', type: "com.canonical.unity.switch", objectName: "switchMenu" },
+                { tag: 'slider2', type: "com.canonical.lomiri.slider", objectName: "sliderMenu" },
+                { tag: 'switch3', type: "com.canonical.lomiri.switch", objectName: "switchMenu" },
 
-                { tag: 'mediaplayer', type: "com.canonical.unity.media-player", objectName: "mediaPayerMenu" },
-                { tag: 'playbackitem', type: "com.canonical.unity.playback-item", objectName: "playbackItemMenu" },
+                { tag: 'mediaplayer', type: "com.canonical.lomiri.media-player", objectName: "mediaPayerMenu" },
+                { tag: 'playbackitem', type: "com.canonical.lomiri.playback-item", objectName: "playbackItemMenu" },
 
-                { tag: 'wifisection', type: "unity.widgets.systemsettings.tablet.wifisection", objectName: "wifiSection" },
-                { tag: 'accesspoint', type: "unity.widgets.systemsettings.tablet.accesspoint", objectName: "accessPoint" },
-                { tag: 'modeminfoitem', type: "com.canonical.indicator.network.modeminfoitem", objectName: "modemInfoItem" },
+                { tag: 'wifisection', type: "lomiri.widgets.systemsettings.tablet.wifisection", objectName: "wifiSection" },
+                { tag: 'accesspoint', type: "lomiri.widgets.systemsettings.tablet.accesspoint", objectName: "accessPoint" },
+                { tag: 'modeminfoitem', type: "com.lomiri.indicator.network.modeminfoitem", objectName: "modemInfoItem" },
 
                 { tag: 'calendar', type: "com.canonical.indicator.calendar", objectName: "calendarMenu" },
 
@@ -548,7 +548,7 @@ Item {
         }
 
         function test_create_wifiSection(data) {
-            menuData.type = "unity.widgets.systemsettings.tablet.wifisection";
+            menuData.type = "lomiri.widgets.systemsettings.tablet.wifisection";
             menuData.label = data.label;
             menuData.ext = { 'xCanonicalBusyAction': data.busy }
 
@@ -567,7 +567,7 @@ Item {
         }
 
         function test_create_accessPoint(data) {
-            menuData.type = "unity.widgets.systemsettings.tablet.accesspoint";
+            menuData.type = "lomiri.widgets.systemsettings.tablet.accesspoint";
             menuData.label = data.label;
             menuData.sensitive = data.enabled;
             menuData.isToggled = data.active;
@@ -604,15 +604,15 @@ Item {
         }
 
         function test_create_modemInfoItem(data) {
-            menuData.type = "com.canonical.indicator.network.modeminfoitem";
+            menuData.type = "com.lomiri.indicator.network.modeminfoitem";
             menuData.sensitive = data.enabled;
             menuData.ext = {
-                'xCanonicalModemStatusLabelAction': data.statusLabelAction,
-                'xCanonicalModemStatusIconAction': data.statusIconAction,
-                'xCanonicalModemConnectivityIconAction': data.connectivityIconAction,
-                'xCanonicalModemSimIdentifierLabelAction': data.simIdentifierLabelAction,
-                'xCanonicalModemRoamingAction': data.roamingAction,
-                'xCanonicalModemLockedAction': data.unlockAction,
+                'xLomiriModemStatusLabelAction': data.statusLabelAction,
+                'xLomiriModemStatusIconAction': data.statusIconAction,
+                'xLomiriModemConnectivityIconAction': data.connectivityIconAction,
+                'xLomiriModemSimIdentifierLabelAction': data.simIdentifierLabelAction,
+                'xLomiriModemRoamingAction': data.roamingAction,
+                'xLomiriModemLockedAction': data.unlockAction,
             };
 
             loadData(menuData);
@@ -698,7 +698,7 @@ Item {
         }
 
         function test_create_mediaPayerMenu(data) {
-            menuData.type = "com.canonical.unity.media-player";
+            menuData.type = "com.canonical.lomiri.media-player";
             menuData.label = data.label;
             menuData.sensitive = data.enabled;
             menuData.icon = data.icon;
@@ -741,7 +741,7 @@ Item {
         }
 
         function test_create_playbackItemMenu(data) {
-            menuData.type = "com.canonical.unity.playback-item";
+            menuData.type = "com.canonical.lomiri.playback-item";
             menuData.sensitive = data.enabled;
             menuData.ext = {
                 'xCanonicalPlayAction': data.playAction,

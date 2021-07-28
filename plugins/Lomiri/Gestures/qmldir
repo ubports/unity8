@@ -1,0 +1,3 @@
+module Lomiri.Gestures
+plugin LomiriGesturesQml
+typeinfo Gestures.qmltypes

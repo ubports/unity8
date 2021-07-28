@@ -13,7 +13,7 @@ install(TARGETS GlobalShortcutTestExec
 install(FILES shortcut.qml
     DESTINATION "${SHELL_APP_DIR}/tests/plugins/GlobalShortcut"
 )
-add_unity8_uitest(GlobalShortcut GlobalShortcutTestExec
+add_lomiri_uitest(GlobalShortcut GlobalShortcutTestExec
         DEPENDS GlobalShortcut-qml
         ENVIRONMENT LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/plugins/GlobalShortcut
 )

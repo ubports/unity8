@@ -16,9 +16,9 @@
 
 import QtQuick 2.4
 import QtTest 1.0
-import Unity.Test 0.1 as UT
+import Lomiri.SelfTest 0.1 as UT
 import "../../../qml/Panel"
-import Unity.Indicators 0.1 as Indicators
+import Lomiri.Indicators 0.1 as Indicators
 
 PanelTest {
     id: root
@@ -105,7 +105,7 @@ PanelTest {
         return testItem === currentItem;
     }
 
-    UT.UnityTestCase {
+    UT.LomiriTestCase {
         id: menu_content_test
         name: "MenuContentTest"
         when: windowShown

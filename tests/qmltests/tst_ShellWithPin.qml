@@ -16,15 +16,15 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import QtTest 1.0
 import AccountsService 0.1
 import GSettings 1.0
 import LightDMController 0.1
 import LightDM.FullLightDM 0.1 as LightDM
-import Ubuntu.Telephony 0.1 as Telephony
-import Unity.Application 0.1
-import Unity.Test 0.1 as UT
+import Lomiri.Telephony 0.1 as Telephony
+import QtMir.Application 0.1
+import Lomiri.SelfTest 0.1 as UT
 import Powerd 0.1
 
 import "../../qml"
@@ -513,7 +513,7 @@ Item {
             tryCompare(launcher, "state", "drawer");
         }
 
-        /* Regression test, https://github.com/ubports/ubuntu-touch/issues/1178
+        /* Regression test, https://github.com/ubports/lomiri-touch/issues/1178
            When all apps closed while the Greeter was shown, the Launcher would
            appear over the Greeter. This was caused by logic that would normally
            cause the Launcher to be shown over the empty Background. */

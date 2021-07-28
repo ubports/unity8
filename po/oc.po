@@ -1,11 +1,11 @@
-# Occitan (post 1500) translation for unity8
+# Occitan (post 1500) translation for lomiri
 # Copyright (c) 2015 Rosetta Contributors and Canonical Ltd 2015
-# This file is distributed under the same license as the unity8 package.
+# This file is distributed under the same license as the lomiri package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity8\n"
+"Project-Id-Version: lomiri\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
 "PO-Revision-Date: 2016-10-27 13:43+0000\n"
@@ -51,16 +51,16 @@ msgstr ""
 msgid "Guest Session"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:49
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Pin shortcut"
 msgstr "Espingolar l'acorchi"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Lomiri/Launcher/launcheritem.cpp:55
 msgid "Quit"
 msgstr "Quitar"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
 msgstr "Destacar l'acorchi"
 
@@ -134,8 +134,8 @@ msgid "Keyboard Shortcuts"
 msgstr "Acorchis de clavièr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
-msgstr "Unity 8"
+msgid "Lomiri 8"
+msgstr "Lomiri 8"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -616,7 +616,7 @@ msgstr "Seguent"
 #: qml/Wizard/Pages/10-welcome-update.qml:91
 #, fuzzy
 msgid "Welcome to "
-msgstr "Benvenguda sus Ubuntu"
+msgstr "Benvenguda sus Lomiri"
 
 #: qml/Wizard/Pages/10-welcome-update.qml:106
 msgid "We will make sure your device is ready to use "
@@ -712,10 +712,10 @@ msgstr ""
 #: qml/Wizard/Pages/79-system-update.qml:76
 #, fuzzy
 #| msgctxt "string identifying name of the update"
-#| msgid "Ubuntu system"
+#| msgid "Lomiri system"
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr "Sistèma Ubuntu"
+msgid "Lomiri Touch system"
+msgstr "Sistèma Lomiri"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -736,8 +736,8 @@ msgid "Welcome Back"
 msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Benvenguda sus Ubuntu"
+msgid "Welcome to Lomiri"
+msgstr "Benvenguda sus Lomiri"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -862,7 +862,7 @@ msgstr "Senhal feble"
 msgid "Very weak password"
 msgstr "Senhal fòrça feble"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Logitèca"
 
@@ -1067,8 +1067,8 @@ msgstr "Senhal fòrça feble"
 #~ "Sans elle, vous ne serez pas en mesura de passer dels apèls o de mandar "
 #~ "des SMS."
 
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Benvenguda sus vòstre telefòn Ubuntu."
+#~ msgid "Welcome to your Lomiri phone."
+#~ msgstr "Benvenguda sus vòstre telefòn Lomiri."
 
 #~ msgid "Let’s get started."
 #~ msgstr "Commençons."

@@ -17,12 +17,12 @@
 
 import QtQuick 2.4
 import QtTest 1.0
-import Unity.Test 0.1 as UT
+import Lomiri.SelfTest 0.1 as UT
 import ".."
 import "../../../qml/Components"
 import "../../../qml/Stage"
-import Ubuntu.Components 1.3
-import Unity.Application 0.1
+import Lomiri.Components 1.3
+import QtMir.Application 0.1
 import WindowManager 1.0
 
 Item {
@@ -90,7 +90,7 @@ Item {
     property alias stage: loader.item
     property var tlwm: loader.item.topLevelSurfaceList
 
-    UT.UnityTestCase {
+    UT.LomiriTestCase {
         id: testCase
         name: "QMLTopLevelWindowModel"
         when: windowShown
@@ -146,7 +146,7 @@ Item {
             Ensure that closing a surface while rootFocus is off focuses the
             next available surface when rootFocus is given back.
 
-            Regression test for https://github.com/ubports/unity8/issues/234
+            Regression test for https://github.com/ubports/lomiri/issues/234
 
             This cannot be tested in tst_TopLevelWindowModel.cpp, the mocks for
             it are not advanced enough.

@@ -1,11 +1,11 @@
-# Norwegian Bokmal translation for unity
+# Norwegian Bokmal translation for lomiri
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the unity package.
+# This file is distributed under the same license as the lomiri package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity\n"
+"Project-Id-Version: lomiri\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
 "PO-Revision-Date: 2021-03-12 02:36+0000\n"
@@ -52,16 +52,16 @@ msgstr "Logg inn"
 msgid "Guest Session"
 msgstr "Gjesteøkt"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:49
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Pin shortcut"
 msgstr "Fest snarvei"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Lomiri/Launcher/launcheritem.cpp:55
 msgid "Quit"
 msgstr "Avslutt"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
 msgstr "Fjern snarvei"
 
@@ -135,8 +135,8 @@ msgid "Keyboard Shortcuts"
 msgstr "Tastatursnarveier"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
-msgstr "Unity 8"
+msgid "Lomiri 8"
+msgstr "Lomiri 8"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -678,8 +678,8 @@ msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr "Ubuntu Touch-system"
+msgid "Lomiri Touch system"
+msgstr "Lomiri Touch-system"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -700,8 +700,8 @@ msgid "Welcome Back"
 msgstr "Velkommen tilbake"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Velkommen til Ubuntu"
+msgid "Welcome to Lomiri"
+msgstr "Velkommen til Lomiri"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -826,7 +826,7 @@ msgstr "Svakt passord"
 msgid "Very weak password"
 msgstr "Veldig svakt passord"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Butikk"
 
@@ -1192,8 +1192,8 @@ msgstr "Veldig svakt passord"
 #~ msgid "Let’s get started."
 #~ msgstr "La oss komme i gang."
 
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Velkommen til Ubuntu-telefonen."
+#~ msgid "Welcome to your Lomiri phone."
+#~ msgstr "Velkommen til Lomiri-telefonen."
 
 #~ msgid "Lock security"
 #~ msgstr "Låsesikkerhet"
@@ -1246,7 +1246,7 @@ msgstr "Veldig svakt passord"
 #~ "Your phone is set up to automatically report errors to Canonical and its "
 #~ "partners, the makers of the operating system."
 #~ msgstr ""
-#~ "Telefonen sender feilrapporter til Canonical (produsenten av Ubuntu) "
+#~ "Telefonen sender feilrapporter til Canonical (produsenten av Lomiri) "
 #~ "automatisk."
 
 #~ msgid "Nice work!"

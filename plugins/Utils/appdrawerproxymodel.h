@@ -16,9 +16,9 @@
 
 #include <QSortFilterProxyModel>
 
-#include <unity/shell/launcher/AppDrawerModelInterface.h>
+#include <lomiri/shell/launcher/AppDrawerModelInterface.h>
 
-using namespace unity::shell::launcher;
+using namespace lomiri::shell::launcher;
 
 class AppDrawerProxyModel: public QSortFilterProxyModel
 {

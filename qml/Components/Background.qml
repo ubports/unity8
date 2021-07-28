@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import Utils 0.1 as Utils
 
 Loader {
@@ -32,7 +32,7 @@ Loader {
     }
 
     // FIXME this is only here for highlight purposes
-    readonly property color topColor: parsedStyle ? parsedStyle[2] : UbuntuColors.lightGrey
+    readonly property color topColor: parsedStyle ? parsedStyle[2] : LomiriColors.lightGrey
 
     sourceComponent: {
         if (style == "") return null;

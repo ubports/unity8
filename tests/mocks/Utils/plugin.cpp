@@ -31,8 +31,8 @@
 #include <activefocuslogger.h>
 #include <inputwatcher.h>
 #include <qlimitproxymodelqml.h>
-#include <unitysortfilterproxymodelqml.h>
-#include <unitymenumodelpaths.h>
+#include <lomirisortfilterproxymodelqml.h>
+#include <lomirimenumodelpaths.h>
 #include <windowinputfilter.h>
 #include <easingcurve.h>
 #include <timezoneFormatter.h>
@@ -71,8 +71,8 @@ void FakeUtilsPlugin::registerTypes(const char *uri)
     Q_ASSERT(uri == QLatin1String("Utils"));
     qmlRegisterType<QAbstractItemModel>();
     qmlRegisterType<QLimitProxyModelQML>(uri, 0, 1, "LimitProxyModel");
-    qmlRegisterType<UnitySortFilterProxyModelQML>(uri, 0, 1, "UnitySortFilterProxyModel");
-    qmlRegisterType<UnityMenuModelPaths>(uri, 0, 1, "UnityMenuModelPaths");
+    qmlRegisterType<LomiriSortFilterProxyModelQML>(uri, 0, 1, "LomiriSortFilterProxyModel");
+    qmlRegisterType<LomiriMenuModelPaths>(uri, 0, 1, "LomiriMenuModelPaths");
     qmlRegisterType<WindowInputFilter>(uri, 0, 1, "WindowInputFilter");
     qmlRegisterType<EasingCurve>(uri, 0, 1, "EasingCurve");
     qmlRegisterSingletonType<WindowStateStorage>(uri, 0, 1, "WindowStateStorage", createWindowStateStorage);

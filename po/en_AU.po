@@ -1,17 +1,17 @@
-# English (Australia) translation for unity
+# English (Australia) translation for lomiri
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the unity package.
+# This file is distributed under the same license as the lomiri package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity\n"
+"Project-Id-Version: lomiri\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
 "PO-Revision-Date: 2019-04-19 21:20+0000\n"
 "Last-Translator: Michael-AU <root@cobber-linux.org>\n"
 "Language-Team: English (Australia) <https://translate.ubports.com/projects/"
-"unity8/unity8/en_AU/>\n"
+"lomiri/lomiri/en_AU/>\n"
 "Language: en_AU\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,16 +52,16 @@ msgstr ""
 msgid "Guest Session"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:49
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Pin shortcut"
 msgstr "Pin shortcut"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Lomiri/Launcher/launcheritem.cpp:55
 msgid "Quit"
 msgstr "Quit"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
 msgstr "Unpin shortcut"
 
@@ -135,8 +135,8 @@ msgid "Keyboard Shortcuts"
 msgstr "Keyboard Shortcuts"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
-msgstr "Unity 8"
+msgid "Lomiri 8"
+msgstr "Lomiri 8"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -700,7 +700,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
+msgid "Lomiri Touch system"
 msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:83
@@ -722,8 +722,8 @@ msgid "Welcome Back"
 msgstr "Welcome Back"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Welcome to Unity"
+msgid "Welcome to Lomiri"
+msgstr "Welcome to Lomiri"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -848,7 +848,7 @@ msgstr "Weak password"
 msgid "Very weak password"
 msgstr "Very weak password"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Store"
 
@@ -1205,8 +1205,8 @@ msgstr "Very weak password"
 #~ msgid "Hi!"
 #~ msgstr "Hi!"
 
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Welcome to your Ubuntu phone."
+#~ msgid "Welcome to your Lomiri phone."
+#~ msgstr "Welcome to your Lomiri phone."
 
 #~ msgid "Let’s get started."
 #~ msgstr "Let’s get started."

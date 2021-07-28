@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import QMenuModel 0.1
 import "../Components"
 
@@ -88,7 +88,7 @@ Loader {
             }
 
             TextField {
-                // TODO using Qt.ImhNoPredictiveText here until lp #1291575 is fixed for ubuntu-ui-toolkit
+                // TODO using Qt.ImhNoPredictiveText here until lp #1291575 is fixed for lomiri-ui-toolkit
                 inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText
                 anchors {
                     left: parent.left

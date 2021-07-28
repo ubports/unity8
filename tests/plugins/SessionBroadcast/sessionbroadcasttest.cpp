@@ -29,9 +29,9 @@ class SessionBroadcastTest : public QObject
 private Q_SLOTS:
 
     void initTestCase() {
-        broadcastServer = new QDBusInterface("com.canonical.Unity.Greeter.Broadcast",
-                                             "/com/canonical/Unity/Greeter/Broadcast",
-                                             "com.canonical.Unity.Greeter.Broadcast",
+        broadcastServer = new QDBusInterface("com.lomiri.Shell.Greeter.Broadcast",
+                                             "/com/lomiri/Shell/Greeter/Broadcast",
+                                             "com.lomiri.Shell.Greeter.Broadcast",
                                              QDBusConnection::sessionBus(), this);
         serverStartUrlSpy = new QSignalSpy(broadcastServer,
                                            SIGNAL(StartUrl(const QString &, const QString &)));

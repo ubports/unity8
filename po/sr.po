@@ -1,12 +1,12 @@
-# Serbian translation for unity
+# Serbian translation for lomiri
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the unity package.
+# This file is distributed under the same license as the lomiri package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 # Саша Петровић <salepetronije@gmail.com>, 2015.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity\n"
+"Project-Id-Version: lomiri\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
 "PO-Revision-Date: 2016-08-22 20:43+0000\n"
@@ -53,16 +53,16 @@ msgstr ""
 msgid "Guest Session"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:49
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Pin shortcut"
 msgstr "Прикачи пречицу"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Lomiri/Launcher/launcheritem.cpp:55
 msgid "Quit"
 msgstr "Напусти"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
 msgstr "Откачи пречицу"
 
@@ -136,7 +136,7 @@ msgid "Keyboard Shortcuts"
 msgstr "Пречице тастатуре"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
+msgid "Lomiri 8"
 msgstr "Јунити 8"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
@@ -708,9 +708,9 @@ msgstr ""
 #: qml/Wizard/Pages/79-system-update.qml:76
 #, fuzzy
 #| msgctxt "string identifying name of the update"
-#| msgid "Ubuntu system"
+#| msgid "Lomiri system"
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
+msgid "Lomiri Touch system"
 msgstr "Убунту систем"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
@@ -732,7 +732,7 @@ msgid "Welcome Back"
 msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
+msgid "Welcome to Lomiri"
 msgstr "Добродошли у Убунту"
 
 #: qml/Wizard/Pages/80-finished.qml:106
@@ -858,7 +858,7 @@ msgstr "Слаба лозинка"
 msgid "Very weak password"
 msgstr "Веома слаба лозинка"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Продавница"
 
@@ -1210,7 +1210,7 @@ msgstr "Веома слаба лозинка"
 #~ msgid "Swipe"
 #~ msgstr "Превлачење"
 
-#~ msgid "Welcome to your Ubuntu phone."
+#~ msgid "Welcome to your Lomiri phone."
 #~ msgstr "Добродошли у свој Убунту телефон."
 
 #~ msgctxt "Label: Description of security method"

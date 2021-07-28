@@ -1,6 +1,0 @@
-add_subdirectory(Connectivity)
-add_subdirectory(DownloadDaemonListener)
-add_subdirectory(SystemSettings)
-add_subdirectory(Telephony)
-add_subdirectory(Thumbnailer)
-add_subdirectory(Web)

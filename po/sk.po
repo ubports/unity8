@@ -1,16 +1,16 @@
-# Slovak translation for unity8
+# Slovak translation for lomiri
 # Copyright (c) 2015 Rosetta Contributors and Canonical Ltd 2015
-# This file is distributed under the same license as the unity8 package.
+# This file is distributed under the same license as the lomiri package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity8\n"
+"Project-Id-Version: lomiri\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
 "PO-Revision-Date: 2020-05-09 09:23+0000\n"
 "Last-Translator: dano6 <dano.kutka@gmail.com>\n"
-"Language-Team: Slovak <https://translate.ubports.com/projects/unity8/unity8/"
+"Language-Team: Slovak <https://translate.ubports.com/projects/lomiri/lomiri/"
 "sk/>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
@@ -52,16 +52,16 @@ msgstr "Prihlásiť"
 msgid "Guest Session"
 msgstr "Hosťovské sedenie"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:49
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Pin shortcut"
 msgstr "Pripnúť odkaz"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Lomiri/Launcher/launcheritem.cpp:55
 msgid "Quit"
 msgstr "Ukončiť"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
 msgstr "Odopnúť odkaz"
 
@@ -135,8 +135,8 @@ msgid "Keyboard Shortcuts"
 msgstr "Klávesové skratky"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
-msgstr "Unity 8"
+msgid "Lomiri 8"
+msgstr "Lomiri 8"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -684,8 +684,8 @@ msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr "Ubuntu Touch systém"
+msgid "Lomiri Touch system"
+msgstr "Lomiri Touch systém"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -706,8 +706,8 @@ msgid "Welcome Back"
 msgstr "Vitajte späť"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Vitajte v Ubuntu"
+msgid "Welcome to Lomiri"
+msgstr "Vitajte v Lomiri"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -832,7 +832,7 @@ msgstr "Heslo je slabé"
 msgid "Very weak password"
 msgstr "Heslo je veľmi slabé"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Obchod"
 

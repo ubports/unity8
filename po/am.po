@@ -1,16 +1,16 @@
-# Amharic translation for unity8
+# Amharic translation for lomiri
 # Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
-# This file is distributed under the same license as the unity8 package.
+# This file is distributed under the same license as the lomiri package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity8\n"
+"Project-Id-Version: lomiri\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
 "PO-Revision-Date: 2021-01-31 01:03+0000\n"
 "Last-Translator: Samson <sambelet@yahoo.com>\n"
-"Language-Team: Amharic <https://translate.ubports.com/projects/unity8/unity8/"
+"Language-Team: Amharic <https://translate.ubports.com/projects/lomiri/lomiri/"
 "am/>\n"
 "Language: am\n"
 "MIME-Version: 1.0\n"
@@ -52,16 +52,16 @@ msgstr "መግቢያ"
 msgid "Guest Session"
 msgstr "የ እንግዳ ክፍለ ጊዜ"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:49
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Pin shortcut"
 msgstr "አቋራጭ ማጣበቂያ"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Lomiri/Launcher/launcheritem.cpp:55
 msgid "Quit"
 msgstr "ማጥፊያ"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
 msgstr "አቋራጭ መለያያ"
 
@@ -135,8 +135,8 @@ msgid "Keyboard Shortcuts"
 msgstr "የ ፊደል ገበታ አቋራጮች"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
-msgstr "Unity 8"
+msgid "Lomiri 8"
+msgstr "Lomiri 8"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -673,9 +673,9 @@ msgstr "የ ስርአት ማሻሻያ ዝግጁ ነው ለ መግጠም: ከዚ�
 #: qml/Wizard/Pages/79-system-update.qml:76
 #, fuzzy
 #| msgctxt "string identifying name of the update"
-#| msgid "Ubuntu system"
+#| msgid "Lomiri system"
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
+msgid "Lomiri Touch system"
 msgstr "የ ኡቡቱ ስርአት"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
@@ -697,7 +697,7 @@ msgid "Welcome Back"
 msgstr "እንኳን ደህና መጡ:"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
+msgid "Welcome to Lomiri"
 msgstr "እንኳን ደህና መጡ ወደ ኡቡንቱ"
 
 #: qml/Wizard/Pages/80-finished.qml:106
@@ -823,7 +823,7 @@ msgstr "ደካማ የ መግቢያ ቃል"
 msgid "Very weak password"
 msgstr "በጣም ደካማ የ መግቢያ ቃል"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "ማስቀመጫ"
 
@@ -1212,7 +1212,7 @@ msgstr "በጣም ደካማ የ መግቢያ ቃል"
 #~ msgid "Hi!"
 #~ msgstr "ሰላም"
 
-#~ msgid "Welcome to your Ubuntu phone."
+#~ msgid "Welcome to your Lomiri phone."
 #~ msgstr "እንኳን ደህና መጡ ወደ እርስዎ ኡቡንቱ ስልክ"
 
 #~ msgid "Let’s get started."

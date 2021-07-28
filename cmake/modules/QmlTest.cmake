@@ -201,7 +201,7 @@ function(add_executable_test COMPONENT_NAME TARGET)
         add_qmltest_target(xvfbtest${COMPONENT_NAME} ${TARGET}
             COMMAND $<TARGET_FILE:xvfb-run> --server-args "-screen 0 1024x768x24" --auto-servernum ${qmltest_command}
             ${depends}
-            ENVIRONMENT QT_QPA_PLATFORM=xcb QML2_IMPORT_PATH=${imports} LD_PRELOAD=/usr/lib/${CMAKE_LIBRARY_ARCHITECTURE}/mesa/libGL.so.1 ${QMLTEST_ENVIRONMENT}
+            ENVIRONMENT QT_QPA_PLATFORM=xcb QML2_IMPORT_PATH=${imports} ${QMLTEST_ENVIRONMENT}
             TARGETS ${xvfb_targets}
         )
     endif()
@@ -298,8 +298,8 @@ function(install_test_script TARGET_NAME)
     foreach(ONE_ENV ${TEST_ENVIRONMENT})
         set(script "${script}export ${ONE_ENV}\n")
     endforeach()
-    set(script "${script}export UNITY_TESTING_DATADIR=\"${CMAKE_INSTALL_PREFIX}/${SHELL_APP_DIR}\"\n")
-    set(script "${script}export UNITY_TESTING_LIBDIR=\"${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}\"\n")
+    set(script "${script}export LOMIRI_TESTING_DATADIR=\"${CMAKE_INSTALL_PREFIX}/${SHELL_APP_DIR}\"\n")
+    set(script "${script}export LOMIRI_TESTING_LIBDIR=\"${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}\"\n")
     set(script "${script}\n")
     set(script "${script}XML_ARGS=\n")
     set(script "${script}if [ -n \"\$ARTIFACTS_DIR\" ]; then\n")

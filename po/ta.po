@@ -1,16 +1,16 @@
-# Tamil translation for unity8
+# Tamil translation for lomiri
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the unity8 package.
+# This file is distributed under the same license as the lomiri package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 # துளசி <Thangamani Arun<thangam.arunx@gmail.com>>, 2013.
 msgid ""
 msgstr ""
-"Project-Id-Version: unity8\n"
+"Project-Id-Version: lomiri\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
 "PO-Revision-Date: 2013-10-24 11:36+0000\n"
 "Last-Translator: Arun Kumar - அருண் குமார் <thangam.arunx@gmail.com>\n"
-"Language-Team: Ubuntu Tamil Team/Free Tamil Computing/Thamizha\n"
+"Language-Team: Lomiri Tamil Team/Free Tamil Computing/Thamizha\n"
 "Language: ta\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,16 +51,16 @@ msgstr ""
 msgid "Guest Session"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:49
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Pin shortcut"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Lomiri/Launcher/launcheritem.cpp:55
 msgid "Quit"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
 msgstr ""
 
@@ -132,7 +132,7 @@ msgid "Keyboard Shortcuts"
 msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
+msgid "Lomiri 8"
 msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
@@ -672,7 +672,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
+msgid "Lomiri Touch system"
 msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:83
@@ -694,7 +694,7 @@ msgid "Welcome Back"
 msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
+msgid "Welcome to Lomiri"
 msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:106

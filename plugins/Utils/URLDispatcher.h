@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef UNITY_URLDISPATCHER_H
-#define UNITY_URLDISPATCHER_H
+#ifndef LOMIRI_URLDISPATCHER_H
+#define LOMIRI_URLDISPATCHER_H
 
 #include <QObject>
 #include <QString>

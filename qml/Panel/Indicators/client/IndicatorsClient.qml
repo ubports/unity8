@@ -18,14 +18,14 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 
 Rectangle {
     id: root
     color: theme.palette.normal.background
 
     Component.onCompleted: {
-        theme.name = "Ubuntu.Components.Themes.SuruDark"
+        theme.name = "Lomiri.Components.Themes.SuruDark"
     }
 
     PageStack {

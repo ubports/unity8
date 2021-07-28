@@ -16,8 +16,8 @@
  * Author: Pete Woods <pete.woods@canonical.com>
  */
 
-#ifndef UNITY_MOCK_USERMETRICS_H
-#define UNITY_MOCK_USERMETRICS_H
+#ifndef LOMIRI_MOCK_USERMETRICS_H
+#define LOMIRI_MOCK_USERMETRICS_H
 
 #include "ColorTheme.h"
 #include <QtCore/QAbstractListModel>
@@ -111,4 +111,4 @@ protected:
 
 }
 
-#endif // UNITY_MOCK_USERMETRICS_H
+#endif // LOMIRI_MOCK_USERMETRICS_H

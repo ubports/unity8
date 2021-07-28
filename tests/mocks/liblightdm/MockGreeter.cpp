@@ -68,7 +68,7 @@ QString Greeter::getHint(const QString &name) const
 
 QString Greeter::defaultSessionHint() const
 {
-    return QStringLiteral("ubuntu");
+    return QStringLiteral("lomiri");
 }
 
 bool Greeter::hideUsersHint() const
@@ -160,15 +160,15 @@ void Greeter::handleAuthenticate()
 
     // Send out any messages we need to
     if (d->authenticationUser == "info-prompt")
-        Q_EMIT showMessage("Welcome to Unity Greeter", Greeter::MessageTypeInfo);
+        Q_EMIT showMessage("Welcome to Lomiri Greeter", Greeter::MessageTypeInfo);
     else if (d->authenticationUser == "wide-info-prompt")
-        Q_EMIT showMessage("Welcome to Unity Greeter, the greeteriest greeter that ever did appear in these fine lands", Greeter::MessageTypeInfo);
+        Q_EMIT showMessage("Welcome to Lomiri Greeter, the greeteriest greeter that ever did appear in these fine lands", Greeter::MessageTypeInfo);
     else if (d->authenticationUser == "html-info-prompt")
         Q_EMIT showMessage("<b>&</b>", Greeter::MessageTypeInfo);
     else if (d->authenticationUser == "long-info-prompt")
-        Q_EMIT showMessage("Welcome to Unity Greeter\n\nWe like to annoy you with super ridiculously long messages.\nLike this one\n\nThis is the last line of a multiple line message.", Greeter::MessageTypeInfo);
+        Q_EMIT showMessage("Welcome to Lomiri Greeter\n\nWe like to annoy you with super ridiculously long messages.\nLike this one\n\nThis is the last line of a multiple line message.", Greeter::MessageTypeInfo);
     else if (d->authenticationUser == "multi-info-prompt") {
-        Q_EMIT showMessage("Welcome to Unity Greeter", Greeter::MessageTypeInfo);
+        Q_EMIT showMessage("Welcome to Lomiri Greeter", Greeter::MessageTypeInfo);
         Q_EMIT showMessage("This is an error", Greeter::MessageTypeError);
         Q_EMIT showMessage("You should have seen three messages", Greeter::MessageTypeInfo);
     }
@@ -237,9 +237,9 @@ bool Greeter::startSessionSync(const QString &session)
     // Send a request to hide the greeter.  This is normally done by logind,
     // but when testing, we don't want the bother of mocking that out. Instead,
     // just send the request directly ourselves.
-    QDBusInterface iface("com.canonical.UnityGreeter",
-                         "/",
-                         "com.canonical.UnityGreeter",
+    QDBusInterface iface("com.lomiri.LomiriGreeter",
+                         "/com/lomiri/LomiriGreeter",
+                         "com.lomiri.LomiriGreeter",
                          QDBusConnection::sessionBus());
     iface.asyncCall("HideGreeter");
 
@@ -305,7 +305,7 @@ void Greeter::respond(const QString &response)
 
 void Greeter::sendAuthenticationComplete()
 {
-    if (qEnvironmentVariableIsEmpty("UNITY_TESTING")) {
+    if (qEnvironmentVariableIsEmpty("LOMIRI_TESTING")) {
         // simulate PAM's delay
         QTimer::singleShot(1000, this, &Greeter::authenticationComplete);
     } else {

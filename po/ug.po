@@ -1,11 +1,11 @@
-# Uyghur translation for unity
+# Uyghur translation for lomiri
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the unity package.
+# This file is distributed under the same license as the lomiri package.
 # Gheyret Kenji <gheyret@gmail.com>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity\n"
+"Project-Id-Version: lomiri\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
 "PO-Revision-Date: 2016-07-03 13:56+0000\n"
@@ -51,16 +51,16 @@ msgstr ""
 msgid "Guest Session"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:49
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Pin shortcut"
 msgstr "تېزلەتمىنى قوي"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Lomiri/Launcher/launcheritem.cpp:55
 msgid "Quit"
 msgstr "چېكىن"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
 msgstr "تېزلەتمىنى ئېلىۋەت"
 
@@ -134,8 +134,8 @@ msgid "Keyboard Shortcuts"
 msgstr "تېزلەتمىلەر"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
-msgstr "Unity 8"
+msgid "Lomiri 8"
+msgstr "Lomiri 8"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -692,7 +692,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
+msgid "Lomiri Touch system"
 msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:83
@@ -714,7 +714,7 @@ msgid "Welcome Back"
 msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
+msgid "Welcome to Lomiri"
 msgstr "ئۇبۇنتۇغا مەرھابا"
 
 #: qml/Wizard/Pages/80-finished.qml:106
@@ -840,7 +840,7 @@ msgstr "ئاجىز ئىم"
 msgid "Very weak password"
 msgstr ""
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "ساقلا"
 
@@ -1126,7 +1126,7 @@ msgstr ""
 #~ msgid "Hi!"
 #~ msgstr "سالام!"
 
-#~ msgid "Welcome to your Ubuntu phone."
+#~ msgid "Welcome to your Lomiri phone."
 #~ msgstr "ئۇبۇنتۇ تېلېفونىغا مەرھابا."
 
 #~ msgid "Let’s get started."

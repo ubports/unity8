@@ -34,13 +34,13 @@
 
 void handleQuit()
 {
-    QProcess::startDetached("initctl start ubuntu-system-settings-wizard-cleanup");
+    QProcess::startDetached("initctl start lomiri-system-settings-wizard-cleanup");
 }
 
 int main(int argc, const char *argv[])
 {
     bool isMirServer = false;
-    if (qgetenv("QT_QPA_PLATFORM") == "ubuntumirclient") {
+    if (qgetenv("QT_QPA_PLATFORM") == "lomirimirclient") {
         setenv("QT_QPA_PLATFORM", "mirserver", 1 /* overwrite */);
         isMirServer = true;
     }
@@ -55,16 +55,16 @@ int main(int argc, const char *argv[])
     view->setResizeMode(QQuickView::SizeRootObjectToView);
     view->setTitle("Welcome Wizard");
 
-    QString rootDir = qgetenv("UBUNTU_SYSTEM_SETTINGS_WIZARD_ROOT"); // for testing
+    QString rootDir = qgetenv("LOMIRI_SYSTEM_SETTINGS_WIZARD_ROOT"); // for testing
     if (rootDir.isEmpty())
         rootDir = WIZARD_ROOT;
 
-    QString modulesDir = qgetenv("UBUNTU_SYSTEM_SETTINGS_WIZARD_MODULES"); // for testing
+    QString modulesDir = qgetenv("LOMIRI_SYSTEM_SETTINGS_WIZARD_MODULES"); // for testing
     if (modulesDir.isEmpty())
         modulesDir = PLUGIN_PRIVATE_MODULE_DIR;
 
     if (!isMirServer) {
-        view->engine()->addImportPath(modulesDir + "/Ubuntu/SystemSettings/Wizard/NonMir");
+        view->engine()->addImportPath(modulesDir + "/Lomiri/SystemSettings/Wizard/NonMir");
     }
     view->engine()->addImportPath(modulesDir);
     view->engine()->addImportPath(PLUGIN_QML_DIR);
@@ -72,7 +72,7 @@ int main(int argc, const char *argv[])
 
     PageList pageList;
     view->rootContext()->setContextProperty("pageList", &pageList);
-    view->setSource(QUrl(rootDir + "/ubuntu/settings/wizard/qml/main.qml"));
+    view->setSource(QUrl(rootDir + "/lomiri/settings/wizard/qml/main.qml"));
     view->setColor("transparent");
 
     QObject::connect(view->engine(), &QQmlEngine::quit, handleQuit);

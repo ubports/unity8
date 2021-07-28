@@ -15,13 +15,13 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.3
-import Ubuntu.SystemSettings.LanguagePlugin 1.0
+import Lomiri.Components 1.3
+import Lomiri.Components.ListItems 1.3
+import Lomiri.SystemSettings.LanguagePlugin 1.0
 import Wizard 0.1
 import AccountsService 0.1
-import Unity.InputInfo 0.1
-import Unity.Application 0.1
+import Lomiri.InputInfo 0.1
+import QtMir.Application 0.1
 import ".." as LocalComponents
 import "../../Components"
 
@@ -34,7 +34,7 @@ LocalComponents.Page {
     skip: keyboardsModel.count == 0
     skipValid: false
 
-    UbuntuLanguagePlugin {
+    LomiriLanguagePlugin {
         id: langPlugin
     }
 
@@ -107,7 +107,7 @@ LocalComponents.Page {
             height: column.height - label1.height - langSelector.height - label2.height - column.spacing * 3
             enabled: !langSelector.expanded
             Behavior on opacity {
-                UbuntuNumberAnimation {}
+                LomiriNumberAnimation {}
             }
 
             delegate: ListItem {

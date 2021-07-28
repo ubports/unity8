@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef UNITY_MOCK_LIGHTS_H
-#define UNITY_MOCK_LIGHTS_H
+#ifndef LOMIRI_MOCK_LIGHTS_H
+#define LOMIRI_MOCK_LIGHTS_H
 
 #include <QtCore/QObject>
 #include <QtGui/QColor>

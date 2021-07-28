@@ -16,4 +16,4 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-qdbus com.canonical.Unity | grep Launcher | cut -f6 -d/
+qdbus com.lomiri.Shell | grep Launcher | cut -f6 -d/

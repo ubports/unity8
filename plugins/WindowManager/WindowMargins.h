@@ -24,7 +24,7 @@
  * Specifies window margins for different Mir window types
  *
  * Used to inform MirAL so that it can take window management decisions that match
- * the visuals drawn by Unity.
+ * the visuals drawn by Lomiri.
  */
 class WindowMargins : public QQuickItem
 {

@@ -1,7 +1,0 @@
-module Unity.Test
-plugin UnityTestQml
-typeinfo Test.qmltypes
-
-UnityTestCase 0.1 UnityTestCase.qml
-StageTestCase 0.1 StageTestCase.qml
-MouseTouchEmulationCheckbox 0.1 MouseTouchEmulationCheckbox.qml

@@ -1,6 +1,6 @@
-add_subdirectory(libunity8-private)
+add_subdirectory(liblomiri-private)
 
-pkg_check_modules(CONNECTIVITY REQUIRED connectivity-qt1)
+pkg_check_modules(CONNECTIVITY REQUIRED lomiri-connectivity-qt1)
 pkg_check_modules(GSETTINGS_QT REQUIRED gsettings-qt)
 
 include_directories(
@@ -13,7 +13,7 @@ include_directories(
 )
 
 include_directories(
-    ${libunity8-private_SOURCE_DIR}
+    ${liblomiri-private_SOURCE_DIR}
 )
 
 file(GLOB_RECURSE QML_FILES
@@ -31,8 +31,8 @@ set(SOURCE_FILES
     main.cpp
     CachingNetworkManagerFactory.cpp
     DisplayConfigurationStorage.cpp
-    UnityApplication.cpp
-    UnityCommandLineParser.cpp
+    LomiriApplication.cpp
+    LomiriCommandLineParser.cpp
     UnixSignalHandler.cpp
     DebuggingController.cpp
     WindowManagementPolicy.cpp
@@ -44,6 +44,12 @@ if (ENABLE_TOUCH_EMULATION)
 endif()
 
 pkg_check_modules(ANDROID_PROPERTIES REQUIRED libandroid-properties)
+pkg_check_modules(SYSTEMD REQUIRED libsystemd)
+
+include_directories(
+    ${SYSTEMD_INCLUDE_DIRS}
+)
+
 add_executable(${SHELL_APP} ${SOURCE_FILES})
 
 if (NOT "${ANDROID_PROPERTIES_INCLUDE_DIRS}" STREQUAL "")
@@ -54,9 +60,10 @@ target_link_libraries(${SHELL_APP}
     ${ANDROID_PROPERTIES_LDFLAGS}
     ${GSETTINGS_QT_LDFLAGS}
     ${QTMIRSERVER_LDFLAGS}
-    UbuntuGestures
-    connectivity-qt1
-    unity8-private
+    ${SYSTEMD_LDFLAGS}
+    LomiriGestures
+    lomiri-connectivity-qt1
+    lomiri-private
 )
 
 if (ENABLE_TOUCH_EMULATION)

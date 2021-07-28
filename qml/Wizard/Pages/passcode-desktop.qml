@@ -16,7 +16,7 @@
 
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import ".." as LocalComponents
 import "../../Components"
 
@@ -52,7 +52,7 @@ LocalComponents.Page {
 
         bottomMargin: Qt.inputMethod.keyboardRectangle.height - height - customMargin
 
-        Behavior on contentY { UbuntuNumberAnimation {} }
+        Behavior on contentY { LomiriNumberAnimation {} }
 
         Label {
             id: infoLabel
@@ -130,7 +130,7 @@ LocalComponents.Page {
                 id: errorLabel
                 property bool hasError: password && password != password2
                 wrapMode: Text.Wrap
-                color: hasError ? errorColor : UbuntuColors.ash
+                color: hasError ? errorColor : LomiriColors.ash
                 visible: password && password2
                 fontSize: "small"
                 text: {

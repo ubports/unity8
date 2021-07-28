@@ -209,7 +209,7 @@ QModelIndex MangleModel::index(int row, int column, const QModelIndex &parent) c
 // **** Now we continue with actual UsersModel class ****
 
 UsersModel::UsersModel(QObject* parent)
-  : UnitySortFilterProxyModelQML(parent)
+  : LomiriSortFilterProxyModelQML(parent)
 {
     setModel(new MangleModel(this));
     setSortCaseSensitivity(Qt::CaseInsensitive);
@@ -232,7 +232,7 @@ bool UsersModel::lessThan(const QModelIndex &source_left, const QModelIndex &sou
     if (rightName == QStringLiteral("*other"))
         return true;
 
-    return UnitySortFilterProxyModelQML::lessThan(source_left, source_right);
+    return LomiriSortFilterProxyModelQML::lessThan(source_left, source_right);
 }
 
 #include "UsersModel.moc"

@@ -1,3 +1,0 @@
-module Unity.Launcher
-plugin UnityLauncher-qml
-typeinfo Launcher.qmltypes

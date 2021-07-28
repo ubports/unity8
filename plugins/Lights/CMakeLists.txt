@@ -16,4 +16,4 @@ target_link_libraries(Lights-qml
     ${ANDROID_HARDWARE_LIBRARIES}
     )
 
-add_unity8_plugin(Lights 0.1 Lights TARGETS Lights-qml)
+add_lomiri_plugin(Lights 0.1 Lights TARGETS Lights-qml)

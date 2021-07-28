@@ -1,1 +1,1 @@
-add_unity8_mock(Cursor 1.1 Cursor)
+add_lomiri_mock(Cursor 1.1 Cursor)

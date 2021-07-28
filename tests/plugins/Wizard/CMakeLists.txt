@@ -11,7 +11,7 @@ target_link_libraries(tst-wizard-pagelist Qt5::Core Qt5::Qml Qt5::Test)
 install(TARGETS tst-wizard-pagelist
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Wizard"
 )
-add_unity8_unittest(WizardPageList tst-wizard-pagelist ENVIRONMENT WIZARD_TESTING=1)
+add_lomiri_unittest(WizardPageList tst-wizard-pagelist ENVIRONMENT WIZARD_TESTING=1)
 
 add_executable(tst-wizard-system
     tst_system.cpp
@@ -21,4 +21,4 @@ target_link_libraries(tst-wizard-system Qt5::Core Qt5::DBus Qt5::Qml Qt5::Test)
 install(TARGETS tst-wizard-system
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Wizard"
 )
-add_unity8_unittest(WizardSystem tst-wizard-system)
+add_lomiri_unittest(WizardSystem tst-wizard-system)

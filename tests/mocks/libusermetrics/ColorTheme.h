@@ -16,8 +16,8 @@
  * Author: Pete Woods <pete.woods@canonical.com>
  */
 
-#ifndef UNITY_MOCK_COLORTHEME_H
-#define UNITY_MOCK_COLORTHEME_H
+#ifndef LOMIRI_MOCK_COLORTHEME_H
+#define LOMIRI_MOCK_COLORTHEME_H
 
 #include <QObject>
 #include <QColor>
@@ -66,4 +66,4 @@ protected:
 
 }
 
-#endif // UNITY_MOCK_COLORTHEME_H
+#endif // LOMIRI_MOCK_COLORTHEME_H

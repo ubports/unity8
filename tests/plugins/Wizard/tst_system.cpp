@@ -47,7 +47,7 @@ private:
 SystemTest::SystemTest()
 {
     qputenv("HOME", dir.path().toUtf8());
-    enableDir.setPath(dir.path() + "/.config/ubuntu-system-settings");
+    enableDir.setPath(dir.path() + "/.config/lomiri-system-settings");
     enableFile.setFileName(enableDir.filePath("wizard-has-run"));
 }
 

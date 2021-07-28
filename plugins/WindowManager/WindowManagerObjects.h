@@ -21,7 +21,7 @@
 
 #include "WindowManagerGlobal.h"
 
-namespace unity {
+namespace lomiri {
     namespace shell {
         namespace application {
             class SurfaceManagerInterface;
@@ -34,12 +34,12 @@ class WINDOWMANAGERQML_EXPORT WindowManagerObjects : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(unity::shell::application::SurfaceManagerInterface* surfaceManager
+    Q_PROPERTY(lomiri::shell::application::SurfaceManagerInterface* surfaceManager
             READ surfaceManager
             WRITE setSurfaceManager
             NOTIFY surfaceManagerChanged)
 
-    Q_PROPERTY(unity::shell::application::ApplicationManagerInterface* applicationManager
+    Q_PROPERTY(lomiri::shell::application::ApplicationManagerInterface* applicationManager
             READ applicationManager
             WRITE setApplicationManager
             NOTIFY applicationManagerChanged)
@@ -48,19 +48,19 @@ public:
 
     static WindowManagerObjects *instance();
 
-    unity::shell::application::SurfaceManagerInterface *surfaceManager() const { return m_surfaceManager; }
-    void setSurfaceManager(unity::shell::application::SurfaceManagerInterface*);
+    lomiri::shell::application::SurfaceManagerInterface *surfaceManager() const { return m_surfaceManager; }
+    void setSurfaceManager(lomiri::shell::application::SurfaceManagerInterface*);
 
-    unity::shell::application::ApplicationManagerInterface *applicationManager() const { return m_applicationManager; }
-    void setApplicationManager(unity::shell::application::ApplicationManagerInterface*);
+    lomiri::shell::application::ApplicationManagerInterface *applicationManager() const { return m_applicationManager; }
+    void setApplicationManager(lomiri::shell::application::ApplicationManagerInterface*);
 
 Q_SIGNALS:
-    void surfaceManagerChanged(unity::shell::application::SurfaceManagerInterface*);
-    void applicationManagerChanged(unity::shell::application::ApplicationManagerInterface*);
+    void surfaceManagerChanged(lomiri::shell::application::SurfaceManagerInterface*);
+    void applicationManagerChanged(lomiri::shell::application::ApplicationManagerInterface*);
 
 private:
-    unity::shell::application::SurfaceManagerInterface* m_surfaceManager;
-    unity::shell::application::ApplicationManagerInterface* m_applicationManager;
+    lomiri::shell::application::SurfaceManagerInterface* m_surfaceManager;
+    lomiri::shell::application::ApplicationManagerInterface* m_applicationManager;
 };
 
 #endif // WINDOWMANAGEROBJECTS_H

@@ -16,16 +16,16 @@
 
 import QtQuick 2.4
 import QtTest 1.0
-import Unity.Test 0.1 as UT
+import Lomiri.SelfTest 0.1 as UT
 import ".."
 import "../../../qml/Components"
 import "../../../qml/Components/PanelState"
 import "../../../qml/Stage"
-import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.3 as ListItem
-import Unity.Application 0.1
-import Unity.ApplicationMenu 0.1
-import Unity.Indicators 0.1 as Indicators
+import Lomiri.Components 1.3
+import Lomiri.Components.ListItems 1.3 as ListItem
+import QtMir.Application 0.1
+import Lomiri.ApplicationMenu 0.1
+import Lomiri.Indicators 0.1 as Indicators
 
 Rectangle {
     color: "red"
@@ -35,7 +35,7 @@ Rectangle {
 
     Component.onCompleted: {
         QuickUtils.keyboardAttached = true;
-        theme.name = "Ubuntu.Components.Themes.SuruDark"
+        theme.name = "Lomiri.Components.Themes.SuruDark"
     }
 
     property QtObject fakeApplication: null
@@ -139,8 +139,8 @@ Rectangle {
             }
             Button {
                 id: loadWithWeatherApp
-                text: "Load with ubuntu-weather-app"
-                onClicked: { testCase.restartWithApp("ubuntu-weather-app"); }
+                text: "Load with lomiri-weather-app"
+                onClicked: { testCase.restartWithApp("lomiri-weather-app"); }
             }
             Button {
                 id: loadWithGalleryApp
@@ -184,7 +184,7 @@ Rectangle {
         }
     }
 
-    UT.UnityTestCase {
+    UT.LomiriTestCase {
         id: testCase
         name: "DecoratedWindow"
         when: windowShown

@@ -15,8 +15,8 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
-import Ubuntu.SystemSettings.SecurityPrivacy 1.0
+import Lomiri.Components 1.3
+import Lomiri.SystemSettings.SecurityPrivacy 1.0
 import ".." as LocalComponents
 import "../../Components"
 
@@ -62,7 +62,7 @@ LocalComponents.Page {
 
         Timer {
             id: confirmTimer
-            interval: UbuntuAnimation.SnapDuration
+            interval: LomiriAnimation.SnapDuration
             onTriggered: pageStack.next()
         }
     }

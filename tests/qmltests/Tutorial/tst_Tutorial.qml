@@ -19,12 +19,12 @@ import QtTest 1.0
 import AccountsService 0.1
 import LightDMController 0.1
 import LightDM.FullLightDM 0.1 as LightDM
-import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.3
-import Ubuntu.Telephony 0.1 as Telephony
-import Unity.Application 0.1
-import Unity.Notifications 1.0
-import Unity.Test 0.1 as UT
+import Lomiri.Components 1.3
+import Lomiri.Components.ListItems 1.3
+import Lomiri.Telephony 0.1 as Telephony
+import QtMir.Application 0.1
+import Lomiri.Notifications 1.0
+import Lomiri.SelfTest 0.1 as UT
 import Utils 0.1
 
 import "../../../qml"
@@ -32,7 +32,7 @@ import "../../../qml/Components"
 
 Rectangle {
     id: root
-    color: UbuntuColors.lightGrey
+    color: LomiriColors.lightGrey
     width: units.gu(100) + buttons.width
     height: units.gu(71)
 
@@ -149,7 +149,7 @@ Rectangle {
 
     Rectangle {
         id: buttons
-        color: UbuntuColors.darkGrey
+        color: LomiriColors.darkGrey
         width: units.gu(30)
         anchors.top: root.top
         anchors.bottom: root.bottom
@@ -603,6 +603,8 @@ Rectangle {
         }
 
         function test_activeCallInterruptsTutorial() {
+            skip('Uses Lomiri.Telephony, which we commented out in the initial bringup.');
+
             var tutorialLeft = findChild(shell, "tutorialLeft");
             openTutorialLeft();
 
@@ -636,6 +638,8 @@ Rectangle {
             // that we don't blindly resume the tutorial -- our trigger
             // conditions still need to be met.  For example, there need to be
             // enough apps open for the right edge tutorial.
+
+            skip('Uses Lomiri.Telephony, which we commented out in the initial bringup.');
 
             openTutorialRight();
 

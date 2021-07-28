@@ -17,7 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-# Our goal here is to get an Ubuntu Touch device into a testable unlocked state.
+# Our goal here is to get an Lomiri Touch device into a testable unlocked state.
 # This will include a reboot.
 
 WAIT_COMMAND="adb reboot; sleep 5; adb wait-for-device; sleep 20"
@@ -37,7 +37,7 @@ eval "$WAIT_COMMAND"
 
 for i in `seq 1 5`; do
     # We need to go through sudo to get a proper environment for dbus set up
-    UNLOCK_OUTPUT=$(adb shell "gdbus call --session --dest com.canonical.UnityGreeter --object-path / --method com.canonical.UnityGreeter.HideGreeter && echo Greeter unlocked" 2>&1)
+    UNLOCK_OUTPUT=$(adb shell "gdbus call --session --dest com.lomiri.LomiriGreeter --object-path /com/lomiri/LomiriGreeter --method com.lomiri.LomiriGreeter.HideGreeter && echo Greeter unlocked" 2>&1)
     if echo "$UNLOCK_OUTPUT" | grep 'Greeter unlocked' >/dev/null; then
         echo "I: Unlock passed"
         exit 0

@@ -16,7 +16,7 @@
 
 #include "Timer.h"
 
-namespace UnityUtil {
+namespace LomiriUtil {
 
 Timer::Timer(QObject *parent) : AbstractTimer(parent)
 {
@@ -59,4 +59,4 @@ void Timer::setSingleShot(bool value)
     m_timer.setSingleShot(value);
 }
 
-} // namespace UnityUtil
+} // namespace LomiriUtil

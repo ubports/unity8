@@ -16,8 +16,8 @@
 
 import QtQuick 2.4
 import "../../../../qml/Components"
-import Ubuntu.Components 1.3
-import Ubuntu.Gestures 0.1
+import Lomiri.Components 1.3
+import Lomiri.Gestures 0.1
 
 Showable {
     id: showable
@@ -49,7 +49,7 @@ Showable {
     showAnimation: StandardAnimation { property: animatedProp; to: propValueWhenShown }
     hideAnimation: StandardAnimation { property: animatedProp; to: propValueWhenHidden }
 
-    Image { source: "../../UnityLogo.png"; anchors.fill: parent }
+    Image { source: "../../LomiriLogo.png"; anchors.fill: parent }
 
     DragHandle {
         objectName: "leftwardsDragHandle"

@@ -15,7 +15,7 @@ DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
 testskip_architectures := arm64 powerpc ppc64el s390x
 
 %:
-	dh $@ --parallel --fail-missing --with python3
+	dh $@ --parallel --fail-missing --with python3,migrations
 
 override_dh_auto_configure:
 	# Debian defines CMAKE_INSTALL_LOCALSTATEDIR as /usr/var, which is wrong.
@@ -49,9 +49,9 @@ override_dh_install:
 
 # use private lib directories
 override_dh_makeshlibs:
-	dh_makeshlibs -Nunity8-private -Nunity8-tests
+	dh_makeshlibs -Nlomiri-private -Nlomiri-tests
 
 override_dh_shlibdeps:
 	# Some mock libraries link against liblightdm-qt5-3.so which we want to
 	# avoid, since we only really link against our mock one, not the system one.
-	dh_shlibdeps -XlibMockAccountsService-qml.so -Lunity8-private
+	dh_shlibdeps -XlibMockAccountsService-qml.so -Llomiri-private

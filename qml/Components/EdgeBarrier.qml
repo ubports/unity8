@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 
 /*
    An edge barrier for the mouse pointer
@@ -104,11 +104,11 @@ Item {
         },
         Transition {
             from: "resisting"; to: ""
-            UbuntuNumberAnimation { target: materialContainer; properties: "opacity,positionProgress" }
+            LomiriNumberAnimation { target: materialContainer; properties: "opacity,positionProgress" }
         },
         Transition {
             from: "resisting"; to: "passed"
-            UbuntuNumberAnimation { duration: UbuntuAnimation.BriskDuration; target: materialContainer; property: "opacity" }
+            LomiriNumberAnimation { duration: LomiriAnimation.BriskDuration; target: materialContainer; property: "opacity" }
         }
     ]
 }

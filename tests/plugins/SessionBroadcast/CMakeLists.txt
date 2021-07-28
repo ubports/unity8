@@ -4,7 +4,7 @@ macro(make_dbus_class NAME INTERFACE)
     endif()
 endmacro(make_dbus_class)
 
-make_dbus_class(Broadcast com.canonical.Unity.Greeter.Broadcast)
+make_dbus_class(Broadcast com.lomiri.Shell.Greeter.Broadcast)
 
 add_definitions(-DSM_BUSNAME=sessionBus)
 
@@ -39,7 +39,7 @@ install(TARGETS sessionbroadcasttestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/SessionBroadcast"
 )
 
-add_unity8_unittest(SessionBroadcast dbus-test-runner
+add_lomiri_unittest(SessionBroadcast dbus-test-runner
     ARG_PREFIX "--parameter"
     ARGS
         --task $<TARGET_FILE:MockBroadcastServer>
@@ -47,5 +47,5 @@ add_unity8_unittest(SessionBroadcast dbus-test-runner
         --ignore-return
         --task $<TARGET_FILE:sessionbroadcasttestExec>
         --task-name client
-        --wait-for com.canonical.Unity.Greeter.Broadcast
+        --wait-for com.lomiri.Shell.Greeter.Broadcast
 )

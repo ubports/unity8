@@ -1,16 +1,16 @@
-# Swedish translation for unity
+# Swedish translation for lomiri
 # Copyright © 2013-2014 Rosetta Contributors and Canonical Ltd 2013-2014
-# This file is distributed under the same license as the unity package.
+# This file is distributed under the same license as the lomiri package.
 # Josef Andersson <josef.andersson@fripost.org>, 2014.
 # clone <josef.andersson@fripost.org>, 2015.
 msgid ""
 msgstr ""
-"Project-Id-Version: unity\n"
+"Project-Id-Version: lomiri\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
 "PO-Revision-Date: 2020-02-13 13:06+0000\n"
 "Last-Translator: Rondy Andersson <rondarius@vivaldi.net>\n"
-"Language-Team: Swedish <https://translate.ubports.com/projects/unity8/unity8/"
+"Language-Team: Swedish <https://translate.ubports.com/projects/lomiri/lomiri/"
 "sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
@@ -52,16 +52,16 @@ msgstr ""
 msgid "Guest Session"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:49
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Pin shortcut"
 msgstr "Fäst genväg"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Lomiri/Launcher/launcheritem.cpp:55
 msgid "Quit"
 msgstr "Avsluta"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
 msgstr "Släpp genväg"
 
@@ -135,8 +135,8 @@ msgid "Keyboard Shortcuts"
 msgstr "Tangentbordsgenvägar"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
-msgstr "Unity 8"
+msgid "Lomiri 8"
+msgstr "Lomiri 8"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -702,10 +702,10 @@ msgstr ""
 #: qml/Wizard/Pages/79-system-update.qml:76
 #, fuzzy
 #| msgctxt "string identifying name of the update"
-#| msgid "Ubuntu system"
+#| msgid "Lomiri system"
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr "Ubuntusystem"
+msgid "Lomiri Touch system"
+msgstr "Lomirisystem"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -726,8 +726,8 @@ msgid "Welcome Back"
 msgstr "Välkommen tillbaka"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Välkommen till Ubuntu"
+msgid "Welcome to Lomiri"
+msgstr "Välkommen till Lomiri"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -854,7 +854,7 @@ msgstr "Svagt lösenord"
 msgid "Very weak password"
 msgstr "Väldigt svagt lösenord"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Förråd"
 
@@ -1214,8 +1214,8 @@ msgstr "Väldigt svagt lösenord"
 #~ msgid "Hi!"
 #~ msgstr "Hej!"
 
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Välkommen till din Ubuntutelefon."
+#~ msgid "Welcome to your Lomiri phone."
+#~ msgstr "Välkommen till din Lomiritelefon."
 
 #~ msgid "Lock security"
 #~ msgstr "Säkerhetslås"

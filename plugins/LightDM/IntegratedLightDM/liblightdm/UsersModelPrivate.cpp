@@ -36,7 +36,7 @@ UsersModelPrivate::UsersModelPrivate(UsersModel* parent)
     q_ptr(parent),
     m_service(new AccountsServiceDBusAdaptor(this))
 {
-    QFileInfo demoFile(QDir::homePath() + "/.unity8-greeter-demo");
+    QFileInfo demoFile(QDir::homePath() + "/.lomiri-greeter-demo");
     QString currentUser = g_get_user_name();
     uid_t currentUid = getuid();
 

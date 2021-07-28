@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
-# Unity Autopilot Test Suite
+# Lomiri Autopilot Test Suite
 # Copyright (C) 2012, 2013, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
@@ -23,10 +23,10 @@ from distutils.core import setup
 from setuptools import find_packages
 
 setup(
-    name='unity',
+    name='lomiri',
     version='8.0',
-    description='Unity autopilot tests.',
-    url='https://launchpad.net/unity',
+    description='Lomiri autopilot tests.',
+    url='https://launchpad.net/lomiri',
     license='GPLv3',
     packages=find_packages(),
 )

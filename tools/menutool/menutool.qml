@@ -15,14 +15,14 @@
 */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 
 import "../../qml/ApplicationMenus"
 import "../../qml/Panel"
 import "../../qml/Components/PanelState"
 
 import QMenuModel 0.1
-import Unity.Indicators 0.1 as Indicators
+import Lomiri.Indicators 0.1 as Indicators
 
 Item {
     width: units.gu(180)
@@ -31,8 +31,8 @@ Item {
     UnityMenuModel {
         id: menuModel
         busName: contextBusName
-        menuObjectPath: "/com/ubuntu/Menu/0"
-        actions: { "unity": "/com/ubuntu/Menu/0" }
+        menuObjectPath: "/com/lomiri/Menu/0"
+        actions: { "lomiri": "/com/lomiri/Menu/0" }
     }
 
     readonly property bool hasMenus: repeater.count > 0
@@ -101,12 +101,12 @@ Item {
             height: units.gu(3)
             width: parent.width
             enableKeyFilter: true
-            unityMenuModel: menuModel
+            lomiriMenuModel: menuModel
         }
     }
 
     Component.onCompleted: {
-        theme.name = "Ubuntu.Components.Themes.SuruDark";
+        theme.name = "Lomiri.Components.Themes.SuruDark";
         PanelState.title = "Drag here to open touch menu";
     }
 

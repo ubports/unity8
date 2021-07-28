@@ -15,8 +15,8 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.3
+import Lomiri.Components 1.3
+import Lomiri.Components.ListItems 1.3
 import "../Components"
 
 FocusScope {
@@ -158,7 +158,7 @@ FocusScope {
                     opacity: (pinentryField.text.length > 0 && !pinentryField.incorrectOverride) ? 1 : 0
 
                     Behavior on opacity {
-                        UbuntuNumberAnimation {}
+                        LomiriNumberAnimation {}
                     }
 
                     onClicked: pinentryField.backspace()

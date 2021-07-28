@@ -16,8 +16,8 @@
  * Author: Renato Araujo Oliveira Filho <renato.filho@canonical.com>
  */
 
-#ifndef UNITY_LIGHTS_H
-#define UNITY_LIGHTS_H
+#ifndef LOMIRI_LIGHTS_H
+#define LOMIRI_LIGHTS_H
 
 #include <QtCore/QObject>
 #include <QtGui/QColor>

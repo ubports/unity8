@@ -16,12 +16,12 @@
 
 import QtQuick 2.4
 import QtTest 1.0
-import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.3
-import Unity.Application 0.1
-import Unity.ApplicationMenu 0.1
-import Unity.Indicators 0.1 as Indicators
-import Unity.Test 0.1
+import Lomiri.Components 1.3
+import Lomiri.Components.ListItems 1.3
+import QtMir.Application 0.1
+import Lomiri.ApplicationMenu 0.1
+import Lomiri.Indicators 0.1 as Indicators
+import Lomiri.SelfTest 0.1
 import Utils 0.1
 import WindowManager 1.0
 
@@ -48,7 +48,7 @@ Item {
         ApplicationMenusLimits.screenWidth = Qt.binding( function() { return stageLoader.width; } );
         ApplicationMenusLimits.screenHeight = Qt.binding( function() { return stageLoader.height; } );
         QuickUtils.keyboardAttached = true;
-        theme.name = "Ubuntu.Components.Themes.SuruDark";
+        theme.name = "Lomiri.Components.Themes.SuruDark";
         resetGeometry();
     }
 
@@ -56,7 +56,7 @@ Item {
         // ensures apps which are tested decorations are in view.
         WindowStateStorage.clear();
         WindowStateStorage.geometry = {
-            'unity8-dash': Qt.rect(0, units.gu(3), units.gu(50), units.gu(40)),
+            'lomiri-dash': Qt.rect(0, units.gu(3), units.gu(50), units.gu(40)),
             'dialer-app': Qt.rect(units.gu(51), units.gu(3), units.gu(50), units.gu(40)),
             'gmail-webapp': Qt.rect(0, units.gu(44), units.gu(50), units.gu(40)),
             'twitter-webapp': Qt.rect(units.gu(51), units.gu(44), units.gu(50), units.gu(40))
@@ -86,7 +86,7 @@ Item {
                 focus: true
 
                 Component.onCompleted: {
-                    ApplicationManager.startApplication("unity8-dash");
+                    ApplicationManager.startApplication("lomiri-dash");
                 }
                 Component.onDestruction: {
                     stageLoader.itemDestroyed = true;
@@ -178,10 +178,10 @@ Item {
         property var panelState: stage ? stage.panelState : null
 
         function init() {
-            // wait until unity8-dash is up and running.
+            // wait until lomiri-dash is up and running.
             // it's started automatically by ApplicationManager mock implementation
             tryCompare(ApplicationManager, "count", 1);
-            var dashApp = ApplicationManager.findApplication("unity8-dash");
+            var dashApp = ApplicationManager.findApplication("lomiri-dash");
             verify(dashApp);
             tryCompare(dashApp, "state", ApplicationInfoInterface.Running);
 
@@ -227,8 +227,8 @@ Item {
 
         function test_appFocusSwitch_data() {
             return [
-                {tag: "dash to dialer", apps: [ "unity8-dash", "dialer-app", "gmail-webapp" ], focusfrom: 0, focusTo: 1 },
-                {tag: "dialer to dash", apps: [ "unity8-dash", "dialer-app", "gmail-webapp" ], focusfrom: 1, focusTo: 0 },
+                {tag: "dash to dialer", apps: [ "lomiri-dash", "dialer-app", "gmail-webapp" ], focusfrom: 0, focusTo: 1 },
+                {tag: "dialer to dash", apps: [ "lomiri-dash", "dialer-app", "gmail-webapp" ], focusfrom: 1, focusTo: 0 },
             ]
         }
 
@@ -244,8 +244,8 @@ Item {
 
         function test_tappingOnWindowChangesFocusedApp_data() {
             return [
-                {tag: "dash to dialer", apps: [ "unity8-dash", "dialer-app", "gmail-webapp"], focusfrom: 0, focusTo: 1 },
-                {tag: "dialer to dash", apps: [ "unity8-dash", "dialer-app", "gmail-webapp"], focusfrom: 1, focusTo: 0 }
+                {tag: "dash to dialer", apps: [ "lomiri-dash", "dialer-app", "gmail-webapp"], focusfrom: 0, focusTo: 1 },
+                {tag: "dialer to dash", apps: [ "lomiri-dash", "dialer-app", "gmail-webapp"], focusfrom: 1, focusTo: 0 }
             ]
         }
 
@@ -297,8 +297,8 @@ Item {
 
         function test_tappingOnDecorationFocusesApplication_data() {
             return [
-                {tag: "dash to dialer", apps: [ "unity8-dash", "dialer-app", "gmail-webapp"], focusfrom: 0, focusTo: 1 },
-                {tag: "dialer to dash", apps: [ "unity8-dash", "dialer-app", "gmail-webapp"], focusfrom: 1, focusTo: 0 }
+                {tag: "dash to dialer", apps: [ "lomiri-dash", "dialer-app", "gmail-webapp"], focusfrom: 0, focusTo: 1 },
+                {tag: "dialer to dash", apps: [ "lomiri-dash", "dialer-app", "gmail-webapp"], focusfrom: 1, focusTo: 0 }
             ]
         }
 
@@ -435,7 +435,7 @@ Item {
         }
 
         function test_windowMinimizeAll() {
-            var apps = ["unity8-dash", "dialer-app", "camera-app"];
+            var apps = ["lomiri-dash", "dialer-app", "camera-app"];
             apps.forEach(startApplication);
             verify(topSurfaceList.count == 3);
             keyClick(Qt.Key_D, Qt.MetaModifier|Qt.ControlModifier); // Ctrl+Super+D shortcut to minimize all
@@ -504,7 +504,7 @@ Item {
         }
 
         function test_minimizeApplicationHidesSurface() {
-            compare(topSurfaceList.applicationAt(0).appId, "unity8-dash");
+            compare(topSurfaceList.applicationAt(0).appId, "lomiri-dash");
             var dashSurface = topSurfaceList.surfaceAt(0);
             var dashSurfaceId = topSurfaceList.idAt(0);
 
@@ -520,7 +520,7 @@ Item {
         }
 
         function test_maximizeApplicationHidesSurfacesBehindIt() {
-            var dashDelegate = startApplication("unity8-dash");
+            var dashDelegate = startApplication("lomiri-dash");
             var dialerDelegate = startApplication("dialer-app");
             var gmailDelegate = startApplication("gmail-webapp");
 
@@ -578,7 +578,7 @@ Item {
         }
 
         function test_maximisedAppStaysVisibleWhenAppStarts() {
-            var dashDelegate = startApplication("unity8-dash");
+            var dashDelegate = startApplication("lomiri-dash");
 
             maximizeDelegate(dashDelegate);
 
@@ -590,7 +590,7 @@ Item {
         }
 
         function test_occlusionWithMultipleMaximized() {
-            var dashAppDelegate = startApplication("unity8-dash");
+            var dashAppDelegate = startApplication("lomiri-dash");
 
             var dialerAppDelegate = startApplication("dialer-app");
 
@@ -791,7 +791,7 @@ Item {
             tryCompare(stage, "state", "windowed");
         }
 
-        // regression test for https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1627281
+        // regression test for https://bugs.launchpad.net/lomiri/+source/lomiri/+bug/1627281
         function test_doubleTapToMaximizeWindow() {
             var dialerAppDelegate = startApplication("dialer-app");
             verify(dialerAppDelegate);

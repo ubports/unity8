@@ -17,8 +17,8 @@
  * Author: David Edmundson <kde@davidedmundson.co.uk>
  */
 
-#ifndef UNITY_MOCK_USERSMODEL_H
-#define UNITY_MOCK_USERSMODEL_H
+#ifndef LOMIRI_MOCK_USERSMODEL_H
+#define LOMIRI_MOCK_USERSMODEL_H
 
 #include <QtCore/QString>
 #include <QtCore/QSharedDataPointer>
@@ -63,4 +63,4 @@ private:
 
 }
 
-#endif // UNITY_MOCK_USERSMODEL_H
+#endif // LOMIRI_MOCK_USERSMODEL_H

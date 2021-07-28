@@ -11,4 +11,4 @@ target_link_libraries(SessionBroadcast-qml
     ${GLIB_LIBRARIES}
     )
 
-add_unity8_plugin(SessionBroadcast 0.1 SessionBroadcast TARGETS SessionBroadcast-qml)
+add_lomiri_plugin(SessionBroadcast 0.1 SessionBroadcast TARGETS SessionBroadcast-qml)

@@ -15,9 +15,9 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.3
-import Ubuntu.SystemSettings.SecurityPrivacy 1.0
+import Lomiri.Components 1.3
+import Lomiri.Components.ListItems 1.3
+import Lomiri.SystemSettings.SecurityPrivacy 1.0
 import ".." as LocalComponents
 import "../../Components"
 
@@ -28,7 +28,7 @@ import "../../Components"
  * we'd need to prompt for their previous password when they came back and
  * changed their answer.  Which is silly UX.  So instead, we just keep track
  * of their choice and set the password at the end (see Pages.qml).
- * Setting the password shouldn't fail, since Ubuntu Touch has loose password
+ * Setting the password shouldn't fail, since Lomiri Touch has loose password
  * requirements, but we'll check what we can here.  Ideally we'd be able to ask
  * the system if a password is legal without actually setting that password.
  */
@@ -40,19 +40,19 @@ LocalComponents.Page {
     title: i18n.tr("Lock Screen")
     forwardButtonSourceComponent: forwardButton
 
-    // If the user has set a password some other way (via ubuntu-device-flash
+    // If the user has set a password some other way (via lomiri-device-flash
     // or this isn't the first time the wizard has been run, etc).  We can't
     // properly set the password again, so let's not pretend we can.
-    skip: securityPrivacy.securityType !== UbuntuSecurityPrivacyPanel.Swipe
+    skip: securityPrivacy.securityType !== LomiriSecurityPrivacyPanel.Swipe
     onlyOnInstall: true
 
     function indexToMethod(index) {
         if (index === 0/* || index === 1*/)
-            return UbuntuSecurityPrivacyPanel.Passphrase;
+            return LomiriSecurityPrivacyPanel.Passphrase;
         else if (index === 1/*2*/)
-            return UbuntuSecurityPrivacyPanel.Passcode;
+            return LomiriSecurityPrivacyPanel.Passcode;
         else
-            return UbuntuSecurityPrivacyPanel.Swipe;
+            return LomiriSecurityPrivacyPanel.Swipe;
     }
 
 //    Component.onCompleted: {
@@ -78,8 +78,8 @@ LocalComponents.Page {
             height: childrenRect.height
 
             // this is the order we want to display it; cf indexToMethod()
-            model: [/*UbuntuSecurityPrivacyPanel.Passphrase, */UbuntuSecurityPrivacyPanel.Passphrase,
-                    UbuntuSecurityPrivacyPanel.Passcode, UbuntuSecurityPrivacyPanel.Swipe]
+            model: [/*LomiriSecurityPrivacyPanel.Passphrase, */LomiriSecurityPrivacyPanel.Passphrase,
+                    LomiriSecurityPrivacyPanel.Passcode, LomiriSecurityPrivacyPanel.Swipe]
 
             delegate: ListItem {
                 id: itemDelegate
@@ -98,7 +98,7 @@ LocalComponents.Page {
                     text: {
                         switch (index) {
 //                        case 0:
-//                            return i18n.ctr("Label: Type of security method", "Ubuntu administrator password");
+//                            return i18n.ctr("Label: Type of security method", "Lomiri administrator password");
                         case 0:
                             return i18n.ctr("Label: Type of security method", "Create new password");
                         case 1:
@@ -148,12 +148,12 @@ LocalComponents.Page {
                 var method = indexToMethod(selector.currentIndex);
                 root.passwordMethod = method;
 
-                if (method === UbuntuSecurityPrivacyPanel.Passphrase) { // any password
+                if (method === LomiriSecurityPrivacyPanel.Passphrase) { // any password
                     if (selector.currentIndex == 0/*1*/)
                         pageStack.load(Qt.resolvedUrl("password-set.qml")); // let the user choose a new password
                     else
                         pageStack.next(); // got the password already, go next page
-                } else if (method === UbuntuSecurityPrivacyPanel.Passcode) { // passcode
+                } else if (method === LomiriSecurityPrivacyPanel.Passcode) { // passcode
                     if (wideMode) {
                         pageStack.load(Qt.resolvedUrl("passcode-desktop.qml"));
                     } else {

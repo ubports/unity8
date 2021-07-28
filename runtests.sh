@@ -96,7 +96,7 @@ echo "  <sources>" >> $coveragefile
 echo "    <source>`pwd`</source>" >> $coveragefile
 echo "  </sources>" >> $coveragefile
 echo "  <packages>" >> $coveragefile
-echo "    <package branch-rate=\"0.0\" complexity=\"0.0\" line-rate=\"$linespercentagef\" name=\"unity8\">"  >> $coveragefile
+echo "    <package branch-rate=\"0.0\" complexity=\"0.0\" line-rate=\"$linespercentagef\" name=\"lomiri\">"  >> $coveragefile
 echo "      <classes>" >> $coveragefile
 
 for i in $file_list; do

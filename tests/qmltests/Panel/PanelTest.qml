@@ -15,12 +15,12 @@
  */
 
 import QtQuick 2.4
-import Unity.Indicators 0.1 as Indicators
+import Lomiri.Indicators 0.1 as Indicators
 
 Rectangle {
     id: root
     color: theme.palette.normal.background
-    Component.onCompleted: theme.name = "Ubuntu.Components.Themes.SuruDark"
+    Component.onCompleted: theme.name = "Lomiri.Components.Themes.SuruDark"
 
     property alias indicatorsModel: __indicatorsModel
     property alias originalModelData: __indicatorsModel.originalModelData

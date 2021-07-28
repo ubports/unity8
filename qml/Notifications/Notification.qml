@@ -16,9 +16,9 @@
 
 import QtQuick 2.4
 import Powerd 0.1
-import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.3 as ListItem
-import Unity.Notifications 1.0
+import Lomiri.Components 1.3
+import Lomiri.Components.ListItems 1.3 as ListItem
+import Lomiri.Notifications 1.0
 import QMenuModel 0.1
 import Utils 0.1
 import "../Components"
@@ -53,7 +53,7 @@ StyledItem {
     opacity: defaultOpacity - Math.abs(x / notification.width)
 
     theme: ThemeSettings {
-        name: "Ubuntu.Components.Themes.Ambiance"
+        name: "Lomiri.Components.Themes.Ambiance"
     }
 
     readonly property bool expanded: type === Notification.SnapDecision &&                   // expand only snap decisions, if...
@@ -111,7 +111,7 @@ StyledItem {
     }
 
     Behavior on x {
-        UbuntuNumberAnimation { easing.type: Easing.OutBounce }
+        LomiriNumberAnimation { easing.type: Easing.OutBounce }
     }
 
     onHintsChanged: {
@@ -131,8 +131,8 @@ StyledItem {
 
     Behavior on implicitHeight {
         enabled: !fullscreen
-        UbuntuNumberAnimation {
-            duration: UbuntuAnimation.SnapDuration
+        LomiriNumberAnimation {
+            duration: LomiriAnimation.SnapDuration
         }
     }
 
@@ -148,7 +148,7 @@ StyledItem {
         enabled: !fullscreen
     }
 
-    UbuntuShape {
+    LomiriShape {
         id: shapedBack
         objectName: "shapedBack"
 
@@ -161,7 +161,7 @@ StyledItem {
         }
         backgroundColor: parent.color
         radius: "small"
-        aspect: UbuntuShape.Flat
+        aspect: LomiriShape.Flat
     }
 
     Rectangle {
@@ -182,7 +182,7 @@ StyledItem {
         id: contents
         anchors.fill: fullscreen ? nonShapedBack : shapedBack
 
-        UnityMenuModelPaths {
+        LomiriMenuModelPaths {
             id: paths
 
             source: hints["x-canonical-private-menu-model"]
@@ -193,7 +193,7 @@ StyledItem {
         }
 
         UnityMenuModel {
-            id: unityMenuModel
+            id: lomiriMenuModel
 
             property string lastNameOwner: ""
 
@@ -407,7 +407,7 @@ StyledItem {
                 }
 
                 Repeater {
-                    model: unityMenuModel
+                    model: lomiriMenuModel
 
                     NotificationMenuItemFactory {
                         id: menuItemFactory
@@ -417,7 +417,7 @@ StyledItem {
                             right: dialogColumn.right
                         }
 
-                        menuModel: unityMenuModel
+                        menuModel: lomiriMenuModel
                         menuData: model
                         menuIndex: index
                         maxHeight: notification.maxHeight
@@ -464,7 +464,7 @@ StyledItem {
                                 text: oneOverTwoLoaderTop.actionLabel
                                 outline: notification.hints["x-canonical-private-affirmative-tint"] !== "true"
                                 color: notification.hints["x-canonical-private-affirmative-tint"] === "true" ? theme.palette.normal.positive
-                                                                                                             : theme.name == "Ubuntu.Components.Themes.SuruDark" ? "#888"
+                                                                                                             : theme.name == "Lomiri.Components.Themes.SuruDark" ? "#888"
                                                                                                                                                                  : "#666"
                                 onClicked: notification.notification.invokeAction(oneOverTwoLoaderTop.actionId)
                             }
@@ -495,7 +495,7 @@ StyledItem {
                                     text: oneOverTwoLoaderBottom.actionLabel
                                     outline: notification.hints["x-canonical-private-rejection-tint"] !== "true"
                                     color: index == 1 && notification.hints["x-canonical-private-rejection-tint"] === "true" ? theme.palette.normal.negative
-                                                                                                                             : theme.name == "Ubuntu.Components.Themes.SuruDark" ? "#888"
+                                                                                                                             : theme.name == "Lomiri.Components.Themes.SuruDark" ? "#888"
                                                                                                                                                                                  : "#666"
                                     onClicked: notification.notification.invokeAction(oneOverTwoLoaderBottom.actionId)
                                 }
@@ -559,7 +559,7 @@ StyledItem {
                                          (index == 1 && notification.hints["x-canonical-private-rejection-tint"] !== "true")
                                 color: {
                                     var result = "#666";
-                                    if (theme.name == "Ubuntu.Components.Themes.SuruDark") {
+                                    if (theme.name == "Lomiri.Components.Themes.SuruDark") {
                                         result = "#888"
                                     }
                                     if (index == 0 && notification.hints["x-canonical-private-affirmative-tint"] === "true") {

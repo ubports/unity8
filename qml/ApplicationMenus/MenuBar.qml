@@ -17,7 +17,7 @@
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import Utils 0.1
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import GlobalShortcut 1.0
 import "../Components/PanelState"
 
@@ -26,7 +26,7 @@ Item {
     objectName: "menuBar"
 
     // set from outside
-    property alias unityMenuModel: rowRepeater.model
+    property alias lomiriMenuModel: rowRepeater.model
     property bool enableKeyFilter: false
     property real overflowWidth: width
     property bool windowMoving: false
@@ -102,7 +102,7 @@ Item {
         }
 
         Connections {
-            target: root.unityMenuModel
+            target: root.lomiriMenuModel
             onModelReset: d.firstInvisibleIndex = undefined
         }
 
@@ -140,20 +140,20 @@ Item {
 
                 function show() {
                     if (!__popup) {
-                        root.unityMenuModel.aboutToShow(visualItem.__ownIndex);
+                        root.lomiriMenuModel.aboutToShow(visualItem.__ownIndex);
                         __popup = menuComponent.createObject(root,
                                                              {
                                                                  objectName: visualItem.objectName + "-menu",
                                                                  desiredX: Qt.binding(function() { return visualItem.x - units.gu(1); }),
                                                                  desiredY: Qt.binding(function() { return root.height; }),
-                                                                 unityMenuModel: Qt.binding(function() { return root.unityMenuModel.submenu(visualItem.__ownIndex); }),
+                                                                 lomiriMenuModel: Qt.binding(function() { return root.lomiriMenuModel.submenu(visualItem.__ownIndex); }),
                                                                  selectFirstOnCountChange: false
                                                              });
                         __popup.reset();
                         __popup.childActivated.connect(dismiss);
                         // force the current item to be the newly popped up menu
                     } else if (!__popup.visible) {
-                        root.unityMenuModel.aboutToShow(visualItem.__ownIndex);
+                        root.lomiriMenuModel.aboutToShow(visualItem.__ownIndex);
                         __popup.show();
                     }
                     d.currentItem = visualItem;
@@ -371,11 +371,11 @@ Item {
                 id: overflowPopup
                 desiredX: overflowButton.x - units.gu(1)
                 desiredY: parent.height
-                unityMenuModel: overflowModel
+                lomiriMenuModel: overflowModel
 
                 ExpressionFilterModel {
                     id: overflowModel
-                    sourceModel: root.unityMenuModel
+                    sourceModel: root.lomiriMenuModel
                     matchExpression: function(index) {
                         if (d.firstInvisibleIndex === undefined) return false;
                         return index >= d.firstInvisibleIndex;
@@ -408,7 +408,7 @@ Item {
         x: d.currentItem ? row.x + d.currentItem.x : 0
         width: d.currentItem ? d.currentItem.width : 0
         height: units.dp(4)
-        color: UbuntuColors.orange
+        color: LomiriColors.orange
         visible: d.currentItem
     }
 

@@ -16,14 +16,14 @@
 
 import QtQuick 2.4
 import QtQuick.Window 2.2
-import Ubuntu.Settings.Menus 0.1 as Menus
-import Ubuntu.Settings.Components 0.1
+import Lomiri.Settings.Menus 0.1 as Menus
+import Lomiri.Settings.Components 0.1
 import QMenuModel 0.1
 import Utils 0.1 as Utils
-import Ubuntu.Components.ListItems 1.3 as ListItems
-import Ubuntu.Components 1.3
-import Unity.Session 0.1
-import Unity.Platform 1.0
+import Lomiri.Components.ListItems 1.3 as ListItems
+import Lomiri.Components 1.3
+import Lomiri.Session 0.1
+import Lomiri.Platform 1.0
 
 Item {
     id: menuFactory
@@ -35,8 +35,8 @@ Item {
     property var _userMap: null
     readonly property var _typeToComponent: {
         "default": {
-            "unity.widgets.systemsettings.tablet.volumecontrol" : sliderMenu,
-            "unity.widgets.systemsettings.tablet.switch"        : switchMenu,
+            "lomiri.widgets.systemsettings.tablet.volumecontrol" : sliderMenu,
+            "lomiri.widgets.systemsettings.tablet.switch"        : switchMenu,
 
             "com.canonical.indicator.button"         : buttonMenu,
             "com.canonical.indicator.div"            : separatorMenu,
@@ -53,15 +53,15 @@ Item {
             "com.canonical.indicator.messages.messageitem"  : messageItem,
             "com.canonical.indicator.messages.sourceitem"   : groupedMessage,
 
-            "com.canonical.unity.slider"    : sliderMenu,
-            "com.canonical.unity.switch"    : switchMenu,
+            "com.canonical.lomiri.slider"    : sliderMenu,
+            "com.canonical.lomiri.switch"    : switchMenu,
 
-            "com.canonical.unity.media-player"    : mediaPayerMenu,
-            "com.canonical.unity.playback-item"   : playbackItemMenu,
+            "com.canonical.lomiri.media-player"    : mediaPayerMenu,
+            "com.canonical.lomiri.playback-item"   : playbackItemMenu,
 
-            "unity.widgets.systemsettings.tablet.wifisection" : wifiSection,
-            "unity.widgets.systemsettings.tablet.accesspoint" : accessPoint,
-            "com.canonical.indicator.network.modeminfoitem" : modeminfoitem,
+            "lomiri.widgets.systemsettings.tablet.wifisection" : wifiSection,
+            "lomiri.widgets.systemsettings.tablet.accesspoint" : accessPoint,
+            "com.lomiri.indicator.network.modeminfoitem" : modeminfoitem,
 
             "com.canonical.indicator.calendar": calendarMenu,
             "com.canonical.indicator.location": timezoneMenu,
@@ -543,8 +543,8 @@ Item {
             iconSource: menuData && menuData.icon || ""
 
             // would be better to compare with the logname but sadly the indicator doesn't expose that
-            active: DBusUnitySessionService.RealName() !== "" ? DBusUnitySessionService.RealName() == name
-                                                              : DBusUnitySessionService.UserName() == name
+            active: DBusLomiriSessionService.RealName() !== "" ? DBusLomiriSessionService.RealName() == name
+                                                              : DBusLomiriSessionService.UserName() == name
 
             onTriggered: {
                 menuModel.activate(menuIndex);
@@ -747,42 +747,42 @@ Item {
             property var statusLabelAction: UnityMenuAction {
                 model: menuModel
                 index: menuIndex
-                name: getExtendedProperty(extendedData, "xCanonicalModemStatusLabelAction", "")
+                name: getExtendedProperty(extendedData, "xLomiriModemStatusLabelAction", "")
             }
             statusText: statusLabelAction.valid ? statusLabelAction.state : ""
 
             property var statusIconAction: UnityMenuAction {
                 model: menuModel
                 index: menuIndex
-                name: getExtendedProperty(extendedData, "xCanonicalModemStatusIconAction", "")
+                name: getExtendedProperty(extendedData, "xLomiriModemStatusIconAction", "")
             }
             statusIcon: statusIconAction.valid ? statusIconAction.state : ""
 
             property var connectivityIconAction: UnityMenuAction {
                 model: menuModel
                 index: menuIndex
-                name: getExtendedProperty(extendedData, "xCanonicalModemConnectivityIconAction", "")
+                name: getExtendedProperty(extendedData, "xLomiriModemConnectivityIconAction", "")
             }
             connectivityIcon: connectivityIconAction.valid ? connectivityIconAction.state : ""
 
             property var simIdentifierLabelAction: UnityMenuAction {
                 model: menuModel
                 index: menuIndex
-                name: getExtendedProperty(extendedData, "xCanonicalModemSimIdentifierLabelAction", "")
+                name: getExtendedProperty(extendedData, "xLomiriModemSimIdentifierLabelAction", "")
             }
             simIdentifierText: simIdentifierLabelAction.valid ? simIdentifierLabelAction.state : ""
 
             property var roamingAction: UnityMenuAction {
                 model: menuModel
                 index: menuIndex
-                name: getExtendedProperty(extendedData, "xCanonicalModemRoamingAction", "")
+                name: getExtendedProperty(extendedData, "xLomiriModemRoamingAction", "")
             }
             roaming: roamingAction.valid ? roamingAction.state : false
 
             property var unlockAction: UnityMenuAction {
                 model: menuModel
                 index: menuIndex
-                name: getExtendedProperty(extendedData, "xCanonicalModemLockedAction", "")
+                name: getExtendedProperty(extendedData, "xLomiriModemLockedAction", "")
             }
             onUnlock: {
                 unlockAction.activate();
@@ -798,12 +798,12 @@ Item {
 
             function loadAttributes() {
                 if (!menuModel || menuIndex == -1) return;
-                menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-modem-status-label-action': 'string',
-                                                             'x-canonical-modem-status-icon-action': 'string',
-                                                             'x-canonical-modem-connectivity-icon-action': 'string',
-                                                             'x-canonical-modem-sim-identifier-label-action': 'string',
-                                                             'x-canonical-modem-roaming-action': 'string',
-                                                             'x-canonical-modem-locked-action': 'string'});
+                menuModel.loadExtendedAttributes(menuIndex, {'x-lomiri-modem-status-label-action': 'string',
+                                                             'x-lomiri-modem-status-icon-action': 'string',
+                                                             'x-lomiri-modem-connectivity-icon-action': 'string',
+                                                             'x-lomiri-modem-sim-identifier-label-action': 'string',
+                                                             'x-lomiri-modem-roaming-action': 'string',
+                                                             'x-lomiri-modem-locked-action': 'string'});
             }
         }
     }

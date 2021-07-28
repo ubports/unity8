@@ -18,13 +18,13 @@ import QtQuick 2.4
 import QtTest 1.0
 import ".."
 import "../../../qml/Greeter"
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import AccountsService 0.1
 import Biometryd 0.0
 import GSettings 1.0
 import LightDMController 0.1
 import LightDM.FullLightDM 0.1 as LightDM
-import Unity.Test 0.1 as UT
+import Lomiri.SelfTest 0.1 as UT
 
 Item {
     width: units.gu(120)
@@ -83,10 +83,10 @@ Item {
 
     GSettings {
         id: greeterSettings
-        schema.id: "com.canonical.Unity8.Greeter"
+        schema.id: "com.lomiri.Shell.Greeter"
     }
 
-    UT.UnityTestCase {
+    UT.LomiriTestCase {
         id: testCase
         name: "Greeter"
         when: windowShown

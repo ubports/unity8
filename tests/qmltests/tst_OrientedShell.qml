@@ -18,14 +18,14 @@ import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import QtTest 1.0
 import GSettings 1.0
-import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.3 as ListItem
-import Unity.Application 0.1
-import Unity.Test 0.1
+import Lomiri.Components 1.3
+import Lomiri.Components.ListItems 1.3 as ListItem
+import QtMir.Application 0.1
+import Lomiri.SelfTest 0.1
 import LightDMController 0.1
 import LightDM.FullLightDM 0.1 as LightDM
 import Powerd 0.1
-import Unity.InputInfo 0.1
+import Lomiri.InputInfo 0.1
 import Utils 0.1
 
 import "../../qml"
@@ -58,8 +58,8 @@ Rectangle {
     }
 
     GSettings {
-        id: unity8Settings
-        schema.id: "com.canonical.Unity8"
+        id: lomiriSettings
+        schema.id: "com.lomiri.Shell"
         onUsageModeChanged: {
             usageModeSelector.selectedIndex = usageModeSelector.model.indexOf(usageMode)
         }
@@ -254,7 +254,7 @@ Rectangle {
                 activeFocusOnPress: false
                 onClicked: rotate0(tryShell)
                 color: tryShell && tryShell.physicalOrientation === root.physicalOrientation0 ?
-                                                                                                    UbuntuColors.green :
+                                                                                                    LomiriColors.green :
                                                                                                     __styleInstance.defaultColor
             }
             Button {
@@ -263,7 +263,7 @@ Rectangle {
                 activeFocusOnPress: false
                 onClicked: rotate90(tryShell)
                 color: tryShell && tryShell.physicalOrientation === root.physicalOrientation90 ?
-                                                                                                     UbuntuColors.green :
+                                                                                                     LomiriColors.green :
                                                                                                      __styleInstance.defaultColor
             }
             Button {
@@ -272,7 +272,7 @@ Rectangle {
                 activeFocusOnPress: false
                 onClicked: rotate180(tryShell)
                 color: tryShell && tryShell.physicalOrientation === root.physicalOrientation180 ?
-                                                                                                      UbuntuColors.green :
+                                                                                                      LomiriColors.green :
                                                                                                       __styleInstance.defaultColor
             }
             Button {
@@ -281,7 +281,7 @@ Rectangle {
                 activeFocusOnPress: false
                 onClicked: rotate270(tryShell)
                 color: tryShell && tryShell.physicalOrientation === root.physicalOrientation270 ?
-                                                                                                      UbuntuColors.green :
+                                                                                                      LomiriColors.green :
                                                                                                       __styleInstance.defaultColor
             }
             RowLayout {
@@ -476,7 +476,7 @@ Rectangle {
         orientedShell.physicalOrientation = root.physicalOrientation270;
     }
 
-    UnityTestCase {
+    LomiriTestCase {
         id: testCase
         name: "OrientedShell"
         when: windowShown
@@ -835,7 +835,7 @@ Rectangle {
             var shell = findChild(orientedShell, "shell");
             var topLevelSurfaceList = shell.topLevelSurfaceList;
             var weatherSurfaceId = topLevelSurfaceList.nextId;
-            var weatherApp = ApplicationManager.startApplication("ubuntu-weather-app");
+            var weatherApp = ApplicationManager.startApplication("lomiri-weather-app");
             verify(weatherApp);
 
             // ensure the mock app is as we expect
@@ -988,7 +988,7 @@ Rectangle {
             verify(decoratedWindow.width < decoratedWindow.height);
 
             // shell should remain in its primary orientation as the app in the main stage
-            // is the one that dictates its orientation. In this case it's unity8-dash
+            // is the one that dictates its orientation. In this case it's lomiri-dash
             // which supports only primary orientation
             compare(shell.orientation, orientedShell.orientations.primary);
         }
@@ -1022,15 +1022,15 @@ Rectangle {
             var topLevelSurfaceList = shell.topLevelSurfaceList;
 
             var dashSurfaceId = topLevelSurfaceList.nextId;
-            var dashApp = ApplicationManager.startApplication("unity8-dash");
+            var dashApp = ApplicationManager.startApplication("lomiri-dash");
             verify(dashApp);
             waitUntilAppWindowIsFullyLoaded(dashSurfaceId, orientedShell);
 
-            // starts as portrait, as unity8-dash is portrait only
+            // starts as portrait, as lomiri-dash is portrait only
             tryCompare(shell, "transformRotationAngle", 0);
 
             var weatherSurfaceId = topLevelSurfaceList.nextId;
-            var weatherApp = ApplicationManager.startApplication("ubuntu-weather-app");
+            var weatherApp = ApplicationManager.startApplication("lomiri-weather-app");
             verify(weatherApp);
 
             // ensure the mock app is as we expect
@@ -1045,7 +1045,7 @@ Rectangle {
             var rotationStates = findInvisibleChild(orientedShell, "rotationStates");
             waitUntilTransitionsEnd(rotationStates);
 
-            ApplicationManager.requestFocusApplication("unity8-dash");
+            ApplicationManager.requestFocusApplication("lomiri-dash");
 
             // Should be back to portrait
             tryCompare(shell, "transformRotationAngle", 0);
@@ -1156,13 +1156,13 @@ Rectangle {
             // Prepare inconsistent beginning (mouse & staged mode)
             MockInputDeviceBackend.addMockDevice("/mouse0", InputInfo.Mouse);
             usageModeSelector.selectStaged();
-            compare(unity8Settings.usageMode, "Staged");
+            compare(lomiriSettings.usageMode, "Staged");
 
             // Load shell, and have it pick desktop
             var orientedShell = loadShell("desktop");
             var shell = findChild(orientedShell, "shell");
             compare(shell.usageScenario, "desktop");
-            compare(unity8Settings.usageMode, "Windowed");
+            compare(lomiriSettings.usageMode, "Windowed");
         }
 
         function test_overrideWindowed() {
@@ -1193,7 +1193,7 @@ Rectangle {
         }
 
         /*
-            Regression test for https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1471609
+            Regression test for https://bugs.launchpad.net/lomiri/+source/lomiri/+bug/1471609
 
             Steps:
              - Open an app which can rotate
@@ -1239,7 +1239,7 @@ Rectangle {
         }
 
         /*
-           Regression test for https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1476757
+           Regression test for https://bugs.launchpad.net/lomiri/+source/lomiri/+bug/1476757
 
            Steps:
            1- have a portrait-only app in foreground (eg primary-oriented-app)

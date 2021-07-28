@@ -1,11 +1,11 @@
-# Albanian translation for unity8
+# Albanian translation for lomiri
 # Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
-# This file is distributed under the same license as the unity8 package.
+# This file is distributed under the same license as the lomiri package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
 # Indrit Bashkimi <indrit.bashkimi@gmail.com>, 2016.
 msgid ""
 msgstr ""
-"Project-Id-Version: unity8\n"
+"Project-Id-Version: lomiri\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
 "PO-Revision-Date: 2016-04-21 06:03+0000\n"
@@ -51,16 +51,16 @@ msgstr ""
 msgid "Guest Session"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:49
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Pin shortcut"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Lomiri/Launcher/launcheritem.cpp:55
 msgid "Quit"
 msgstr "Dil"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
 msgstr ""
 
@@ -132,7 +132,7 @@ msgid "Keyboard Shortcuts"
 msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
+msgid "Lomiri 8"
 msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
@@ -584,7 +584,7 @@ msgstr ""
 #: qml/Wizard/Pages/10-welcome-update.qml:91
 #, fuzzy
 msgid "Welcome to "
-msgstr "Mirëserdhe në Ubuntu"
+msgstr "Mirëserdhe në Lomiri"
 
 #: qml/Wizard/Pages/10-welcome-update.qml:106
 msgid "We will make sure your device is ready to use "
@@ -679,7 +679,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
+msgid "Lomiri Touch system"
 msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:83
@@ -701,8 +701,8 @@ msgid "Welcome Back"
 msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Mirëserdhe në Ubuntu"
+msgid "Welcome to Lomiri"
+msgstr "Mirëserdhe në Lomiri"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -827,7 +827,7 @@ msgstr "Fjalëkalim i dobët"
 msgid "Very weak password"
 msgstr "Fjalëkalim shumë i dobët"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Ruaje"
 
@@ -941,8 +941,8 @@ msgstr "Fjalëkalim shumë i dobët"
 #~ msgid "Hi!"
 #~ msgstr "Përshëndetje!"
 
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Mirëseerdhët në telefonin tuaj Ubuntu."
+#~ msgid "Welcome to your Lomiri phone."
+#~ msgstr "Mirëseerdhët në telefonin tuaj Lomiri."
 
 #~ msgid "Try again."
 #~ msgstr "Provoje përsëri."

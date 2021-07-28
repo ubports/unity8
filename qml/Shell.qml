@@ -18,13 +18,14 @@
 import QtQuick 2.4
 import QtQuick.Window 2.2
 import AccountsService 0.1
-import Unity.Application 0.1
-import Ubuntu.Components 1.3
-import Ubuntu.Components.Popups 1.3
-import Ubuntu.Gestures 0.1
-import Ubuntu.Telephony 0.1 as Telephony
-import Unity.Connectivity 0.1
-import Unity.Launcher 0.1
+import QtMir.Application 0.1
+import Lomiri.Components 1.3
+import Lomiri.Components.Popups 1.3
+import Lomiri.Gestures 0.1
+// FIXME: uncomment this when telephony-service is available in UBports Focal
+// import Lomiri.Telephony 0.1 as Telephony
+import Lomiri.ModemConnectivity 0.1
+import Lomiri.Launcher 0.1
 import GlobalShortcut 1.0 // has to be before Utils, because of WindowInputFilter
 import GSettings 1.0
 import Utils 0.1
@@ -39,9 +40,9 @@ import "Stage"
 import "Tutorial"
 import "Wizard"
 import "Components/PanelState"
-import Unity.Notifications 1.0 as NotificationBackend
-import Unity.Session 0.1
-import Unity.Indicators 0.1 as Indicators
+import Lomiri.Notifications 1.0 as NotificationBackend
+import Lomiri.Session 0.1
+import Lomiri.Indicators 0.1 as Indicators
 import Cursor 1.1
 import WindowManager 1.0
 
@@ -49,7 +50,7 @@ import WindowManager 1.0
 StyledItem {
     id: shell
 
-    theme.name: "Ubuntu.Components.Themes.SuruDark"
+    theme.name: "Lomiri.Components.Themes.SuruDark"
 
     // to be set from outside
     property int orientationAngle: 0
@@ -286,7 +287,7 @@ StyledItem {
 
     GSettings {
         id: settings
-        schema.id: "com.canonical.Unity8"
+        schema.id: "com.lomiri.Shell"
     }
 
     PanelState {
@@ -465,7 +466,7 @@ StyledItem {
         onTriggered: {
             // Go through the dbus service, because it has checks for whether
             // we are even allowed to lock or not.
-            DBusUnitySessionService.PromptLock();
+            DBusLomiriSessionService.PromptLock();
         }
     }
 
@@ -494,7 +495,7 @@ StyledItem {
 
         onStatusChanged: {
             if (Powerd.status === Powerd.Off && reason !== Powerd.Proximity &&
-                    !callManager.hasCalls && !wizard.active) {
+                    /* !callManager.hasCalls && */ !wizard.active) {
                 // We don't want to simply call greeter.showNow() here, because
                 // that will take too long.  Qt will delay button event
                 // handling until the greeter is done loading and may think the
@@ -681,7 +682,7 @@ StyledItem {
             opacity: enabled ? 0.95 : 0
 
             Behavior on opacity {
-                UbuntuNumberAnimation {}
+                LomiriNumberAnimation {}
             }
         }
 
@@ -690,7 +691,7 @@ StyledItem {
             objectName: "tutorial"
             anchors.fill: parent
 
-            paused: callManager.hasCalls || !greeter || greeter.active || wizard.active
+            paused: /* callManager.hasCalls || */ !greeter || greeter.active || wizard.active
                     || !hasTouchscreen // TODO #1661557 something better for no touchscreen
             delayed: dialogs.hasActiveDialog || notifications.hasNotification ||
                      inputMethod.visible ||
@@ -711,7 +712,7 @@ StyledItem {
 
             function unlockWhenDoneWithWizard() {
                 if (!active) {
-                    Connectivity.unlockAllModems();
+                    ModemConnectivity.unlockAllModems();
                 }
             }
 
@@ -912,7 +913,7 @@ StyledItem {
             cursor.opacity = 1;
         }
 
-        Behavior on opacity { UbuntuNumberAnimation {} }
+        Behavior on opacity { LomiriNumberAnimation {} }
     }
 
     // non-visual objects
@@ -935,7 +936,7 @@ StyledItem {
             to: 1.0
             onStopped: {
                 if (shutdownFadeOutRectangle.enabled && shutdownFadeOutRectangle.visible) {
-                    DBusUnitySessionService.shutdown();
+                    DBusLomiriSessionService.shutdown();
                 }
             }
         }

@@ -15,23 +15,23 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
-import Unity.Indicators 0.1
-import Unity.ApplicationMenu 0.1
-import Unity.Indicators 0.1 as Indicators
+import Lomiri.Components 1.3
+import Lomiri.Indicators 0.1
+import Lomiri.ApplicationMenu 0.1
+import Lomiri.Indicators 0.1 as Indicators
 
 Item {
     property string persistentSurfaceId
     readonly property alias model: sharedAppModel.model
 
-    Indicators.SharedUnityMenuModel {
+    Indicators.SharedLomiriMenuModel {
         id: sharedAppModel
         property var menus: ApplicationMenuRegistry.getMenusForSurface(persistentSurfaceId)
         property var menuService: menus.length > 0 ? menus[0] : null
 
         busName: menuService ? menuService.service : ""
         menuObjectPath: menuService && menuService.menuPath ? menuService.menuPath : ""
-        actions: menuService && menuService.actionPath ? { "unity": menuService.actionPath } : {}
+        actions: menuService && menuService.actionPath ? { "lomiri": menuService.actionPath } : {}
     }
 
     onPersistentSurfaceIdChanged: update()

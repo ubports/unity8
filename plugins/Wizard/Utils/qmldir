@@ -1,2 +1,2 @@
-module Ubuntu.SystemSettings.Wizard.Utils
+module Lomiri.SystemSettings.Wizard.Utils
 plugin WizardUtils-qml

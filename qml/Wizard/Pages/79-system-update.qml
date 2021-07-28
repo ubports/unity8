@@ -16,8 +16,8 @@
 
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
-import Ubuntu.Components 1.3
-import Ubuntu.SystemSettings.Update 1.0
+import Lomiri.Components 1.3
+import Lomiri.SystemSettings.Update 1.0
 import Wizard 0.1
 import ".." as LocalComponents
 
@@ -41,7 +41,7 @@ LocalComponents.Page {
         spacing: units.gu(3)
         opacity: spinner.running ? 0.5 : 1
         Behavior on opacity {
-            UbuntuNumberAnimation {}
+            LomiriNumberAnimation {}
         }
 
         Label {
@@ -73,7 +73,7 @@ LocalComponents.Page {
                 color: textColor
                 font.weight: Font.Normal
                 fontSize: "small"
-                text: i18n.ctr("string identifying name of the update", "Ubuntu Touch system")
+                text: i18n.ctr("string identifying name of the update", "Lomiri Touch system")
             }
 
             Label {
@@ -125,7 +125,7 @@ LocalComponents.Page {
             scale: button.pressed ? 0.98 : 1.0
             Behavior on scale {
                 ScaleAnimator {
-                    duration: UbuntuAnimation.SnapDuration
+                    duration: LomiriAnimation.SnapDuration
                     easing.type: Easing.Linear
                 }
             }

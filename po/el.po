@@ -1,16 +1,16 @@
-# Greek translation for unity
+# Greek translation for lomiri
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the unity package.
+# This file is distributed under the same license as the lomiri package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity\n"
+"Project-Id-Version: lomiri\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
 "PO-Revision-Date: 2020-08-19 00:03+0000\n"
 "Last-Translator: Efstathios Iosifidis <iefstathios@gmail.com>\n"
-"Language-Team: Greek <https://translate.ubports.com/projects/unity8/unity8/"
+"Language-Team: Greek <https://translate.ubports.com/projects/lomiri/lomiri/"
 "el/>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
@@ -52,16 +52,16 @@ msgstr "Σύνδεση"
 msgid "Guest Session"
 msgstr "Συνεδρία Επισκέπτη"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:49
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Pin shortcut"
 msgstr "Καρφίτσωμα συντόμευσης"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Lomiri/Launcher/launcheritem.cpp:55
 msgid "Quit"
 msgstr "Έξοδος"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
 msgstr "Ξεκαρφίτσωμα συντόμευσης"
 
@@ -135,8 +135,8 @@ msgid "Keyboard Shortcuts"
 msgstr "Συντομεύσεις Πληκτρολογίου"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
-msgstr "Unity 8"
+msgid "Lomiri 8"
+msgstr "Lomiri 8"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -689,8 +689,8 @@ msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr "Σύστημα Ubuntu Touch"
+msgid "Lomiri Touch system"
+msgstr "Σύστημα Lomiri Touch"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -711,8 +711,8 @@ msgid "Welcome Back"
 msgstr "Καλώς ήλθατε πίσω"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Καλώς ήρθατε στο Ubuntu"
+msgid "Welcome to Lomiri"
+msgstr "Καλώς ήρθατε στο Lomiri"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -840,7 +840,7 @@ msgstr "Αδύναμο συνθηματικό"
 msgid "Very weak password"
 msgstr "Πολύ αδύναμο συνθηματικό"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Κατάστημα"
 
@@ -1119,8 +1119,8 @@ msgstr "Πολύ αδύναμο συνθηματικό"
 #~ msgid "Hi!"
 #~ msgstr "Γεια!"
 
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Καλώς ήρθατε στο Ubuntu phone σας."
+#~ msgid "Welcome to your Lomiri phone."
+#~ msgstr "Καλώς ήρθατε στο Lomiri phone σας."
 
 #~ msgid "Let’s get started."
 #~ msgstr "Ας ξεκινήσουμε."

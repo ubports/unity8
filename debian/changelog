@@ -1,3 +1,9 @@
+lomiri (0.1) UNRELEASED; urgency=medium
+
+  * Rename to lomiri
+
+ -- Marius Gripsgard <marius@ubports.com>  Wed, 14 Apr 2021 04:24:58 +0200
+
 unity8 (8.20+ubports) xenial; urgency=medium
 
   * Replace dependency on ubuntu-wallpapers with ubports-wallpapers

@@ -8,7 +8,7 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager
-    ${libunity8-private_SOURCE_DIR}
+    ${liblomiri-private_SOURCE_DIR}
 )
 
 add_library(mockwindowmanagmentpolicy SHARED
@@ -16,7 +16,7 @@ add_library(mockwindowmanagmentpolicy SHARED
 )
 target_link_libraries(mockwindowmanagmentpolicy
     ${MIRAL_LDFLAGS}
-    unity8-private
+    lomiri-private
 )
 qt5_use_modules(mockwindowmanagmentpolicy Core)
 
@@ -42,12 +42,12 @@ set(WINDOWMANAGER_SRC
     MockScreenWindow.cpp
     MockScreensConfiguration.cpp
     WindowManagerPlugin.cpp
-    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
-    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
-    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/Mir.h
-    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/MirSurfaceInterface.h
-    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/MirSurfaceListInterface.h
-    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/SurfaceManagerInterface.h
+    ${APPLICATION_API_INCLUDEDIR}/lomiri/shell/application/ApplicationInfoInterface.h
+    ${APPLICATION_API_INCLUDEDIR}/lomiri/shell/application/ApplicationManagerInterface.h
+    ${APPLICATION_API_INCLUDEDIR}/lomiri/shell/application/Mir.h
+    ${APPLICATION_API_INCLUDEDIR}/lomiri/shell/application/MirSurfaceInterface.h
+    ${APPLICATION_API_INCLUDEDIR}/lomiri/shell/application/MirSurfaceListInterface.h
+    ${APPLICATION_API_INCLUDEDIR}/lomiri/shell/application/SurfaceManagerInterface.h
 )
 
 add_library(MockWindowManager-qml SHARED ${WINDOWMANAGER_SRC})
@@ -59,4 +59,4 @@ target_link_libraries(MockWindowManager-qml
 
 qt5_use_modules(MockWindowManager-qml Qml Quick Gui)
 
-add_unity8_mock(WindowManager 1.0 WindowManager TARGETS MockWindowManager-qml)
+add_lomiri_mock(WindowManager 1.0 WindowManager TARGETS MockWindowManager-qml)

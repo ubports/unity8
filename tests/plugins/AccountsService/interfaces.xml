@@ -56,9 +56,9 @@
       <arg name="realName" type="s" direction="in" />
     </method>
   </interface>
-  <interface name="com.canonical.unity.AccountsService.Private" />
+  <interface name="com.lomiri.shell.AccountsService.Private" />
 
-  <interface name="com.canonical.Unity.Input">
+  <interface name="com.lomiri.SystemCompositor.Input">
     <method name="setMousePrimaryButton">
       <arg name="button" type="i" direction="in" />
     </method>

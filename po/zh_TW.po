@@ -1,11 +1,11 @@
-# Chinese (Traditional) translation for unity
+# Chinese (Traditional) translation for lomiri
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the unity package.
+# This file is distributed under the same license as the lomiri package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity\n"
+"Project-Id-Version: lomiri\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
 "PO-Revision-Date: 2021-02-14 20:35+0000\n"
@@ -52,16 +52,16 @@ msgstr "登入"
 msgid "Guest Session"
 msgstr "訪客作業階段"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:49
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Pin shortcut"
 msgstr "釘住捷徑"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Lomiri/Launcher/launcheritem.cpp:55
 msgid "Quit"
 msgstr "結束"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
 msgstr "取消釘住捷徑"
 
@@ -133,8 +133,8 @@ msgid "Keyboard Shortcuts"
 msgstr "鍵盤快捷鍵"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
-msgstr "Unity 8"
+msgid "Lomiri 8"
+msgstr "Lomiri 8"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -665,8 +665,8 @@ msgstr "有一個可用的系統更新, 並準備安裝。稍後裝置將會自�
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr "Ubuntu Touch 系統"
+msgid "Lomiri Touch system"
+msgstr "Lomiri Touch 系統"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -687,8 +687,8 @@ msgid "Welcome Back"
 msgstr "歡迎回來"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "歡迎使用 Ubuntu"
+msgid "Welcome to Lomiri"
+msgstr "歡迎使用 Lomiri"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -813,7 +813,7 @@ msgstr "密碼強度不足"
 msgid "Very weak password"
 msgstr "密碼強度極弱"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "商城"
 
@@ -1155,8 +1155,8 @@ msgstr "密碼強度極弱"
 #~ msgid "Hi!"
 #~ msgstr "您好！"
 
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "歡迎使用您的 Ubuntu 手機。"
+#~ msgid "Welcome to your Lomiri phone."
+#~ msgstr "歡迎使用您的 Lomiri 手機。"
 
 #~ msgid "Let’s get started."
 #~ msgstr "讓我們開始吧。"

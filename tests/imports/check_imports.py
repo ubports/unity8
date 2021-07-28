@@ -54,9 +54,9 @@ quick_good_pat = re.compile(r'.*import QtQuick 2\.4.*$')
 quick_layouts_good_pat = re.compile(r'.*import QtQuick.Layouts 1\.1.*$')
 quick_window_good_pat = re.compile(r'.*import QtQuick.Window 2\.2.*$')
 
-# Ubuntu Components patterns
-ubuntu_components_pat = re.compile(r'.*import Ubuntu.Components.*')
-ubuntu_good_components_pat = re.compile(r'.*import Ubuntu.Components.*1\.3.*')
+# Lomiri Components patterns
+lomiri_components_pat = re.compile(r'.*import Lomiri.Components.*')
+lomiri_good_components_pat = re.compile(r'.*import Lomiri.Components.*1\.3.*')
 
 def scan_for_bad_import(file_path, all_pat, good_pats):
     errors = []
@@ -86,7 +86,7 @@ flickable_pat = re.compile(r'.*\s*Flickable\s*{')
 listview_pat = re.compile(r'.*\s*ListView\s*{')
 gridview_pat = re.compile(r'.*\s*GridView\s*{')
 flickable_pats = [flickable_pat, listview_pat, gridview_pat]
-unity_components_pat = re.compile(r'.*import ".*Components"')
+lomiri_components_pat = re.compile(r'.*import ".*Components"')
 components_import_pat = re.compile(r'.*import "."')
 components_path = re.compile(r'.*qml/Components.*')
 skip_components_flickable_path = re.compile(r'.*qml/Components/Flickable.qml')
@@ -94,7 +94,7 @@ skip_components_listview_path = re.compile(r'.*qml/Components/ListView.qml')
 skip_components_gridview_path = re.compile(r'.*qml/Components/GridView.qml')
 skip_mocks_path = re.compile(r'.*tests/mocks.*')
 
-def scan_for_flickable_imports(file_path, component_pats, qtquick_pat, unitycomponents_pat):
+def scan_for_flickable_imports(file_path, component_pats, qtquick_pat, lomiricomponents_pat):
     errors = []
     with open(file_path, 'rt', encoding='utf-8') as ifile, open(file_path, 'rt', encoding='utf-8') as i2file:
         flickable_found = False
@@ -104,17 +104,17 @@ def scan_for_flickable_imports(file_path, component_pats, qtquick_pat, unitycomp
                     flickable_found = True
         if flickable_found:
             qtquick_found = False
-            unitycomponents_found = False
+            lomiricomponents_found = False
             for lino, line in enumerate(i2file, start=1):
                 if not qtquick_found and qtquick_pat.match(line):
                     qtquick_found = True
-                if unitycomponents_pat.match(line):
-                    unitycomponents_found = True
+                if lomiricomponents_pat.match(line):
+                    lomiricomponents_found = True
                     if not qtquick_found:
                         errors.append(lino)
                     else:
                         return
-            if not unitycomponents_found:
+            if not lomiricomponents_found:
                 errors.append(lino)
     if 0 < len(errors) <= 10:
         if len(errors) > 1:
@@ -161,7 +161,7 @@ try:
                 quick_good_pats = [quick_good_pat, quick_layouts_good_pat, quick_window_good_pat]
                 if scan_for_bad_import(path, quick_pat, quick_good_pats):
                     found_bad_import = True
-                if scan_for_bad_import(path, ubuntu_components_pat, [ubuntu_good_components_pat]):
+                if scan_for_bad_import(path, lomiri_components_pat, [lomiri_good_components_pat]):
                     found_bad_import = True
                 if skip_mocks_path.match(path) or \
                    skip_components_flickable_path.match(path) or \
@@ -169,7 +169,7 @@ try:
                    skip_components_gridview_path.match(path):
                     break
                 if not components_path.match(path):
-                    if scan_for_flickable_imports(path, flickable_pats, quick_good_pat, unity_components_pat):
+                    if scan_for_flickable_imports(path, flickable_pats, quick_good_pat, lomiri_components_pat):
                         found_bad_import = True
                 else:
                     if scan_for_flickable_imports(path, flickable_pats, quick_good_pat, components_import_pat):

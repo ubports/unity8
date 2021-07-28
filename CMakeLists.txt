@@ -1,11 +1,11 @@
-cmake_minimum_required(VERSION 2.8.9)
+cmake_minimum_required(VERSION 3.4.0)
 
 # Default install location. Must be set here, before setting the project.
 if (NOT DEFINED CMAKE_INSTALL_PREFIX)
     set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/install CACHE PATH "" FORCE)
 endif()
 
-project(unity8 C CXX)
+project(lomiri C CXX)
 
 if(${PROJECT_BINARY_DIR} STREQUAL ${PROJECT_SOURCE_DIR})
    message(FATAL_ERROR "In-tree build attempt detected, aborting. Set your build dir outside your source dir, delete CMakeCache.txt from source root and try again.")
@@ -74,51 +74,51 @@ find_package(Qt5Svg 5.6 REQUIRED)
 find_package(Qt5Network 5.6 REQUIRED)
 find_package(Qt5Xml 5.6 REQUIRED)
 
-pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=27)
+pkg_check_modules(APPLICATION_API REQUIRED lomiri-shell-application=27)
 pkg_check_modules(QTMIRSERVER REQUIRED qtmirserver>=0.6.0)
 pkg_check_modules(GEONAMES REQUIRED geonames>=0.2)
 pkg_check_modules(GIO REQUIRED gio-2.0>=2.32)
 pkg_check_modules(GLIB REQUIRED glib-2.0>=2.32)
-pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=13)
+pkg_check_modules(LAUNCHER_API REQUIRED lomiri-shell-launcher=13)
 pkg_check_modules(QMENUMODEL REQUIRED qmenumodel)
 pkg_check_modules(GD3 REQUIRED gnome-desktop-3.0)
-pkg_check_modules(UAL REQUIRED ubuntu-app-launch-2)
-pkg_check_modules(UBUNTUGESTURES REQUIRED UbuntuGestures)
+pkg_check_modules(UAL REQUIRED lomiri-app-launch-0)
+pkg_check_modules(LOMIRIGESTURES REQUIRED LomiriGestures)
 pkg_check_modules(QTDBUSTEST REQUIRED
     libqtdbustest-1
     libqtdbusmock-1
     )
 pkg_check_modules(MIRAL REQUIRED miral)
 
-### Check UbuntuGestures private headers. No pkg-config (.pc) file is provided for them
-find_path(UBUNTUGESTUREPRIV
-    NAMES UbuntuGestures/private/damper_p.h UbuntuGestures/private/ucswipearea_p.h UbuntuGestures/private/ucswipearea_p_p.h
-    PATHS ${UBUNTUGESTURES_INCLUDEDIR}/UbuntuGestures/${UBUNTUGESTURES_VERSION}
+### Check LomiriGestures private headers. No pkg-config (.pc) file is provided for them
+find_path(LOMIRIGESTUREPRIV
+    NAMES LomiriGestures/private/damper_p.h LomiriGestures/private/ucswipearea_p.h LomiriGestures/private/ucswipearea_p_p.h
+    PATHS ${LOMIRIGESTURES_INCLUDEDIR}/LomiriGestures/${LOMIRIGESTURES_VERSION}
     NO_DEFAULT_PATH)
-if (${UBUNTUGESTUREPRIV} STREQUAL UBUNTUGESTUREPRIV-NOTFOUND)
-   message(FATAL_ERROR "UbuntuGestures private headers not found.")
+if (${LOMIRIGESTUREPRIV} STREQUAL LOMIRIGESTUREPRIV-NOTFOUND)
+   message(FATAL_ERROR "LomiriGestures private headers not found.")
 endif()
-# end of UbuntuGesture private headers check
+# end of LomiriGesture private headers check
 
 # Standard install paths
 include(GNUInstallDirs)
 
-set(SHELL_APP_DIR ${CMAKE_INSTALL_DATADIR}/unity8)
-set(SHELL_PRIVATE_LIBDIR ${CMAKE_INSTALL_LIBDIR}/unity8)
+set(SHELL_APP_DIR ${CMAKE_INSTALL_DATADIR}/lomiri)
+set(SHELL_PRIVATE_LIBDIR ${CMAKE_INSTALL_LIBDIR}/lomiri)
 
-execute_process(COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=plugin_private_module_dir SystemSettings OUTPUT_VARIABLE USS_PRIVATE_PLUGINDIR OUTPUT_STRIP_TRAILING_WHITESPACE)
+execute_process(COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=plugin_private_module_dir LomiriSystemSettings OUTPUT_VARIABLE USS_PRIVATE_PLUGINDIR OUTPUT_STRIP_TRAILING_WHITESPACE)
 if(USS_PRIVATE_PLUGINDIR STREQUAL "")
     message(FATAL_ERROR "Could not determine USS private plugin installation dir.")
 endif()
 
-execute_process(COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=plugindir_suffix unity-shell-api OUTPUT_VARIABLE SHELL_INSTALL_QML OUTPUT_STRIP_TRAILING_WHITESPACE)
+execute_process(COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=plugindir_suffix lomiri-shell-api OUTPUT_VARIABLE SHELL_INSTALL_QML OUTPUT_STRIP_TRAILING_WHITESPACE)
 if(SHELL_INSTALL_QML STREQUAL "")
     message(FATAL_ERROR "Could not determine plugin installation dir.")
 endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden")
 
-execute_process(COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=plugindir unity-shell-api OUTPUT_VARIABLE SHELL_PLUGINDIR OUTPUT_STRIP_TRAILING_WHITESPACE)
+execute_process(COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=plugindir lomiri-shell-api OUTPUT_VARIABLE SHELL_PLUGINDIR OUTPUT_STRIP_TRAILING_WHITESPACE)
 if(SHELL_PLUGINDIR STREQUAL "")
     message(FATAL_ERROR "Could not determine plugin import dir.")
 endif()
@@ -137,7 +137,7 @@ if (Werror)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
 endif()
 
-# gtk and unity-core (actually sigc++) do not like Qt defining macros named
+# gtk and lomiri-core (actually sigc++) do not like Qt defining macros named
 # "signals" and "slots"
 add_definitions(-DQT_NO_KEYWORDS)
 
@@ -149,12 +149,12 @@ add_definitions(-DQT_USE_QSTRINGBUILDER)
 
 # Autopilot tests
 include(autopilot)
-declare_autopilot_test(shell unity8.shell ${CMAKE_SOURCE_DIR}/tests/autopilot/)
+declare_autopilot_test(shell lomiri.shell ${CMAKE_SOURCE_DIR}/tests/autopilot/)
 
-set(SHELL_APP unity8)
+set(SHELL_APP lomiri)
 set(INDICATORS_CLIENT_APP indicators-client)
-set(GREETER_APP unity8-greeter)
-set(MOCK_INDICATOR_SERVICE_APP unity-mock-indicator-service)
+set(GREETER_APP lomiri-greeter)
+set(MOCK_INDICATOR_SERVICE_APP lomiri-mock-indicator-service)
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/include
@@ -171,7 +171,7 @@ endif()
 execute_process(COMMAND dpkg-architecture -qDEB_HOST_ARCH OUTPUT_VARIABLE ARCH)
 if (NOT ARCH MATCHES "arm*")
     set(ENABLE_TOUCH_EMULATION true)
-    add_definitions(-DUNITY8_ENABLE_TOUCH_EMULATION)
+    add_definitions(-DLOMIRI_ENABLE_TOUCH_EMULATION)
     pkg_check_modules(MOUSETOUCHADAPTOR_LIBS REQUIRED x11 xcb xi)
 else()
     set(ENABLE_TOUCH_EMULATION false)

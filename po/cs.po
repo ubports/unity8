@@ -1,11 +1,11 @@
-# Czech translation for unity8
+# Czech translation for lomiri
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the unity8 package.
+# This file is distributed under the same license as the lomiri package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity8\n"
+"Project-Id-Version: lomiri\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
 "PO-Revision-Date: 2021-02-03 22:27+0000\n"
@@ -52,16 +52,16 @@ msgstr "Zahájit relaci"
 msgid "Guest Session"
 msgstr "Sezení hosta"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:49
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Pin shortcut"
 msgstr "Připnout zástupce"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Lomiri/Launcher/launcheritem.cpp:55
 msgid "Quit"
 msgstr "Ukončit"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
 msgstr "Zrušit připnutí zástupce"
 
@@ -135,7 +135,7 @@ msgid "Keyboard Shortcuts"
 msgstr "Klávesové zkratky"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
+msgid "Lomiri 8"
 msgstr "Lomiri"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
@@ -686,8 +686,8 @@ msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr "Systém Ubuntu Touch"
+msgid "Lomiri Touch system"
+msgstr "Systém Lomiri Touch"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -708,8 +708,8 @@ msgid "Welcome Back"
 msgstr "Vítejte zpět"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Vítejte v Ubuntu"
+msgid "Welcome to Lomiri"
+msgstr "Vítejte v Lomiri"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -834,7 +834,7 @@ msgstr "Prolomitelné heslo"
 msgid "Very weak password"
 msgstr "Velmi snadno prolomitelné heslo"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Obchod"
 
@@ -1155,8 +1155,8 @@ msgstr "Velmi snadno prolomitelné heslo"
 #~ msgid "Hi!"
 #~ msgstr "Ahoj!"
 
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Vítejte ve vašem Ubuntu telefonu."
+#~ msgid "Welcome to your Lomiri phone."
+#~ msgstr "Vítejte ve vašem Lomiri telefonu."
 
 #~ msgid "Let’s get started."
 #~ msgstr "Začněme."

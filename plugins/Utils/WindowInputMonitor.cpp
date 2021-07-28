@@ -18,15 +18,15 @@
 
 #include <QQuickWindow>
 
-using namespace UnityUtil;
+using namespace LomiriUtil;
 
 WindowInputMonitor::WindowInputMonitor(QQuickItem *parent)
     : WindowInputMonitor(new Timer, new ElapsedTimer, parent)
 {
 }
 
-WindowInputMonitor::WindowInputMonitor(UnityUtil::AbstractTimer *timer,
-        UnityUtil::AbstractElapsedTimer *elapsedTimer,
+WindowInputMonitor::WindowInputMonitor(LomiriUtil::AbstractTimer *timer,
+        LomiriUtil::AbstractElapsedTimer *elapsedTimer,
         QQuickItem *parent)
     : QQuickItem(parent)
     , m_windowBeingTouched(false)
@@ -38,7 +38,7 @@ WindowInputMonitor::WindowInputMonitor(UnityUtil::AbstractTimer *timer,
     connect(this, &QQuickItem::windowChanged,
             this, &WindowInputMonitor::setupFilterOnWindow);
 
-    connect(m_activationTimer, &UnityUtil::AbstractTimer::timeout,
+    connect(m_activationTimer, &LomiriUtil::AbstractTimer::timeout,
         this, &WindowInputMonitor::emitActivatedIfNoTouchesAround);
     m_activationTimer->setInterval(msecsWithoutTouches);
     m_activationTimer->setSingleShot(true);

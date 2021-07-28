@@ -15,12 +15,12 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import LightDM.FullLightDM 0.1 as LightDM
 import LightDMController 0.1
-import Unity.Application 0.1
-import Unity.Test 0.1
-import Unity.InputInfo 0.1
+import QtMir.Application 0.1
+import Lomiri.SelfTest 0.1
+import Lomiri.InputInfo 0.1
 
 import "../../qml"
 import "../../qml/Components"
@@ -92,7 +92,7 @@ Rectangle {
                         right: parent.right
                     }
                     action: addMouseAction
-                    color: addMouseAction.checked ? UbuntuColors.red : UbuntuColors.green
+                    color: addMouseAction.checked ? LomiriColors.red : LomiriColors.green
                 }
 
                 Button {
@@ -101,7 +101,7 @@ Rectangle {
                         right: parent.right
                     }
                     action: addKBAction
-                    color: addKBAction.checked ? UbuntuColors.red : UbuntuColors.green
+                    color: addKBAction.checked ? LomiriColors.red : LomiriColors.green
                 }
 
                 MouseTouchEmulationCheckbox {
@@ -210,7 +210,7 @@ Rectangle {
     ShellApplication {
     }
 
-    UnityTestCase {
+    LomiriTestCase {
         id: testCase
         name: "ShellApplication"
         when: windowShown

@@ -43,7 +43,7 @@ DisplayConfigurationStorage::DisplayConfigurationStorage()
 
 void DisplayConfigurationStorage::save(const miral::DisplayId &displayId, const miral::DisplayConfigurationOptions &options)
 {
-    const QString dbPath = QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation) + QStringLiteral("/unity8/");
+    const QString dbPath = QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation) + QStringLiteral("/lomiri/");
     QFile f(dbPath + stringFromEdid(displayId.edid) + ".edid");
 
     QJsonObject json;
@@ -71,7 +71,7 @@ void DisplayConfigurationStorage::save(const miral::DisplayId &displayId, const 
 
 bool DisplayConfigurationStorage::load(const miral::DisplayId &displayId, miral::DisplayConfigurationOptions &options) const
 {
-    const QString dbPath = QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation) + QStringLiteral("/unity8/");
+    const QString dbPath = QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation) + QStringLiteral("/lomiri/");
     QFile f(dbPath + stringFromEdid(displayId.edid) + ".edid");
 
     if (f.open(QIODevice::ReadOnly)) {

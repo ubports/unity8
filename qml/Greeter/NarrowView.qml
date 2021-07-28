@@ -16,8 +16,9 @@
 
 import QtQuick 2.4
 import QtQuick.Window 2.2
-import Ubuntu.Components 1.3
-import Ubuntu.Telephony 0.1 as Telephony
+import Lomiri.Components 1.3
+// FIXME: uncomment this when telephony-service is available in UBports Focal
+// import Lomiri.Telephony 0.1 as Telephony
 import "../Components"
 
 FocusScope {
@@ -207,7 +208,7 @@ FocusScope {
                               inputMethod.keyboardRectangle.height : 0)
 
         Rectangle {
-            color: UbuntuColors.porcelain // matches OSK background
+            color: LomiriColors.porcelain // matches OSK background
             anchors.fill: parent
         }
 
@@ -220,7 +221,7 @@ FocusScope {
             verticalAlignment: Text.AlignVCenter
             font.weight: Font.Light
             fontSize: "small"
-            color: UbuntuColors.slate
+            color: LomiriColors.slate
 
             AbstractButton {
                 anchors.fill: parent
@@ -240,7 +241,7 @@ FocusScope {
             verticalAlignment: Text.AlignVCenter
             font.weight: Font.Light
             fontSize: "small"
-            color: UbuntuColors.slate
+            color: LomiriColors.slate
             // TODO: uncomment once bug 1616538 is fixed
             // visible: telepathyHelper.ready && telepathyHelper.emergencyCallsAvailable
             enabled: visible
@@ -265,6 +266,6 @@ FocusScope {
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
-        color: UbuntuColors.porcelain
+        color: LomiriColors.porcelain
     }
 }

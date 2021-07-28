@@ -17,9 +17,9 @@
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import QtTest 1.0
-import Unity.Test 0.1
-import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.3
+import Lomiri.SelfTest 0.1
+import Lomiri.Components 1.3
+import Lomiri.Components.ListItems 1.3
 import "../../qml"
 
 Item {
@@ -94,7 +94,7 @@ Item {
         }
     }
 
-    UnityTestCase {
+    LomiriTestCase {
         id: testCase
         name: "DisabledScreenNotice"
         when: windowShown

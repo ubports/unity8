@@ -16,7 +16,7 @@
 
 import QtQuick 2.4
 import QtGraphicalEffects 1.0
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 
 Label {
     property real fadeDistance: units.gu(8)

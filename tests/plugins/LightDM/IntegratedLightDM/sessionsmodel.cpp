@@ -78,8 +78,8 @@ private Q_SLOTS:
                                     {"kde", "kde_badge.png"},
                                     {"plasma", "kde_badge.png"},
                                     {"recovery_console", "recovery_console_badge.png"},
-                                    {"ubuntu","ubuntu_badge.png"},
-                                    {"ubuntu-2d", "ubuntu_badge.png"},
+                                    {"lomiri","lomiri_badge.png"},
+                                    {"lomiri-2d", "lomiri_badge.png"},
                                     {"xterm", "recovery_console_badge.png"},
                                     {"made up session", "unknown_badge.png"},
                                     {"", "unknown_badge.png"}
@@ -120,8 +120,8 @@ private Q_SLOTS:
         // This is testing the lookup, not the correctness of the strings,
         // so one test should be sufficient
         mock->setProperty("sessionMode", "full");
-        QVERIFY(model->data(findByKey(model, "ubuntu"),
-                Qt::DisplayRole).toString() == "Ubuntu");
+        QVERIFY(model->data(findByKey(model, "lomiri"),
+                Qt::DisplayRole).toString() == "Lomiri");
     }
 
 private:

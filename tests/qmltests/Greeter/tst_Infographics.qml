@@ -18,8 +18,8 @@ import QtQuick 2.4
 import QtTest 1.0
 import ".."
 import "../../../qml/Greeter"
-import Ubuntu.Components 1.3
-import Unity.Test 0.1 as UT
+import Lomiri.Components 1.3
+import Lomiri.SelfTest 0.1 as UT
 import LightDM.FullLightDM 0.1 as LightDM
 
 Item {
@@ -49,7 +49,7 @@ Item {
         }
     }
 
-    UT.UnityTestCase {
+    UT.LomiriTestCase {
         name: "Infographics"
         when: windowShown
 

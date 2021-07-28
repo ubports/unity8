@@ -1,11 +1,11 @@
-# Interlingua translation for unity8
+# Interlingua translation for lomiri
 # Copyright (c) 2015 Rosetta Contributors and Canonical Ltd 2015
-# This file is distributed under the same license as the unity8 package.
+# This file is distributed under the same license as the lomiri package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity8\n"
+"Project-Id-Version: lomiri\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
 "PO-Revision-Date: 2015-08-25 19:31+0000\n"
@@ -51,16 +51,16 @@ msgstr ""
 msgid "Guest Session"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:49
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Pin shortcut"
 msgstr "Via-breve a pin"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Lomiri/Launcher/launcheritem.cpp:55
 msgid "Quit"
 msgstr "Quitar"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
 msgstr "Via-breve a levar pin"
 
@@ -134,8 +134,8 @@ msgid "Keyboard Shortcuts"
 msgstr "Vias breve del claviero"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
-msgstr "Unity 8"
+msgid "Lomiri 8"
+msgstr "Lomiri 8"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -607,7 +607,7 @@ msgstr "Sequente"
 #: qml/Wizard/Pages/10-welcome-update.qml:91
 #, fuzzy
 msgid "Welcome to "
-msgstr "Benvenite a Ubuntu."
+msgstr "Benvenite a Lomiri."
 
 #: qml/Wizard/Pages/10-welcome-update.qml:106
 msgid "We will make sure your device is ready to use "
@@ -706,10 +706,10 @@ msgstr ""
 #: qml/Wizard/Pages/79-system-update.qml:76
 #, fuzzy
 #| msgctxt "string identifying name of the update"
-#| msgid "Ubuntu system"
+#| msgid "Lomiri system"
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr "Systema Ubuntu"
+msgid "Lomiri Touch system"
+msgstr "Systema Lomiri"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -730,8 +730,8 @@ msgid "Welcome Back"
 msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Benvenite a Ubuntu."
+msgid "Welcome to Lomiri"
+msgstr "Benvenite a Lomiri."
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -857,7 +857,7 @@ msgstr "Contrasigno debile"
 msgid "Very weak password"
 msgstr "Contrasigno troppo debile"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Salva"
 
@@ -1189,8 +1189,8 @@ msgstr "Contrasigno troppo debile"
 #~ msgid "Hi!"
 #~ msgstr "Salute!"
 
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Benvenite a tu telephono Ubuntu."
+#~ msgid "Welcome to your Lomiri phone."
+#~ msgstr "Benvenite a tu telephono Lomiri."
 
 #~ msgid "Let’s get started."
 #~ msgstr "Que nos initia."

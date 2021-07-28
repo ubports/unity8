@@ -1,9 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Unity 8
-Comment=The converged Unity shell
-Exec=@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_BINDIR@/unity8
-Terminal=false
-Icon=
-NoDisplay=true
-X-Ubuntu-Touch=true

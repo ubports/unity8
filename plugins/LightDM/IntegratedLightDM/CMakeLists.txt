@@ -9,7 +9,7 @@ endforeach()
 include_directories(
     . #QLightDM
     ${QMLPLUGIN_INCLUDES}
-    ${libunity8-private_SOURCE_DIR}
+    ${liblomiri-private_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
 )
 
@@ -23,11 +23,11 @@ add_library(IntegratedLightDM-qml MODULE
 
 target_link_libraries(IntegratedLightDM-qml
     integratedLightDM
-    unity8-private
+    lomiri-private
     ${LIBUSERMETRICSOUTPUT_LDFLAGS}
     Qt5::DBus Qt5::Gui Qt5::Qml
     )
 
-add_unity8_plugin(IntegratedLightDM 0.1 LightDM/IntegratedLightDM TARGETS IntegratedLightDM-qml)
+add_lomiri_plugin(IntegratedLightDM 0.1 LightDM/IntegratedLightDM TARGETS IntegratedLightDM-qml)
 
 add_subdirectory(liblightdm)

@@ -28,7 +28,7 @@ namespace QLightDM
 UsersModelPrivate::UsersModelPrivate(UsersModel* parent)
   : q_ptr(parent)
 {
-    QSettings settings(QDir::homePath() + "/.unity8-greeter-demo", QSettings::NativeFormat);
+    QSettings settings(QDir::homePath() + "/.lomiri-greeter-demo", QSettings::NativeFormat);
     QStringList users = settings.value("users", QStringList() << "phablet").toStringList();
 
     Q_FOREACH(const QString &user, users)

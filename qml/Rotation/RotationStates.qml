@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import Powerd 0.1
 
 // Why the state machine is done that way:
@@ -272,13 +272,13 @@ StateGroup {
                     d.transitioning = true;
                 } }
                 NumberAnimation {
-                    duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing
+                    duration: LomiriAnimation.FastDuration; easing: LomiriAnimation.StandardEasing
                     target: root.shell; property: "panelAreaShowProgress"
                     from: 1.0; to: 0.0
                 }
                 ImmediateRotationAction { info: d; shell: root.shell }
                 NumberAnimation {
-                    duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing
+                    duration: LomiriAnimation.FastDuration; easing: LomiriAnimation.StandardEasing
                     target: root.shell; property: "panelAreaShowProgress"
                     from: 0.0; to: 1.0
                 }

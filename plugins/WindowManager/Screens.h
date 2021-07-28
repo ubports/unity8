@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef UNITY_SCREENS_H
-#define UNITY_SCREENS_H
+#ifndef LOMIRI_SCREENS_H
+#define LOMIRI_SCREENS_H
 
 #include <QAbstractListModel>
 #include <QSharedPointer>

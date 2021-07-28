@@ -47,7 +47,7 @@ public:
 public Q_SLOTS:
     void updateSessionLocale(const QString &locale);
     /**
-     * Mark the wizard to skip all the pages and just show the last (welcome to ubuntu) page
+     * Mark the wizard to skip all the pages and just show the last (welcome to lomiri) page
      */
     void skipUntilFinishedPage();
 

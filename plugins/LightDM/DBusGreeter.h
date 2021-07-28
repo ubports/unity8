@@ -14,10 +14,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef UNITY_DBUSGREETER_H
-#define UNITY_DBUSGREETER_H
+#ifndef LOMIRI_DBUSGREETER_H
+#define LOMIRI_DBUSGREETER_H
 
-#include "unitydbusobject.h"
+#include "lomiridbusobject.h"
 #include <QDBusConnection>
 
 class Greeter;
@@ -25,10 +25,10 @@ class Greeter;
 /** This is an internal class used to talk with the indicators.
   */
 
-class DBusGreeter : public UnityDBusObject
+class DBusGreeter : public LomiriDBusObject
 {
     Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "com.canonical.UnityGreeter")
+    Q_CLASSINFO("D-Bus Interface", "com.lomiri.LomiriGreeter")
 
     Q_PROPERTY(bool IsActive READ isActive NOTIFY isActiveChanged) // since 14.10
 

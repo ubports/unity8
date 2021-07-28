@@ -15,11 +15,11 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
-import Unity.Application 0.1
+import Lomiri.Components 1.3
+import QtMir.Application 0.1
 import "Spread/MathUtils.js" as MathUtils
-import Unity.ApplicationMenu 0.1
-import Unity.Indicators 0.1 as Indicators
+import Lomiri.ApplicationMenu 0.1
+import Lomiri.Indicators 0.1 as Indicators
 import "../Components/PanelState"
 
 FocusScope {
@@ -98,10 +98,10 @@ FocusScope {
     QtObject {
         id: d
         property int requestedDecorationHeight: root.hasDecoration ? decoration.height : 0
-        Behavior on requestedDecorationHeight { enabled: root.animateDecoration; UbuntuNumberAnimation { } }
+        Behavior on requestedDecorationHeight { enabled: root.animateDecoration; LomiriNumberAnimation { } }
 
         property int visibleDecorationHeight: root.hasDecoration ? root.showDecoration * decoration.height : 0
-        Behavior on visibleDecorationHeight { enabled: root.animateDecoration; UbuntuNumberAnimation { } }
+        Behavior on visibleDecorationHeight { enabled: root.animateDecoration; LomiriNumberAnimation { } }
     }
 
     StateGroup {
@@ -223,7 +223,7 @@ FocusScope {
         panelState: root.panelState
 
         opacity: root.hasDecoration ? Math.min(1, root.showDecoration) : 0
-        Behavior on opacity { UbuntuNumberAnimation { } }
+        Behavior on opacity { LomiriNumberAnimation { } }
         visible: opacity > 0 // don't eat input when decoration is fully translucent
 
         onPressed: root.decorationPressed();
@@ -248,14 +248,14 @@ FocusScope {
         }
         menu: sharedAppModel.model
 
-        Indicators.SharedUnityMenuModel {
+        Indicators.SharedLomiriMenuModel {
             id: sharedAppModel
             property var menus: surface ? ApplicationMenuRegistry.getMenusForSurface(surface.persistentId) : []
             property var menuService: menus.length > 0 ? menus[0] : undefined
 
             busName: menuService ? menuService.service : ""
             menuObjectPath: menuService && menuService.menuPath ? menuService.menuPath : ""
-            actions: menuService && menuService.actionPath ? { "unity": menuService.actionPath } : {}
+            actions: menuService && menuService.actionPath ? { "lomiri": menuService.actionPath } : {}
         }
 
         Connections {
@@ -316,6 +316,6 @@ FocusScope {
         anchors.fill: parent
         color: "black"
         opacity: root.darkening && !root.showHighlight ? 0.05 : 0
-        Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
+        Behavior on opacity { LomiriNumberAnimation { duration: LomiriAnimation.SnapDuration } }
     }
 }

@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 
 Item {
     id: root
@@ -27,11 +27,11 @@ Item {
 
     signal clicked();
 
-    UbuntuShape {
+    LomiriShape {
         anchors.fill: parent
         opacity: mouseArea.pressed ? 1 : 0
         Behavior on opacity {
-            UbuntuNumberAnimation {}
+            LomiriNumberAnimation {}
         }
     }
 
@@ -45,7 +45,7 @@ Item {
         visible: text.length > 0
         scale: root.pressed ? 0.9 : 1
         Behavior on scale {
-            UbuntuNumberAnimation {}
+            LomiriNumberAnimation {}
         }
     }
 
@@ -59,7 +59,7 @@ Item {
         visible: name.length > 0
         scale: root.pressed ? 0.9 : 1
         Behavior on scale {
-            UbuntuNumberAnimation { duration: UbuntuAnimation.SlowDuration }
+            LomiriNumberAnimation { duration: LomiriAnimation.SlowDuration }
         }
     }
 

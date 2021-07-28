@@ -18,14 +18,14 @@
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import QtTest 1.0
-import Unity.Test 0.1
-import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.3 as ListItem
-import Unity.Application 0.1
+import Lomiri.SelfTest 0.1
+import Lomiri.Components 1.3
+import Lomiri.Components.ListItems 1.3 as ListItem
+import QtMir.Application 0.1
 import QMenuModel 0.1
-import Ubuntu.Telephony 0.1 as Telephony
+import Lomiri.Telephony 0.1 as Telephony
 import AccountsService 0.1
-import Unity.InputInfo 0.1
+import Lomiri.InputInfo 0.1
 import "../../../qml/Panel"
 import "../../../qml/Components/PanelState"
 import "../Stage"
@@ -35,7 +35,7 @@ PanelUI {
     id: root
     width: units.gu(120)
 
-    UnityTestCase {
+    LomiriTestCase {
         name: "Panel"
         when: windowShown
 
@@ -159,7 +159,7 @@ PanelUI {
         // Tested from first Y pixel to check for swipe from offscreen.
         function test_drag_indicator_item_down_shows_menu(data) {
 
-            skip("https://github.com/ubports/unity8/issues/334");
+            skip("https://github.com/ubports/lomiri/issues/334");
 
             panel.fullscreenMode = data.fullscreen;
             callManager.foregroundCall = data.call;
@@ -452,7 +452,7 @@ PanelUI {
 
 
         /*
-          Regression test for https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1439318
+          Regression test for https://bugs.launchpad.net/lomiri/+source/lomiri/+bug/1439318
           When the panel is in fullscreen mode and the user taps near the top edge,
           the panel should take no action and the tap should reach the item behind the
           panel.
@@ -487,10 +487,10 @@ PanelUI {
 
             callManager.foregroundCall = phoneCall;
 
-            var dashApp = ApplicationManager.startApplication("unity8-dash");
+            var dashApp = ApplicationManager.startApplication("lomiri-dash");
             tryCompare(dashApp.surfaceList, "count", 1);
             dashApp.surfaceList.get(0).activate();
-            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
+            tryCompare(ApplicationManager, "focusedApplicationId", "lomiri-dash");
 
             mouseClick(panel.indicators,
                        panel.indicators.width / 2,
@@ -500,7 +500,7 @@ PanelUI {
             verify(panel.indicators.fullyClosed);
 
             // clean up
-            ApplicationManager.stopApplication("unity8-dash");
+            ApplicationManager.stopApplication("lomiri-dash");
         }
 
         function test_openAndClosePanelWithMouseClicks() {
@@ -523,7 +523,7 @@ PanelUI {
             tryCompare(panel.indicators, "fullyClosed", true);
         }
 
-        // https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1611959
+        // https://bugs.launchpad.net/lomiri/+source/lomiri/+bug/1611959
         function test_windowControlButtonsFittsLaw() {
             panel.mode = "windowed";
             var windowControlArea = findChild(panel, "windowControlArea");

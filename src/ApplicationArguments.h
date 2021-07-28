@@ -23,10 +23,10 @@
 #include <QSize>
 #include <QString>
 
-#include "UnityCommandLineParser.h"
+#include "LomiriCommandLineParser.h"
 
 class ApplicationArguments : public QObject,
-                             public UnityCommandLineParser
+                             public LomiriCommandLineParser
 {
     Q_OBJECT
     Q_PROPERTY(QString deviceName READ deviceName NOTIFY deviceNameChanged)
@@ -37,7 +37,7 @@ class ApplicationArguments : public QObject,
     Q_PROPERTY(bool hasTestability READ hasTestability CONSTANT)
     Q_PROPERTY(bool hasFrameless READ hasFrameless CONSTANT)
     Q_PROPERTY(bool hasFullscreen READ hasFullscreen CONSTANT)
-#ifdef UNITY8_ENABLE_TOUCH_EMULATION
+#ifdef LOMIRI_ENABLE_TOUCH_EMULATION
     Q_PROPERTY(bool hasMouseToTouch READ hasMouseToTouch CONSTANT)
 #endif
 

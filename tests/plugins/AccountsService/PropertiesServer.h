@@ -17,8 +17,8 @@
  * Authored by: Michael Terry <michael.terry@canonical.com>
  */
 
-#ifndef UNITY_PROPERTIESSERVER_H
-#define UNITY_PROPERTIESSERVER_H
+#ifndef LOMIRI_PROPERTIESSERVER_H
+#define LOMIRI_PROPERTIESSERVER_H
 
 #include <QDBusContext>
 #include <QDBusVariant>

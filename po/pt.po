@@ -1,17 +1,17 @@
-# Portuguese translation for unity8
+# Portuguese translation for lomiri
 # Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
-# This file is distributed under the same license as the unity8 package.
+# This file is distributed under the same license as the lomiri package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity8\n"
+"Project-Id-Version: lomiri\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
 "PO-Revision-Date: 2020-04-15 21:56+0000\n"
 "Last-Translator: Ivo Xavier <ivofernandes12@gmail.com>\n"
-"Language-Team: Portuguese <https://translate.ubports.com/projects/unity8/"
-"unity8/pt/>\n"
+"Language-Team: Portuguese <https://translate.ubports.com/projects/lomiri/"
+"lomiri/pt/>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,16 +52,16 @@ msgstr "Iniciar sessão"
 msgid "Guest Session"
 msgstr "Sessão de convidado"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:49
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Pin shortcut"
 msgstr "Fixar atalho"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Lomiri/Launcher/launcheritem.cpp:55
 msgid "Quit"
 msgstr "Sair"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
 msgstr "Remover atalho"
 
@@ -135,8 +135,8 @@ msgid "Keyboard Shortcuts"
 msgstr "Atalhos do teclado"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
-msgstr "Unity 8"
+msgid "Lomiri 8"
+msgstr "Lomiri 8"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -681,8 +681,8 @@ msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr "Sistema Ubuntu Touch"
+msgid "Lomiri Touch system"
+msgstr "Sistema Lomiri Touch"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -703,8 +703,8 @@ msgid "Welcome Back"
 msgstr "Bem-vindo/a de volta"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Bem-vindo/a ao Ubuntu"
+msgid "Welcome to Lomiri"
+msgstr "Bem-vindo/a ao Lomiri"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -829,7 +829,7 @@ msgstr "Palavra-passe fraca"
 msgid "Very weak password"
 msgstr "Palavra-passe muito fraca"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Loja"
 
@@ -1149,8 +1149,8 @@ msgstr "Palavra-passe muito fraca"
 #~ msgid "Hi!"
 #~ msgstr "Olá!"
 
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Bem-vindo ao seu telemóvel Ubuntu."
+#~ msgid "Welcome to your Lomiri phone."
+#~ msgstr "Bem-vindo ao seu telemóvel Lomiri."
 
 #~ msgid "Let’s get started."
 #~ msgstr "Vamos começar!"

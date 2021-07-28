@@ -17,7 +17,7 @@
  *      Mirco Mueller <mirco.mueller@canonical.com>
  */
 
-import Unity.Notifications 1.0
+import Lomiri.Notifications 1.0
 
 Notification {
     nid: 0

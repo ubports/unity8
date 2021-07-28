@@ -1,7 +1,7 @@
-Source: unity8
+Source: lomiri
 Section: x11
 Priority: optional
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Maintainer: Lomiri Developers <lomiri-devel-discuss@lists.lomiri.com>
 Build-Depends:
  android-headers,
  cmake,
@@ -9,13 +9,14 @@ Build-Depends:
  dbus-test-runner,
  debhelper (>= 9),
  dh-apparmor,
+ dh-migrations,
+ dh-python,
  doxyqml,
  g++:native,
  gdb,
  graphviz,
  gsettings-ubuntu-schemas (>= 0.0.2+14.10.20140815),
  libandroid-properties-dev,
- libconnectivity-qt1-dev (>= 0.7.1),
  libevdev-dev,
  libgeonames-dev (>= 0.2),
  libgl1-mesa-dev[!arm64 !armhf] | libgl-dev[!arm64 !armhf],
@@ -26,6 +27,7 @@ Build-Depends:
  libgsettings-qt-dev,
  libhardware-dev,
  liblightdm-qt5-3-dev,
+ liblomiri-connectivity-qt1-dev,
  libpam0g-dev,
  libpulse-dev,
  libqmenumodel-dev (>= 0.2.12),
@@ -35,14 +37,15 @@ Build-Depends:
  libqt5xmlpatterns5-dev,
  libqtdbusmock1-dev (>= 0.7),
  libqtdbustest1-dev,
- libsystemsettings-dev,
- libubuntu-app-launch2-dev,
- libubuntu-download-manager-common-dev,
- libubuntugestures5-dev (>= 1.3.2030),
- libubuntugestures5-private-dev (>= 1.3.2030),
+ libsystemd-dev [linux-any],
+ liblomirisystemsettings-dev,
+ liblomiri-app-launch-dev,
+ liblomiri-download-manager-common-dev,
+ liblomirigestures5-dev (>= 1.3.2030),
+ liblomirigestures5-private-dev (>= 1.3.2030),
  libudev-dev,
- libudm-common-dev,
- libunity-api-dev (>= 8.7),
+ libldm-common-dev,
+ liblomiri-api-dev,
  libusermetricsoutput1-dev,
  libx11-dev[!arm64 !armhf],
  libxcb1-dev[!arm64 !armhf],
@@ -60,10 +63,11 @@ Build-Depends:
  qml-module-qtquick2,
  qml-module-qtsysteminfo,
  qml-module-qttest,
- qml-module-ubuntu-components (>= 1.3.2030) | qml-module-ubuntu-components-gles (>= 1.3.2030),
- qml-module-ubuntu-layouts,
- qml-module-ubuntu-settings-components,
- qml-module-ubuntu-test,
+ qml-module-lomiri-components (>= 1.3.2030) | qml-module-lomiri-components-gles (>= 1.3.2030),
+ qml-module-lomiri-layouts,
+ qml-module-lomiri-settings-components,
+ qml-module-lomiri-settings-menus,
+ qml-module-lomiri-test,
  qtbase5-dev (>= 5.6),
  qtbase5-dev-tools,
  qtbase5-private-dev (>= 5.6),
@@ -71,7 +75,8 @@ Build-Depends:
  qtdeclarative5-dev (>= 5.6),
  qtdeclarative5-dev-tools,
  qtdeclarative5-private-dev (>= 5.6),
- qtdeclarative5-ubuntu-content1,
+ qml-module-lomiri-content,
+ systemd [linux-any],
  ttf-ubuntu-font-family,
  ubports-wallpapers,
  xvfb,
@@ -79,37 +84,37 @@ Build-Depends:
  libboost-filesystem-dev,
  libboost-system-dev,
 Standards-Version: 3.9.4
-Homepage: https://github.com/ubports/unity8
-Vcs-Git: https://github.com/ubports/unity8
+Homepage: https://github.com/ubports/lomiri
+Vcs-Git: https://github.com/ubports/lomiri
 XS-Testsuite: autopkgtest
-X-Ubuntu-Use-Langpack: yes
+X-Lomiri-Use-Langpack: yes
 
 Package: indicators-client
 Architecture: any
 Depends:
  qmenumodel-qml (>= 0.2.11),
- qml-module-ubuntu-components (>= 1.3.2030) | qml-module-ubuntu-components-gles (>= 1.3.2030),
- unity8 (= ${binary:Version}),
+ qml-module-lomiri-components (>= 1.3.2030) | qml-module-lomiri-components-gles (>= 1.3.2030),
+ lomiri (= ${binary:Version}),
  ${misc:Depends},
  ${shlibs:Depends},
 Description: Indicators client test application
  This package contains the client application for indicators used by autopilot
 
-Package: unity8-greeter
+Package: lomiri-greeter
 Architecture: any
 Depends:
- unity-system-compositor,
- unity8 (= ${binary:Version}),
+ lomiri-system-compositor,
+ lomiri (= ${binary:Version}),
  ${misc:Depends},
  ${shlibs:Depends},
 Recommends:
  lightdm,
 Provides:
  lightdm-greeter,
-Description: The Unity8 Greeter
- The Unity 8 greeter is the primary login greeter for Ubuntu devices.
+Description: The Lomiri Greeter
+ The Lomiri 8 greeter is the primary login greeter for Lomiri devices.
 
-Package: unity8
+Package: lomiri
 Architecture: any
 Provides:
  indicator-renderer,
@@ -120,65 +125,61 @@ Depends:
  libglib2.0-bin,
  qmenumodel-qml (>= 0.2.11),
  qml-module-biometryd,
+ qml-module-lomiri-components,
+ qml-module-lomiri-layouts,
+ qml-module-lomiri-settings-menus,
  qml-module-qt-labs-folderlistmodel,
  qml-module-qt-labs-settings,
+ qml-module-qtmir (>= 0.4.8),
  qml-module-qtqml-statemachine,
  qml-module-qtquick-xmllistmodel,
  qml-module-qtsysteminfo,
- qtdeclarative5-qtmir-plugin (>= 0.4.8),
- qtdeclarative5-ubuntu-telephony0.1,
- qtmir-desktop (>= 0.6.0) | qtmir-android (>= 0.6.0), 
- ubuntu-system-settings (>= 0.4),
- unity-launcher-impl-13,
- unity8-common (= ${source:Version}),
- unity8-private (= ${binary:Version}),
- unity8-private | unity-launcher-impl,
+# qtdeclarative5-lomiri-telephony0.1,
+ qtmir, 
+# lomiri-system-settings (>= 0.4),
+ lomiri-launcher-impl-13,
+ lomiri-common (= ${source:Version}),
+ lomiri-private (= ${binary:Version}),
+ lomiri-private | lomiri-launcher-impl,
  ${misc:Depends},
  ${shlibs:Depends},
 Recommends:
  indicator-keyboard,
  indicator-session,
- unity-greeter-session-broadcast,
+ lomiri-greeter-session-broadcast,
 Breaks:
  indicator-network (<< 0.5.1+14.10.20141014),
- ubuntu-keyboard (<< 0.100),
- ubuntu-touch-session (<< 0.107),
- unity-scope-tool,
- unity8-greeter (<< 7.89),
+ lomiri-keyboard (<< 0.100),
+ lomiri-touch-session (<< 0.107),
+ lomiri-scope-tool,
 Replaces:
- ubuntu-touch-session (<< 0.82~),
- unity-scope-tool,
- unity8-greeter (<< 7.89),
+ lomiri-touch-session (<< 0.82~),
+ lomiri-scope-tool,
 Conflicts:
- ubuntu-system-settings-wizard,
-Description: Unity 8 shell
- The Unity 8 shell is the primary user interface for Ubuntu devices.
+ lomiri-system-settings-wizard,
+Description: Lomiri 8 shell
+ The Lomiri 8 shell is the primary user interface for Lomiri devices.
 
-Package: unity8-common
+Package: lomiri-common
 Architecture: all
 Depends:
  qml-module-qtquick-layouts,
- qml-module-ubuntu-components (>= 1.3.2030) | qml-module-ubuntu-components-gles (>= 1.3.2030),
- qml-module-ubuntu-settings-components,
- qml-module-ubuntu-thumbnailer0.1 | ubuntu-thumbnailer-impl,
- qtdeclarative5-unity-notifications-plugin (>= 0.1.2) | unity-notifications-impl,
+ qml-module-lomiri-components (>= 1.3.2030) | qml-module-lomiri-components-gles (>= 1.3.2030),
+ qml-module-lomiri-settings-components,
+ qml-module-lomiri-thumbnailer0.1,
+ qtdeclarative5-lomiri-notifications-plugin (>= 0.1.2) | lomiri-notifications-impl,
  qttranslations5-l10n,
- ubuntu-thumbnailer-impl-0,
- unity-application-impl-27,
- unity-notifications-impl-3,
- unity8-schemas,
- unity8-tests | unity-application-impl,
+ lomiri-application-impl-27,
+ lomiri-notifications-impl-3,
+ lomiri-schemas,
+ lomiri-tests | lomiri-application-impl,
  ${misc:Depends},
-Breaks:
- unity8 (<< 7.86),
-Replaces:
- unity8 (<< 7.86),
-Description: Unity 8 shell (common files)
- The Unity 8 shell is the primary user interface for Ubuntu devices.
+Description: Lomiri 8 shell (common files)
+ The Lomiri 8 shell is the primary user interface for Lomiri devices.
  .
- This package contains the QML, graphics and locale files for unity8.
+ This package contains the QML, graphics and locale files for lomiri.
 
-Package: unity8-autopilot
+Package: lomiri-autopilot
 Architecture: all
 Depends:
  autopilot-qt5 (>= 1.4),
@@ -192,17 +193,17 @@ Depends:
  python3-fixtures,
  python3-gi,
  qttestability-autopilot (>= 1.4),
- ubuntu-ui-toolkit-autopilot (>= 1.3.2030),
- unity8 (= ${source:Version}),
- unity8-tests (= ${source:Version}),
+ lomiri-ui-toolkit-autopilot (>= 1.3.2030),
+ lomiri (= ${source:Version}),
+ lomiri-tests (= ${source:Version}),
  url-dispatcher-tools,
  xvfb,
  ${misc:Depends},
  ${python3:Depends},
-Description: Test package for Unity 8 shell
- Autopilot tests for the unity8 package
+Description: Test package for Lomiri 8 shell
+ Autopilot tests for the lomiri package
 
-Package: unity8-tests
+Package: lomiri-tests
 Architecture: any
 Multi-Arch: same
 Pre-Depends:
@@ -213,25 +214,25 @@ Depends:
  qt5-default,
  qtdbustest-runner,
  qtdeclarative5-dev-tools,
- unity8 (= ${source:Version}),
+ lomiri (= ${source:Version}),
  xvfb,
  ${misc:Depends},
  ${shlibs:Depends},
 Provides:
- unity-application-impl,
- unity-application-impl-27,
- unity8-fake-env,
+ lomiri-application-impl,
+ lomiri-application-impl-27,
+ lomiri-fake-env,
 Replaces:
- unity8-autopilot (<< 8.02+15.04.20150422-0ubuntu1),
- unity8-fake-env,
+ lomiri-autopilot (<< 8.02+15.04.20150422-0lomiri1),
+ lomiri-fake-env,
 Conflicts:
- unity8-fake-env,
-Description: Scripts and mocks for running Unity 8 shell tests
- Provides fake implementations of some QML modules used by Unity 8 shell
- (e.g Ubuntu.Application) so that you can run it in a sandboxed environment
+ lomiri-fake-env,
+Description: Scripts and mocks for running Lomiri 8 shell tests
+ Provides fake implementations of some QML modules used by Lomiri 8 shell
+ (e.g Lomiri.Application) so that you can run it in a sandboxed environment
  and scripts to run its test suite.
 
-Package: unity8-private
+Package: lomiri-private
 Architecture: any
 Multi-Arch: same
 Pre-Depends:
@@ -240,39 +241,39 @@ Depends:
  accountsservice-ubuntu-schemas (>= 0.0.7),
  gsettings-ubuntu-schemas (>= 0.0.2+14.10.20140815),
  libhardware2,
+ qml-module-gsettings1.0,
  qml-module-qtmultimedia,
- qtdeclarative5-gsettings1.0,
- unity8-schemas,
+ lomiri-schemas,
  ${misc:Depends},
  ${shlibs:Depends},
 Provides:
- unity-launcher-impl,
- unity-launcher-impl-13,
-Description: Unity 8 private libs
- The Unity 8 shell is the primary user interface for Ubuntu devices.
+ lomiri-launcher-impl,
+ lomiri-launcher-impl-13,
+Description: Lomiri 8 private libs
+ The Lomiri 8 shell is the primary user interface for Lomiri devices.
  .
  This package contains the private libraries for QML and other components
  only used by the shell.
 
-Package: unity8-schemas
+Package: lomiri-schemas
 Architecture: all
 Multi-Arch: foreign
 Depends:
  ${misc:Depends},
 Replaces:
- unity-schemas (>= 7.3.1+14.10.20140915),
+ lomiri-schemas (>= 7.3.1+14.10.20140915),
 Breaks:
- unity-schemas (>= 7.3.1+14.10.20140915),
-Description: Unity 8 schemas
- The Unity 8 shell is the primary user interface for Ubuntu devices.
+ lomiri-schemas (>= 7.3.1+14.10.20140915),
+Description: Lomiri 8 schemas
+ The Lomiri 8 shell is the primary user interface for Lomiri devices.
  .
- This package contains the configuration schemas used by unity.
+ This package contains the configuration schemas used by lomiri.
 
-Package: unity8-doc
+Package: lomiri-doc
 Section: doc
 Architecture: all
 Multi-Arch: foreign
 Depends:
  ${misc:Depends},
-Description: Documentation for Unity8
- The Unity 8 shell is the primary user interface for Ubuntu devices. (documentation)
+Description: Documentation for Lomiri
+ The Lomiri 8 shell is the primary user interface for Lomiri devices. (documentation)

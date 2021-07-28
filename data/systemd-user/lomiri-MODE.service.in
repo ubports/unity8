@@ -1,0 +1,17 @@
+[Unit]
+Description=Lomiri Shell - @MODE@
+Requires=dbus.socket
+After=dbus.socket
+Wants=indicators-pre.target
+Before=indicators-pre.target
+Wants=ayatana-indicators-pre.target
+Before=ayatana-indicators-pre.target
+Conflicts=@CONFLICT_UNITS@
+
+[Service]
+Type=notify
+SyslogIdentifier=lomiri
+ExecStart=@CMAKE_INSTALL_FULL_LIBEXECDIR@/lomiri-systemd-wrapper --mode=@MODE@
+ExecStopPost=/usr/bin/dbus-update-activation-environment --systemd WAYLAND_DISPLAY= MIR_SOCKET=
+Restart=on-failure
+TimeoutStartSec=120

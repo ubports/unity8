@@ -16,8 +16,8 @@
 
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
-import Ubuntu.Components 1.3
-import Unity.Application 0.1
+import Lomiri.Components 1.3
+import QtMir.Application 0.1
 
 Column {
     id: root
@@ -30,7 +30,7 @@ Column {
         }
     }
 
-    enabled: appId !== "unity8-dash"
+    enabled: appId !== "lomiri-dash"
 
     onCheckedChanged: {
         if (d.bindGuard) { return; }

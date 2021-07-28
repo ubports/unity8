@@ -16,7 +16,7 @@
 
 import QtQuick 2.4
 import QtTest 1.0
-import Unity.Test 0.1 as UT
+import Lomiri.SelfTest 0.1 as UT
 import QMenuModel 0.1
 import Utils 0.1 as Utils
 import "../../../../qml/Panel/Indicators"
@@ -33,7 +33,7 @@ Item {
         width: parent.width
     }
 
-    UT.UnityTestCase {
+    UT.LomiriTestCase {
         name: "MessageMenuItemFactory"
         when: windowShown
 

@@ -16,7 +16,7 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import Wizard 0.1
 
 Item {
@@ -39,8 +39,8 @@ Item {
 
     // colors
     readonly property color backgroundColor: "#fdfdfd"
-    readonly property color dividerColor: UbuntuColors.silk
-    readonly property color textColor: UbuntuColors.slate
+    readonly property color dividerColor: LomiriColors.silk
+    readonly property color textColor: LomiriColors.slate
     readonly property color errorColor: theme.palette.normal.negative
     readonly property color okColor: theme.palette.normal.positive
     readonly property color whiteColor: "white" // workaround for a UITK bug
@@ -268,19 +268,19 @@ Item {
             property: 'opacity'
             value: 0
         }
-        PauseAnimation { duration: Math.max(0, actionsShowAnimation.showDuration - UbuntuAnimation.SnapDuration) }
+        PauseAnimation { duration: Math.max(0, actionsShowAnimation.showDuration - LomiriAnimation.SnapDuration) }
         NumberAnimation {
             target: buttonRect
             property: 'opacity'
             to: 1
-            duration: UbuntuAnimation.SnapDuration
+            duration: LomiriAnimation.SnapDuration
         }
     }
 
     SequentialAnimation { // animations for the content
         id: contentAnimation
         objectName: "contentAnimation"
-        property int animationDurationBase: UbuntuAnimation.BriskDuration
+        property int animationDurationBase: LomiriAnimation.BriskDuration
         readonly property int additionalDuration: 200
         property int direction: Qt.LeftToRight
         ScriptAction { // direction of the effect
@@ -318,23 +318,23 @@ Item {
             property: 'animatedTopMargin'
             from: content.height
             to: customMargin
-            duration: UbuntuAnimation.BriskDuration
-            easing: UbuntuAnimation.StandardEasing
+            duration: LomiriAnimation.BriskDuration
+            easing: LomiriAnimation.StandardEasing
         }
         NumberAnimation {
             target: content
             property: 'animatedTopMargin'
             from: content.height
             to: 0
-            duration: UbuntuAnimation.BriskDuration
-            easing: UbuntuAnimation.StandardEasing
+            duration: LomiriAnimation.BriskDuration
+            easing: LomiriAnimation.StandardEasing
         }
         NumberAnimation { // opacity animation
             target: content
             property: 'opacity'
             from: 0
             to: 1
-            duration: UbuntuAnimation.BriskDuration
+            duration: LomiriAnimation.BriskDuration
         }
     }
 }

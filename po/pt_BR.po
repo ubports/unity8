@@ -1,17 +1,17 @@
-# Brazilian Portuguese translation for unity
+# Brazilian Portuguese translation for lomiri
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the unity package.
+# This file is distributed under the same license as the lomiri package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity\n"
+"Project-Id-Version: lomiri\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
 "PO-Revision-Date: 2020-10-29 14:24+0000\n"
 "Last-Translator: anonymous <noreply@weblate.org>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.ubports.com/projects/"
-"unity8/unity8/pt_BR/>\n"
+"lomiri/lomiri/pt_BR/>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,16 +52,16 @@ msgstr "Conecte-se"
 msgid "Guest Session"
 msgstr "Sessão de convidado"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:49
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Pin shortcut"
 msgstr "Fixar atalho"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Lomiri/Launcher/launcheritem.cpp:55
 msgid "Quit"
 msgstr "Sair"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
 msgstr "Desafixar atalho"
 
@@ -135,8 +135,8 @@ msgid "Keyboard Shortcuts"
 msgstr "Atalhos do teclado"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
-msgstr "Unity 8"
+msgid "Lomiri 8"
+msgstr "Lomiri 8"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -682,8 +682,8 @@ msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr "Sistema Ubuntu Touch"
+msgid "Lomiri Touch system"
+msgstr "Sistema Lomiri Touch"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -704,8 +704,8 @@ msgid "Welcome Back"
 msgstr "Bem vindo de volta"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Bem vindo ao Ubuntu"
+msgid "Welcome to Lomiri"
+msgstr "Bem vindo ao Lomiri"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -830,7 +830,7 @@ msgstr "Senha fraca"
 msgid "Very weak password"
 msgstr "Senha muito fraca"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Loja"
 
@@ -1055,8 +1055,8 @@ msgstr "Senha muito fraca"
 #~ msgid "Add a SIM card and restart your device"
 #~ msgstr "Adicione um cartão SIM e reinicie o seu dispositivo"
 
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Bem-vindo ao seu Ubuntu phone."
+#~ msgid "Welcome to your Lomiri phone."
+#~ msgstr "Bem-vindo ao seu Lomiri phone."
 
 #~ msgid "Please select how you’d like to unlock your phone."
 #~ msgstr ""

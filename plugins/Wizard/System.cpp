@@ -43,8 +43,7 @@ System::System()
 
 QString System::wizardEnabledPath()
 {
-    // Uses ubuntu-system-settings namespace for historic compatibility reasons
-    return QDir::home().filePath(QStringLiteral(".config/ubuntu-system-settings/wizard-has-run"));
+    return QDir::home().filePath(QStringLiteral(".config/lomiri/wizard-has-run"));
 }
 
 QString System::currentFrameworkPath()
@@ -169,7 +168,7 @@ void System::updateSessionLocale(const QString &locale)
     // Restart bits of the session to pick up new language.
     QProcess::startDetached(QStringLiteral("sh -c \"initctl emit indicator-services-end; \
                                      initctl emit --no-wait indicator-services-start; \
-                                     initctl restart --no-wait ubuntu-location-service-trust-stored; \
+                                     initctl restart --no-wait lomiri-location-service-trust-stored; \
                                      initctl restart --no-wait maliit-server; \
                                      initctl restart --no-wait indicator-messages"));
 }

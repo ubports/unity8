@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef UNITY_SESSIONBROADCAST_H
-#define UNITY_SESSIONBROADCAST_H
+#ifndef LOMIRI_SESSIONBROADCAST_H
+#define LOMIRI_SESSIONBROADCAST_H
 
 #include <QObject>
 #include <QString>
@@ -34,7 +34,7 @@ public:
 
 Q_SIGNALS:
     // This signal isn't actually used by the shell
-    // (unity-greeter-session-broadcast handles launching an app for us), but
+    // (lomiri-greeter-session-broadcast handles launching an app for us), but
     // it's useful for testing the plugin.
     void startUrl(const QString &url);
     void showHome();

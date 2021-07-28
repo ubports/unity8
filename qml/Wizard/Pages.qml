@@ -17,10 +17,10 @@
 
 import QtQuick 2.4
 import MeeGo.QOfono 0.2
-import Ubuntu.Components 1.3
-import Ubuntu.SystemSettings.SecurityPrivacy 1.0
-import Ubuntu.SystemSettings.Update 1.0
-import Ubuntu.Connectivity 1.0
+import Lomiri.Components 1.3
+import Lomiri.SystemSettings.SecurityPrivacy 1.0
+import Lomiri.SystemSettings.Update 1.0
+import Lomiri.Connectivity 1.0
 import Wizard 0.1
 import "../Components"
 
@@ -33,7 +33,7 @@ StyledItem {
 
     // These should be set by a security page and we apply the settings when
     // the user exits the wizard.
-    property int passwordMethod: UbuntuSecurityPrivacyPanel.Passphrase
+    property int passwordMethod: LomiriSecurityPrivacyPanel.Passphrase
     property string password: ""
 
     property bool seenSIMPage: false // we want to see the SIM page at most once
@@ -47,10 +47,10 @@ StyledItem {
     property alias simManager1: simManager1
 
     theme: ThemeSettings {
-        name: "Ubuntu.Components.Themes.Ambiance"
+        name: "Lomiri.Components.Themes.Ambiance"
     }
 
-    UbuntuSecurityPrivacyPanel {
+    LomiriSecurityPrivacyPanel {
         id: securityPrivacy
         objectName: "securityPrivacy"
     }
@@ -193,9 +193,9 @@ StyledItem {
             }
 
             if (isPrimaryPage) {
-                currentPage.aboutToShow(UbuntuAnimation.BriskDuration, Qt.LeftToRight);
+                currentPage.aboutToShow(LomiriAnimation.BriskDuration, Qt.LeftToRight);
             } else {
-                currentPage.aboutToShowSecondary(UbuntuAnimation.BriskDuration);
+                currentPage.aboutToShowSecondary(LomiriAnimation.BriskDuration);
             }
         }
 
@@ -219,9 +219,9 @@ StyledItem {
 
             var isPrimaryPage = !currentPage.customTitle;
             if (isPrimaryPage) {
-                currentPage.aboutToShow(UbuntuAnimation.BriskDuration, Qt.RightToLeft);
+                currentPage.aboutToShow(LomiriAnimation.BriskDuration, Qt.RightToLeft);
             } else {
-                currentPage.aboutToShowSecondary(UbuntuAnimation.BriskDuration);
+                currentPage.aboutToShowSecondary(LomiriAnimation.BriskDuration);
             }
         }
 

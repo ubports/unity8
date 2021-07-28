@@ -1,17 +1,17 @@
-# Croatian translation for unity
+# Croatian translation for lomiri
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the unity package.
+# This file is distributed under the same license as the lomiri package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity\n"
+"Project-Id-Version: lomiri\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
 "PO-Revision-Date: 2020-09-16 16:49+0000\n"
 "Last-Translator: milotype <mail@milotype.de>\n"
-"Language-Team: Croatian <https://translate.ubports.com/projects/unity8/"
-"unity8/hr/>\n"
+"Language-Team: Croatian <https://translate.ubports.com/projects/lomiri/"
+"lomiri/hr/>\n"
 "Language: hr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -53,16 +53,16 @@ msgstr "Prijava"
 msgid "Guest Session"
 msgstr "Sesija gosta"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:49
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Pin shortcut"
 msgstr "Pričvrsti kraticu"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Lomiri/Launcher/launcheritem.cpp:55
 msgid "Quit"
 msgstr "Zatvori"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
 msgstr "Ukloni kraticu"
 
@@ -136,8 +136,8 @@ msgid "Keyboard Shortcuts"
 msgstr "Tipkovnički prečaci"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
-msgstr "Unity 8"
+msgid "Lomiri 8"
+msgstr "Lomiri 8"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -682,8 +682,8 @@ msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr "Ubuntu sustav dodira"
+msgid "Lomiri Touch system"
+msgstr "Lomiri sustav dodira"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -704,8 +704,8 @@ msgid "Welcome Back"
 msgstr "Dobro došli natrag"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Dobro došli u Ubuntu"
+msgid "Welcome to Lomiri"
+msgstr "Dobro došli u Lomiri"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -831,7 +831,7 @@ msgstr "Slaba lozinka"
 msgid "Very weak password"
 msgstr "Vrlo slaba lozinka"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Trgovina"
 
@@ -1175,8 +1175,8 @@ msgstr "Vrlo slaba lozinka"
 #~ msgid "Hi!"
 #~ msgstr "Bok!"
 
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Dobrodošli u vaš Ubuntu telefon."
+#~ msgid "Welcome to your Lomiri phone."
+#~ msgstr "Dobrodošli u vaš Lomiri telefon."
 
 #~ msgid "Let’s get started."
 #~ msgstr "Započnimo."

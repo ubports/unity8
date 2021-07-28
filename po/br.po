@@ -1,11 +1,11 @@
-# Breton translation for unity8
+# Breton translation for lomiri
 # Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
-# This file is distributed under the same license as the unity8 package.
+# This file is distributed under the same license as the lomiri package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity8\n"
+"Project-Id-Version: lomiri\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
 "PO-Revision-Date: 2016-08-29 11:37+0000\n"
@@ -51,16 +51,16 @@ msgstr ""
 msgid "Guest Session"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:49
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Pin shortcut"
 msgstr "Spilhennañ ar verradenn"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Lomiri/Launcher/launcheritem.cpp:55
 msgid "Quit"
 msgstr "Mont kuit"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
 msgstr "Dispilhennañ ar verradenn"
 
@@ -134,8 +134,8 @@ msgid "Keyboard Shortcuts"
 msgstr "Berradennoù klavier"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
-msgstr "Unity 8"
+msgid "Lomiri 8"
+msgstr "Lomiri 8"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -603,7 +603,7 @@ msgstr "War-lerc'h"
 #: qml/Wizard/Pages/10-welcome-update.qml:91
 #, fuzzy
 msgid "Welcome to "
-msgstr "Donemat en Ubuntu"
+msgstr "Donemat en Lomiri"
 
 #: qml/Wizard/Pages/10-welcome-update.qml:106
 msgid "We will make sure your device is ready to use "
@@ -700,10 +700,10 @@ msgstr ""
 #: qml/Wizard/Pages/79-system-update.qml:76
 #, fuzzy
 #| msgctxt "string identifying name of the update"
-#| msgid "Ubuntu system"
+#| msgid "Lomiri system"
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr "Reizhiad Ubuntu"
+msgid "Lomiri Touch system"
+msgstr "Reizhiad Lomiri"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -724,8 +724,8 @@ msgid "Welcome Back"
 msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Donemat en Ubuntu"
+msgid "Welcome to Lomiri"
+msgstr "Donemat en Lomiri"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -850,7 +850,7 @@ msgstr "Ger-tremen diasur"
 msgid "Very weak password"
 msgstr "Ger-tremen diasur-kenañ"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Stal"
 
@@ -1141,8 +1141,8 @@ msgstr "Ger-tremen diasur-kenañ"
 #~ msgid "Let’s get started."
 #~ msgstr "Krogomp ganti."
 
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Deuet-mat oc'h en ho pellgomzer Ubuntu."
+#~ msgid "Welcome to your Lomiri phone."
+#~ msgstr "Deuet-mat oc'h en ho pellgomzer Lomiri."
 
 #~ msgid "Available networks…"
 #~ msgstr "Rouedadoù a c'haller kaout..."

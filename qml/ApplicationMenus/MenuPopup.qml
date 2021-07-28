@@ -16,13 +16,13 @@
 
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
-import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.3 as ListItems
+import Lomiri.Components 1.3
+import Lomiri.Components.ListItems 1.3 as ListItems
 import "../Components"
 import "../Components/PanelState"
 import "."
 
-UbuntuShape {
+LomiriShape {
     id: root
     objectName: "menu"
     backgroundColor: theme.palette.normal.overlay
@@ -63,7 +63,7 @@ UbuntuShape {
         }
     }
 
-    property alias unityMenuModel: repeater.model
+    property alias lomiriMenuModel: repeater.model
     property PanelState panelState
 
     function show() {
@@ -104,7 +104,7 @@ UbuntuShape {
         property real __minimumWidth: units.gu(20)
         property real __maximumWidth: ApplicationMenusLimits.screenWidth * 0.7
         property real __minimumHeight: units.gu(2)
-        property real __maximumHeight: ApplicationMenusLimits.screenHeight - panelState.panelHeight
+        property real __maximumHeight: panelState ? ApplicationMenusLimits.screenHeight - panelState.panelHeight : 0
 
         signal dismissAll()
 
@@ -307,11 +307,11 @@ UbuntuShape {
 
                             if (hasSubmenu) {
                                 if (!popup) {
-                                    root.unityMenuModel.aboutToShow(__ownIndex);
-                                    var model = root.unityMenuModel.submenu(__ownIndex);
+                                    root.lomiriMenuModel.aboutToShow(__ownIndex);
+                                    var model = root.lomiriMenuModel.submenu(__ownIndex);
                                     popup = submenuComponent.createObject(focusScope, {
                                                                                 objectName: parent.objectName + "-",
-                                                                                unityMenuModel: model,
+                                                                                lomiriMenuModel: model,
                                                                                 substractWidth: true,
                                                                                 desiredX: Qt.binding(function() { return root.width }),
                                                                                 desiredY: Qt.binding(function() {
@@ -330,12 +330,12 @@ UbuntuShape {
                                         root.childActivated();
                                     });
                                 } else if (!popup.visible) {
-                                    root.unityMenuModel.aboutToShow(__ownIndex);
+                                    root.lomiriMenuModel.aboutToShow(__ownIndex);
                                     popup.visible = true;
                                     popup.item.selectFirstIndex();
                                 }
                             } else {
-                                root.unityMenuModel.activate(__ownIndex);
+                                root.lomiriMenuModel.activate(__ownIndex);
                                 root.childActivated();
                             }
                         }
@@ -407,7 +407,7 @@ UbuntuShape {
                 Rectangle {
                     color: "transparent"
                     border.width: units.dp(1)
-                    border.color: UbuntuColors.orange
+                    border.color: LomiriColors.orange
                     z: 1
 
                     width: listView.width
@@ -487,12 +487,12 @@ UbuntuShape {
                 property real desiredX
                 property real desiredY
                 property bool substractWidth
-                property var unityMenuModel: null
+                property var lomiriMenuModel: null
                 signal retreat()
                 signal childActivated()
 
                 onLoaded: {
-                    item.unityMenuModel = Qt.binding(function() { return submenuLoader.unityMenuModel; });
+                    item.lomiriMenuModel = Qt.binding(function() { return submenuLoader.lomiriMenuModel; });
                     item.panelState = Qt.binding(function() { return root.panelState; });
                     item.objectName = Qt.binding(function() { return submenuLoader.objectName + "menu"; });
                     item.desiredX = Qt.binding(function() { return submenuLoader.desiredX; });

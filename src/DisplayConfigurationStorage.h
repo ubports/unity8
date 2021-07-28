@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef UNITY_DISPLAYCONFIGURATIONSTORAGE_H
-#define UNITY_DISPLAYCONFIGURATIONSTORAGE_H
+#ifndef LOMIRI_DISPLAYCONFIGURATIONSTORAGE_H
+#define LOMIRI_DISPLAYCONFIGURATIONSTORAGE_H
 
 #include <qtmir/miral/display_configuration_storage.h>
 
@@ -28,4 +28,4 @@ public:
     bool load(const miral::DisplayId& displayId, miral::DisplayConfigurationOptions& options) const override;
 };
 
-#endif // UNITY_DISPLAYCONFIGURATIONSTORAGE_H
+#endif // LOMIRI_DISPLAYCONFIGURATIONSTORAGE_H

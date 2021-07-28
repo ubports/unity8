@@ -25,8 +25,8 @@ SessionsModelPrivate::SessionsModelPrivate(SessionsModel* parent)
     , q_ptr(parent)
     , m_availableSessions(
         {
-            {"ubuntu", "", "Ubuntu", ""},
-            {"ubuntu-2d", "", "Ubuntu 2D", ""},
+            {"lomiri", "", "Lomiri", ""},
+            {"lomiri-2d", "", "Lomiri 2D", ""},
             {"gnome", "", "GNOME", ""},
             {"gnome-classic", "", "GNOME Classic", ""},
             {"gnome-flashback-compiz", "", "GNOME Flashback (Compiz)", ""},
@@ -77,7 +77,7 @@ void SessionsModelPrivate::resetEntries_noSessions()
 
 void SessionsModelPrivate::resetEntries_singleSession()
 {
-    sessionItems = {{"ubuntu", "", "Ubuntu", ""}};
+    sessionItems = {{"lomiri", "", "Lomiri", ""}};
 }
 
 } // namespace QLightDM

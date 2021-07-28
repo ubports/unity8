@@ -18,7 +18,7 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 
 Item {
     id: root
@@ -36,7 +36,7 @@ Item {
     property alias cache: image.cache
     property alias sourceImage: image
 
-    property bool useUbuntuShape: true
+    property bool useLomiriShape: true
     property bool pressed: false
 
     state: "default"
@@ -54,10 +54,10 @@ Item {
         id: placeholder
         objectName: "placeholder"
         anchors.fill: shape
-        active: useUbuntuShape
+        active: useLomiriShape
         visible: opacity != 0
-        sourceComponent: UbuntuShape {
-            aspect: UbuntuShape.Flat
+        sourceComponent: LomiriShape {
+            aspect: LomiriShape.Flat
             backgroundColor: "#22FFFFFF"
         }
 
@@ -88,12 +88,12 @@ Item {
         height: root.initialHeight
         width: root.initialWidth
         anchors.centerIn: root.scaleTo == "fit" ? parent : undefined
-        active: useUbuntuShape
+        active: useLomiriShape
         opacity: 0
         visible: opacity != 0
-        sourceComponent: UbuntuShapeOverlay {
+        sourceComponent: LomiriShapeOverlay {
             property bool pressed: false
-            aspect: UbuntuShape.Flat
+            aspect: LomiriShape.Flat
             overlayColor: Qt.rgba(0, 0, 0, pressed ? 0.1 : 0)
             overlayRect: Qt.rect(0.0, 0.0, 1.0, 1.0)
         }
@@ -110,7 +110,7 @@ Item {
             property string format: image.implicitWidth > image.implicitHeight ? "landscape" : "portrait"
 
             anchors.fill: parent
-            visible: !useUbuntuShape
+            visible: !useLomiriShape
             fillMode: Image.PreserveAspectFit
             asynchronous: true
             cache: false
@@ -164,11 +164,11 @@ Item {
                 PropertyAction { target: shape; property: "visible" }
                 ParallelAnimation {
                     NumberAnimation { target: shape; property: "opacity"; easing.type: Easing.Linear }
-                    UbuntuNumberAnimation { target: root; properties: "implicitWidth,implicitHeight" }
-                    UbuntuNumberAnimation { target: shape; properties: "width,height" }
+                    LomiriNumberAnimation { target: root; properties: "implicitWidth,implicitHeight" }
+                    LomiriNumberAnimation { target: shape; properties: "width,height" }
                     NumberAnimation {
                         targets: [placeholder, activity, errorImage]; property: "opacity";
-                        easing.type: Easing.Linear; duration: UbuntuAnimation.SnapDuration
+                        easing.type: Easing.Linear; duration: LomiriAnimation.SnapDuration
                     }
                 }
                 ScriptAction { script: { lastScaledDimension = scaleTo == "height" || scaleTo == "fit" ? root.width : root.height } }
@@ -183,10 +183,10 @@ Item {
                     NumberAnimation { target: shape; property: "opacity"; easing.type: Easing.Linear }
                     NumberAnimation {
                         targets: [placeholder, activity, errorImage]; property: "opacity";
-                        easing.type: Easing.Linear; duration: UbuntuAnimation.SnapDuration
+                        easing.type: Easing.Linear; duration: LomiriAnimation.SnapDuration
                     }
-                    UbuntuNumberAnimation { target: root; properties: "implicitWidth,implicitHeight" }
-                    UbuntuNumberAnimation { target: shape; properties: "width,height" }
+                    LomiriNumberAnimation { target: root; properties: "implicitWidth,implicitHeight" }
+                    LomiriNumberAnimation { target: shape; properties: "width,height" }
                 }
                 PropertyAction { target: shape; property: "visible" }
             }

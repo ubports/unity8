@@ -1,15 +1,15 @@
-# Punjabi translation for unity8
+# Punjabi translation for lomiri
 # Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
-# This file is distributed under the same license as the unity8 package.
+# This file is distributed under the same license as the lomiri package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity8\n"
+"Project-Id-Version: lomiri\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
 "PO-Revision-Date: 2015-04-24 04:29+0000\n"
-"Last-Translator: Gursharnjit_Singh <ubuntuser13@gmail.com>\n"
+"Last-Translator: Gursharnjit_Singh <lomiriser13@gmail.com>\n"
 "Language-Team: Punjabi <pa@li.org>\n"
 "Language: pa\n"
 "MIME-Version: 1.0\n"
@@ -51,16 +51,16 @@ msgstr ""
 msgid "Guest Session"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:49
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Pin shortcut"
 msgstr "ਸ਼ਾਰਟਕੱਟ ਪਿੰਨ ਲਗਾਓ"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Lomiri/Launcher/launcheritem.cpp:55
 msgid "Quit"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
 msgstr "ਸ਼ਾਰਟਕੱਟ ਪਿੰਨ ਹਟਾਓ"
 
@@ -134,7 +134,7 @@ msgid "Keyboard Shortcuts"
 msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
+msgid "Lomiri 8"
 msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
@@ -682,7 +682,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
+msgid "Lomiri Touch system"
 msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:83
@@ -704,7 +704,7 @@ msgid "Welcome Back"
 msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
+msgid "Welcome to Lomiri"
 msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:106
@@ -830,7 +830,7 @@ msgstr ""
 msgid "Very weak password"
 msgstr ""
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "ਸਟੋਰ"
 
@@ -1045,7 +1045,7 @@ msgstr ""
 #~ msgid "Please select how you’d like to unlock your phone."
 #~ msgstr "ਕਿਰਪਾ ਕਰਕੇ ਚੁਣੋ ਤੁਸੀਂ ਆਪਣੇ ਫ਼ੋਨ ਨੂੰ ਕਿਸ ਤਰ੍ਹਾਂ ਅਣ-ਲਾਕ ਕਰਨਾ ਪਸੰਦ ਕਰੋਗੇ।"
 
-#~ msgid "Welcome to your Ubuntu phone."
+#~ msgid "Welcome to your Lomiri phone."
 #~ msgstr "ਉਬੰਤੂ ਫ਼ੋਨ ਵਿੱਚ ਤੁਹਾਨੂੰ ਜੀ ਆਇਆ ਨੂੰ।"
 
 #~ msgid "Let’s get started."

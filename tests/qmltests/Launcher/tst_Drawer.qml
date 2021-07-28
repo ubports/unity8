@@ -16,23 +16,23 @@
 
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import ".."
 import "../../../qml/Launcher"
-import Unity.Launcher 0.1
+import Lomiri.Launcher 0.1
 import Utils 0.1 // For EdgeBarrierSettings
-import Unity.Test 0.1
+import Lomiri.SelfTest 0.1
 
 StyledItem {
     id: root
-    theme.name: "Ubuntu.Components.Themes.SuruDark"
+    theme.name: "Lomiri.Components.Themes.SuruDark"
     focus: true
 
     width: units.gu(140)
     height: units.gu(70)
     Rectangle {
         anchors.fill: parent
-        color: UbuntuColors.graphite // something neither white nor black
+        color: LomiriColors.graphite // something neither white nor black
     }
 
     Launcher {
@@ -87,7 +87,7 @@ StyledItem {
         }
     }
 
-    UnityTestCase {
+    LomiriTestCase {
         id: testCase
         when: windowShown
         name: "Drawer"
@@ -392,7 +392,7 @@ StyledItem {
         function test_draggingAppListHidesKeyboard() {
             // Ensures that dragging on the list of apps unfocuses the search
             // field, hiding the keyboard
-            // Fix for https://github.com/ubports/ubuntu-touch/issues/1238
+            // Fix for https://github.com/ubports/lomiri-touch/issues/1238
             var drawer = dragDrawerIntoView();
             var appList = findChild(drawer, "drawerAppList");
             var searchField = drawer.searchTextField;
@@ -409,7 +409,7 @@ StyledItem {
         function test_draggingLauncherHidesKeyboard() {
             // Ensures that dragging on the Launcher unfocuses the search
             // field, hiding the keyboard
-            // Fix for https://github.com/ubports/ubuntu-touch/issues/1245
+            // Fix for https://github.com/ubports/lomiri-touch/issues/1245
             var drawer = dragDrawerIntoView();
             var searchField = drawer.searchTextField;
 

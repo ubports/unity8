@@ -15,13 +15,13 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 
 Row {
     id: root
     spacing: overlayShown ? units.gu(2) : windowIsMaximized ? 0 : units.gu(1)
     Behavior on spacing {
-        UbuntuNumberAnimation {}
+        LomiriNumberAnimation {}
     }
 
     // to be set from outside
@@ -58,7 +58,7 @@ Row {
             anchors.fill: parent
             anchors.margins: windowIsMaximized ? units.dp(6) : units.dp(3)
             source: "graphics/window-close.svg"
-            color: root.active ? "white" : UbuntuColors.slate
+            color: root.active ? "white" : LomiriColors.slate
         }
     }
 
@@ -75,14 +75,14 @@ Row {
             anchors.fill: parent
             anchors.margins: windowIsMaximized ? units.dp(3) : 0
             radius: height / 2
-            color: root.active ? UbuntuColors.graphite : UbuntuColors.ash
+            color: root.active ? LomiriColors.graphite : LomiriColors.ash
             visible: parent.containsMouse && !overlayShown
         }
         Icon {
             anchors.fill: parent
             anchors.margins: windowIsMaximized ? units.dp(6) : units.dp(3)
             source: "graphics/window-minimize.svg"
-            color: root.active ? "white" : UbuntuColors.slate
+            color: root.active ? "white" : LomiriColors.slate
         }
     }
 
@@ -108,14 +108,14 @@ Row {
             anchors.fill: parent
             anchors.margins: windowIsMaximized ? units.dp(3) : 0
             radius: height / 2
-            color: root.active ? UbuntuColors.graphite : UbuntuColors.ash
+            color: root.active ? LomiriColors.graphite : LomiriColors.ash
             visible: parent.containsMouse && !overlayShown
         }
         Icon {
             anchors.fill: parent
             anchors.margins: windowIsMaximized ? units.dp(6) : units.dp(3)
             source: root.windowIsMaximized ? "graphics/window-window.svg" : "graphics/window-maximize.svg"
-            color: root.active ? "white" : UbuntuColors.slate
+            color: root.active ? "white" : LomiriColors.slate
         }
     }
 }

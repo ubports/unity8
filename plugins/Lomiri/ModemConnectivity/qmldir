@@ -1,0 +1,3 @@
+module Lomiri.ModemConnectivity
+plugin ModemConnectivity
+typeinfo ModemConnectivity.qmltypes

@@ -15,7 +15,7 @@
 */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import WindowManager 1.0
 import Cursor 1.1
 import "Components"
@@ -24,7 +24,7 @@ ScreenWindow {
     id: screenWindow
 
     color: "black"
-    title: "Unity8 Shell"
+    title: "Lomiri Shell"
     property bool primary: false
 
     DeviceConfiguration {

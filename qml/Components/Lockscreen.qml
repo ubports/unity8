@@ -15,9 +15,10 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
-import Ubuntu.Components.Popups 1.3
-import Ubuntu.Telephony 0.1 as Telephony
+import Lomiri.Components 1.3
+import Lomiri.Components.Popups 1.3
+// FIXME: uncomment this when telephony-service is available in UBports Focal
+// import Lomiri.Telephony 0.1 as Telephony
 
 Showable {
     id: root

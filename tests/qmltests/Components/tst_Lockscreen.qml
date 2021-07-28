@@ -18,8 +18,8 @@ import QtQuick 2.4
 import QtTest 1.0
 import ".."
 import "../../../qml/Components"
-import Ubuntu.Components 1.3
-import Unity.Test 0.1 as UT
+import Lomiri.Components 1.3
+import Lomiri.SelfTest 0.1 as UT
 
 Rectangle {
     id: root
@@ -155,7 +155,7 @@ Rectangle {
         }
     }
 
-    UT.UnityTestCase {
+    UT.LomiriTestCase {
         name: "Lockscreen"
         when: windowShown
 

@@ -15,8 +15,8 @@
  * <http://www.gnu.org/licenses/>
  */
 
-#ifndef UNITY_ASMOCKTYPES_H
-#define UNITY_ASMOCKTYPES_H
+#ifndef LOMIRI_ASMOCKTYPES_H
+#define LOMIRI_ASMOCKTYPES_H
 
 using StringMap = QMap<QString,QString>;
 using StringMapList = QList<StringMap>;

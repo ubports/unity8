@@ -16,7 +16,7 @@
 
 import QtQuick 2.4
 import QtGraphicalEffects 1.0
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import "../Components"
 import "." 0.1
 
@@ -35,7 +35,7 @@ StyledItem {
     readonly property int numAboveBelow: 4
     readonly property int cellHeight: units.gu(5)
     readonly property int highlightedHeight: highlightItem.height
-    readonly property int moveDuration: UbuntuAnimation.FastDuration
+    readonly property int moveDuration: LomiriAnimation.FastDuration
     property string currentSession // Initially set by LightDM
     readonly property string currentUser: userList.currentItem.username
 
@@ -57,7 +57,7 @@ StyledItem {
     }
 
     theme: ThemeSettings {
-        name: "Ubuntu.Components.Themes.Ambiance"
+        name: "Lomiri.Components.Themes.Ambiance"
     }
 
     Keys.onUpPressed: {
@@ -95,7 +95,7 @@ StyledItem {
         Behavior on height { NumberAnimation { duration: root.moveDuration; easing.type: Easing.InOutQuad; } }
 
         Label {
-          // HACK: Work around https://github.com/ubports/unity8/issues/185
+          // HACK: Work around https://github.com/ubports/lomiri/issues/185
           text: _realName ? _realName : LightDMService.greeter.authenticationUser
           visible: userList.count == 1
           anchors {
@@ -156,7 +156,7 @@ StyledItem {
 
             FadingLabel {
                 objectName: "username" + index
-                visible: userList.count != 1 // HACK Hide username label until someone sorts out the anchoring with the keyboard-dismiss animation, Work around https://github.com/ubports/unity8/issues/185
+                visible: userList.count != 1 // HACK Hide username label until someone sorts out the anchoring with the keyboard-dismiss animation, Work around https://github.com/ubports/lomiri/issues/185
 
                 anchors {
                     left: parent.left

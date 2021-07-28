@@ -21,9 +21,9 @@ import QtQuick 2.4
 import QtTest 1.0
 import ".."
 import "../../../qml/Notifications"
-import Ubuntu.Components 1.3
-import Unity.Test 0.1
-import Unity.Notifications 1.0
+import Lomiri.Components 1.3
+import Lomiri.SelfTest 0.1
+import Lomiri.Notifications 1.0
 
 Row {
     id: rootRow
@@ -140,7 +140,7 @@ Row {
         }
     }
 
-    UnityTestCase {
+    LomiriTestCase {
         id: root
         name: "NotificationRendererTest"
         when: windowShown

@@ -16,8 +16,8 @@
 
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
-import Ubuntu.Components 1.3
-import Unity.Indicators 0.1 as Indicators
+import Lomiri.Components 1.3
+import Lomiri.Indicators 0.1 as Indicators
 import Utils 0.1
 import "../Components"
 import "Indicators"

@@ -16,8 +16,8 @@
  * Author: Daniel d'Andrada <daniel.dandrada@canonical.com>
  */
 
-#ifndef UNITY_WINDOWINPUTFILTER_H
-#define UNITY_WINDOWINPUTFILTER_H
+#ifndef LOMIRI_WINDOWINPUTFILTER_H
+#define LOMIRI_WINDOWINPUTFILTER_H
 
 #include <QQuickItem>
 #include <QPointer>
@@ -55,4 +55,4 @@ private:
     ulong m_lastInputTimestamp;
 };
 
-#endif // UNITY_WINDOWINPUTFILTER_H
+#endif // LOMIRI_WINDOWINPUTFILTER_H

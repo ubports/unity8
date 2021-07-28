@@ -20,8 +20,8 @@ import ".."
 import "../../../qml/Greeter"
 import LightDMController 0.1
 import LightDM.FullLightDM 0.1 as LightDM
-import Ubuntu.Components 1.3
-import Unity.Test 0.1 as UT
+import Lomiri.Components 1.3
+import Lomiri.SelfTest 0.1 as UT
 
 StyledItem {
     id: root
@@ -30,7 +30,7 @@ StyledItem {
     height: units.gu(80)
     focus: true
 
-    theme.name: "Ubuntu.Components.Themes.Ambiance"
+    theme.name: "Lomiri.Components.Themes.Ambiance"
 
     Row {
         anchors.fill: parent
@@ -322,7 +322,7 @@ StyledItem {
         signalName: "emergencyCall"
     }
 
-    UT.UnityTestCase {
+    UT.LomiriTestCase {
         name: "WideView"
         when: windowShown
 
@@ -416,7 +416,7 @@ StyledItem {
             tryCompare(loginList, "currentSession", "invalid");
 
             selectUser("has-password");
-            tryCompare(loginList, "currentSession", "ubuntu");
+            tryCompare(loginList, "currentSession", "lomiri");
 
             selectUser("invalid-session")
             tryCompare(loginList, "currentSession", "invalid");
@@ -453,7 +453,7 @@ StyledItem {
         }
 
         function test_choosingNewSessionChangesLoginListIcon() {
-            // Ensure the default session is selected (Ubuntu)
+            // Ensure the default session is selected (Lomiri)
             cleanup();
 
             LightDMController.sessionMode = "full";
@@ -461,7 +461,7 @@ StyledItem {
 
             var sessionChooserButton = findChild(view, "sessionChooserButton");
             var icon = String(sessionChooserButton.icon);
-            compare(icon.indexOf("ubuntu") > -1, true);
+            compare(icon.indexOf("lomiri") > -1, true);
 
             tap(sessionChooserButton)
             for(var i = 0; i < LightDM.Sessions.count; i++) {
@@ -577,7 +577,7 @@ StyledItem {
             selectUser("info-prompt");
 
             var infoLabel = findChild(view, "infoLabel0");
-            compare(infoLabel.text, "Welcome to Unity Greeter");
+            compare(infoLabel.text, "Welcome to Lomiri Greeter");
             compare(infoLabel.textFormat, Text.PlainText);
 
             verify(findChild(view, "greeterPrompt1") != null);
@@ -587,7 +587,7 @@ StyledItem {
             selectUser("long-info-prompt");
 
             var infoLabel = findChild(view, "infoLabel0");
-            compare(infoLabel.text, "Welcome to Unity Greeter\n\nWe like to annoy you with super ridiculously long messages.\nLike this one\n\nThis is the last line of a multiple line message.");
+            compare(infoLabel.text, "Welcome to Lomiri Greeter\n\nWe like to annoy you with super ridiculously long messages.\nLike this one\n\nThis is the last line of a multiple line message.");
             verify(infoLabel.contentWidth > infoLabel.width);
 
             verify(findChild(view, "greeterPrompt1") != null);
@@ -597,7 +597,7 @@ StyledItem {
             selectUser("multi-info-prompt");
 
             var infoLabel0 = findChild(view, "infoLabel0");
-            compare(infoLabel0.text, "Welcome to Unity Greeter");
+            compare(infoLabel0.text, "Welcome to Lomiri Greeter");
 
             var infoLabel1 = findChild(view, "infoLabel1");
             compare(infoLabel1.text, "This is an error");

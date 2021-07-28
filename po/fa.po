@@ -1,16 +1,16 @@
-# Persian translation for unity8
+# Persian translation for lomiri
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the unity8 package.
+# This file is distributed under the same license as the lomiri package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity8\n"
+"Project-Id-Version: lomiri\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
 "PO-Revision-Date: 2020-02-15 09:21+0000\n"
 "Last-Translator: HSN80 <hosseinabbasi80@outlook.com>\n"
-"Language-Team: Persian <https://translate.ubports.com/projects/unity8/unity8/"
+"Language-Team: Persian <https://translate.ubports.com/projects/lomiri/lomiri/"
 "fa/>\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
@@ -52,16 +52,16 @@ msgstr ""
 msgid "Guest Session"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:49
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Pin shortcut"
 msgstr "سنجاق کردن میانبر"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Lomiri/Launcher/launcheritem.cpp:55
 msgid "Quit"
 msgstr "خروج"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
 msgstr "برداشتن سنجاق میانبر"
 
@@ -135,7 +135,7 @@ msgid "Keyboard Shortcuts"
 msgstr "میان‌برهای صفحه‌کلید"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
+msgid "Lomiri 8"
 msgstr "یونیتی ۸"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
@@ -697,9 +697,9 @@ msgstr ""
 #: qml/Wizard/Pages/79-system-update.qml:76
 #, fuzzy
 #| msgctxt "string identifying name of the update"
-#| msgid "Ubuntu system"
+#| msgid "Lomiri system"
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
+msgid "Lomiri Touch system"
 msgstr "سامانهٔ اوبونتو"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
@@ -721,7 +721,7 @@ msgid "Welcome Back"
 msgstr "خوش آمدید"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
+msgid "Welcome to Lomiri"
 msgstr "به اوبونتو خوش آمدید"
 
 #: qml/Wizard/Pages/80-finished.qml:106
@@ -849,7 +849,7 @@ msgstr "گذرواژهٔ ضعیف"
 msgid "Very weak password"
 msgstr "گذرواژهٔ خیلی ضعیف"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "ذخیره"
 
@@ -1217,7 +1217,7 @@ msgstr "گذرواژهٔ خیلی ضعیف"
 #~ msgid "Hi!"
 #~ msgstr "سلام!"
 
-#~ msgid "Welcome to your Ubuntu phone."
+#~ msgid "Welcome to your Lomiri phone."
 #~ msgstr "به تلفن اوبونتوی خودتان خوش آمدید."
 
 #~ msgid "Let’s get started."

@@ -22,10 +22,10 @@
 #include <QtQml/QQmlEngine>
 #include <private/qquickanimatorcontroller_p.h>
 #include <private/qquickwindow_p.h>
-#include <UbuntuGestures/private/ucswipearea_p_p.h>
+#include <LomiriGestures/private/ucswipearea_p_p.h>
 
 #include <AxisVelocityCalculator.h>
-#include <UbuntuGestures/private/timer_p.h>
+#include <LomiriGestures/private/timer_p.h>
 #include "Direction.h"
 
 #include <paths.h>
@@ -453,7 +453,7 @@ void tst_DragHandle::hintingAnimation()
 }
 
 /*
-    Regression test for LP#1269022: https://bugs.launchpad.net/unity8/+bug/1269022
+    Regression test for LP#1269022: https://bugs.launchpad.net/lomiri/+bug/1269022
 
     1) Click on handle.
     2) wait for hint portion to appear

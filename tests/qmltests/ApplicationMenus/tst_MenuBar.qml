@@ -16,11 +16,11 @@
 
 import QtQuick 2.4
 import QtTest 1.0
-import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.3
-import Unity.Application 0.1
+import Lomiri.Components 1.3
+import Lomiri.Components.ListItems 1.3
+import QtMir.Application 0.1
 import QMenuModel 0.1
-import Unity.Test 0.1
+import Lomiri.SelfTest 0.1
 import Utils 0.1
 
 import "../../../qml/ApplicationMenus"
@@ -34,7 +34,7 @@ Item {
 
     Component.onCompleted: {
         QuickUtils.keyboardAttached = true;
-        theme.name = "Ubuntu.Components.Themes.SuruDark"
+        theme.name = "Lomiri.Components.Themes.SuruDark"
     }
 
     Binding {
@@ -62,7 +62,7 @@ Item {
             anchors.fill: parent
             enableKeyFilter: true
 
-            unityMenuModel: UnityMenuModel {
+            lomiriMenuModel: UnityMenuModel {
                 id: menuBackend
                 modelData: null
             }
@@ -82,7 +82,7 @@ Item {
         signalName: "aboutToShowCalled"
     }
 
-    UnityTestCase {
+    LomiriTestCase {
         id: testCase
         name: "MenuBar"
         when: windowShown
@@ -364,7 +364,7 @@ Item {
 
             expectFail("", "FIXME: thing broken here");
 
-            tryVerify(function() {return findChild(menuBar, "overflow-menu-item0-menu-item0-actionItem")});
+            tryVerify(function() { return findChild(menuBar, "overflow-menu-item0-menu-item0-actionItem")}, 1);
 
             tryCompareFunction(function() {
                 menuBackend.removeRow(0);

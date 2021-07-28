@@ -26,7 +26,7 @@ Q_DECLARE_LOGGING_CATEGORY(INPUTMETHODMANAGER)
 
 class Window;
 
-namespace unity {
+namespace lomiri {
     namespace shell {
         namespace application {
             class MirSurfaceInterface;
@@ -37,7 +37,7 @@ namespace unity {
 class WINDOWMANAGERQML_EXPORT InputMethodManager : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(unity::shell::application::MirSurfaceInterface* surface READ surface NOTIFY surfaceChanged)
+    Q_PROPERTY(lomiri::shell::application::MirSurfaceInterface* surface READ surface NOTIFY surfaceChanged)
 
 public:
     InputMethodManager();
@@ -46,10 +46,10 @@ public:
     void setWindow(Window* window);
 
 Q_SIGNALS:
-    void surfaceChanged(unity::shell::application::MirSurfaceInterface* inputMethodSurface);
+    void surfaceChanged(lomiri::shell::application::MirSurfaceInterface* inputMethodSurface);
 
 private:
-    unity::shell::application::MirSurfaceInterface* surface() const;
+    lomiri::shell::application::MirSurfaceInterface* surface() const;
 
      Window* m_inputMethodWindow{nullptr};
 };

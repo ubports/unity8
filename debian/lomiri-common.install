@@ -1,0 +1,5 @@
+usr/share/locale
+usr/share/lomiri/Components
+usr/share/lomiri/Notifications
+usr/share/lomiri/graphics
+var/lib/polkit-1/localauthority/10-vendor.d

@@ -19,14 +19,14 @@ import QtTest 1.0
 import AccountsService 0.1
 import MeeGo.QOfono 0.2
 import QMenuModel 0.1
-import Ubuntu.Components 1.3
-import Ubuntu.Connectivity 1.0
-import Ubuntu.SystemSettings.SecurityPrivacy 1.0
-import Ubuntu.SystemSettings.Update 1.0
-import Ubuntu.SystemSettings.TimeDate 1.1
-import Unity.Test 0.1 as UT
+import Lomiri.Components 1.3
+import Lomiri.Connectivity 1.0
+import Lomiri.SystemSettings.SecurityPrivacy 1.0
+import Lomiri.SystemSettings.Update 1.0
+import Lomiri.SystemSettings.TimeDate 1.1
+import Lomiri.SelfTest 0.1 as UT
 import Wizard 0.1
-import Unity.InputInfo 0.1
+import Lomiri.InputInfo 0.1
 import "../../../qml/Wizard"
 
 Item {
@@ -106,7 +106,7 @@ Item {
         signalName: "wouldHaveSetSkipUntilFinish"
     }
 
-    UT.UnityTestCase {
+    UT.LomiriTestCase {
         id: wizardTests
         name: "Wizard"
         when: windowShown
@@ -144,7 +144,7 @@ Item {
 
             var pages = findChild(wizard, "wizardPages")
             var security = findInvisibleChild(pages, "securityPrivacy");
-            security.setSecurity("", "", UbuntuSecurityPrivacyPanel.Swipe);
+            security.setSecurity("", "", LomiriSecurityPrivacyPanel.Swipe);
             setSecuritySpy.target = security;
 
             ActionData.data = {
@@ -231,7 +231,7 @@ Item {
                 // Skip the password prompt
                 var pages = findChild(wizard, "wizardPages");
                 var security = findInvisibleChild(pages, "securityPrivacy");
-                security.setSecurity("", "", UbuntuSecurityPrivacyPanel.Passphrase);
+                security.setSecurity("", "", LomiriSecurityPrivacyPanel.Passphrase);
                 tap(findChild(page, "forwardButton"));
             } else {
                 tap(findChild(page, "forwardButton"));
@@ -310,8 +310,8 @@ Item {
             // Set password type to non-swipe
             var pages = findChild(wizard, "wizardPages");
             var security = findInvisibleChild(pages, "securityPrivacy");
-            security.setSecurity("", "", UbuntuSecurityPrivacyPanel.Passphrase);
-            tryCompare(security, "securityType", UbuntuSecurityPrivacyPanel.Passphrase);
+            security.setSecurity("", "", LomiriSecurityPrivacyPanel.Passphrase);
+            tryCompare(security, "securityType", LomiriSecurityPrivacyPanel.Passphrase);
 
             // Make sure that moving from sim page lands on wifi page
             tap(findChild(page, "forwardButton"));
@@ -358,7 +358,7 @@ Item {
             setSecuritySpy.wait();
             compare(setSecuritySpy.signalArguments[0][0], "");
             compare(setSecuritySpy.signalArguments[0][1], "1111");
-            compare(setSecuritySpy.signalArguments[0][2], UbuntuSecurityPrivacyPanel.Passcode);
+            compare(setSecuritySpy.signalArguments[0][2], LomiriSecurityPrivacyPanel.Passcode);
         }
 
         function test_passwdPassphrase() {
@@ -396,7 +396,7 @@ Item {
             setSecuritySpy.wait();
             compare(setSecuritySpy.signalArguments[0][0], "");
             compare(setSecuritySpy.signalArguments[0][1], "12345678");
-            compare(setSecuritySpy.signalArguments[0][2], UbuntuSecurityPrivacyPanel.Passphrase);
+            compare(setSecuritySpy.signalArguments[0][2], LomiriSecurityPrivacyPanel.Passphrase);
         }
 
         function test_passwdSwipe() {

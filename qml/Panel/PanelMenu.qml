@@ -16,8 +16,8 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
-import Ubuntu.Gestures 0.1
+import Lomiri.Components 1.3
+import Lomiri.Gestures 0.1
 import "../Components"
 import "Indicators"
 
@@ -65,7 +65,7 @@ Showable {
             target: root
             property: "height"
             to: openedHeight
-            duration: UbuntuAnimation.BriskDuration
+            duration: LomiriAnimation.BriskDuration
             easing.type: Easing.OutCubic
         }
         // set binding in case units.gu changes while menu open, so height correctly adjusted to fit
@@ -77,7 +77,7 @@ Showable {
             target: root
             property: "height"
             to: minimizedPanelHeight
-            duration: UbuntuAnimation.BriskDuration
+            duration: LomiriAnimation.BriskDuration
             easing.type: Easing.OutCubic
         }
         // set binding in case units.gu changes while menu closed, so menu adjusts to fit
@@ -185,7 +185,7 @@ Showable {
         unitProgress: root.unitProgress
 
         height: expanded ? expandedPanelHeight : minimizedPanelHeight
-        Behavior on height { NumberAnimation { duration: UbuntuAnimation.SnapDuration; easing: UbuntuAnimation.StandardEasing } }
+        Behavior on height { NumberAnimation { duration: LomiriAnimation.SnapDuration; easing: LomiriAnimation.StandardEasing } }
     }
 
     ScrollCalculator {

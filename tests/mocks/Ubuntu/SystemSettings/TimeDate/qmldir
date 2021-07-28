@@ -1,2 +1,0 @@
-module Ubuntu.SystemSettings.TimeDate
-UbuntuTimeDatePanel 1.1 MockTimeDate.qml

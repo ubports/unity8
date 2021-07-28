@@ -20,16 +20,16 @@ import ".."
 import "../../../qml/Greeter"
 import LightDMController 0.1
 import LightDM.FullLightDM 0.1 as LightDM
-import Ubuntu.Components 1.3
-import Ubuntu.Telephony 0.1 as Telephony
-import Unity.Test 0.1 as UT
+import Lomiri.Components 1.3
+import Lomiri.Telephony 0.1 as Telephony
+import Lomiri.SelfTest 0.1 as UT
 
 Item {
     id: root
     width: units.gu(90)
     height: units.gu(80)
 
-    Component.onCompleted: theme.name = "Ubuntu.Components.Themes.SuruDark" // use the same theme as the real shell
+    Component.onCompleted: theme.name = "Lomiri.Components.Themes.SuruDark" // use the same theme as the real shell
 
     Binding {
         target: LightDMController
@@ -259,7 +259,7 @@ Item {
         signalName: "dataChanged"
     }
 
-    UT.UnityTestCase {
+    UT.LomiriTestCase {
         name: "NarrowView"
         when: windowShown
 
@@ -431,7 +431,7 @@ Item {
         }
 
         /*
-            Regression test for https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1388359
+            Regression test for https://bugs.launchpad.net/lomiri/+source/lomiri/+bug/1388359
             "User metrics can no longer be changed by double tap"
         */
         function test_doubleTapSwitchesToNextInfographic() {

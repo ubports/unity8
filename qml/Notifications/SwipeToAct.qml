@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 
 Item {
     id: swipeToAct
@@ -40,11 +40,11 @@ Item {
         readonly property color sliderBGColor: theme.palette.normal.background
         readonly property double halfWay: mouseArea.drag.maximumX / 2
 
-        UbuntuNumberAnimation on opacityDelta {
+        LomiriNumberAnimation on opacityDelta {
             from: 0
             to: .5
             loops: Animation.Infinite
-            duration: UbuntuAnimation.SleepyDuration
+            duration: LomiriAnimation.SleepyDuration
             easing.type: Easing.Linear
         }
 
@@ -92,22 +92,22 @@ Item {
         onClicked: rightTriggered()
     }
 
-    UbuntuShape {
+    LomiriShape {
         id: row
         width: parent.width
         height: priv.sliderHeight
         backgroundColor: priv.sliderBGColor
-        aspect: UbuntuShape.Flat
+        aspect: LomiriShape.Flat
         visible: !clickToAct
 
-        UbuntuShape {
+        LomiriShape {
             id: leftShape
             objectName: "leftArea"
             anchors.top: parent.top
             anchors.left: parent.left
             anchors.margins: priv.gap
             backgroundColor: theme.palette.normal.negative
-            aspect: UbuntuShape.Flat
+            aspect: LomiriShape.Flat
 
             height: units.gu(6)
             width: units.gu(6)
@@ -143,7 +143,7 @@ Item {
             }
         }
 
-        UbuntuShape {
+        LomiriShape {
             id: slider
             objectName: "slider"
             anchors.top: parent.top
@@ -160,16 +160,16 @@ Item {
             Behavior on x {
                 id: xBehavior
                 enabled: false
-                UbuntuNumberAnimation {
+                LomiriNumberAnimation {
                     id: sliderXAnimation
-                    duration: UbuntuAnimation.FastDuration
+                    duration: LomiriAnimation.FastDuration
                     easing.type: Easing.OutBounce
                 }
             }
 
             Behavior on opacity {
-                UbuntuNumberAnimation {
-                    duration: UbuntuAnimation.FastDuration
+                LomiriNumberAnimation {
+                    duration: LomiriAnimation.FastDuration
                 }
             }
 
@@ -191,7 +191,7 @@ Item {
             backgroundColor: priv.sliderMainColor
             height: units.gu(6)
             width: units.gu(6)
-            aspect: UbuntuShape.Flat
+            aspect: LomiriShape.Flat
             radius: "medium"
             Icon {
                 anchors.fill: parent
@@ -221,14 +221,14 @@ Item {
             }
         }
 
-        UbuntuShape {
+        LomiriShape {
             id: rightShape
             objectName: "rightArea"
             anchors.top: parent.top
             anchors.right: parent.right
             anchors.margins: priv.gap
             backgroundColor: theme.palette.normal.positive
-            aspect: UbuntuShape.Flat
+            aspect: LomiriShape.Flat
 
             height: units.gu(6)
             width: units.gu(6)

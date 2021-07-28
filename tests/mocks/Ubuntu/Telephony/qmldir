@@ -1,2 +1,0 @@
-module Ubuntu.Telephony
-plugin FakeUbuntuTelephonyQml

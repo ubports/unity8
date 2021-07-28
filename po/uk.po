@@ -1,17 +1,17 @@
-# Ukrainian translation for unity
+# Ukrainian translation for lomiri
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the unity package.
+# This file is distributed under the same license as the lomiri package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity\n"
+"Project-Id-Version: lomiri\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
 "PO-Revision-Date: 2020-06-09 11:24+0000\n"
 "Last-Translator: luka177 <lukapanio@gmail.com>\n"
-"Language-Team: Ukrainian <https://translate.ubports.com/projects/unity8/"
-"unity8/uk/>\n"
+"Language-Team: Ukrainian <https://translate.ubports.com/projects/lomiri/"
+"lomiri/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -53,16 +53,16 @@ msgstr "Увійти"
 msgid "Guest Session"
 msgstr "Госьтьова сесія"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:49
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Pin shortcut"
 msgstr "Заблокувати кнопку"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:55
+#: plugins/Lomiri/Launcher/launcheritem.cpp:55
 msgid "Quit"
 msgstr "Вийти"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Lomiri/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
 msgstr "Розблокувати кнопку"
 
@@ -136,8 +136,8 @@ msgid "Keyboard Shortcuts"
 msgstr "Клавіатурні скорочення"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Unity 8"
-msgstr "Unity 8"
+msgid "Lomiri 8"
+msgstr "Lomiri 8"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -614,7 +614,7 @@ msgstr "Наступне"
 #: qml/Wizard/Pages/10-welcome-update.qml:91
 #, fuzzy
 msgid "Welcome to "
-msgstr "Ласкаво просимо до Ubuntu"
+msgstr "Ласкаво просимо до Lomiri"
 
 #: qml/Wizard/Pages/10-welcome-update.qml:106
 msgid "We will make sure your device is ready to use "
@@ -713,10 +713,10 @@ msgstr ""
 #: qml/Wizard/Pages/79-system-update.qml:76
 #, fuzzy
 #| msgctxt "string identifying name of the update"
-#| msgid "Ubuntu system"
+#| msgid "Lomiri system"
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr "Система Ubuntu"
+msgid "Lomiri Touch system"
+msgstr "Система Lomiri"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -737,8 +737,8 @@ msgid "Welcome Back"
 msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
-msgstr "Ласкаво просимо до Ubuntu"
+msgid "Welcome to Lomiri"
+msgstr "Ласкаво просимо до Lomiri"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -864,7 +864,7 @@ msgstr "Слабкий пароль"
 msgid "Very weak password"
 msgstr "Дуже слабкий пароль"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgctxt "Button: Open the Lomiri Store"
 #~ msgid "Store"
 #~ msgstr "Крамниця"
 
@@ -1191,8 +1191,8 @@ msgstr "Дуже слабкий пароль"
 #~ msgid "Hi!"
 #~ msgstr "Привіт!"
 
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Вітаємо вас у системі телефону Ubuntu."
+#~ msgid "Welcome to your Lomiri phone."
+#~ msgstr "Вітаємо вас у системі телефону Lomiri."
 
 #~ msgid "Let’s get started."
 #~ msgstr "Почнімо."

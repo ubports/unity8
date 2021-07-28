@@ -17,7 +17,7 @@
 #include "expressionfiltermodel.h"
 
 ExpressionFilterModel::ExpressionFilterModel(QObject *parent)
-    : UnitySortFilterProxyModelQML(parent)
+    : LomiriSortFilterProxyModelQML(parent)
 {
 }
 
@@ -45,5 +45,5 @@ ExpressionFilterModel::filterAcceptsRow(int sourceRow,
         }
     }
 
-    return UnitySortFilterProxyModelQML::filterAcceptsRow(sourceRow, sourceParent);
+    return LomiriSortFilterProxyModelQML::filterAcceptsRow(sourceRow, sourceParent);
 }

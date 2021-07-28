@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 
 Item {
     BorderImage {
@@ -30,9 +30,9 @@ Item {
         opacity: 0.35
     }
 
-    UbuntuShape {
+    LomiriShape {
         anchors.fill: parent
-        aspect: UbuntuShape.Flat
+        aspect: LomiriShape.Flat
         backgroundColor: theme.palette.normal.raised
     }
 }

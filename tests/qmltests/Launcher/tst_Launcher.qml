@@ -17,11 +17,11 @@
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import QtTest 1.0
-import Unity.Test 0.1
-import Ubuntu.Components 1.3
+import Lomiri.SelfTest 0.1
+import Lomiri.Components 1.3
 import ".."
 import "../../../qml/Launcher"
-import Unity.Launcher 0.1
+import Lomiri.Launcher 0.1
 import Utils 0.1 // For EdgeBarrierSettings
 
 /* Nothing is shown at first. If you drag from left edge you will bring up the
@@ -30,9 +30,9 @@ Rectangle {
     id: root
     width: units.gu(140)
     height: units.gu(70)
-    color: UbuntuColors.graphite // something neither white nor black
+    color: LomiriColors.graphite // something neither white nor black
 
-    Component.onCompleted: theme.name = "Ubuntu.Components.Themes.SuruDark"
+    Component.onCompleted: theme.name = "Lomiri.Components.Themes.SuruDark"
 
     MouseArea {
         id: clickThroughTester
@@ -285,7 +285,7 @@ Rectangle {
         }
     }
 
-    UnityTestCase {
+    LomiriTestCase {
         id: testCase
         name: "Launcher"
         when: windowShown
@@ -1590,7 +1590,7 @@ Rectangle {
             tryCompare(quickList, "selectedIndex", -1)
         }
 
-        // Regression test for https://github.com/ubports/ubuntu-touch/issues/1441
+        // Regression test for https://github.com/ubports/lomiri-touch/issues/1441
         // Short problem description: If the Launcher is dragged out while the
         // Peek animation is running, the Launcher disappears after the peek
         // animation ends. The Launcher does not appear until it is dismissed.
@@ -1620,7 +1620,7 @@ Rectangle {
             compare(launcherPanel.visible, true);
         }
 
-        // Regression test for https://github.com/ubports/unity8/issues/361
+        // Regression test for https://github.com/ubports/lomiri/issues/361
         // After introduction of the app drawer, the peeking animation was
         // still being used while the drawer is open, causing the launcher
         // to be hidden, and in some cases not reappear. Ensure that instead

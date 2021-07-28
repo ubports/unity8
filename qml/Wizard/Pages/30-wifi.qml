@@ -17,10 +17,10 @@
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import QMenuModel 0.1 as QMenuModel
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import Wizard 0.1
-import Ubuntu.Connectivity 1.0
-import Ubuntu.SystemSettings.Update 1.0
+import Lomiri.Connectivity 1.0
+import Lomiri.SystemSettings.Update 1.0
 import ".." as LocalComponents
 import "../../Components"
 
@@ -88,10 +88,10 @@ LocalComponents.Page {
             divider.colorTo: backgroundColor
 
             property QtObject menuData: null
-            property var unityMenuModel: menuModel
+            property var lomiriMenuModel: menuModel
             property var extendedData: menuData && menuData.ext || undefined
             property var strengthAction: QMenuModel.UnityMenuAction {
-                model: unityMenuModel
+                model: lomiriMenuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalWifiApStrengthAction", "")
             }
@@ -103,8 +103,8 @@ LocalComponents.Page {
             property int menuIndex: -1
 
             function loadAttributes() {
-                if (!unityMenuModel || menuIndex == -1) return;
-                unityMenuModel.loadExtendedAttributes(menuIndex, {'x-canonical-wifi-ap-is-adhoc': 'bool',
+                if (!lomiriMenuModel || menuIndex == -1) return;
+                lomiriMenuModel.loadExtendedAttributes(menuIndex, {'x-canonical-wifi-ap-is-adhoc': 'bool',
                                                           'x-canonical-wifi-ap-is-secure': 'bool',
                                                           'x-canonical-wifi-ap-is-enterprise': 'bool',
                                                           'x-canonical-wifi-ap-strength-action': 'string'});
@@ -145,7 +145,7 @@ LocalComponents.Page {
             }
 
             onClicked: {
-                unityMenuModel.activate(menuIndex);
+                lomiriMenuModel.activate(menuIndex);
                 listview.positionViewAtBeginning();
             }
         }
@@ -182,7 +182,7 @@ LocalComponents.Page {
             model: menuModel
 
             delegate: Loader {
-                readonly property bool isAccessPoint: model.type === "unity.widgets.systemsettings.tablet.accesspoint"
+                readonly property bool isAccessPoint: model.type === "lomiri.widgets.systemsettings.tablet.accesspoint"
                 readonly property bool isConnected: item && item.menuData && item.menuData.actionState
                 readonly property bool isEnterprise: item && item.isEnterprise
 
