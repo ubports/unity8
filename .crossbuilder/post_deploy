@@ -1,1 +1,8 @@
-restart lomiri
+#!/bin/sh
+
+for mode in full-greeter full-shell greeter shell; do
+    if systemctl --user is-active -q lomiri-${mode}.service; then
+        systemctl --user restart lomiri-${mode}.service
+        break
+    fi
+done
