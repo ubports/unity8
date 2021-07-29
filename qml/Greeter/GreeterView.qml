@@ -136,6 +136,7 @@ FocusScope {
         blurAreaWidth: loginList.width + units.gu(3)
         blurAreaX: loginList.x - units.gu(1.5)
         blurAreaY: loginList.boxVerticalOffset + loginList.y - units.gu(3)
+        blurRadius: root.usageMode != "phone" && root.usageMode != "tablet" ? 64 : 0
 
         background: root.background
         backgroundSourceSize: root.backgroundSourceSize

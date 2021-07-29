@@ -43,6 +43,7 @@ Showable {
     property alias blurAreaWidth: loginBoxEffects.width
     property alias blurAreaX: loginBoxEffects.x
     property alias blurAreaY: loginBoxEffects.y
+    property alias blurRadius: loginBoxBlur.radius
 
     readonly property real showProgress: MathUtils.clamp((width - Math.abs(x + launcherOffset)) / width, 0, 1)
 
@@ -119,10 +120,10 @@ Showable {
     }
 
     FastBlur {
+        id: loginBoxBlur
         visible: !draggable
         anchors.fill: effectSource
         source: effectSource
-        radius: 64
         transparentBorder: true
     }
 
