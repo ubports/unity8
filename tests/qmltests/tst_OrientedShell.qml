@@ -1727,9 +1727,10 @@ Rectangle {
              * topMargin is specified for the notch.
              */
             var orientedShell = loadShell("has-notch");
+            var shellContainer = findChild(orientedShell, "shellContainer");
             GSettingsController.setDisableTopMargin(data.disabled);
 
-            tryCompare(orientedShell.anchors, "topMargin", data.expectedMargin);
+            tryCompare(shellContainer.anchors, "topMargin", data.expectedMargin);
         }
     }
 }

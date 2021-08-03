@@ -265,6 +265,7 @@ Item {
 
     Item {
         id: shellContainer
+        objectName: "shellContainer"
         anchors.fill: parent
         anchors.topMargin: !unity8Settings.disableTopMargin ? deviceConfiguration.topMargin : 0
 
