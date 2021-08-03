@@ -264,18 +264,19 @@ Item {
     }
 
     Item {
+        id: shellContainer
         anchors.fill: parent
         anchors.topMargin: !unity8Settings.disableTopMargin ? deviceConfiguration.topMargin : 0
 
         Shell {
             id: shell
             objectName: "shell"
-            width: root.width
-            height: root.height
+            width: parent.width
+            height: parent.height
             orientation: root.angleToOrientation(orientationAngle)
             orientations: root.orientations
-            nativeWidth: root.width
-            nativeHeight: root.height
+            nativeWidth: parent.width
+            nativeHeight: parent.height
             mode: applicationArguments.mode
             hasMouse: pointerInputDevices > 0
             hasKeyboard: keyboardsModel.count > 0
@@ -323,8 +324,8 @@ Item {
             id: shellSnapshot
             target: shell
             visible: false
-            width: root.width
-            height: root.height
+            width: parent.width
+            height: parent.height
 
             property real transformRotationAngle
             property real transformOriginX

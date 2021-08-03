@@ -30,8 +30,8 @@ SequentialAnimation {
     ScriptAction { script: {
         info.transitioning = true;
         shell.orientationAngle = root.toAngle;
-        shell.x = (orientedShell.width - shell.width) / 2
-        shell.y = (orientedShell.height - shell.height) / 2;
+        shell.x = (shellContainer.width - shell.width) / 2
+        shell.y = (shellContainer.height - shell.height) / 2;
         shell.transformOriginX = shell.width / 2;
         shell.transformOriginY = shell.height / 2;
         shell.updateFocusedAppOrientation();
