@@ -24,8 +24,8 @@ SequentialAnimation {
     property var info
     property var shell
 
-    readonly property real fromY: fromAngle === 0 || fromAngle === 90 ? 0 : orientedShell.height - orientedShell.width;
-    readonly property real toY: toAngle === 0 || toAngle === 90 ? 0 : orientedShell.height - orientedShell.width;
+    readonly property real fromY: fromAngle === 0 || fromAngle === 90 ? 0 : shellContainer.height - shellContainer.width;
+    readonly property real toY: toAngle === 0 || toAngle === 90 ? 0 : shellContainer.height - shellContainer.width;
     readonly property bool flipShellDimensions: toAngle == 90 || toAngle == 270
 
     ScriptAction { script: {
@@ -33,10 +33,10 @@ SequentialAnimation {
 
         shell.orientationAngle = root.toAngle;
         shell.x = 0;
-        shell.width = flipShellDimensions ? orientedShell.height : orientedShell.width;
-        shell.height = flipShellDimensions ? orientedShell.width : orientedShell.height;
-        shell.transformOriginX = orientedShell.width / 2;
-        shell.transformOriginY = orientedShell.width / 2;
+        shell.width = flipShellDimensions ? shellContainer.height : shellContainer.width;
+        shell.height = flipShellDimensions ? shellContainer.width : shellContainer.height;
+        shell.transformOriginX = shellContainer.width / 2;
+        shell.transformOriginY = shellContainer.width / 2;
         shell.updateFocusedAppOrientation();
         shellCover.visible = true;
 

@@ -25,17 +25,18 @@ ScriptAction {
         shell.transformRotationAngle = rotationAngle;
 
         // They must all be bindings as orientedShell's size can change
+        // ( shellContainer takes into account the margin in case a notch is present )
 
         if (rotationAngle === 90 || rotationAngle === 270) {
-            shell.width = Qt.binding(function() { return orientedShell.height; });
-            shell.height = Qt.binding(function() { return orientedShell.width; });
+            shell.width = Qt.binding(function() { return shellContainer.height; });
+            shell.height = Qt.binding(function() { return shellContainer.width; });
         } else {
-            shell.width = Qt.binding(function() { return orientedShell.width; });
-            shell.height = Qt.binding(function() { return orientedShell.height; });
+            shell.width = Qt.binding(function() { return shellContainer.width; });
+            shell.height = Qt.binding(function() { return shellContainer.height; });
         }
 
-        shell.x = Qt.binding(function() { return (orientedShell.width - shell.width) / 2; });
-        shell.y = Qt.binding(function() { return (orientedShell.height - shell.height) / 2; });
+        shell.x = Qt.binding(function() { return (shellContainer.width - shell.width) / 2; });
+        shell.y = Qt.binding(function() { return (shellContainer.height - shell.height) / 2; });
         shell.transformOriginX = Qt.binding(function() { return shell.width / 2; });
         shell.transformOriginY = Qt.binding(function() { return shell.height / 2; });
     }
