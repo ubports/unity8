@@ -32,8 +32,6 @@ Item {
     implicitWidth: units.gu(40)
     implicitHeight: units.gu(71)
 
-    anchors.topMargin: !unity8Settings.disableTopMargin ? deviceConfiguration.topMargin : 0
-
     onWidthChanged: calculateUsageMode();
 
     DeviceConfiguration {
@@ -265,74 +263,79 @@ Item {
         shellSnapshot: shellSnapshot
     }
 
-    Shell {
-        id: shell
-        objectName: "shell"
-        width: root.width
-        height: root.height
-        orientation: root.angleToOrientation(orientationAngle)
-        orientations: root.orientations
-        nativeWidth: root.width
-        nativeHeight: root.height
-        mode: applicationArguments.mode
-        interactiveBlur: applicationArguments.interactiveBlur
-        hasMouse: pointerInputDevices > 0
-        hasKeyboard: keyboardsModel.count > 0
-        hasTouchscreen: touchScreensModel.count > 0
-        supportsMultiColorLed: deviceConfiguration.supportsMultiColorLed
-        lightIndicators: root.lightIndicators
+    Item {
+        anchors.fill: parent
+        anchors.topMargin: !unity8Settings.disableTopMargin ? deviceConfiguration.topMargin : 0
 
-        // Since we dont have proper multiscreen support yet
-        // hardcode screen count to only show osk on this screen
-        // when it's the only one connected.
-        // FIXME once multiscreen has landed
-        oskEnabled: (!hasKeyboard && screens.count === 1) ||
-                    unity8Settings.alwaysShowOsk || forceOSKEnabled
+        Shell {
+            id: shell
+            objectName: "shell"
+            width: root.width
+            height: root.height
+            orientation: root.angleToOrientation(orientationAngle)
+            orientations: root.orientations
+            nativeWidth: root.width
+            nativeHeight: root.height
+            mode: applicationArguments.mode
+            interactiveBlur: applicationArguments.interactiveBlur
+            hasMouse: pointerInputDevices > 0
+            hasKeyboard: keyboardsModel.count > 0
+            hasTouchscreen: touchScreensModel.count > 0
+            supportsMultiColorLed: deviceConfiguration.supportsMultiColorLed
+            lightIndicators: root.lightIndicators
 
-        usageScenario: {
-            if (unity8Settings.usageMode === "Windowed") {
-                return "desktop";
-            } else {
-                if (deviceConfiguration.category === "phone") {
-                    return "phone";
+            // Since we dont have proper multiscreen support yet
+            // hardcode screen count to only show osk on this screen
+            // when it's the only one connected.
+            // FIXME once multiscreen has landed
+            oskEnabled: (!hasKeyboard && screens.count === 1) ||
+                        unity8Settings.alwaysShowOsk || forceOSKEnabled
+
+            usageScenario: {
+                if (unity8Settings.usageMode === "Windowed") {
+                    return "desktop";
                 } else {
-                    return "tablet";
+                    if (deviceConfiguration.category === "phone") {
+                        return "phone";
+                    } else {
+                        return "tablet";
+                    }
                 }
+            }
+
+            property real transformRotationAngle
+            property real transformOriginX
+            property real transformOriginY
+
+            transform: Rotation {
+                origin.x: shell.transformOriginX; origin.y: shell.transformOriginY; axis { x: 0; y: 0; z: 1 }
+                angle: shell.transformRotationAngle
             }
         }
 
-        property real transformRotationAngle
-        property real transformOriginX
-        property real transformOriginY
-
-        transform: Rotation {
-            origin.x: shell.transformOriginX; origin.y: shell.transformOriginY; axis { x: 0; y: 0; z: 1 }
-            angle: shell.transformRotationAngle
+        Rectangle {
+            id: shellCover
+            color: "black"
+            anchors.fill: parent
+            visible: false
         }
-    }
 
-    Rectangle {
-        id: shellCover
-        color: "black"
-        anchors.fill: parent
-        visible: false
-    }
+        ItemSnapshot {
+            id: shellSnapshot
+            target: shell
+            visible: false
+            width: root.width
+            height: root.height
 
-    ItemSnapshot {
-        id: shellSnapshot
-        target: shell
-        visible: false
-        width: root.width
-        height: root.height
+            property real transformRotationAngle
+            property real transformOriginX
+            property real transformOriginY
 
-        property real transformRotationAngle
-        property real transformOriginX
-        property real transformOriginY
-
-        transform: Rotation {
-            origin.x: shellSnapshot.transformOriginX; origin.y: shellSnapshot.transformOriginY;
-            axis { x: 0; y: 0; z: 1 }
-            angle: shellSnapshot.transformRotationAngle
+            transform: Rotation {
+                origin.x: shellSnapshot.transformOriginX; origin.y: shellSnapshot.transformOriginY;
+                axis { x: 0; y: 0; z: 1 }
+                angle: shellSnapshot.transformRotationAngle
+            }
         }
     }
 }
