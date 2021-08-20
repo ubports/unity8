@@ -101,30 +101,48 @@ Item {
                 { tag: 'switch1', type: "lomiri.widgets.systemsettings.tablet.switch", objectName: "switchMenu" },
 
                 { tag: 'button', type: "com.canonical.indicator.button", objectName: "buttonMenu" },
+                { tag: 'button-ayatana', type: "org.ayatana.indicator.button", objectName: "buttonMenu" },
                 { tag: 'separator', type: "com.canonical.indicator.div", objectName: "separatorMenu" },
+                { tag: 'separator-ayatana', type: "org.ayatana.indicator.div", objectName: "separatorMenu" },
                 { tag: 'section', type: "com.canonical.indicator.section", objectName: "sectionMenu" },
+                { tag: 'section-ayatana', type: "org.ayatana.indicator.section", objectName: "sectionMenu" },
                 { tag: 'progress', type: "com.canonical.indicator.progress", objectName: "progressMenu" },
+                { tag: 'progress-ayatana', type: "org.ayatana.indicator.progress", objectName: "progressMenu" },
                 { tag: 'slider1', type: "com.canonical.indicator.slider", objectName: "sliderMenu" },
+                { tag: 'slider1-ayatana', type: "org.ayatana.indicator.slider", objectName: "sliderMenu" },
                 { tag: 'switch2', type: "com.canonical.indicator.switch", objectName: "switchMenu" },
+                { tag: 'switch2-ayatana', type: "org.ayatana.indicator.switch", objectName: "switchMenu" },
                 { tag: 'alarm', type: "com.canonical.indicator.alarm", objectName: "alarmMenu" },
+                { tag: 'alarm-ayatana', type: "org.ayatana.indicator.alarm", objectName: "alarmMenu" },
                 { tag: 'appointment', type: "com.canonical.indicator.appointment", objectName: "appointmentMenu" },
+                { tag: 'appointment-ayatana', type: "org.ayatana.indicator.appointment", objectName: "appointmentMenu" },
                 { tag: 'transfer', type: "com.canonical.indicator.transfer", objectName: "transferMenu" },
+                { tag: 'transfer-ayatana', type: "org.ayatana.indicator.transfer", objectName: "transferMenu" },
                 { tag: 'buttonSection', type: "com.canonical.indicator.button-section", objectName: "buttonSectionMenu" },
+                { tag: 'buttonSection-ayatana', type: "org.ayatana.indicator.button-section", objectName: "buttonSectionMenu" },
 
                 { tag: 'messageItem', type: "com.canonical.indicator.messages.messageitem", objectName: "messageItem" },
+                { tag: 'messageItem-ayatana', type: "org.ayatana.indicator.messages.messageitem", objectName: "messageItem" },
                 { tag: 'sourceItem', type: "com.canonical.indicator.messages.sourceitem", objectName: "groupedMessage" },
+                { tag: 'sourceItem-ayatana', type: "org.ayatana.indicator.messages.sourceitem", objectName: "groupedMessage" },
 
                 { tag: 'slider2', type: "com.canonical.lomiri.slider", objectName: "sliderMenu" },
+                { tag: 'slider2-ayatana', type: "org.ayatana.unity.slider", objectName: "sliderMenu" },
                 { tag: 'switch3', type: "com.canonical.lomiri.switch", objectName: "switchMenu" },
+                { tag: 'switch3-ayatana', type: "org.ayatana.unity.switch", objectName: "switchMenu" },
 
                 { tag: 'mediaplayer', type: "com.canonical.lomiri.media-player", objectName: "mediaPayerMenu" },
+                { tag: 'mediaplayer-ayatana', type: "org.ayatana.unity.media-player", objectName: "mediaPayerMenu" },
                 { tag: 'playbackitem', type: "com.canonical.lomiri.playback-item", objectName: "playbackItemMenu" },
+                { tag: 'playbackitem-ayatana', type: "org.ayatana.unity.playback-item", objectName: "playbackItemMenu" },
 
                 { tag: 'wifisection', type: "lomiri.widgets.systemsettings.tablet.wifisection", objectName: "wifiSection" },
                 { tag: 'accesspoint', type: "lomiri.widgets.systemsettings.tablet.accesspoint", objectName: "accessPoint" },
                 { tag: 'modeminfoitem', type: "com.lomiri.indicator.network.modeminfoitem", objectName: "modemInfoItem" },
+                { tag: 'modeminfoitem-ayatana', type: "org.ayatana.indicator.network.modeminfoitem", objectName: "modemInfoItem" },
 
                 { tag: 'calendar', type: "com.canonical.indicator.calendar", objectName: "calendarMenu" },
+                { tag: 'calendar-ayatana', type: "org.ayatana.indicator.calendar", objectName: "calendarMenu" },
 
                 { tag: 'unknown', type: "", objectName: "standardMenu"}
             ];
