@@ -35,7 +35,7 @@ Rectangle {
 
     NotificationAudio {
         id: shutterSound
-        source: "/system/media/audio/ui/camera_click.ogg"
+        source: "/usr/share/sounds/ubports/camera/click/camera_click.ogg"
     }
 
     function capture(item) {
