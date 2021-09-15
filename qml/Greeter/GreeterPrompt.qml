@@ -100,15 +100,11 @@ FocusScope {
 
         Binding {
             target: loader.item
-            property: "focus"
-            value: true
-        }
-
-        Binding {
-            target: loader.item
             property: "hasKeyboard"
             value: root.hasKeyboard
         }
+
+        onLoaded: loader.item.focus = true
     }
 
     states: [
