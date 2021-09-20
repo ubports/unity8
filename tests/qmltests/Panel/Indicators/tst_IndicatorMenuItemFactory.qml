@@ -127,14 +127,14 @@ Item {
                 { tag: 'sourceItem-ayatana', type: "org.ayatana.indicator.messages.sourceitem", objectName: "groupedMessage" },
 
                 { tag: 'slider2', type: "com.canonical.lomiri.slider", objectName: "sliderMenu" },
-                { tag: 'slider2-ayatana', type: "org.ayatana.unity.slider", objectName: "sliderMenu" },
+                { tag: 'slider2-ayatana', type: "org.ayatana.indicator.slider", objectName: "sliderMenu" },
                 { tag: 'switch3', type: "com.canonical.lomiri.switch", objectName: "switchMenu" },
-                { tag: 'switch3-ayatana', type: "org.ayatana.unity.switch", objectName: "switchMenu" },
+                { tag: 'switch3-ayatana', type: "org.ayatana.indicator.switch", objectName: "switchMenu" },
 
                 { tag: 'mediaplayer', type: "com.canonical.lomiri.media-player", objectName: "mediaPayerMenu" },
-                { tag: 'mediaplayer-ayatana', type: "org.ayatana.unity.media-player", objectName: "mediaPayerMenu" },
+                { tag: 'mediaplayer-ayatana', type: "org.ayatana.indicator.media-player", objectName: "mediaPayerMenu" },
                 { tag: 'playbackitem', type: "com.canonical.lomiri.playback-item", objectName: "playbackItemMenu" },
-                { tag: 'playbackitem-ayatana', type: "org.ayatana.unity.playback-item", objectName: "playbackItemMenu" },
+                { tag: 'playbackitem-ayatana', type: "org.ayatana.indicator.playback-item", objectName: "playbackItemMenu" },
 
                 { tag: 'wifisection', type: "lomiri.widgets.systemsettings.tablet.wifisection", objectName: "wifiSection" },
                 { tag: 'accesspoint', type: "lomiri.widgets.systemsettings.tablet.accesspoint", objectName: "accessPoint" },

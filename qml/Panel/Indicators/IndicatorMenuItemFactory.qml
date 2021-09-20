@@ -81,11 +81,11 @@ Item {
             "org.ayatana.indicator.messages.messageitem"  : messageItem,
             "org.ayatana.indicator.messages.sourceitem"   : groupedMessage,
 
-            "org.ayatana.unity.slider"    : sliderMenu,
-            "org.ayatana.unity.switch"    : switchMenu,
+            "org.ayatana.indicator.slider"    : sliderMenu,
+            "org.ayatana.indicator.switch"    : switchMenu,
 
-            "org.ayatana.unity.media-player"    : mediaPayerMenu,
-            "org.ayatana.unity.playback-item"   : playbackItemMenu,
+            "org.ayatana.indicator.media-player"    : mediaPayerMenu,
+            "org.ayatana.indicator.playback-item"   : playbackItemMenu,
 
             "org.ayatana.indicator.network.modeminfoitem" : modeminfoitem,
 
@@ -101,8 +101,8 @@ Item {
             "com.canonical.indicator.button": messagesButtonMenu
         },
         "ayatana-indicator-session": {
-            "indicator.user-menu-item": Platform.isPC ? userMenuItem : null,
-            "indicator.guest-menu-item": Platform.isPC ? userMenuItem : null,
+            "org.ayatana.indicator.user-menu-item": Platform.isPC ? userMenuItem : null,
+            "org.ayatana.indicator.guest-menu-item": Platform.isPC ? userMenuItem : null,
             "org.ayatana.indicator.switch": Math.min(Screen.width, Screen.height) > units.gu(60) ? switchMenu : null // Desktop mode switch
         },
         "ayatana-indicator-messages": {
