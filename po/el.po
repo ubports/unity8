@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-29 11:42-0600\n"
-"PO-Revision-Date: 2020-08-19 00:03+0000\n"
+"PO-Revision-Date: 2021-09-20 23:03+0000\n"
 "Last-Translator: Efstathios Iosifidis <iefstathios@gmail.com>\n"
-"Language-Team: Greek <https://translate.ubports.com/projects/unity8/unity8/"
+"Language-Team: Greek <https://translate.ubports.com/projects/ubports/lomiri/"
 "el/>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
@@ -131,10 +131,8 @@ msgid "Restart"
 msgstr "Επανεκκίνηση"
 
 #: qml/Components/Dialogs.qml:276
-#, fuzzy
-#| msgid "Takes a screenshot."
 msgid "Screenshot"
-msgstr "Λαμβάνει ένα στιγμιότυπο οθόνης."
+msgstr "Στιγμιότυπο οθόνης"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
@@ -142,7 +140,7 @@ msgstr "Συντομεύσεις Πληκτρολογίου"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
 msgid "Lomiri"
-msgstr ""
+msgstr "Lomiri"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
