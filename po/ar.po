@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-29 11:42-0600\n"
-"PO-Revision-Date: 2020-12-07 19:09+0000\n"
-"Last-Translator: abidin <abidin24@tutanota.com>\n"
-"Language-Team: Arabic <https://translate.ubports.com/projects/unity8/unity8/"
+"PO-Revision-Date: 2021-08-30 11:15+0000\n"
+"Last-Translator: HEROBRINE7GAMER <tapermeerkat77@gmail.com>\n"
+"Language-Team: Arabic <https://translate.ubports.com/projects/ubports/lomiri/"
 "ar/>\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
@@ -132,10 +132,8 @@ msgid "Restart"
 msgstr "أعد التشغيل"
 
 #: qml/Components/Dialogs.qml:276
-#, fuzzy
-#| msgid "Takes a screenshot."
 msgid "Screenshot"
-msgstr "خُذ لقطة للشاشة."
+msgstr "لقطة شاشة"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
@@ -143,7 +141,7 @@ msgstr "اختصارات لوحة المفاتيح"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
 msgid "Lomiri"
-msgstr ""
+msgstr "لوميري"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -187,7 +185,7 @@ msgstr "شغِل الطرفية."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:131
 msgid "Launcher"
-msgstr "مُطْلِق"
+msgstr "مطلق"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:138
 msgid "Super (Hold)"
@@ -202,9 +200,8 @@ msgid "Alt + F1"
 msgstr "Alt + F1"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:156
-#, fuzzy
 msgid "Opens launcher keyboard navigation mode."
-msgstr "افتح وضع التصفح باستخدام لوحة مفاتيح المطلق."
+msgstr "فتح وضع التنقل بلوحة المفاتيح المشغلة."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:164
 msgid "Super + Tab"
@@ -351,7 +348,6 @@ msgid "Close all"
 msgstr "أغلق الكل"
 
 #: qml/Components/SharingPicker.qml:54
-#, fuzzy
 msgid "Preview Share Item"
 msgstr "معاينة الملف المشارك"
 
@@ -424,7 +420,7 @@ msgstr "طوارئ"
 
 #: qml/Greeter/PromptList.qml:126
 msgid "Passphrase"
-msgstr "العبارة السرية"
+msgstr "كلمة السر"
 
 #: qml/Greeter/PromptList.qml:126
 msgid "Passcode"
@@ -440,11 +436,11 @@ msgstr "ابحث…"
 
 #: qml/Launcher/PullToRefreshScopeStyle.qml:56
 msgid "Pull to refresh…"
-msgstr "اسحب للتحديث..."
+msgstr "اسحب للتحديث…"
 
 #: qml/Launcher/PullToRefreshScopeStyle.qml:61
 msgid "Release to refresh…"
-msgstr "حرّر للتحديث..."
+msgstr "حرّر للتحديث…"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -477,9 +473,9 @@ msgstr[5] "%1 ساعة"
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
-msgstr[0] "أقل من دقيقة (%1)"
-msgstr[1] "دقيقة واحدة (%1)"
-msgstr[2] "دقيقتان (%1)"
+msgstr[0] "%1 دقيقة"
+msgstr[1] "دقيقة واحدة"
+msgstr[2] "دقيقتان"
 msgstr[3] "%1 دقائق"
 msgstr[4] "%1 دقيقة"
 msgstr[5] "%1 دقيقة"
@@ -541,7 +537,6 @@ msgid "Reply"
 msgstr "رد"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:209
-#, fuzzy
 msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr "عاود الاتصال"
@@ -634,7 +629,7 @@ msgstr "تخطى"
 
 #: qml/Wizard/Pages/30-wifi.qml:31
 msgid "Connect to Wi‑Fi"
-msgstr "اتصل بالواي فاي"
+msgstr "اتصل بالإنترنت"
 
 #: qml/Wizard/Pages/30-wifi.qml:139
 msgid "Connected"
@@ -735,7 +730,7 @@ msgstr "ابدأ"
 #: qml/Wizard/Pages/passcode-confirm.qml:43
 #: qml/Wizard/Pages/passcode-desktop.qml:104
 msgid "Confirm passcode"
-msgstr "تأكيد الرمز السري"
+msgstr "تأكيد كلمة السر"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgid "Incorrect passcode."
@@ -757,7 +752,7 @@ msgstr "أدخل 4 أرقام لإعداد الرمز السري"
 #: qml/Wizard/Pages/passcode-desktop.qml:84
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
-msgstr "اختر الرمز السري"
+msgstr "اختر كلمة السر"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:139
 msgid "Passcode too short"
