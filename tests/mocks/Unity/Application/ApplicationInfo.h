@@ -107,6 +107,8 @@ public:
     MirSurfaceListInterface* surfaceList() const override { return m_surfaceList; }
     MirSurfaceListInterface* promptSurfaceList() const override { return m_promptSurfaceList; }
     int surfaceCount() const override { return m_surfaceList->count(); }
+    void setVisible(bool visible) override { m_visible = visible; }
+    bool visible() const override { return m_visible; }
 
     //////
     // internal mock stuff
@@ -151,6 +153,7 @@ private:
     bool m_manualSurfaceCreation{false};
     Mir::ShellChrome m_shellChrome{Mir::NormalChrome};
     QUrl m_qmlFilePath;
+    bool m_visible{true};
 };
 
 Q_DECLARE_METATYPE(ApplicationInfo*)

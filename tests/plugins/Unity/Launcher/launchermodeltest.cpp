@@ -135,6 +135,8 @@ public:
     MirSurfaceListInterface* promptSurfaceList() const override { return nullptr; }
     int surfaceCount() const override { return m_surfaces->count(); }
     void setSurfaces(MockSurfaceList* surfaces) { m_surfaces = surfaces; Q_EMIT surfaceCountChanged(m_surfaces->count()); }
+    void setVisible(bool visible) override { m_visible = visible; }
+    bool visible() const override { return m_visible; }
     void close() override {}
 
     // Methods used for mocking (not in the interface)
@@ -143,6 +145,7 @@ private:
     QString m_appId;
     bool m_focused;
     MockSurfaceList *m_surfaces;
+    bool m_visible{true};
 };
 
 // This is a mock, specifically to test the LauncherModel
