@@ -18,6 +18,11 @@
 
 #include "plugin.h"
 #include "Lights.h"
+#include "HfdLights.h"
+#include "LegacyLights.h"
+
+// libandroid-properties
+#include <hybris/properties/properties.h>
 
 #include <QtQml/qqml.h>
 
@@ -25,7 +30,21 @@ static QObject *lights_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
     Q_UNUSED(engine)
     Q_UNUSED(scriptEngine)
-    return new Lights();
+
+    bool use_hfd = false;
+    char buffer[20];
+    auto result = property_get("ro.build.version.sdk", buffer, "0");
+    if (result) {
+        auto sdkVersion = QString(buffer).toInt();
+        if (sdkVersion >= 27 || sdkVersion == 0) {
+            use_hfd = true;
+        }
+    }
+    if (use_hfd) {
+        return new HfdLights();
+    } else {
+        return new LegacyLights();
+    }
 }
 
 void LightsPlugin::registerTypes(const char *uri)
