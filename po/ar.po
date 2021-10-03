@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-29 11:42-0600\n"
-"PO-Revision-Date: 2021-08-30 11:15+0000\n"
+"PO-Revision-Date: 2021-10-03 05:18+0000\n"
 "Last-Translator: HEROBRINE7GAMER <tapermeerkat77@gmail.com>\n"
 "Language-Team: Arabic <https://translate.ubports.com/projects/ubports/lomiri/"
 "ar/>\n"
@@ -39,7 +39,7 @@ msgstr "كلمة المرور غير صحيحة، الرجاء المحاولة 
 
 #: plugins/LightDM/Greeter.cpp:270
 msgid "Log In"
-msgstr "لِج"
+msgstr "سجل الدخول"
 
 #: plugins/LightDM/Greeter.cpp:270
 msgid "Retry"
@@ -47,7 +47,7 @@ msgstr "حاول مجدداً"
 
 #: plugins/LightDM/UsersModel.cpp:157
 msgid "Login"
-msgstr "لِج"
+msgstr "سجل الدخول"
 
 #: plugins/LightDM/UsersModel.cpp:165
 msgid "Guest Session"
