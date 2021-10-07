@@ -53,6 +53,7 @@ FocusScope {
         if (surface) {
             surfaceContainer.surface = surface;
             d.liveSurface = surface.live;
+            d.surfaceSeenLive = d.liveSurface;
             d.hadSurface = false;
             surfaceInitTimer.start();
         } else {
@@ -70,7 +71,12 @@ FocusScope {
         property bool liveSurface: false;
         property var con: Connections {
             target: root.surface
-            onLiveChanged: d.liveSurface = root.surface.live
+            onLiveChanged: {
+                d.liveSurface = root.surface.live;
+                if (d.liveSurface) {
+                    d.surfaceSeenLive = true;
+                }
+            }
         }
         // using liveSurface instead of root.surface.live because with the latter
         // this expression is not reevaluated when root.surface changes
@@ -101,6 +107,7 @@ FocusScope {
         // might show the UI accommodating due to surface resizes on startup.
         // Remove this when possible
         property bool surfaceInitialized: false
+        property bool surfaceSeenLive: false
 
         readonly property bool supportsSurfaceResize:
                 application &&
@@ -251,6 +258,7 @@ FocusScope {
                 name: "splashScreen"
                 when:
                      !d.hadSurface && (!root.surface || !d.surfaceInitialized)
+                     && (d.liveSurface || !d.surfaceSeenLive)
                      &&
                      screenshotImage.status !== Image.Ready
             },
@@ -283,8 +291,9 @@ FocusScope {
                 when:
                       // The surface died while the application is running. It must have been closed
                       // by the shell or the application decided to destroy it by itself
-                      root.surface && d.surfaceInitialized && !d.liveSurface
-                      && d.applicationState === ApplicationInfoInterface.Running
+                      root.surface && (d.surfaceInitialized || d.surfaceSeenLive) && !d.liveSurface
+                      && (d.applicationState === ApplicationInfoInterface.Running
+                       || d.applicationState === ApplicationInfoInterface.Starting)
             }
         ]
 
