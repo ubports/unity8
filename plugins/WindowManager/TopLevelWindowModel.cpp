@@ -317,10 +317,11 @@ void TopLevelWindowModel::onSurfaceDied(unityapi::MirSurfaceInterface *surface)
 
     auto application = m_windowModel[i].application;
 
-    // can't be starting if it already has a surface
-    Q_ASSERT(application->state() != unityapi::ApplicationInfoInterface::Starting);
+    DEBUG_MSG << " application->name()=" << application->name()
+              << " application->state()=" << application->state();
 
-    if (application->state() == unityapi::ApplicationInfoInterface::Running) {
+    if (application->state() == unityapi::ApplicationInfoInterface::Running
+        || application->state() == unityapi::ApplicationInfoInterface::Starting) {
         m_windowModel[i].removeOnceSurfaceDestroyed = true;
     } else {
         // assume it got killed by the out-of-memory daemon.
