@@ -20,7 +20,6 @@
 #define UNITY_LIGHTS_H
 
 #include <QtCore/QObject>
-#include <QDBusInterface>
 #include <QtGui/QColor>
 
 class Lights: public QObject

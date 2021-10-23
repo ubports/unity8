@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2021 UBports Foundation.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,8 +21,6 @@
 #define UNITY_LEGACYLIGHTS_H
 
 #include <QtCore/QObject>
-#include <QDBusInterface>
-#include <QtGui/QColor>
 #include "Lights.h"
 
 struct light_device_t;

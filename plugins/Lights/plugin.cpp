@@ -32,7 +32,7 @@ static QObject *lights_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
     Q_UNUSED(scriptEngine)
 
     bool use_hfd = false;
-    char buffer[20];
+    char buffer[PROP_VALUE_MAX];
     auto result = property_get("ro.build.version.sdk", buffer, "0");
     if (result) {
         auto sdkVersion = QString(buffer).toInt();

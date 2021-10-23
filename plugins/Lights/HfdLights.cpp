@@ -18,14 +18,13 @@
 
 #include "HfdLights.h"
 #include <QtCore/QDebug>
-#include <QProcess>
 #include <QDBusArgument>
 #include <QDBusConnection>
 #include <iostream>
 
-extern "C" {
-#include <string.h>
-}
+#define HFD_SERVICE_NAME "com.lomiri.hfd"
+#define HFD_SERVICE_PATH "/com/lomiri/hfd"
+#define HFD_SERVICE_INTERFACE "com.lomiri.hfd.Leds"
 
 HfdLights::HfdLights(QObject* parent)
   : Lights(parent)
