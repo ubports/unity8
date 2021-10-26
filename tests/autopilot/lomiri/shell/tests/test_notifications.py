@@ -129,7 +129,7 @@ class InteractiveNotificationBase(NotificationsBase):
         icon_path = self._get_icon_path('avatars/anna_olsson.png')
         actions = [("action_id", "dummy")]
         hints = [
-            ("x-canonical-switch-to-application", "true"),
+            ("x-lomiri-switch-to-application", "true"),
             ("x-canonical-secondary-icon", "dialer")
         ]
 
@@ -162,9 +162,9 @@ class InteractiveNotificationBase(NotificationsBase):
         summary = "Theatre at Ferria Stadium"
         body = "at Ferria Stadium in Bilbao, Spain\n07578545317"
         hints = [
-            ("x-canonical-snap-decisions", "true"),
-            ("x-canonical-non-shaped-icon", "true"),
-            ("x-canonical-private-affirmative-tint", "true")
+            ("x-lomiri-snap-decisions", "true"),
+            ("x-lomiri-non-shaped-icon", "true"),
+            ("x-lomiri-private-affirmative-tint", "true")
         ]
 
         actions = [
@@ -204,10 +204,10 @@ class InteractiveNotificationBase(NotificationsBase):
         body = "Frank would like to send you the file: essay.pdf"
         icon_path = "sync-idle"
         hints = [
-            ("x-canonical-snap-decisions", "true"),
-            ("x-canonical-non-shaped-icon", "true"),
-            ("x-canonical-private-affirmative-tint", "true"),
-            ("x-canonical-private-rejection-tint", "true"),
+            ("x-lomiri-snap-decisions", "true"),
+            ("x-lomiri-non-shaped-icon", "true"),
+            ("x-lomiri-private-affirmative-tint", "true"),
+            ("x-lomiri-private-rejection-tint", "true"),
         ]
 
         actions = [
@@ -252,10 +252,10 @@ class InteractiveNotificationBase(NotificationsBase):
         body = "Frank would like to send you the file: essay.pdf"
         icon_path = "sync-idle"
         hints = [
-            ("x-canonical-snap-decisions", "true"),
-            ("x-canonical-non-shaped-icon", "true"),
-            ("x-canonical-private-affirmative-tint", "true"),
-            ("x-canonical-private-rejection-tint", "true"),
+            ("x-lomiri-snap-decisions", "true"),
+            ("x-lomiri-non-shaped-icon", "true"),
+            ("x-lomiri-private-affirmative-tint", "true"),
+            ("x-lomiri-private-rejection-tint", "true"),
         ]
 
         actions = [

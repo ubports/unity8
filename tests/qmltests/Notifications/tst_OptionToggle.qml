@@ -56,7 +56,7 @@ Row {
     function addSnapDecisionNotification() {
         var n = {
             type: Notification.SnapDecision,
-            hints: {"x-canonical-private-affirmative-tint": "true"},
+            hints: {"x-lomiri-private-affirmative-tint": "true"},
             summary: "Incoming call",
             body: "Frank Zappa\n+44 (0)7736 027340",
             icon: "../../tests/graphics/avatars/funky.png",
@@ -150,7 +150,7 @@ Row {
             {
                 tag: "Snap Decision with secondary icon, button-tint and OptionToggle",
                 type: Notification.SnapDecision,
-                hints: {"x-canonical-private-affirmative-tint": "true"},
+                hints: {"x-lomiri-private-affirmative-tint": "true"},
                 summary: "Incoming call",
                 body: "Frank Zappa\n+44 (0)7736 027340",
                 icon: "../../tests/graphics/avatars/funky.png",

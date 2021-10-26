@@ -688,7 +688,7 @@ Rectangle {
         function addSnapDecisionNotification() {
             var n = {
                 type: Notification.SnapDecision,
-                hints: {"x-canonical-private-affirmative-tint": "true"},
+                hints: {"x-lomiri-private-affirmative-tint": "true"},
                 summary: "Tom Ato",
                 body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
                 icon: Qt.resolvedUrl("../graphics/avatars/funky.png"),

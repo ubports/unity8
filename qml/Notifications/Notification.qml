@@ -282,7 +282,7 @@ StyledItem {
                     objectName: "icon"
                     width: units.gu(6)
                     height: width
-                    shaped: notification.hints["x-canonical-non-shaped-icon"] !== "true"
+                    shaped: notification.hints["x-lomiri-non-shaped-icon"] !== "true"
                     visible: iconSource !== "" && type !== Notification.Confirmation
                 }
 
@@ -357,7 +357,7 @@ StyledItem {
                 objectName: "centeredIcon"
                 width: units.gu(4)
                 height: width
-                shaped: notification.hints["x-canonical-non-shaped-icon"] !== "true"
+                shaped: notification.hints["x-lomiri-non-shaped-icon"] !== "true"
                 fileSource: icon.fileSource
                 visible: fileSource !== "" && type === Notification.Confirmation
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -462,8 +462,8 @@ StyledItem {
                                 objectName: "notify_oot_button" + index
                                 width: oneOverTwoCase.width
                                 text: oneOverTwoLoaderTop.actionLabel
-                                outline: notification.hints["x-canonical-private-affirmative-tint"] !== "true"
-                                color: notification.hints["x-canonical-private-affirmative-tint"] === "true" ? theme.palette.normal.positive
+                                outline: notification.hints["x-lomiri-private-affirmative-tint"] !== "true"
+                                color: notification.hints["x-lomiri-private-affirmative-tint"] === "true" ? theme.palette.normal.positive
                                                                                                              : theme.name == "Lomiri.Components.Themes.SuruDark" ? "#888"
                                                                                                                                                                  : "#666"
                                 onClicked: notification.notification.invokeAction(oneOverTwoLoaderTop.actionId)
@@ -493,8 +493,8 @@ StyledItem {
                                     objectName: "notify_oot_button" + index
                                     width: oneOverTwoCase.width / 2 - spacing / 2
                                     text: oneOverTwoLoaderBottom.actionLabel
-                                    outline: notification.hints["x-canonical-private-rejection-tint"] !== "true"
-                                    color: index == 1 && notification.hints["x-canonical-private-rejection-tint"] === "true" ? theme.palette.normal.negative
+                                    outline: notification.hints["x-lomiri-private-rejection-tint"] !== "true"
+                                    color: index == 1 && notification.hints["x-lomiri-private-rejection-tint"] === "true" ? theme.palette.normal.negative
                                                                                                                              : theme.name == "Lomiri.Components.Themes.SuruDark" ? "#888"
                                                                                                                                                                                  : "#666"
                                     onClicked: notification.notification.invokeAction(oneOverTwoLoaderBottom.actionId)
@@ -555,17 +555,17 @@ StyledItem {
                                 objectName: "notify_button" + index
                                 width: buttonRow.width / 2 - spacing / 2
                                 text: loader.actionLabel
-                                outline: (index == 0 && notification.hints["x-canonical-private-affirmative-tint"] !== "true") ||
-                                         (index == 1 && notification.hints["x-canonical-private-rejection-tint"] !== "true")
+                                outline: (index == 0 && notification.hints["x-lomiri-private-affirmative-tint"] !== "true") ||
+                                         (index == 1 && notification.hints["x-lomiri-private-rejection-tint"] !== "true")
                                 color: {
                                     var result = "#666";
                                     if (theme.name == "Lomiri.Components.Themes.SuruDark") {
                                         result = "#888"
                                     }
-                                    if (index == 0 && notification.hints["x-canonical-private-affirmative-tint"] === "true") {
+                                    if (index == 0 && notification.hints["x-lomiri-private-affirmative-tint"] === "true") {
                                         result = theme.palette.normal.positive;
                                     }
-                                    if (index == 1 && notification.hints["x-canonical-private-rejection-tint"] === "true") {
+                                    if (index == 1 && notification.hints["x-lomiri-private-rejection-tint"] === "true") {
                                         result = theme.palette.normal.negative;
                                     }
                                     return result;
