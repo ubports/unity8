@@ -26,20 +26,12 @@ extern "C" {
 
 Lights::Lights(QObject* parent)
   : QObject(parent),
-    m_lightDevice(0),
     m_color("blue"),
     m_state(Lights::Off),
     m_onMs(1000),
     m_offMs(3000)
 {
-}
 
-Lights::~Lights()
-{
-    if (m_lightDevice) {
-        hw_device_t* device = (hw_device_t*) m_lightDevice;
-        device->close(device);
-    }
 }
 
 void Lights::setState(Lights::State newState)
@@ -105,62 +97,5 @@ void Lights::setOffMillisec(int offMs)
         m_offMs = offMs;
         Q_EMIT offMillisecChanged(m_offMs);
         // FIXME: update the property if the light is already on
-    }
-}
-
-bool Lights::init()
-{
-    if (m_lightDevice) {
-        return true;
-    }
-
-    int err;
-    hw_module_t* module;
-
-    err = hw_get_module(LIGHTS_HARDWARE_MODULE_ID, (hw_module_t const**)&module);
-    if (err == 0) {
-        hw_device_t* device;
-        err = module->methods->open(module, LIGHT_ID_NOTIFICATIONS, &device);
-        if (err == 0) {
-            m_lightDevice = (light_device_t*)device;
-            turnOff();
-            return true;
-        } else {
-            qWarning() << "Failed to access notification lights";
-        }
-    } else {
-        qWarning() << "Failed to initialize lights hardware.";
-    }
-    return false;
-}
-
-void Lights::turnOn()
-{
-    // pulse
-    light_state_t state;
-    memset(&state, 0, sizeof(light_state_t));
-    state.color = m_color.rgba();
-    state.flashMode = LIGHT_FLASH_TIMED;
-    state.flashOnMS = m_onMs;
-    state.flashOffMS = m_offMs;
-    state.brightnessMode = BRIGHTNESS_MODE_USER;
-
-    if (m_lightDevice->set_light(m_lightDevice, &state) != 0) {
-         qWarning() << "Failed to turn the light off";
-    }
-}
-
-void Lights::turnOff()
-{
-    light_state_t state;
-    memset(&state, 0, sizeof(light_state_t));
-    state.color = 0x00000000;
-    state.flashMode = LIGHT_FLASH_NONE;
-    state.flashOnMS = 0;
-    state.flashOffMS = 0;
-    state.brightnessMode = 0;
-
-    if (m_lightDevice->set_light(m_lightDevice, &state) != 0) {
-        qWarning() << "Failed to turn the light off";
     }
 }
