@@ -272,7 +272,7 @@ class DisplayRotationLock(fixtures.Fixture):
     def _is_rotation_lock_enabled(self):
         command = [
             'gsettings', 'get',
-            'com.ubuntu.touch.system',
+            'com.lomiri.touch.system',
             'rotation-lock'
         ]
         output = subprocess.check_output(command, universal_newlines=True)
@@ -282,7 +282,7 @@ class DisplayRotationLock(fixtures.Fixture):
         value_string = 'true' if value else 'false'
         command = [
             'gsettings', 'set',
-            'com.ubuntu.touch.system',
+            'com.lomiri.touch.system',
             'rotation-lock', value_string
         ]
         subprocess.check_output(command)
