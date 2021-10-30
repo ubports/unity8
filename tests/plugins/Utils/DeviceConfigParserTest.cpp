@@ -44,6 +44,7 @@ private Q_SLOTS:
         QCOMPARE(p.landscapeOrientation(), Qt::LandscapeOrientation);
         QCOMPARE(p.invertedLandscapeOrientation(), Qt::InvertedLandscapeOrientation);
         QCOMPARE(p.supportsMultiColorLed(), true);
+        QCOMPARE(p.topMargin(), 0);
     }
 
     void testCustomFile() {
@@ -54,6 +55,7 @@ private Q_SLOTS:
         s.setValue("SupportedOrientations", QStringList() << "Portrait" << "Landscape" << "InvertedLandscape");
         s.setValue("PrimaryOrientation", "InvertedLandscape");
         s.setValue("SupportsMultiColorLed", false);
+        s.setValue("TopMargin", 20);
         s.sync();
 
         qputenv("XDG_CONFIG_HOME", dir.path().toUtf8());
@@ -67,6 +69,7 @@ private Q_SLOTS:
         QCOMPARE(p.landscapeOrientation(), Qt::LandscapeOrientation);
         QCOMPARE(p.invertedLandscapeOrientation(), Qt::InvertedLandscapeOrientation);
         QCOMPARE(p.supportsMultiColorLed(), false);
+        QCOMPARE(p.topMargin(), 20);
     }
 
 };
