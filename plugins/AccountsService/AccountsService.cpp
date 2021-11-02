@@ -27,7 +27,7 @@
 #define IFACE_ACCOUNTS_USER          QStringLiteral("org.freedesktop.Accounts.User")
 #define IFACE_UBUNTU_INPUT           QStringLiteral("com.ubuntu.AccountsService.Input")
 #define IFACE_UBUNTU_SECURITY        QStringLiteral("com.ubuntu.AccountsService.SecurityPrivacy")
-#define IFACE_UBUNTU_SECURITY_OLD    QStringLiteral("com.ubuntu.touch.AccountsService.SecurityPrivacy")
+#define IFACE_UBUNTU_SECURITY_OLD    QStringLiteral("com.lomiri.touch.AccountsService.SecurityPrivacy")
 #define IFACE_LOMIRI                  QStringLiteral("com.lomiri.shell.AccountsService")
 #define IFACE_LOMIRI_PRIVATE          QStringLiteral("com.lomiri.shell.AccountsService.Private")
 
