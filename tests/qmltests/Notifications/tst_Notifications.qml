@@ -130,7 +130,7 @@ Item {
             var n = component.createObject("notification", {"nid": index++,
                                                             "type": Notification.Confirmation,
                                                             "hints": {"x-canonical-non-shaped-icon": "true",
-                                                                      "x-canonical-value-bar-tint": "true"},
+                                                                      "x-lomiri-value-bar-tint": "true"},
                                                             "summary": "Confirmation notification",
                                                             "body": "High Volume",
                                                             "icon": "image://theme/audio-volume-high",
@@ -370,7 +370,7 @@ Item {
                     nid: 8
                     type: Notification.Confirmation
                     hints: {"x-canonical-non-shaped-icon": "true",
-                            "x-canonical-value-bar-tint" : "true"}
+                            "x-lomiri-value-bar-tint" : "true"}
                     summary: ""
                     body: "High Volume"
                     icon: "image://theme/audio-volume-high"
