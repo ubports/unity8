@@ -15,7 +15,7 @@ Build-Depends:
  g++:native,
  gdb,
  graphviz,
- gsettings-ubuntu-schemas (>= 0.0.2+14.10.20140815),
+ lomiri-schemas,
  libandroid-properties-dev,
  libevdev-dev,
  libgeonames-dev (>= 0.2),
@@ -135,7 +135,7 @@ Depends:
  qml-module-qtquick-xmllistmodel,
  qml-module-qtsysteminfo,
 # qtdeclarative5-lomiri-telephony0.1,
- qtmir, 
+ qtmir,
 # lomiri-system-settings (>= 0.4),
  lomiri-launcher-impl-13,
  lomiri-common (= ${source:Version}),
@@ -239,7 +239,7 @@ Pre-Depends:
  ${misc:Pre-Depends},
 Depends:
  accountsservice-ubuntu-schemas (>= 0.0.7),
- gsettings-ubuntu-schemas (>= 0.0.2+14.10.20140815),
+ lomiri-schemas,
  libhardware2,
  qml-module-gsettings1.0,
  qml-module-qtmultimedia,
@@ -254,20 +254,6 @@ Description: Lomiri 8 private libs
  .
  This package contains the private libraries for QML and other components
  only used by the shell.
-
-Package: lomiri-schemas
-Architecture: all
-Multi-Arch: foreign
-Depends:
- ${misc:Depends},
-Replaces:
- lomiri-schemas (>= 7.3.1+14.10.20140915),
-Breaks:
- lomiri-schemas (>= 7.3.1+14.10.20140915),
-Description: Lomiri 8 schemas
- The Lomiri 8 shell is the primary user interface for Lomiri devices.
- .
- This package contains the configuration schemas used by lomiri.
 
 Package: lomiri-doc
 Section: doc
