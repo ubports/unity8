@@ -197,7 +197,7 @@ private Q_SLOTS:
 
         QCOMPARE(session.enableLauncherWhileLocked(), true);
         ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
-                                                    "com.ubuntu.AccountsService.SecurityPrivacy",
+                                                    "com.lomiri.AccountsService.SecurityPrivacy",
                                                     "EnableLauncherWhileLocked",
                                                     dbusVariant(false)));
         QTRY_COMPARE(session.enableLauncherWhileLocked(), false);
@@ -209,7 +209,7 @@ private Q_SLOTS:
 
         QCOMPARE(session.enableIndicatorsWhileLocked(), true);
         ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
-                                                    "com.ubuntu.AccountsService.SecurityPrivacy",
+                                                    "com.lomiri.AccountsService.SecurityPrivacy",
                                                     "EnableIndicatorsWhileLocked",
                                                     dbusVariant(false)));
         QTRY_COMPARE(session.enableIndicatorsWhileLocked(), false);
@@ -221,7 +221,7 @@ private Q_SLOTS:
 
         QCOMPARE(session.passwordDisplayHint(), AccountsService::Keyboard);
         ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
-                                                    "com.ubuntu.AccountsService.SecurityPrivacy",
+                                                    "com.lomiri.AccountsService.SecurityPrivacy",
                                                     "PasswordDisplayHint",
                                                     dbusVariant(AccountsService::Numeric)));
         QTRY_COMPARE(session.passwordDisplayHint(), AccountsService::Numeric);

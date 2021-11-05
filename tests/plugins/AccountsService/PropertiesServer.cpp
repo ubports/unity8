@@ -130,9 +130,9 @@ void PropertiesServer::Reset()
     m_properties["com.lomiri.shell.AccountsService.Private"]["FailedLogins"] = 0;
     m_properties["com.lomiri.touch.AccountsService.SecurityPrivacy"]["StatsWelcomeScreen"] = true;
     m_properties["com.ubuntu.AccountsService.Input"]["MousePrimaryButton"] = "right";
-    m_properties["com.ubuntu.AccountsService.SecurityPrivacy"]["EnableLauncherWhileLocked"] = true;
-    m_properties["com.ubuntu.AccountsService.SecurityPrivacy"]["EnableIndicatorsWhileLocked"] = true;
-    m_properties["com.ubuntu.AccountsService.SecurityPrivacy"]["PasswordDisplayHint"] = AccountsService::Keyboard;
+    m_properties["com.lomiri.AccountsService.SecurityPrivacy"]["EnableLauncherWhileLocked"] = true;
+    m_properties["com.lomiri.AccountsService.SecurityPrivacy"]["EnableIndicatorsWhileLocked"] = true;
+    m_properties["com.lomiri.AccountsService.SecurityPrivacy"]["PasswordDisplayHint"] = AccountsService::Keyboard;
     m_properties["com.ubuntu.location.providers.here.AccountsService"]["LicenseAccepted"] = false;
     m_properties["com.ubuntu.location.providers.here.AccountsService"]["LicenseBasePath"] = "";
     m_properties["org.freedesktop.Accounts.User"]["BackgroundFile"] = "";
