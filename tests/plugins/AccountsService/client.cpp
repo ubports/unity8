@@ -258,7 +258,7 @@ private Q_SLOTS:
         m_mousePrimaryButtonSpy.clear();
 
         ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
-                                                    "com.ubuntu.AccountsService.Input",
+                                                    "com.lomiri.AccountsService.Input",
                                                     "MousePrimaryButton",
                                                     dbusVariant("left")));
 
@@ -274,7 +274,7 @@ private Q_SLOTS:
         m_mousePrimaryButtonSpy.clear();
 
         ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
-                                                    "com.ubuntu.AccountsService.Input",
+                                                    "com.lomiri.AccountsService.Input",
                                                     "MousePrimaryButton",
                                                     dbusVariant("NOPE")));
 

@@ -25,7 +25,7 @@
 #include <glib.h>
 
 #define IFACE_ACCOUNTS_USER          QStringLiteral("org.freedesktop.Accounts.User")
-#define IFACE_UBUNTU_INPUT           QStringLiteral("com.ubuntu.AccountsService.Input")
+#define IFACE_UBUNTU_INPUT           QStringLiteral("com.lomiri.AccountsService.Input")
 #define IFACE_UBUNTU_SECURITY        QStringLiteral("com.lomiri.AccountsService.SecurityPrivacy")
 #define IFACE_UBUNTU_SECURITY_OLD    QStringLiteral("com.lomiri.touch.AccountsService.SecurityPrivacy")
 #define IFACE_LOMIRI                  QStringLiteral("com.lomiri.shell.AccountsService")

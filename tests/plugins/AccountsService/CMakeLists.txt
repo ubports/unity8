@@ -5,7 +5,7 @@ macro(make_dbus_class NAME INTERFACE)
 endmacro(make_dbus_class)
 
 make_dbus_class(Accounts org.freedesktop.Accounts)
-make_dbus_class(Input com.ubuntu.AccountsService.Input)
+make_dbus_class(Input com.lomiri.AccountsService.Input)
 make_dbus_class(Properties org.freedesktop.DBus.Properties)
 make_dbus_class(SecurityPrivacy com.lomiri.touch.AccountsService.SecurityPrivacy)
 make_dbus_class(Location com.ubuntu.location.providers.here.AccountsService)
