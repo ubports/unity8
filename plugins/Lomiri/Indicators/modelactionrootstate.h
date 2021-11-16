@@ -24,12 +24,12 @@
 
 #include "rootstateparser.h"
 
-class UnityMenuModel;
+class AyatanaMenuModel;
 
 class LOMIRIINDICATORS_EXPORT ModelActionRootState : public RootStateObject
 {
     Q_OBJECT
-    Q_PROPERTY(UnityMenuModel* menu READ menu WRITE setMenu NOTIFY menuChanged)
+    Q_PROPERTY(AyatanaMenuModel* menu READ menu WRITE setMenu NOTIFY menuChanged)
     Q_PROPERTY(QString secondaryAction READ secondaryAction NOTIFY secondaryActionChanged)
     Q_PROPERTY(QString scrollAction READ scrollAction NOTIFY scrollActionChanged)
     Q_PROPERTY(QString submenuAction READ submenuAction NOTIFY submenuActionChanged)
@@ -37,8 +37,8 @@ public:
     ModelActionRootState(QObject *parent = 0);
     virtual ~ModelActionRootState();
 
-    UnityMenuModel* menu() const;
-    void setMenu(UnityMenuModel* menu);
+    AyatanaMenuModel* menu() const;
+    void setMenu(AyatanaMenuModel* menu);
 
     QString secondaryAction() const;
     QString scrollAction() const;
@@ -62,7 +62,7 @@ private:
     void updateActionState();
     void updateOtherActions();
 
-    UnityMenuModel* m_menu;
+    AyatanaMenuModel* m_menu;
     QString m_secondaryAction;
     QString m_scrollAction;
     QString m_submenuAction;

@@ -18,7 +18,7 @@
  */
 
 #include "lomirimenumodelcache.h"
-#include <unitymenumodel.h>
+#include <ayatanamenumodel.h>
 
 #include <QQmlEngine>
 
@@ -37,15 +37,15 @@ LomiriMenuModelCache::LomiriMenuModelCache(QObject* parent)
 {
 }
 
-QSharedPointer<UnityMenuModel> LomiriMenuModelCache::model(const QByteArray& path)
+QSharedPointer<AyatanaMenuModel> LomiriMenuModelCache::model(const QByteArray& path)
 {
     if (m_registry.contains(path))
         return m_registry[path];
 
-    UnityMenuModel* model = new UnityMenuModel;
+    AyatanaMenuModel* model = new AyatanaMenuModel;
     QQmlEngine::setObjectOwnership(model, QQmlEngine::CppOwnership);
 
-    QSharedPointer<UnityMenuModel> menuModel(model);
+    QSharedPointer<AyatanaMenuModel> menuModel(model);
 
     // Keep a shared pointer (rather than weak pointer which would cause the
     // model to be deleted when all shared pointers we give out are deleted).

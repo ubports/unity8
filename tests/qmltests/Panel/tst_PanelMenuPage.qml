@@ -28,7 +28,7 @@ Item {
     width: units.gu(40)
     height: units.gu(70)
 
-    UnityMenuModel {
+    AyatanaMenuModel {
         id: lomiriMenuModel
         modelData: fullMenuData
     }

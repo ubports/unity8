@@ -18,7 +18,7 @@
 #include "sharedlomirimenumodel.h"
 #include "lomirimenumodelcache.h"
 
-#include <unitymenumodel.h>
+#include <ayatanamenumodel.h>
 
 SharedLomiriMenuModel::SharedLomiriMenuModel(QObject* parent)
     : QObject(parent)
@@ -67,7 +67,7 @@ void SharedLomiriMenuModel::setActions(const QVariantMap& actions)
     }
 }
 
-UnityMenuModel* SharedLomiriMenuModel::model() const
+AyatanaMenuModel* SharedLomiriMenuModel::model() const
 {
     return m_model ? m_model.data() : nullptr;
 }
@@ -80,7 +80,7 @@ void SharedLomiriMenuModel::initialize()
             Q_EMIT modelChanged();
         }
     } else {
-        QSharedPointer<UnityMenuModel> model = LomiriMenuModelCache::singleton()->model(m_menuObjectPath);
+        QSharedPointer<AyatanaMenuModel> model = LomiriMenuModelCache::singleton()->model(m_menuObjectPath);
 
         if (model != m_model) {
             if (model->busName() != m_busName) model->setBusName(m_busName);

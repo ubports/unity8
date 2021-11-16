@@ -22,7 +22,7 @@ import QMenuModel 0.1
 
 QtObject {
     property string name
-    property UnityMenuModel model
+    property AyatanaMenuModel model
     property int index
 
     readonly property var state: undefined
