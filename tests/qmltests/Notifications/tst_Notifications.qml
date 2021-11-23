@@ -42,7 +42,7 @@ Item {
             var component = Qt.createComponent("Notification.qml")
             var n = component.createObject("notification", {"nid": index++,
                                                             "type": Notification.SnapDecision,
-                                                            "hints": {"x-canonical-private-affirmative-tint": "true"},
+                                                            "hints": {"x-lomiri-private-affirmative-tint": "true"},
                                                             "summary": "Theatre at Ferria Stadium",
                                                             "body": "at Ferria Stadium in Bilbao, Spain\n07578545317",
                                                             "icon": "",
@@ -72,7 +72,7 @@ Item {
             var component = Qt.createComponent("Notification.qml")
             var n = component.createObject("notification", {"nid": index++,
                                                             "type": Notification.Ephemeral,
-                                                            "hints": {"x-canonical-non-shaped-icon": "true"},
+                                                            "hints": {"x-lomiri-non-shaped-icon": "true"},
                                                             "summary": "Contacts",
                                                             "body": "Synchronised contacts-database &amp; cloud-storage.",
                                                             "icon": Qt.resolvedUrl("../../graphics/applicationIcons/contacts-app.png"),
@@ -86,7 +86,7 @@ Item {
             var component = Qt.createComponent("Notification.qml")
             var n = component.createObject("notification", {"nid": index++,
                                                             "type": Notification.Ephemeral,
-                                                            "hints": {"x-canonical-non-shaped-icon": "false"},
+                                                            "hints": {"x-lomiri-non-shaped-icon": "false"},
                                                             "summary": "Photo upload completed",
                                                             "body": "",
                                                             "icon": Qt.resolvedUrl("../../graphics/applicationIcons/facebook.png"),
@@ -114,7 +114,7 @@ Item {
             var component = Qt.createComponent("Notification.qml")
             var n = component.createObject("notification", {"nid": index++,
                                                             "type": Notification.Confirmation,
-                                                            "hints": {"x-canonical-non-shaped-icon": "true"},
+                                                            "hints": {"x-lomiri-non-shaped-icon": "true"},
                                                             "summary": "Confirmation notification",
                                                             "body": "",
                                                             "icon": "image://theme/audio-volume-medium",
@@ -129,7 +129,7 @@ Item {
             var component = Qt.createComponent("Notification.qml")
             var n = component.createObject("notification", {"nid": index++,
                                                             "type": Notification.Confirmation,
-                                                            "hints": {"x-canonical-non-shaped-icon": "true",
+                                                            "hints": {"x-lomiri-non-shaped-icon": "true",
                                                                       "x-canonical-value-bar-tint": "true"},
                                                             "summary": "Confirmation notification",
                                                             "body": "High Volume",
@@ -145,7 +145,7 @@ Item {
             var component = Qt.createComponent("Notification.qml")
             var n = component.createObject("notification", {"nid": index++,
                                                             "type": Notification.SnapDecision,
-                                                            "hints": {"x-canonical-private-affirmative-tint": "true"},
+                                                            "hints": {"x-lomiri-private-affirmative-tint": "true"},
                                                             "summary": "SIM PIN screen",
                                                             "body": "Enter your PIN to unlock the SIM",
                                                             "fullscreen": true})
@@ -296,7 +296,7 @@ Item {
                 Notification {
                     nid: 2
                     type: Notification.Ephemeral
-                    hints: {"x-canonical-private-affirmative-tint": "false",
+                    hints: {"x-lomiri-private-affirmative-tint": "false",
                             "sound-file": "dummy.ogg",
                             "suppress-sound": "true"}
                     summary: "New comment successfully published"
@@ -309,7 +309,7 @@ Item {
                 Notification {
                     nid: 3
                     type: Notification.Interactive
-                    hints: {"x-canonical-private-affirmative-tint": "false",
+                    hints: {"x-lomiri-private-affirmative-tint": "false",
                             "sound-file": "dummy.ogg"}
                     summary: "Interactive notification"
                     body: "This is a notification that can be clicked"
@@ -321,7 +321,7 @@ Item {
                 Notification {
                     nid: 4
                     type: Notification.SnapDecision
-                    hints: {"x-canonical-private-affirmative-tint": "false",
+                    hints: {"x-lomiri-private-affirmative-tint": "false",
                             "sound-file": "dummy.ogg"}
                     summary: "Bro Coly"
                     body: "At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
@@ -334,7 +334,7 @@ Item {
                 Notification {
                     nid: 5
                     type: Notification.Ephemeral
-                    hints: {"x-canonical-private-affirmative-tint": "false",
+                    hints: {"x-lomiri-private-affirmative-tint": "false",
                             "sound-file": "dummy.ogg"}
                     summary: "Cole Raby"
                     body: "I did not expect it to be that late."
@@ -346,8 +346,8 @@ Item {
                 Notification {
                     nid: 6
                     type: Notification.Ephemeral
-                    hints: {"x-canonical-private-affirmative-tint": "false",
-                            "x-canonical-non-shaped-icon": "true"}
+                    hints: {"x-lomiri-private-affirmative-tint": "false",
+                            "x-lomiri-non-shaped-icon": "true"}
                     summary: "Contacts"
                     body: "Synchronised contacts-database with cloud-storage."
                     icon: "image://theme/contacts-app"
@@ -358,7 +358,7 @@ Item {
                 Notification {
                     nid: 7
                     type: Notification.Confirmation
-                    hints: {"x-canonical-non-shaped-icon": "true"}
+                    hints: {"x-lomiri-non-shaped-icon": "true"}
                     summary: ""
                     body: ""
                     icon: "image://theme/audio-volume-medium"
@@ -369,7 +369,7 @@ Item {
                 Notification {
                     nid: 8
                     type: Notification.Confirmation
-                    hints: {"x-canonical-non-shaped-icon": "true",
+                    hints: {"x-lomiri-non-shaped-icon": "true",
                             "x-canonical-value-bar-tint" : "true"}
                     summary: ""
                     body: "High Volume"
@@ -381,7 +381,7 @@ Item {
                 Notification {
                     nid: 9
                     type: Notification.SnapDecision
-                    hints: {"x-canonical-private-affirmative-tint": "true"}
+                    hints: {"x-lomiri-private-affirmative-tint": "true"}
                     summary: "Theatre at Ferria Stadium"
                     body: "at Ferria Stadium in Bilbao, Spain\n07578545317"
                     icon: ""
@@ -394,7 +394,7 @@ Item {
                 Notification {
                     nid: 10
                     type: Notification.SnapDecision
-                    hints: {"x-canonical-private-affirmative-tint": "true"}
+                    hints: {"x-lomiri-private-affirmative-tint": "true"}
                     summary: "SIM PIN screen"
                     body: "Enter your PIN to unlock the SIM"
                     fullscreen: true
