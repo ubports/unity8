@@ -25,6 +25,8 @@ FocusScope {
 
     property bool alphanumeric: true
     property bool interactive: true
+    property bool loginError: false
+    property bool hasKeyboard: false
 
     signal responded(string text)
     signal clicked()
@@ -99,11 +101,13 @@ FocusScope {
             property var model
             readonly property bool isPrompt: false
 
-            color: model.type === LightDMService.prompts.Message ? theme.palette.normal.raisedText
+            color: model.type === LightDMService.prompts.Message ? theme.palette.normal.raisedSecondaryText
                                                           : theme.palette.normal.negative
             fontSize: "small"
             textFormat: Text.PlainText
             text: model.text
+
+            visible: model.type === LightDMService.prompts.Message
 
             Behavior on opacity { UbuntuNumberAnimation {} }
             opacity: 0
@@ -123,6 +127,8 @@ FocusScope {
             isAlphanumeric: model.text !== "" || root.alphanumeric
             isPrompt: model.type !== LightDMService.prompts.Button
             isSecret: model.type === LightDMService.prompts.Secret
+            loginError: root.loginError
+            hasKeyboard: root.hasKeyboard
             text: model.text ? model.text : (isAlphanumeric ? i18n.tr("Passphrase") : i18n.tr("Passcode"))
 
             onClicked: root.clicked()

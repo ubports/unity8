@@ -40,11 +40,12 @@ Rectangle {
     height: units.gu(100)
 
     property var tryShell: null
+    property string ldmUserMode: "single"
 
     Binding {
         target: LightDMController
         property: "userMode"
-        value: "single"
+        value: ldmUserMode
     }
 
     QtObject {
@@ -240,6 +241,23 @@ Rectangle {
                     LightDM.Greeter.showGreeter();
                 }
             }
+
+
+            Label {
+                text: "LightDM mock mode"
+            }
+
+            ListItem.ItemSelector {
+                anchors { left: parent.left; right: parent.right }
+                activeFocusOnPress: false
+                model: ["single", "single-passphrase", "single-pin", "full"]
+                onSelectedIndexChanged: {
+                    testCase.tearDown();
+                    ldmUserMode = model[selectedIndex];
+                    testCase.init();
+                }
+            }
+
             Label {
                 text: "Physical Orientation:"
             }
@@ -1482,7 +1500,8 @@ Rectangle {
             touchFlick(shell, touchX, touchY, orientedShell.width * 0.1, touchY);
 
             // wait until the animation has finished
-            tryCompare(greeter, "shown", false);
+            if (LightDMController.userMode == "single")
+                tryCompare(greeter, "shown", false);
             waitForRendering(greeter);
         }
 
@@ -1493,8 +1512,10 @@ Rectangle {
             tryCompare(greeter, "fullyShown", true);
         }
 
-        function loadShell(deviceName) {
+        function loadShell(deviceName, userMode = "single") {
             applicationArguments.deviceName = deviceName;
+
+            ldmUserMode = userMode; // Set the mode for LightDM ( default is "single" )
 
             // reload our test subject to get it in a fresh state once again
             var orientedShell = createTemporaryObject(shellComponent, shellRect);
@@ -1696,6 +1717,26 @@ Rectangle {
 
             MockInputDeviceBackend.removeDevice("/touchscreen");
             tryCompare(tutorial, "paused", true);
+        }
+
+        /* Check if the keyboard icon on the greeter screen
+         * is only shown when an external keyboard is attached
+         * and if it is hidden when no keyboard is attached.
+         */
+        function test_greeterKeyboardDetection() {
+            var orientedShell = loadShell("mako", "single-passphrase");
+            MockInputDeviceBackend.removeDevice("/indicator_kbd0");
+
+            var greeterPrompt = findChild(orientedShell, "greeterPrompt0");
+            verify(greeterPrompt);
+
+            var promptKeyboard = findChild(greeterPrompt, "greeterPromptKeyboardButton");
+
+            tryCompare(promptKeyboard, "visible", false);
+
+            MockInputDeviceBackend.addMockDevice("/kbd0", InputInfo.Keyboard);
+
+            tryCompare(promptKeyboard, "visible", true);
         }
     }
 }

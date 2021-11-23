@@ -21,18 +21,18 @@ Item {
     BorderImage {
         anchors {
             fill: parent
-            topMargin: -units.gu(1)
+            topMargin: -units.gu(3)
             leftMargin: -units.gu(1.5)
             rightMargin: -units.gu(1.5)
             bottomMargin: -units.gu(1.5)
         }
         source: "../graphics/dropshadow2gu.sci"
-        opacity: 0.35
+        opacity: 0
     }
 
     UbuntuShape {
         anchors.fill: parent
         aspect: UbuntuShape.Flat
-        backgroundColor: theme.palette.normal.raised
+        backgroundColor: "transparent"
     }
 }
