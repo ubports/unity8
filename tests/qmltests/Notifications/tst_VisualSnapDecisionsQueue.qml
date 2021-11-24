@@ -66,7 +66,7 @@ Row {
         {
             type: Notification.SnapDecision,
             hints: {"x-canonical-private-button-tint": "true",
-                    "x-canonical-non-shaped-icon": "true"},
+                    "x-lomiri-non-shaped-icon": "true"},
             summary: "Incoming file",
             body: "Frank would like to send you the file: essay.pdf.",
             icon: "image://theme/search",
@@ -76,7 +76,7 @@ Row {
         {
             type: Notification.SnapDecision,
             hints: {"x-canonical-private-button-tint": "true",
-                    "x-canonical-non-shaped-icon": "true"},
+                    "x-lomiri-non-shaped-icon": "true"},
             summary: "Authentication error",
             body: "Please authorise Lomiri to access your Google account.",
             icon: "image://theme/search",
@@ -86,7 +86,7 @@ Row {
         {
             type: Notification.SnapDecision,
             hints: {"x-canonical-private-button-tint": "true",
-                    "x-canonical-non-shaped-icon": "true"},
+                    "x-lomiri-non-shaped-icon": "true"},
             summary: "Morning alarm",
             body: "It's 6:30... time to get up!",
             icon: "image://theme/search",
