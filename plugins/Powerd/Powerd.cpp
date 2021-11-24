@@ -54,7 +54,7 @@ Powerd::Powerd(QObject* parent)
                                       this,
                                       SLOT(handleDisplayPowerStateChange(int, int)));
 
-    systemSettings = g_settings_new("com.ubuntu.touch.system");
+    systemSettings = g_settings_new("com.lomiri.touch.system");
     g_signal_connect(systemSettings, "changed::auto-brightness", G_CALLBACK(autoBrightnessChanged), lomiriScreen);
     g_signal_connect(systemSettings, "changed::activity-timeout", G_CALLBACK(activityTimeoutChanged), lomiriScreen);
     g_signal_connect(systemSettings, "changed::dim-timeout", G_CALLBACK(dimTimeoutChanged), lomiriScreen);
