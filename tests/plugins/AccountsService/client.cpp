@@ -185,7 +185,7 @@ private Q_SLOTS:
 
         QCOMPARE(session.statsWelcomeScreen(), true);
         ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
-                                                    "com.ubuntu.touch.AccountsService.SecurityPrivacy",
+                                                    "com.lomiri.touch.AccountsService.SecurityPrivacy",
                                                     "StatsWelcomeScreen",
                                                     dbusVariant(false)));
         QTRY_COMPARE(session.statsWelcomeScreen(), false);
