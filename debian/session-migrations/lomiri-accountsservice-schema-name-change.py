@@ -22,10 +22,10 @@ import dbus
 import os
 import sys
 
-from typing import Tuple
+from typing import List, Tuple
 from pathlib import Path
 
-AS_SCHEMAS: list[Tuple[str, str]] = [
+AS_SCHEMAS: List[Tuple[str, str]] = [
     ('com.canonical.unity.AccountsService', 'com.lomiri.shell.AccountsService'),
     ('com.canonical.unity.AccountsService.Private', 'com.lomiri.shell.AccountsService.Private'),
 ]
