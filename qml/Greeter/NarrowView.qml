@@ -214,11 +214,6 @@ FocusScope {
         anchors.topMargin: - height * (1 - coverPage.showProgress)
                            - ( inputMethodRect.height )
 
-        Rectangle {
-            color: "#7A111111" // matches Passphrase background
-            anchors.fill: parent
-        }
-
         Label {
             text: i18n.tr("Cancel")
             anchors.left: parent.left
