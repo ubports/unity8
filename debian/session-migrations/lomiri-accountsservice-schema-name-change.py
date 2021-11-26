@@ -22,10 +22,10 @@ import dbus
 import os
 import sys
 
-from typing import Tuple
+from typing import List, Tuple
 from pathlib import Path
 
-AS_SCHEMAS: list[Tuple[str, str]] = [
+AS_SCHEMAS: List[Tuple[str, str]] = [
     ('com.canonical.unity.AccountsService', 'com.lomiri.shell.AccountsService'),
     ('com.canonical.unity.AccountsService.Private', 'com.lomiri.shell.AccountsService.Private'),
 ]
@@ -52,7 +52,7 @@ for (src_schema, dst_schema) in AS_SCHEMAS:
     print(f'Migrating {src_schema} to {dst_schema}')
 
     src_props = user_properties_if.GetAll(src_schema)
-    for (key, value) in src_props:
+    for (key, value) in src_props.items():
         user_properties_if.Set(dst_schema, key, value)
 
 marker_path.parent.mkdir(mode=0o755, parents=True, exist_ok=True)
