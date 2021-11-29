@@ -19,7 +19,7 @@
 #include "lomirimenumodelcache.h"
 
 #include <QtTest>
-#include <unitymenumodel.h>
+#include <ayatanamenumodel.h>
 
 class SharedLomiriMenuModelTest : public QObject
 {

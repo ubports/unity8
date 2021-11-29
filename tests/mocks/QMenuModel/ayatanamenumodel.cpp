@@ -16,7 +16,7 @@
  * Authors: Nick Dedekind <nick.dedekind@canonical.com>
  */
 
-#include "unitymenumodel.h"
+#include "ayatanamenumodel.h"
 
 #include <QTimer>
 
@@ -36,22 +36,22 @@ enum MenuRoles {
     HasSubmenuRole
 };
 
-UnityMenuModel::UnityMenuModel(QObject *parent)
+AyatanaMenuModel::AyatanaMenuModel(QObject *parent)
  : QAbstractListModel(parent)
  , m_rowCountStatus(NoRequestMade)
 {
 }
 
-UnityMenuModel::~UnityMenuModel()
+AyatanaMenuModel::~AyatanaMenuModel()
 {
 }
 
-QVariant UnityMenuModel::modelData() const
+QVariant AyatanaMenuModel::modelData() const
 {
     return m_modelData;
 }
 
-void UnityMenuModel::setModelData(const QVariant& data)
+void AyatanaMenuModel::setModelData(const QVariant& data)
 {
     beginResetModel();
 
@@ -61,7 +61,7 @@ void UnityMenuModel::setModelData(const QVariant& data)
     endResetModel();
 }
 
-void UnityMenuModel::insertRow(int row, const QVariant& data)
+void AyatanaMenuModel::insertRow(int row, const QVariant& data)
 {
     row = qMin(row, m_modelData.count());
 
@@ -72,12 +72,12 @@ void UnityMenuModel::insertRow(int row, const QVariant& data)
     endInsertRows();
 }
 
-void UnityMenuModel::appendRow(const QVariant& data)
+void AyatanaMenuModel::appendRow(const QVariant& data)
 {
     insertRow(m_modelData.count(), data);
 }
 
-void UnityMenuModel::removeRow(int row)
+void AyatanaMenuModel::removeRow(int row)
 {
     if (row < 0 || m_modelData.count() <= row) {
         return;
@@ -90,51 +90,51 @@ void UnityMenuModel::removeRow(int row)
     endRemoveRows();
 }
 
-QByteArray UnityMenuModel::busName() const
+QByteArray AyatanaMenuModel::busName() const
 {
     return m_busName;
 }
 
-void UnityMenuModel::setBusName(const QByteArray &busName)
+void AyatanaMenuModel::setBusName(const QByteArray &busName)
 {
     this->m_busName = busName;
 }
 
-QVariantMap UnityMenuModel::actions() const
+QVariantMap AyatanaMenuModel::actions() const
 {
     return m_actions;
 }
 
-void UnityMenuModel::setActions(const QVariantMap &actions)
+void AyatanaMenuModel::setActions(const QVariantMap &actions)
 {
     this->m_actions = actions;
 }
 
-QByteArray UnityMenuModel::menuObjectPath() const
+QByteArray AyatanaMenuModel::menuObjectPath() const
 {
     return m_menuObjectPath;
 }
 
-void UnityMenuModel::setMenuObjectPath(const QByteArray &path)
+void AyatanaMenuModel::setMenuObjectPath(const QByteArray &path)
 {
     this->m_menuObjectPath = path;
 }
 
-ActionStateParser* UnityMenuModel::actionStateParser() const
+ActionStateParser* AyatanaMenuModel::actionStateParser() const
 {
     return nullptr;
 }
 
-void UnityMenuModel::setActionStateParser(ActionStateParser*)
+void AyatanaMenuModel::setActionStateParser(ActionStateParser*)
 {
 }
 
-QString UnityMenuModel::nameOwner() const
+QString AyatanaMenuModel::nameOwner() const
 {
     return QString("");
 }
 
-int UnityMenuModel::rowCount(const QModelIndex&) const
+int AyatanaMenuModel::rowCount(const QModelIndex&) const
 {
     // Fake the rowCount to be 0 for a while (100ms)
     // This emulates menus in real world that don't load immediately
@@ -142,7 +142,7 @@ int UnityMenuModel::rowCount(const QModelIndex&) const
         return 0;
 
     if (m_rowCountStatus == NoRequestMade) {
-        UnityMenuModel *that = const_cast<UnityMenuModel*>(this);
+        AyatanaMenuModel *that = const_cast<AyatanaMenuModel*>(this);
         that->m_rowCountStatus = TimerRunning;
         QTimer::singleShot(100, that, [that] {
             that->beginInsertRows(QModelIndex(), 0, that->m_modelData.count() - 1);
@@ -155,12 +155,12 @@ int UnityMenuModel::rowCount(const QModelIndex&) const
     return m_modelData.count();
 }
 
-int UnityMenuModel::columnCount(const QModelIndex&) const
+int AyatanaMenuModel::columnCount(const QModelIndex&) const
 {
     return 1;
 }
 
-QVariant UnityMenuModel::data(const QModelIndex &index, int role) const
+QVariant AyatanaMenuModel::data(const QModelIndex &index, int role) const
 {
     QVariantMap v = rowData(index.row());
     QString roleName = roleNames()[role];
@@ -187,7 +187,7 @@ QVariant UnityMenuModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-QVariantMap UnityMenuModel::rowData(int row) const
+QVariantMap AyatanaMenuModel::rowData(int row) const
 {
     if (m_modelData.count() <= row) {
         return QVariantMap();
@@ -196,23 +196,23 @@ QVariantMap UnityMenuModel::rowData(int row) const
     return vRow["rowData"].toMap();
 }
 
-QVariant UnityMenuModel::subMenuData(int row) const
+QVariant AyatanaMenuModel::subMenuData(int row) const
 {
     QVariantMap v = m_modelData.value(row, QVariantMap()).toMap();
     return v.value("submenu", QVariant());
 }
 
-QModelIndex UnityMenuModel::index(int row, int column, const QModelIndex&) const
+QModelIndex AyatanaMenuModel::index(int row, int column, const QModelIndex&) const
 {
     return createIndex(row, column);
 }
 
-QModelIndex UnityMenuModel::parent(const QModelIndex &) const
+QModelIndex AyatanaMenuModel::parent(const QModelIndex &) const
 {
     return QModelIndex();
 }
 
-QHash<int, QByteArray> UnityMenuModel::roleNames() const
+QHash<int, QByteArray> AyatanaMenuModel::roleNames() const
 {
     QHash<int, QByteArray> names;
 
@@ -233,7 +233,7 @@ QHash<int, QByteArray> UnityMenuModel::roleNames() const
     return names;
 }
 
-QObject * UnityMenuModel::submenu(int position, QQmlComponent*)
+QObject * AyatanaMenuModel::submenu(int position, QQmlComponent*)
 {
     if (position < 0 || m_modelData.count() < position) {
         return nullptr;
@@ -245,10 +245,10 @@ QObject * UnityMenuModel::submenu(int position, QQmlComponent*)
 
     QVariant submenuData = subMenuData(position);
     if (submenuData.type() == (int)QMetaType::QVariantList) {
-        UnityMenuModel*& model = submenus[position];
+        AyatanaMenuModel*& model = submenus[position];
         if (!model) {
-            model = new UnityMenuModel(this);
-            connect(model, &UnityMenuModel::activated, this, &UnityMenuModel::activated);
+            model = new AyatanaMenuModel(this);
+            connect(model, &AyatanaMenuModel::activated, this, &AyatanaMenuModel::activated);
         }
         if (model->modelData() != submenuData) {
             model->setModelData(submenuData);
@@ -259,12 +259,12 @@ QObject * UnityMenuModel::submenu(int position, QQmlComponent*)
     return nullptr;
 }
 
-bool UnityMenuModel::loadExtendedAttributes(int, const QVariantMap &)
+bool AyatanaMenuModel::loadExtendedAttributes(int, const QVariantMap &)
 {
     return false;
 }
 
-QVariant UnityMenuModel::get(int row, const QByteArray &role)
+QVariant AyatanaMenuModel::get(int row, const QByteArray &role)
 {
     static QHash<QByteArray, int> roles;
     if (roles.isEmpty()) {
@@ -276,7 +276,7 @@ QVariant UnityMenuModel::get(int row, const QByteArray &role)
     return data(index(row, 0), roles[role]);
 }
 
-void UnityMenuModel::activate(int row, const QVariant&)
+void AyatanaMenuModel::activate(int row, const QVariant&)
 {
     QVariantMap vModelData = m_modelData.value(row, QVariantMap()).toMap();
     QVariantMap rd = vModelData["rowData"].toMap();
@@ -292,19 +292,19 @@ void UnityMenuModel::activate(int row, const QVariant&)
     Q_EMIT activated(rd[roleNames()[ActionRole]].toString());
 }
 
-void UnityMenuModel::aboutToShow(int index)
+void AyatanaMenuModel::aboutToShow(int index)
 {
     Q_EMIT aboutToShowCalled(index);
 }
 
-void UnityMenuModel::changeState(int, const QVariant&)
+void AyatanaMenuModel::changeState(int, const QVariant&)
 {
 }
 
-void UnityMenuModel::registerAction(UnityMenuAction*)
+void AyatanaMenuModel::registerAction(AyatanaMenuAction*)
 {
 }
 
-void UnityMenuModel::unregisterAction(UnityMenuAction*)
+void AyatanaMenuModel::unregisterAction(AyatanaMenuAction*)
 {
 }

@@ -274,21 +274,21 @@ IndicatorDelegate {
         }
     }
 
-    UnityMenuAction {
+    AyatanaMenuAction {
         id: secondaryAction
         model: menuModel
         index: 0
         name: rootActionState.secondaryAction
     }
 
-    UnityMenuAction {
+    AyatanaMenuAction {
         id: scrollAction
         model: menuModel
         index: 0
         name: rootActionState.scrollAction
     }
 
-    UnityMenuAction {
+    AyatanaMenuAction {
         id: submenuAction
         model: menuModel
         index: 0

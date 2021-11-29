@@ -28,7 +28,7 @@ Item {
 
     MessageMenuItemFactory {
         id: factory
-        menuModel: UnityMenuModel {}
+        menuModel: AyatanaMenuModel {}
         menuIndex: 0
         width: parent.width
     }

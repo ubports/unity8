@@ -22,7 +22,7 @@
 
 #include <QtTest>
 #include <QDebug>
-#include <unitymenumodel.h>
+#include <ayatanamenumodel.h>
 
 #include <functional>
 #include <chrono>
@@ -34,7 +34,7 @@ private Q_SLOTS:
 
     void init()
     {
-        m_model = new UnityMenuModel();
+        m_model = new AyatanaMenuModel();
         m_headChanged = false;
         m_tailChanged = false;
     }
@@ -88,10 +88,10 @@ private Q_SLOTS:
         LomiriMenuModelStack stack;
         connect(&stack, &LomiriMenuModelStack::tailChanged, this, &LomiriMenuModelStackTest::onTailChanged);
 
-        QList<UnityMenuModel*> models;
+        QList<AyatanaMenuModel*> models;
 
         int count = 0;
-        auto foreachChild = [&](UnityMenuModel* child, int childIndex) {
+        auto foreachChild = [&](AyatanaMenuModel* child, int childIndex) {
             stack.push(child, childIndex);
             QCOMPARE(stack.count(), count+1);
 
@@ -139,7 +139,7 @@ private Q_SLOTS:
 
         LomiriMenuModelStack stack;
 
-        auto foreachChild = [&](UnityMenuModel* child, int childIndex) {
+        auto foreachChild = [&](AyatanaMenuModel* child, int childIndex) {
             stack.push(child, childIndex);
         };
         recuseSubmenus(m_model, subMenuIndex, foreachChild);
@@ -172,9 +172,9 @@ private:
         return rows;
     }
 
-    void recuseSubmenus(UnityMenuModel* model, int childIndex, std::function<void(UnityMenuModel*, int)> func) {
-        UnityMenuModel* parent = model;
-        UnityMenuModel* child = model;
+    void recuseSubmenus(AyatanaMenuModel* model, int childIndex, std::function<void(AyatanaMenuModel*, int)> func) {
+        AyatanaMenuModel* parent = model;
+        AyatanaMenuModel* child = model;
 
         while(child) {
             if (func) {
@@ -182,7 +182,7 @@ private:
             }
 
             parent = child;
-            child = qobject_cast<UnityMenuModel*>(parent->submenu(childIndex));
+            child = qobject_cast<AyatanaMenuModel*>(parent->submenu(childIndex));
         }
 
     }
@@ -192,7 +192,7 @@ private Q_SLOTS:
     void onTailChanged() { m_tailChanged = true; }
 
 public:
-    UnityMenuModel* m_model;
+    AyatanaMenuModel* m_model;
     bool m_headChanged;
     bool m_tailChanged;
 };

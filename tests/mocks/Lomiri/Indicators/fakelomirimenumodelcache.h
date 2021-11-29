@@ -29,7 +29,7 @@ public:
 
     static FakeLomiriMenuModelCache* singleton();
 
-    QSharedPointer<UnityMenuModel> model(const QByteArray& path) override;
+    QSharedPointer<AyatanaMenuModel> model(const QByteArray& path) override;
     bool contains(const QByteArray& path) override;
 
     Q_INVOKABLE void setCachedModelData(const QByteArray& path,
@@ -39,7 +39,7 @@ public:
 
 private:
     static QPointer<FakeLomiriMenuModelCache> theFakeCache;
-    QHash<QByteArray, QSharedPointer<UnityMenuModel>> m_models;
+    QHash<QByteArray, QSharedPointer<AyatanaMenuModel>> m_models;
 };
 
 #endif // FAKELOMIRIMENUMODELCACHE_H

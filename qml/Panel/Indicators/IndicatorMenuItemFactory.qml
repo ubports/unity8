@@ -244,7 +244,7 @@ Item {
                 onSyncTriggered: menuModel.changeState(menuIndex, value)
             }
 
-            UnityMenuAction {
+            AyatanaMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalSyncAction", "")
@@ -454,7 +454,7 @@ Item {
             checked: serverChecked
             highlightWhenPressed: false
 
-            property var subtitleAction: UnityMenuAction {
+            property var subtitleAction: AyatanaMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalSubtitleAction", "")
@@ -725,7 +725,7 @@ Item {
             property var extendedData: menuData && menuData.ext || undefined
             property bool serverChecked: menuData && menuData.isToggled || false
 
-            property var strengthAction: UnityMenuAction {
+            property var strengthAction: AyatanaMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalWifiApStrengthAction", "")
@@ -788,42 +788,42 @@ Item {
             property var extendedData: menuData && menuData.ext || undefined
             highlightWhenPressed: false
 
-            property var statusLabelAction: UnityMenuAction {
+            property var statusLabelAction: AyatanaMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xLomiriModemStatusLabelAction", "")
             }
             statusText: statusLabelAction.valid ? statusLabelAction.state : ""
 
-            property var statusIconAction: UnityMenuAction {
+            property var statusIconAction: AyatanaMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xLomiriModemStatusIconAction", "")
             }
             statusIcon: statusIconAction.valid ? statusIconAction.state : ""
 
-            property var connectivityIconAction: UnityMenuAction {
+            property var connectivityIconAction: AyatanaMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xLomiriModemConnectivityIconAction", "")
             }
             connectivityIcon: connectivityIconAction.valid ? connectivityIconAction.state : ""
 
-            property var simIdentifierLabelAction: UnityMenuAction {
+            property var simIdentifierLabelAction: AyatanaMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xLomiriModemSimIdentifierLabelAction", "")
             }
             simIdentifierText: simIdentifierLabelAction.valid ? simIdentifierLabelAction.state : ""
 
-            property var roamingAction: UnityMenuAction {
+            property var roamingAction: AyatanaMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xLomiriModemRoamingAction", "")
             }
             roaming: roamingAction.valid ? roamingAction.state : false
 
-            property var unlockAction: UnityMenuAction {
+            property var unlockAction: AyatanaMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xLomiriModemLockedAction", "")
@@ -937,17 +937,17 @@ Item {
             property int menuIndex: -1
             property var extendedData: menuData && menuData.ext || undefined
 
-            property var playAction: UnityMenuAction {
+            property var playAction: AyatanaMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalPlayAction", "")
             }
-            property var nextAction: UnityMenuAction {
+            property var nextAction: AyatanaMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalNextAction", "")
             }
-            property var previousAction: UnityMenuAction {
+            property var previousAction: AyatanaMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalPreviousAction", "")

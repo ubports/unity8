@@ -19,7 +19,7 @@
 
 #include "modelactionrootstate.h"
 
-#include <unitymenumodel.h>
+#include <ayatanamenumodel.h>
 #include <QtTest>
 #include <gio/gio.h>
 
@@ -30,7 +30,7 @@ private Q_SLOTS:
 
     void testDeleteRootActionState()
     {
-        UnityMenuModel* menuModel = new UnityMenuModel();
+        AyatanaMenuModel* menuModel = new AyatanaMenuModel();
         ActionStateParser* originalParser = menuModel->actionStateParser();
         ModelActionRootState* rootState = new ModelActionRootState();
 
@@ -43,7 +43,7 @@ private Q_SLOTS:
 
     void testDeleteLomiriMenuModel()
     {
-        UnityMenuModel* menuModel = new UnityMenuModel();
+        AyatanaMenuModel* menuModel = new AyatanaMenuModel();
         ModelActionRootState* rootState = new ModelActionRootState();
 
         rootState->setMenu(menuModel);
