@@ -129,7 +129,7 @@ void PropertiesServer::Reset()
     m_properties["com.lomiri.shell.AccountsService"]["LauncherItems"] = QVariant::fromValue(QList<QVariantMap>());
     m_properties["com.lomiri.shell.AccountsService.Private"]["FailedLogins"] = 0;
     m_properties["com.lomiri.touch.AccountsService.SecurityPrivacy"]["StatsWelcomeScreen"] = true;
-    m_properties["com.ubuntu.AccountsService.Input"]["MousePrimaryButton"] = "right";
+    m_properties["com.lomiri.AccountsService.Input"]["MousePrimaryButton"] = "right";
     m_properties["com.lomiri.AccountsService.SecurityPrivacy"]["EnableLauncherWhileLocked"] = true;
     m_properties["com.lomiri.AccountsService.SecurityPrivacy"]["EnableIndicatorsWhileLocked"] = true;
     m_properties["com.lomiri.AccountsService.SecurityPrivacy"]["PasswordDisplayHint"] = AccountsService::Keyboard;
