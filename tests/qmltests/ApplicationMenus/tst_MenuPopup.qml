@@ -19,7 +19,7 @@ import QtTest 1.0
 import Lomiri.Components 1.3
 import Lomiri.Components.ListItems 1.3
 import QtMir.Application 0.1
-import QMenuModel 0.1
+import QMenuModel 1.0
 import Lomiri.SelfTest 0.1
 import Utils 0.1
 

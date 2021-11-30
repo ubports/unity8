@@ -21,7 +21,7 @@ import "../../qml/ApplicationMenus"
 import "../../qml/Panel"
 import "../../qml/Components/PanelState"
 
-import QMenuModel 0.1
+import QMenuModel 1.0
 import Lomiri.Indicators 0.1 as Indicators
 
 Item {
