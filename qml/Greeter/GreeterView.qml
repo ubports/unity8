@@ -494,19 +494,6 @@ FocusScope {
         }
     }
 
-    // FIXME: It's difficult to keep something tied closely to the OSK (bug
-    //        1616163).  But as a hack to avoid the background peeking out,
-    //        we add an extra Rectangle that just serves to hide the background
-    //        during OSK animations.
-    Rectangle {
-        visible: bottomBar.visible
-        height: inputMethodRect.height
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
-        color: UbuntuColors.porcelain
-    }
-
     states: [
         State {
             name: "phone"
