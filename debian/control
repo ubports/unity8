@@ -118,6 +118,7 @@ Package: lomiri
 Architecture: any
 Provides:
  indicator-renderer,
+ notification-daemon
 Depends:
  dmz-cursor-theme,
  gsettings-desktop-schemas,
