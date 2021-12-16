@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.4
-import QMenuModel 0.1
+import QMenuModel 1.0
 
 QtObject {
     id: actionGroup
@@ -31,7 +31,7 @@ QtObject {
     function action(actionName) {
         return Qt.createQmlObject("
             import QtQuick 2.4
-            import QMenuModel 0.1
+            import QMenuModel 1.0
 
             QtObject {
                 signal activated

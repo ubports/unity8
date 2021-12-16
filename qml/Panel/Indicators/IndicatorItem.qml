@@ -17,7 +17,7 @@
 import QtQuick 2.4
 import Lomiri.Components 1.3
 import Lomiri.Settings.Components 0.1
-import QMenuModel 0.1
+import QMenuModel 1.0
 
 IndicatorDelegate {
     id: root

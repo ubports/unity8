@@ -19,7 +19,7 @@ import Powerd 0.1
 import Lomiri.Components 1.3
 import Lomiri.Components.ListItems 1.3 as ListItem
 import Lomiri.Notifications 1.0
-import QMenuModel 0.1
+import QMenuModel 1.0
 import Utils 0.1
 import "../Components"
 

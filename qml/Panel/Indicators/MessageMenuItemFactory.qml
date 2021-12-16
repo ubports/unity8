@@ -21,7 +21,7 @@
 import QtQuick 2.4
 import Lomiri.Components 1.3
 import Lomiri.Settings.Menus 0.1 as Menus
-import QMenuModel 0.1 as QMenuModel
+import QMenuModel 1.0 as QMenuModel
 import Utils 0.1 as Utils
 
 Loader {

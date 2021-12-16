@@ -21,7 +21,7 @@ import Lomiri.Indicators 0.1 as Indicators
 import Lomiri.Components 1.3
 import Powerd 0.1
 import Lights 0.1
-import QMenuModel 0.1
+import QMenuModel 1.0
 import "../../../../qml/Panel/Indicators"
 
 Item {

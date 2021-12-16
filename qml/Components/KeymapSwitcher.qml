@@ -17,7 +17,7 @@
 import QtQuick 2.4
 import AccountsService 0.1
 import GlobalShortcut 1.0
-import QMenuModel 0.1
+import QMenuModel 1.0
 import QtMir.Application 0.1
 
 QtObject {
