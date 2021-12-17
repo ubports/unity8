@@ -34,10 +34,10 @@ static QObject* actionDataSingleton(QQmlEngine* engine, QJSEngine* scriptEngine)
 void QMenuModelPlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("QMenuModel"));
-    qmlRegisterUncreatableType<DBusEnums>(uri, 0, 1, "DBus",
+    qmlRegisterUncreatableType<DBusEnums>(uri, 1, 0, "DBus",
                                           "DBus is only a namespace");
-    qmlRegisterType<AyatanaMenuModel>(uri, 0, 1, "AyatanaMenuModel");
-    qmlRegisterType<ActionStateParser>(uri, 0, 1, "ActionStateParser");
+    qmlRegisterType<AyatanaMenuModel>(uri, 1, 0, "AyatanaMenuModel");
+    qmlRegisterType<ActionStateParser>(uri, 1, 0, "ActionStateParser");
 
-    qmlRegisterSingletonType<ActionData>(uri, 0, 1, "ActionData", actionDataSingleton);
+    qmlRegisterSingletonType<ActionData>(uri, 1, 0, "ActionData", actionDataSingleton);
 }

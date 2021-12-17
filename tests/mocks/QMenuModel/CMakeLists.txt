@@ -20,6 +20,6 @@ target_link_libraries(QMenuModelQml
 
 set_target_properties(QMenuModelQml PROPERTIES
                       OUTPUT_NAME qmenumodel
-                      VERSION 0)
+                      VERSION 1)
 
-add_lomiri_mock(QMenuModel 0.1 QMenuModel TARGETS QMenuModelQml)
+add_lomiri_mock(QMenuModel 1.0 QMenuModel.1 TARGETS QMenuModelQml)

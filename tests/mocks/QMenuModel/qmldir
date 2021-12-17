@@ -2,5 +2,5 @@ module QMenuModel
 plugin qmenumodel
 typeinfo QMenuModel.qmltypes
 
-QDBusActionGroup 0.1 QDBusActionGroup.qml
-AyatanaMenuAction 0.1 AyatanaMenuAction.qml
+QDBusActionGroup 1.0 QDBusActionGroup.qml
+AyatanaMenuAction 1.0 AyatanaMenuAction.qml
