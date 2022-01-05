@@ -4,7 +4,7 @@ set(TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../..)
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${INDICATORS_DIR}
-    ${TEST_DIR}/mocks/QMenuModel
+    ${TEST_DIR}/mocks/QMenuModel.1
     ${GLIB_INCLUDE_DIRS}
     ${GIO_INCLUDE_DIRS}
     )
@@ -41,6 +41,6 @@ endmacro(indicator_test)
 indicator_test(IndicatorsManager ADDITIONAL_LIBS IndicatorsQml)
 indicator_test(IndicatorsModel ADDITIONAL_LIBS IndicatorsQml)
 indicator_test(MenuContentActivator ADDITIONAL_CPPS ${INDICATORS_DIR}/menucontentactivator.cpp)
-indicator_test(LomiriMenuModelStack ADDITIONAL_CPPS ${TEST_DIR}/mocks/QMenuModel/ayatanamenumodel.cpp ${INDICATORS_DIR}/lomirimenumodelstack.cpp)
+indicator_test(LomiriMenuModelStack ADDITIONAL_CPPS ${TEST_DIR}/mocks/QMenuModel.1/ayatanamenumodel.cpp ${INDICATORS_DIR}/lomirimenumodelstack.cpp)
 indicator_test(RootActionState ADDITIONAL_LIBS IndicatorsQml)
 indicator_test(SharedLomiriMenuModel ADDITIONAL_LIBS IndicatorsQml)

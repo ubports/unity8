@@ -7,7 +7,7 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_SOURCE_DIR}/plugins/Lomiri/Indicators
-    ${CMAKE_SOURCE_DIR}/tests/mocks/QMenuModel
+    ${CMAKE_SOURCE_DIR}/tests/mocks/QMenuModel.1
 )
 
 set(IndicatorsFakeQml_SOURCES
@@ -33,7 +33,7 @@ target_link_libraries(IndicatorsFakeQml
 )
 
 set_target_properties(IndicatorsFakeQml PROPERTIES
-    INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${SHELL_INSTALL_QML}/mocks/QMenuModel"
+    INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${SHELL_INSTALL_QML}/mocks/QMenuModel.1"
 )
 
 add_lomiri_mock(Lomiri.Indicators 0.1 Lomiri/Indicators TARGETS IndicatorsFakeQml)
