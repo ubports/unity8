@@ -214,11 +214,6 @@ FocusScope {
         anchors.topMargin: - height * (1 - coverPage.showProgress)
                            - ( inputMethodRect.height )
 
-        Rectangle {
-            color: UbuntuColors.porcelain // matches OSK background
-            anchors.fill: parent
-        }
-
         Label {
             text: i18n.tr("Cancel")
             anchors.left: parent.left
@@ -228,7 +223,7 @@ FocusScope {
             verticalAlignment: Text.AlignVCenter
             font.weight: Font.Light
             fontSize: "small"
-            color: UbuntuColors.slate
+            color: theme.palette.normal.raisedSecondaryText
 
             AbstractButton {
                 anchors.fill: parent
@@ -248,7 +243,7 @@ FocusScope {
             verticalAlignment: Text.AlignVCenter
             font.weight: Font.Light
             fontSize: "small"
-            color: UbuntuColors.slate
+            color: theme.palette.normal.raisedSecondaryText
             // TODO: uncomment once bug 1616538 is fixed
             // visible: telepathyHelper.ready && telepathyHelper.emergencyCallsAvailable
             enabled: visible
