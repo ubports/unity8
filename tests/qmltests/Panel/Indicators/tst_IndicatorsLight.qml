@@ -109,7 +109,7 @@ Item {
         "empty" : "empty",
     }
 
-    // come from DBUS com.canonical.indicator.power
+    // come from DBUS org.ayatana.indicator.power
     property var batteryLevelDBusSignals: {
         "80":  {"battery-level": {'valid': true, 'state': 80}},
         "100": {"battery-level": {'valid': true, 'state': 100}}

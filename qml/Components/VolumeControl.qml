@@ -37,8 +37,8 @@ Item {
     QMenuModel.QDBusActionGroup {
         id: actionGroup
         busType: QMenuModel.DBus.SessionBus
-        busName: "com.canonical.indicator.sound"
-        objectPath: "/com/canonical/indicator/sound"
+        busName: "org.ayatana.indicator.sound"
+        objectPath: "/org/ayatana/indicator/sound"
 
         property variant actionObject: action("volume")
         // temporary workaround for lp:1623166

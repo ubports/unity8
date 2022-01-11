@@ -48,9 +48,9 @@ Item {
         id: timeModel
         objectName: "timeModel"
 
-        busName: "com.canonical.indicator.datetime"
-        actions: { "indicator": "/com/canonical/indicator/datetime" }
-        menuObjectPath: clock.visible ? "/com/canonical/indicator/datetime/phone" : ""
+        busName: "org.ayatana.indicator.datetime"
+        actions: { "indicator": "/org/ayatana/indicator/datetime" }
+        menuObjectPath: clock.visible ? "/org/ayatana/indicator/datetime/phone" : ""
     }
 
     Indicators.ModelActionRootState {

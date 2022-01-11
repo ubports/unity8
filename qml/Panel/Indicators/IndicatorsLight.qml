@@ -179,8 +179,8 @@ console.log("no support for Multicolor LED. " + indicatorState)
     // Existence of unread notifications is determined by checking for a specific icon name in a dbus signal.
     property var _actionGroup: QMenuModel.QDBusActionGroup {
         busType: 1
-        busName: "com.canonical.indicator.messages"
-        objectPath: "/com/canonical/indicator/messages"
+        busName: "org.ayatana.indicator.messages"
+        objectPath: "/org/ayatana/indicator/messages"
     }
 
     Indicators.ActionRootState {
@@ -196,8 +196,8 @@ console.log("no support for Multicolor LED. " + indicatorState)
     // See also system-settings battery plugin.
     property var _ipag: QMenuModel.QDBusActionGroup {
         busType: 1
-        busName: "com.canonical.indicator.power"
-        objectPath: "/com/canonical/indicator/power"
+        busName: "org.ayatana.indicator.power"
+        objectPath: "/org/ayatana/indicator/power"
         property variant batteryLevel: action("battery-level").state
         property variant deviceState: action("device-state").state
         Component.onCompleted: start()
