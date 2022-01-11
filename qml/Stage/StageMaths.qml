@@ -26,6 +26,7 @@ QtObject {
     property int nextInStack: 0
     property int sceneWidth: 0
     property int sideStageWidth: 0
+    property int sideStageHandleWidth: 0
     property int sideStageX: sceneWidth
     property bool animateX: false
 
@@ -87,6 +88,6 @@ QtObject {
     Behavior on itemX { enabled: root.animateX; LomiriNumberAnimation {duration: animationDuration} }
 
     readonly property int itemWidth: stage == ApplicationInfoInterface.MainStage ?
-                                     sideStageDelegate != null ? sideStageX : sceneWidth :
+                                     sideStageDelegate != null ? sideStageX - sideStageHandleWidth : sceneWidth :
                                      stage == ApplicationInfoInterface.SideStage ? sideStageWidth : sceneWidth
 }

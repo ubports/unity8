@@ -1,13 +1,13 @@
-# Gaelic; Scottish translation for lomiri
+# Gaelic; Scottish translation for unity8
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the lomiri package.
+# This file is distributed under the same license as the unity8 package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 # GunChleoc <fios@foramnagaidhlig.net>, 2014.
 msgid ""
 msgstr ""
-"Project-Id-Version: lomiri\n"
+"Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 12:15-0500\n"
+"POT-Creation-Date: 2021-01-29 11:42-0600\n"
 "PO-Revision-Date: 2016-04-08 18:34+0000\n"
 "Last-Translator: Akerbeltz <fios@akerbeltz.org>\n"
 "Language-Team: Fòram na Gàidhlig\n"
@@ -52,16 +52,16 @@ msgstr ""
 msgid "Guest Session"
 msgstr ""
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:49
-#: plugins/Lomiri/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:48
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Pin shortcut"
 msgstr "Prìnich ath-ghoirid"
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:55
+#: plugins/Unity/Launcher/launcheritem.cpp:54
 msgid "Quit"
 msgstr "Fàg an-seo"
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Unpin shortcut"
 msgstr "Neo-phrìnich an ath-ghoirid"
 
@@ -84,7 +84,7 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Clàraich a-mach"
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:284
 #: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
@@ -130,13 +130,19 @@ msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Ath-thòisich"
 
+#: qml/Components/Dialogs.qml:276
+#, fuzzy
+#| msgid "Takes a screenshot."
+msgid "Screenshot"
+msgstr "Togaidh seo glacadh-sgrìn."
+
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
 msgstr "Ath-ghoiridean a' mheur-chlàir"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Lomiri 8"
-msgstr "Lomiri 8"
+msgid "Lomiri"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -233,18 +239,6 @@ msgstr "Super + W"
 #| msgid "Open the launcher"
 msgid "Opens the Application Drawer."
 msgstr "Fosgail an lòinsear"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:207
-msgid "Scopes"
-msgstr "Sgòpaichean"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:214
-msgid "Super (Tap)"
-msgstr "Super (gnogag)"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:219
-msgid "Opens the Scopes home."
-msgstr "Fosglaidh seo dachaigh nan sgòpaichean."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
@@ -460,11 +454,19 @@ msgstr "Còd-faire"
 msgid "Select desktop environment"
 msgstr "Tagh àrainneachd an deasga"
 
-#: qml/Launcher/Drawer.qml:249
+#: qml/Launcher/Drawer.qml:250
 #, fuzzy
 #| msgid "Search"
 msgid "Search…"
 msgstr "Lorg"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:56
+msgid "Pull to refresh…"
+msgstr "Tarraing airson ath-nuadhachadh…"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:61
+msgid "Release to refresh…"
+msgstr "Leig às airson ath-nuadhachadh…"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -572,7 +574,7 @@ msgstr ""
 "Dèan slaodadh le trì corragan gus aplacaid a shlaodadh o uinneag gu uinneag "
 "eile"
 
-#: qml/Stage/Stage.qml:668
+#: qml/Stage/Stage.qml:671
 msgid "No running apps"
 msgstr ""
 
@@ -629,7 +631,7 @@ msgstr "Air adhart"
 #: qml/Wizard/Pages/10-welcome-update.qml:91
 #, fuzzy
 msgid "Welcome to "
-msgstr "Fàilte gu Lomiri"
+msgstr "Fàilte gu Ubuntu"
 
 #: qml/Wizard/Pages/10-welcome-update.qml:106
 msgid "We will make sure your device is ready to use "
@@ -728,10 +730,10 @@ msgstr ""
 #: qml/Wizard/Pages/79-system-update.qml:76
 #, fuzzy
 #| msgctxt "string identifying name of the update"
-#| msgid "Lomiri system"
+#| msgid "Ubuntu system"
 msgctxt "string identifying name of the update"
-msgid "Lomiri Touch system"
-msgstr "Siostam Lomiri"
+msgid "Ubuntu Touch system"
+msgstr "Siostam Ubuntu"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -752,8 +754,8 @@ msgid "Welcome Back"
 msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Lomiri"
-msgstr "Fàilte gu Lomiri"
+msgid "Welcome to Ubuntu"
+msgstr "Fàilte gu Ubuntu"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -881,7 +883,19 @@ msgstr "Facal-faire lag"
 msgid "Very weak password"
 msgstr "Facal-faire glè lag"
 
-#~ msgctxt "Button: Open the Lomiri Store"
+#~ msgid "Unity 8"
+#~ msgstr "Unity 8"
+
+#~ msgid "Scopes"
+#~ msgstr "Sgòpaichean"
+
+#~ msgid "Super (Tap)"
+#~ msgstr "Super (gnogag)"
+
+#~ msgid "Opens the Scopes home."
+#~ msgstr "Fosglaidh seo dachaigh nan sgòpaichean."
+
+#~ msgctxt "Button: Open the Ubuntu Store"
 #~ msgid "Store"
 #~ msgstr "Am bùth"
 
@@ -935,12 +949,6 @@ msgstr "Facal-faire glè lag"
 
 #~ msgid "Add a review"
 #~ msgstr "Cuir lèirmheas ris"
-
-#~ msgid "Pull to refresh…"
-#~ msgstr "Tarraing airson ath-nuadhachadh…"
-
-#~ msgid "Release to refresh…"
-#~ msgstr "Leig às airson ath-nuadhachadh…"
 
 #~ msgid "Enable location data"
 #~ msgstr "Cuir an comas dàta an ionaid"
@@ -1201,8 +1209,8 @@ msgstr "Facal-faire glè lag"
 #~ msgid "Hi!"
 #~ msgstr "Shin thu!"
 
-#~ msgid "Welcome to your Lomiri phone."
-#~ msgstr "Fàilte dhan fhòn Lomiri agad."
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "Fàilte dhan fhòn Ubuntu agad."
 
 #~ msgid "Let’s get started."
 #~ msgstr "Tòisicheamaid."

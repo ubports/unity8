@@ -1,15 +1,15 @@
-# Norwegian Bokmal translation for lomiri
+# Norwegian Bokmal translation for unity
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the lomiri package.
+# This file is distributed under the same license as the unity package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: lomiri\n"
+"Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2021-03-12 02:36+0000\n"
-"Last-Translator: Jan Christian Sherdahl <jan@sherdahl.no>\n"
+"POT-Creation-Date: 2021-01-29 11:42-0600\n"
+"PO-Revision-Date: 2021-07-22 23:44+0000\n"
+"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://translate.ubports.com/projects/"
 "ubports/lomiri/nb/>\n"
 "Language: nb\n"
@@ -52,16 +52,16 @@ msgstr "Logg inn"
 msgid "Guest Session"
 msgstr "Gjesteøkt"
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:49
-#: plugins/Lomiri/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:48
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Pin shortcut"
 msgstr "Fest snarvei"
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:55
+#: plugins/Unity/Launcher/launcheritem.cpp:54
 msgid "Quit"
 msgstr "Avslutt"
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Unpin shortcut"
 msgstr "Fjern snarvei"
 
@@ -84,7 +84,7 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Logg ut"
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:284
 #: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
@@ -130,13 +130,19 @@ msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Start på nytt"
 
+#: qml/Components/Dialogs.qml:276
+#, fuzzy
+#| msgid "Takes a screenshot."
+msgid "Screenshot"
+msgstr "Tar bilde av skjermen."
+
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
 msgstr "Tastatursnarveier"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Lomiri 8"
-msgstr "Lomiri 8"
+msgid "Lomiri"
+msgstr "Lomiri"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -221,18 +227,6 @@ msgstr "Super + A"
 #: qml/Components/KeyboardShortcutsOverlay.qml:195
 msgid "Opens the Application Drawer."
 msgstr "Åpner programskuffen."
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:207
-msgid "Scopes"
-msgstr "Søkefelt"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:214
-msgid "Super (Tap)"
-msgstr "Super (enkelttrykk)"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:219
-msgid "Opens the Scopes home."
-msgstr "Åpner startskjerm for søkefelt."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
@@ -437,9 +431,17 @@ msgstr "Kode"
 msgid "Select desktop environment"
 msgstr "Velg skrivebordsmiljø"
 
-#: qml/Launcher/Drawer.qml:249
+#: qml/Launcher/Drawer.qml:250
 msgid "Search…"
 msgstr "Søk …"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:56
+msgid "Pull to refresh…"
+msgstr "Dra for å oppdatere …"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:61
+msgid "Release to refresh…"
+msgstr "Slipp for å oppdatere …"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -536,7 +538,7 @@ msgstr "Tilbake"
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr "Dra et program fra et vindu til et annet med 3 fingre"
 
-#: qml/Stage/Stage.qml:668
+#: qml/Stage/Stage.qml:671
 msgid "No running apps"
 msgstr "Ingen kjørende programmer"
 
@@ -678,8 +680,8 @@ msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Lomiri Touch system"
-msgstr "Lomiri Touch-system"
+msgid "Ubuntu Touch system"
+msgstr "Ubuntu Touch-system"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -700,8 +702,8 @@ msgid "Welcome Back"
 msgstr "Velkommen tilbake"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Lomiri"
-msgstr "Velkommen til Lomiri"
+msgid "Welcome to Ubuntu"
+msgstr "Velkommen til Ubuntu"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -826,7 +828,19 @@ msgstr "Svakt passord"
 msgid "Very weak password"
 msgstr "Veldig svakt passord"
 
-#~ msgctxt "Button: Open the Lomiri Store"
+#~ msgid "Unity 8"
+#~ msgstr "Unity 8"
+
+#~ msgid "Scopes"
+#~ msgstr "Søkefelt"
+
+#~ msgid "Super (Tap)"
+#~ msgstr "Super (enkelttrykk)"
+
+#~ msgid "Opens the Scopes home."
+#~ msgstr "Åpner startskjerm for søkefelt."
+
+#~ msgctxt "Button: Open the Ubuntu Store"
 #~ msgid "Store"
 #~ msgstr "Butikk"
 
@@ -880,12 +894,6 @@ msgstr "Veldig svakt passord"
 
 #~ msgid "Add a review"
 #~ msgstr "Skriv en anmeldelse"
-
-#~ msgid "Pull to refresh…"
-#~ msgstr "Dra for å oppdatere …"
-
-#~ msgid "Release to refresh…"
-#~ msgstr "Slipp for å oppdatere …"
 
 #~ msgid "Enable location data"
 #~ msgstr "Slå på plasseringsdata"
@@ -1192,8 +1200,8 @@ msgstr "Veldig svakt passord"
 #~ msgid "Let’s get started."
 #~ msgstr "La oss komme i gang."
 
-#~ msgid "Welcome to your Lomiri phone."
-#~ msgstr "Velkommen til Lomiri-telefonen."
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "Velkommen til Ubuntu-telefonen."
 
 #~ msgid "Lock security"
 #~ msgstr "Låsesikkerhet"
@@ -1246,7 +1254,7 @@ msgstr "Veldig svakt passord"
 #~ "Your phone is set up to automatically report errors to Canonical and its "
 #~ "partners, the makers of the operating system."
 #~ msgstr ""
-#~ "Telefonen sender feilrapporter til Canonical (produsenten av Lomiri) "
+#~ "Telefonen sender feilrapporter til Canonical (produsenten av Ubuntu) "
 #~ "automatisk."
 
 #~ msgid "Nice work!"

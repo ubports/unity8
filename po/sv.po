@@ -1,23 +1,23 @@
-# Swedish translation for lomiri
+# Swedish translation for unity
 # Copyright © 2013-2014 Rosetta Contributors and Canonical Ltd 2013-2014
-# This file is distributed under the same license as the lomiri package.
+# This file is distributed under the same license as the unity package.
 # Josef Andersson <josef.andersson@fripost.org>, 2014.
 # clone <josef.andersson@fripost.org>, 2015.
 msgid ""
 msgstr ""
-"Project-Id-Version: lomiri\n"
+"Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2020-02-13 13:06+0000\n"
+"POT-Creation-Date: 2021-01-29 11:42-0600\n"
+"PO-Revision-Date: 2021-07-26 20:33+0000\n"
 "Last-Translator: Rondy Andersson <rondarius@vivaldi.net>\n"
-"Language-Team: Swedish <https://translate.ubports.com/projects/lomiri/lomiri/"
-"sv/>\n"
+"Language-Team: Swedish <https://translate.ubports.com/projects/ubports/"
+"lomiri/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.8\n"
+"X-Generator: Weblate 3.11.3\n"
 "X-Launchpad-Export-Date: 2016-11-23 06:36+0000\n"
 
 #: plugins/LightDM/Greeter.cpp:199
@@ -52,16 +52,16 @@ msgstr ""
 msgid "Guest Session"
 msgstr ""
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:49
-#: plugins/Lomiri/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:48
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Pin shortcut"
 msgstr "Fäst genväg"
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:55
+#: plugins/Unity/Launcher/launcheritem.cpp:54
 msgid "Quit"
 msgstr "Avsluta"
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Unpin shortcut"
 msgstr "Släpp genväg"
 
@@ -84,7 +84,7 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Logga ut"
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:284
 #: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
@@ -130,13 +130,19 @@ msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Starta om"
 
+#: qml/Components/Dialogs.qml:276
+#, fuzzy
+#| msgid "Takes a screenshot."
+msgid "Screenshot"
+msgstr "Tar en skärmbild."
+
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
 msgstr "Tangentbordsgenvägar"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Lomiri 8"
-msgstr "Lomiri 8"
+msgid "Lomiri"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -233,18 +239,6 @@ msgstr "Super + W"
 #| msgid "Open the launcher"
 msgid "Opens the Application Drawer."
 msgstr "Öppna programstartaren"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:207
-msgid "Scopes"
-msgstr "Vyer"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:214
-msgid "Super (Tap)"
-msgstr "Super (Tryck)"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:219
-msgid "Opens the Scopes home."
-msgstr "Öppnar hem för Vyerna."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
@@ -452,11 +446,19 @@ msgstr "Lösenkod"
 msgid "Select desktop environment"
 msgstr "Välj skrivbordsmiljö"
 
-#: qml/Launcher/Drawer.qml:249
+#: qml/Launcher/Drawer.qml:250
 #, fuzzy
 #| msgid "Search"
 msgid "Search…"
 msgstr "Sök"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:56
+msgid "Pull to refresh…"
+msgstr "Dra för att uppdatera…"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:61
+msgid "Release to refresh…"
+msgstr "Släpp för att uppdatera…"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -546,17 +548,14 @@ msgid "Call back"
 msgstr "Ring upp"
 
 #: qml/Panel/PanelMenuPage.qml:92
-#, fuzzy
-#| msgctxt "Button: Go back one page in the Wizard"
-#| msgid "Back"
 msgid "Back"
-msgstr "Bakåt"
+msgstr "Backa"
 
 #: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr "Dra ett program från ett fönster till det andra med tre fingrar"
 
-#: qml/Stage/Stage.qml:668
+#: qml/Stage/Stage.qml:671
 msgid "No running apps"
 msgstr ""
 
@@ -616,7 +615,7 @@ msgstr "Vad är nytt"
 
 #: qml/Wizard/Pages/11-changelog.qml:74
 msgid "Loading..."
-msgstr "Laddar…"
+msgstr "Läser in…"
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
@@ -702,10 +701,10 @@ msgstr ""
 #: qml/Wizard/Pages/79-system-update.qml:76
 #, fuzzy
 #| msgctxt "string identifying name of the update"
-#| msgid "Lomiri system"
+#| msgid "Ubuntu system"
 msgctxt "string identifying name of the update"
-msgid "Lomiri Touch system"
-msgstr "Lomirisystem"
+msgid "Ubuntu Touch system"
+msgstr "Ubuntusystem"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -726,8 +725,8 @@ msgid "Welcome Back"
 msgstr "Välkommen tillbaka"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Lomiri"
-msgstr "Välkommen till Lomiri"
+msgid "Welcome to Ubuntu"
+msgstr "Välkommen till Ubuntu"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -854,7 +853,19 @@ msgstr "Svagt lösenord"
 msgid "Very weak password"
 msgstr "Väldigt svagt lösenord"
 
-#~ msgctxt "Button: Open the Lomiri Store"
+#~ msgid "Unity 8"
+#~ msgstr "Unity 8"
+
+#~ msgid "Scopes"
+#~ msgstr "Vyer"
+
+#~ msgid "Super (Tap)"
+#~ msgstr "Super (Tryck)"
+
+#~ msgid "Opens the Scopes home."
+#~ msgstr "Öppnar hem för Vyerna."
+
+#~ msgctxt "Button: Open the Ubuntu Store"
 #~ msgid "Store"
 #~ msgstr "Förråd"
 
@@ -908,12 +919,6 @@ msgstr "Väldigt svagt lösenord"
 
 #~ msgid "Add a review"
 #~ msgstr "Lägg till en recension"
-
-#~ msgid "Pull to refresh…"
-#~ msgstr "Dra för att uppdatera…"
-
-#~ msgid "Release to refresh…"
-#~ msgstr "Släpp för att uppdatera…"
 
 #~ msgid "Enable location data"
 #~ msgstr "Aktivera platsdata"
@@ -1214,8 +1219,8 @@ msgstr "Väldigt svagt lösenord"
 #~ msgid "Hi!"
 #~ msgstr "Hej!"
 
-#~ msgid "Welcome to your Lomiri phone."
-#~ msgstr "Välkommen till din Lomiritelefon."
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "Välkommen till din Ubuntutelefon."
 
 #~ msgid "Lock security"
 #~ msgstr "Säkerhetslås"

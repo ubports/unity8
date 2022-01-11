@@ -1,14 +1,14 @@
-# Czech translation for lomiri
+# Czech translation for unity8
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the lomiri package.
+# This file is distributed under the same license as the unity8 package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: lomiri\n"
+"Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2021-02-03 22:27+0000\n"
+"POT-Creation-Date: 2021-01-29 11:42-0600\n"
+"PO-Revision-Date: 2021-08-21 07:57+0000\n"
 "Last-Translator: Milan Korecký <milan.korecky@gmail.com>\n"
 "Language-Team: Czech <https://translate.ubports.com/projects/ubports/lomiri/"
 "cs/>\n"
@@ -30,11 +30,11 @@ msgstr "Uživatelské jméno"
 
 #: plugins/LightDM/Greeter.cpp:258
 msgid "Failed to authenticate"
-msgstr "Chyba při ověřování se"
+msgstr "Chyba při ověřování"
 
 #: plugins/LightDM/Greeter.cpp:260
 msgid "Invalid password, please try again"
-msgstr "Nesprávné heslo – zkuste to znovu prosím"
+msgstr "Nesprávné heslo, zkuste to znovu prosím"
 
 #: plugins/LightDM/Greeter.cpp:270
 msgid "Log In"
@@ -42,28 +42,28 @@ msgstr "Přihlásit se"
 
 #: plugins/LightDM/Greeter.cpp:270
 msgid "Retry"
-msgstr "Znovu"
+msgstr "Zkusit znovu"
 
 #: plugins/LightDM/UsersModel.cpp:157
 msgid "Login"
-msgstr "Zahájit relaci"
+msgstr "Přihlášení"
 
 #: plugins/LightDM/UsersModel.cpp:165
 msgid "Guest Session"
 msgstr "Sezení hosta"
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:49
-#: plugins/Lomiri/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:48
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Pin shortcut"
-msgstr "Připnout zástupce"
+msgstr "Připnout odkaz"
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:55
+#: plugins/Unity/Launcher/launcheritem.cpp:54
 msgid "Quit"
 msgstr "Ukončit"
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Unpin shortcut"
-msgstr "Zrušit připnutí zástupce"
+msgstr "Zrušit připnutý odkaz"
 
 #: qml/Components/Dialogs.qml:176
 msgctxt "Title: Lock/Log out dialog"
@@ -84,7 +84,7 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Odhlásit se"
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:284
 #: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
@@ -130,12 +130,16 @@ msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Restartovat"
 
+#: qml/Components/Dialogs.qml:276
+msgid "Screenshot"
+msgstr "Snímek obrazovky"
+
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
 msgstr "Klávesové zkratky"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Lomiri 8"
+msgid "Lomiri"
 msgstr "Lomiri"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
@@ -221,18 +225,6 @@ msgstr "Super + A"
 #: qml/Components/KeyboardShortcutsOverlay.qml:195
 msgid "Opens the Application Drawer."
 msgstr "Otevře seznam s aplikacemi."
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:207
-msgid "Scopes"
-msgstr "Scopes"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:214
-msgid "Super (Tap)"
-msgstr "Super (klepnutí)"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:219
-msgid "Opens the Scopes home."
-msgstr "Otevře domovskou sekci Scopes."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
@@ -440,9 +432,17 @@ msgstr "Přístupový kód"
 msgid "Select desktop environment"
 msgstr "Vybrat desktopové prostředí"
 
-#: qml/Launcher/Drawer.qml:249
+#: qml/Launcher/Drawer.qml:250
 msgid "Search…"
 msgstr "Vyhledat…"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:56
+msgid "Pull to refresh…"
+msgstr "Znovu načtete vysunutím…"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:61
+msgid "Release to refresh…"
+msgstr "Znovu načtete uvolněním…"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -465,16 +465,16 @@ msgstr "Nic se nepřehrává"
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 hodina"
-msgstr[1] "%1 hodiny"
-msgstr[2] "%1 hodin"
+msgstr[1] "%1 hodin"
+msgstr[2] "%1 hodiny"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1001
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 minuta"
-msgstr[1] "%1 minuty"
-msgstr[2] "%1 minut"
+msgstr[1] "%1 minut"
+msgstr[2] "%1 minuty"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1006
 #, qt-format
@@ -512,7 +512,7 @@ msgstr "Zrušeno"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1027
 msgid "Finished"
-msgstr "Dokončeno"
+msgstr "Hotovo"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1029
 msgid "Failed, tap to retry"
@@ -544,7 +544,7 @@ msgstr ""
 "Jakoukoli z aplikací přetáhnete z jednoho okna do druhého za použití třech "
 "prstů"
 
-#: qml/Stage/Stage.qml:668
+#: qml/Stage/Stage.qml:671
 msgid "No running apps"
 msgstr "Nejsou spuštěny žádné aplikace"
 
@@ -585,7 +585,7 @@ msgstr "Jazyk"
 #: qml/Wizard/Pages/passcode-desktop.qml:154
 #: qml/Wizard/Pages/password-set.qml:153
 msgid "Next"
-msgstr "Následující"
+msgstr "Další"
 
 #: qml/Wizard/Pages/10-welcome-update.qml:91
 msgid "Welcome to "
@@ -686,8 +686,8 @@ msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Lomiri Touch system"
-msgstr "Systém Lomiri Touch"
+msgid "Ubuntu Touch system"
+msgstr "Systém Ubuntu Touch"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -708,8 +708,8 @@ msgid "Welcome Back"
 msgstr "Vítejte zpět"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Lomiri"
-msgstr "Vítejte v Lomiri"
+msgid "Welcome to Ubuntu"
+msgstr "Vítejte v Ubuntu"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -834,7 +834,19 @@ msgstr "Prolomitelné heslo"
 msgid "Very weak password"
 msgstr "Velmi snadno prolomitelné heslo"
 
-#~ msgctxt "Button: Open the Lomiri Store"
+#~ msgid "Unity 8"
+#~ msgstr "Lomiri"
+
+#~ msgid "Scopes"
+#~ msgstr "Scopes"
+
+#~ msgid "Super (Tap)"
+#~ msgstr "Super (klepnutí)"
+
+#~ msgid "Opens the Scopes home."
+#~ msgstr "Otevře domovskou sekci Scopes."
+
+#~ msgctxt "Button: Open the Ubuntu Store"
 #~ msgid "Store"
 #~ msgstr "Obchod"
 
@@ -888,12 +900,6 @@ msgstr "Velmi snadno prolomitelné heslo"
 
 #~ msgid "Add a review"
 #~ msgstr "Přidat recenzi"
-
-#~ msgid "Pull to refresh…"
-#~ msgstr "Znovu načtete vysunutím…"
-
-#~ msgid "Release to refresh…"
-#~ msgstr "Znovu načtete uvolněním…"
 
 #~ msgid "Enable location data"
 #~ msgstr "Povolit údaje o umístění"
@@ -1155,8 +1161,8 @@ msgstr "Velmi snadno prolomitelné heslo"
 #~ msgid "Hi!"
 #~ msgstr "Ahoj!"
 
-#~ msgid "Welcome to your Lomiri phone."
-#~ msgstr "Vítejte ve vašem Lomiri telefonu."
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "Vítejte ve vašem Ubuntu telefonu."
 
 #~ msgid "Let’s get started."
 #~ msgstr "Začněme."

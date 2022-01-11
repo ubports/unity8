@@ -1,15 +1,15 @@
-# Dutch translation for lomiri
+# Dutch translation for unity
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the lomiri package.
+# This file is distributed under the same license as the unity package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: lomiri\n"
+"Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2021-03-17 11:27+0000\n"
-"Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
+"POT-Creation-Date: 2021-01-29 11:42-0600\n"
+"PO-Revision-Date: 2021-09-21 19:30+0000\n"
+"Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch <https://translate.ubports.com/projects/ubports/lomiri/"
 "nl/>\n"
 "Language: nl\n"
@@ -52,16 +52,16 @@ msgstr "Inloggen"
 msgid "Guest Session"
 msgstr "Gastsessie"
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:49
-#: plugins/Lomiri/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:48
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Pin shortcut"
-msgstr "Snelkoppeling vastzetten"
+msgstr "Snelkoppeling vastmaken"
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:55
+#: plugins/Unity/Launcher/launcheritem.cpp:54
 msgid "Quit"
 msgstr "Afsluiten"
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Unpin shortcut"
 msgstr "Snelkoppeling losmaken"
 
@@ -84,7 +84,7 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Uitloggen"
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:284
 #: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
@@ -130,13 +130,17 @@ msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Herstarten"
 
+#: qml/Components/Dialogs.qml:276
+msgid "Screenshot"
+msgstr "Schermfoto"
+
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
 msgstr "Sneltoetsen"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Lomiri 8"
-msgstr "Lomiri 8"
+msgid "Lomiri"
+msgstr "Lomiri"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -222,18 +226,6 @@ msgstr "Super + A"
 msgid "Opens the Application Drawer."
 msgstr "Opent het appoverzicht."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:207
-msgid "Scopes"
-msgstr "Scopes"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:214
-msgid "Super (Tap)"
-msgstr "Super (indrukken)"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:219
-msgid "Opens the Scopes home."
-msgstr "Opent de Scopes-startpagina."
-
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
 msgstr "Wisselen"
@@ -316,7 +308,7 @@ msgstr "Noodoproep"
 
 #: qml/Components/Lockscreen.qml:245
 msgid "OK"
-msgstr "Uitzetten"
+msgstr "Oké"
 
 #: qml/Components/MediaServices/VideoPlayerControls.qml:44
 #, qt-format
@@ -438,9 +430,17 @@ msgstr "Toegangscode"
 msgid "Select desktop environment"
 msgstr "Werkomgeving kiezen"
 
-#: qml/Launcher/Drawer.qml:249
+#: qml/Launcher/Drawer.qml:250
 msgid "Search…"
 msgstr "Zoeken…"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:56
+msgid "Pull to refresh…"
+msgstr "Trek om te verversen…"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:61
+msgid "Release to refresh…"
+msgstr "Laat los om te verversen…"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -537,7 +537,7 @@ msgstr "Vorige"
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr "Versleep een app met 3 vingers van het ene venster naar het andere"
 
-#: qml/Stage/Stage.qml:668
+#: qml/Stage/Stage.qml:671
 msgid "No running apps"
 msgstr "Je hebt geen geopende apps"
 
@@ -594,7 +594,7 @@ msgstr "Wijzigingslog"
 
 #: qml/Wizard/Pages/11-changelog.qml:74
 msgid "Loading..."
-msgstr "Bezig met laden..."
+msgstr "Bezig met laden…"
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
@@ -616,7 +616,7 @@ msgstr "Overslaan"
 
 #: qml/Wizard/Pages/30-wifi.qml:31
 msgid "Connect to Wi‑Fi"
-msgstr "Verbinden met Wi-Fi"
+msgstr "Verbinden met wifi"
 
 #: qml/Wizard/Pages/30-wifi.qml:139
 msgid "Connected"
@@ -624,11 +624,11 @@ msgstr "Verbonden"
 
 #: qml/Wizard/Pages/30-wifi.qml:172
 msgid "Available Wi-Fi networks"
-msgstr "Beschikbare Wi-Fi-netwerken"
+msgstr "Beschikbare wifi-netwerken"
 
 #: qml/Wizard/Pages/30-wifi.qml:173
 msgid "No available Wi-Fi networks"
-msgstr "Geen Wi-Fi-netwerken beschikbaar"
+msgstr "Geen wifi-netwerken beschikbaar"
 
 #: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
@@ -679,8 +679,8 @@ msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Lomiri Touch system"
-msgstr "Lomiri Touch-systeem"
+msgid "Ubuntu Touch system"
+msgstr "Ubuntu Touch-systeem"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -701,8 +701,8 @@ msgid "Welcome Back"
 msgstr "Welkom terug"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Lomiri"
-msgstr "Welkom bij Lomiri"
+msgid "Welcome to Ubuntu"
+msgstr "Welkom bij Ubuntu"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -797,7 +797,7 @@ msgstr "Zonder simkaart kun je niet bellen of sms'en."
 
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
-msgstr "Druk op 'Overslaan' om door te gaan zonder simkaart."
+msgstr "Druk op ‘Overslaan’ om door te gaan zonder simkaart."
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
@@ -827,7 +827,19 @@ msgstr "Zwak wachtwoord"
 msgid "Very weak password"
 msgstr "Zeer zwak wachtwoord"
 
-#~ msgctxt "Button: Open the Lomiri Store"
+#~ msgid "Unity 8"
+#~ msgstr "Unity 8"
+
+#~ msgid "Scopes"
+#~ msgstr "Scopes"
+
+#~ msgid "Super (Tap)"
+#~ msgstr "Super (indrukken)"
+
+#~ msgid "Opens the Scopes home."
+#~ msgstr "Opent de Scopes-startpagina."
+
+#~ msgctxt "Button: Open the Ubuntu Store"
 #~ msgid "Store"
 #~ msgstr "Winkel"
 
@@ -881,12 +893,6 @@ msgstr "Zeer zwak wachtwoord"
 
 #~ msgid "Add a review"
 #~ msgstr "Recensie schrijven"
-
-#~ msgid "Pull to refresh…"
-#~ msgstr "Trek om te verversen…"
-
-#~ msgid "Release to refresh…"
-#~ msgstr "Laat los om te verversen…"
 
 #~ msgid "Enable location data"
 #~ msgstr "Locatiegegevens inschakelen"
@@ -1209,8 +1215,8 @@ msgstr "Zeer zwak wachtwoord"
 #~ msgid "Hi!"
 #~ msgstr "Hallo!"
 
-#~ msgid "Welcome to your Lomiri phone."
-#~ msgstr "Welkom bij uw Lomiritelefoon."
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "Welkom bij uw Ubuntutelefoon."
 
 #~ msgid "Let’s get started."
 #~ msgstr "Laten we beginnen."

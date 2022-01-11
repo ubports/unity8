@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015-2016 Canonical, Ltd.
+ * Copyright (C) 2021 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,6 +17,7 @@
 
 import QtQuick 2.4
 import QtQuick.Window 2.2
+import QtGraphicalEffects 1.12
 import Lomiri.Components 1.3
 // FIXME: uncomment this when telephony-service is available in UBports Focal
 // import Lomiri.Telephony 0.1 as Telephony
@@ -28,11 +30,13 @@ FocusScope {
     property alias launcherOffset: coverPage.launcherOffset
     property alias currentIndex: loginList.currentIndex
     property alias delayMinutes: delayedLockscreen.delayMinutes
-    property alias backgroundTopMargin: coverPage.backgroundTopMargin
+    property real panelHeight
     property url background
+    property real backgroundSourceSize
     property bool hasCustomBackground
     property bool locked
     property alias alphanumeric: loginList.alphanumeric
+    property alias hasKeyboard: loginList.hasKeyboard
     property alias userModel: loginList.model
     property alias infographicModel: coverPage.infographicModel
     property string sessionToStart
@@ -41,8 +45,7 @@ FocusScope {
     readonly property bool required: coverPage.required || lockscreen.required
     readonly property bool animating: coverPage.showAnimation.running || coverPage.hideAnimation.running
 
-    // so that it can be replaced in tests with a mock object
-    property var inputMethod: Qt.inputMethod
+    property rect inputMethodRect
 
     signal selected(int index)
     signal responded(string response)
@@ -89,6 +92,10 @@ FocusScope {
         }
     }
 
+    Keys.onSpacePressed: coverPage.hide();
+    Keys.onReturnPressed: coverPage.hide();
+    Keys.onEnterPressed: coverPage.hide();
+
     Showable {
         id: lockscreen
         objectName: "lockscreen"
@@ -111,9 +118,9 @@ FocusScope {
             objectName: "lockscreenBackground"
             anchors {
                 fill: parent
-                topMargin: root.backgroundTopMargin
             }
             source: root.background
+            sourceSize: root.backgroundSourceSize
         }
 
         // Darken background to match CoverPage
@@ -172,9 +179,11 @@ FocusScope {
         width: parent.width
         background: root.background
         hasCustomBackground: root.hasCustomBackground
+        panelHeight: root.panelHeight
         draggable: !root.waiting
         onTease: root.tease()
         onClicked: hide()
+        backgroundSourceSize: root.backgroundSourceSize
 
         onShowProgressChanged: {
             if (showProgress === 0) {
@@ -189,7 +198,7 @@ FocusScope {
         Clock {
             anchors {
                 top: parent.top
-                topMargin: units.gu(2)
+                topMargin: units.gu(2) + panelHeight
                 horizontalCenter: parent.horizontalCenter
             }
         }
@@ -204,13 +213,7 @@ FocusScope {
         anchors.right: parent.right
         anchors.top: parent.bottom
         anchors.topMargin: - height * (1 - coverPage.showProgress)
-                           - (inputMethod && inputMethod.visible ?
-                              inputMethod.keyboardRectangle.height : 0)
-
-        Rectangle {
-            color: LomiriColors.porcelain // matches OSK background
-            anchors.fill: parent
-        }
+                           - ( inputMethodRect.height )
 
         Label {
             text: i18n.tr("Cancel")
@@ -221,7 +224,7 @@ FocusScope {
             verticalAlignment: Text.AlignVCenter
             font.weight: Font.Light
             fontSize: "small"
-            color: LomiriColors.slate
+            color: theme.palette.normal.raisedSecondaryText
 
             AbstractButton {
                 anchors.fill: parent
@@ -241,7 +244,7 @@ FocusScope {
             verticalAlignment: Text.AlignVCenter
             font.weight: Font.Light
             fontSize: "small"
-            color: LomiriColors.slate
+            color: theme.palette.normal.raisedSecondaryText
             // TODO: uncomment once bug 1616538 is fixed
             // visible: telepathyHelper.ready && telepathyHelper.emergencyCallsAvailable
             enabled: visible
@@ -261,8 +264,7 @@ FocusScope {
     //        during OSK animations.
     Rectangle {
         visible: bottomBar.visible
-        height: inputMethod && inputMethod.visible ?
-                inputMethod.keyboardRectangle.height : 0
+        height: inputMethodRect.height
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right

@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015-2016 Canonical, Ltd.
+ * Copyright (C) 2021 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +26,8 @@ FocusScope {
     focus: true
 
     property alias background: coverPage.background
-    property alias backgroundTopMargin: coverPage.backgroundTopMargin
+    property alias backgroundSourceSize: coverPage.backgroundSourceSize
+    property alias panelHeight: coverPage.panelHeight
     property alias hasCustomBackground: coverPage.hasCustomBackground
     property alias dragHandleLeftMargin: coverPage.dragHandleLeftMargin
     property alias infographicModel: coverPage.infographicModel
@@ -33,6 +35,7 @@ FocusScope {
     property alias currentIndex: loginList.currentIndex
     property int delayMinutes // TODO
     property alias alphanumeric: loginList.alphanumeric
+    property alias hasKeyboard: loginList.hasKeyboard
     property alias locked: loginList.locked
     property alias waiting: loginList.waiting
     property var userModel // Set from outside
@@ -42,8 +45,7 @@ FocusScope {
     readonly property bool required: coverPage.required
     readonly property alias sessionToStart: loginList.currentSession
 
-    // so that it can be replaced in tests with a mock object
-    property var inputMethod: Qt.inputMethod
+    property rect inputMethodRect
 
     signal selected(int index)
     signal responded(string response)
@@ -95,9 +97,22 @@ FocusScope {
         width: parent.width
         draggable: !root.locked && !root.waiting
         state: "LoginList"
+        blurAreaHeight: loginList.highlightedHeight + units.gu(4.5)
+        blurAreaWidth: loginList.width + units.gu(3)
+        blurAreaX: loginList.x - units.gu(1.5)
+        blurAreaY: loginList.boxVerticalOffset + loginList.y - units.gu(3)
+
+        // Darken background to match CoverPage
+        Rectangle {
+            objectName: "lockscreenShade"
+            anchors.fill: parent
+            color: "black"
+            opacity: root.hasCustomBackground ? 0.1 : 0
+        }
 
         infographics {
-            height: 0.75 * parent.height
+            anchors.topMargin: parent.height * 0.125
+            anchors.bottomMargin: parent.height * 0.125
             anchors.leftMargin: loginList.x + loginList.width
         }
 
@@ -122,8 +137,7 @@ FocusScope {
             }
 
             boxVerticalOffset: (height - highlightedHeight -
-                               (inputMethod && inputMethod.visible ?
-                                inputMethod.keyboardRectangle.height : 0)) / 2
+                               inputMethodRect.height) / 2
             Behavior on boxVerticalOffset { LomiriNumberAnimation {} }
 
             model: root.userModel
@@ -169,6 +183,66 @@ FocusScope {
                     loginList.tryToUnlock();
                 }
                 ignoreUnknownSignals: true
+            }
+        }
+
+        // Use an AbstractButton due to icon limitations with Button
+        AbstractButton {
+            id: sessionChooser
+            objectName: "sessionChooserButton"
+
+            readonly property url icon: LightDMService.sessions.iconUrl(loginList.currentSession)
+
+            visible: LightDMService.sessions.count > 1 &&
+                !LightDMService.users.data(loginList.currentUserIndex, LightDMService.userRoles.LoggedInRole)
+
+            height: units.gu(3.5)
+            width: units.gu(3.5)
+
+            activeFocusOnTab: true
+            anchors {
+                right: parent.right
+                rightMargin: units.gu(2)
+
+                bottom: parent.bottom
+                bottomMargin: units.gu(1.5)
+            }
+
+            Rectangle {
+                id: badgeHighlight
+
+                anchors.fill: parent
+                visible: parent.activeFocus
+                color: "transparent"
+                border.color: theme.palette.normal.focus
+                border.width: units.dp(1)
+                radius: 3
+            }
+
+            Icon {
+                id: badge
+                anchors.fill: parent
+                anchors.margins: units.dp(3)
+                keyColor: "#ffffff" // icon providers give us white icons
+                color: theme.palette.normal.raisedSecondaryText
+                source: sessionChooser.icon
+            }
+
+            Keys.onReturnPressed: {
+                parent.state = "SessionsList";
+            }
+
+            onClicked: {
+                parent.state = "SessionsList";
+            }
+
+            // Refresh the icon path if looking at different places at runtime
+            // this is mainly for testing
+            Connections {
+                target: LightDMService.sessions
+                onIconSearchDirectoriesChanged: {
+                    badge.source = LightDMService.sessions.iconUrl(root.currentSession)
+                }
             }
         }
 

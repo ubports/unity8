@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2013-2016 Canonical, Ltd.
+ * Copyright (C) 2021 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,6 +16,7 @@
  */
 
 import QtQuick 2.4
+import QtGraphicalEffects 1.12
 import Lomiri.Components 1.3
 import Lomiri.Gestures 0.1
 import "../Components"
@@ -25,12 +27,18 @@ Showable {
     property real dragHandleLeftMargin
     property real launcherOffset
     property alias background: greeterBackground.source
+    property alias backgroundSourceSize: greeterBackground.sourceSize
     property alias hasCustomBackground: backgroundShade.visible
-    property real backgroundTopMargin
+    property real panelHeight
     property var infographicModel
     property bool draggable: true
 
     property alias infographics: infographics
+
+    property alias blurAreaHeight: loginBoxEffects.height
+    property alias blurAreaWidth: loginBoxEffects.width
+    property alias blurAreaX: loginBoxEffects.x
+    property alias blurAreaY: loginBoxEffects.y
 
     readonly property real showProgress: MathUtils.clamp((width - Math.abs(x + launcherOffset)) / width, 0, 1)
 
@@ -88,8 +96,30 @@ Showable {
         objectName: "greeterBackground"
         anchors {
             fill: parent
-            topMargin: root.backgroundTopMargin
         }
+    }
+
+    Rectangle {
+        id: loginBoxEffects
+        color: "transparent"
+    }
+
+    ShaderEffectSource {
+        id: effectSource
+
+        sourceItem: greeterBackground
+        anchors.centerIn: loginBoxEffects
+        width: loginBoxEffects.width
+        height: loginBoxEffects.height
+        sourceRect: Qt.rect(x,y, width, height)
+    }
+
+    FastBlur {
+        visible: !draggable
+        anchors.fill: effectSource
+        source: effectSource
+        radius: 64
+        transparentBorder: true
     }
 
     // Darkens wallpaper so that we can read text on it and see infographic
@@ -105,12 +135,13 @@ Showable {
     Infographics {
         id: infographics
         objectName: "infographics"
-        height: parent.height
         model: root.infographicModel
         clip: true // clip large data bubbles
 
         anchors {
-            verticalCenter: parent.verticalCenter
+            topMargin: root.panelHeight
+            top: parent.top
+            bottom: parent.bottom
             left: parent.left
             right: parent.right
         }

@@ -1,5 +1,6 @@
 /*
  * Copyright 2014-2016 Canonical Ltd.
+ * Copyright 2021 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -52,9 +53,10 @@ StyledItem {
                     launcherOffset: parseFloat(launcherOffsetField.text)
                     currentIndex: parseInt(currentIndexField.text, 10)
                     delayMinutes: parseInt(delayMinutesField.text, 10)
-                    backgroundTopMargin: parseFloat(backgroundTopMarginField.text)
+                    panelHeight: parseFloat(panelHeightField.text)
                     locked: lockedCheckBox.checked
-                    inputMethod: fakeInputMethod
+                    inputMethodRect: fakeKeyboard.childrenRect
+                    property var testKeyboard: fakeKeyboard
 
                     Component.onDestruction: {
                         loader.itemDestroyed = true
@@ -65,24 +67,13 @@ StyledItem {
                             currentIndexField.text = index;
                     }
 
-                    QtObject {
-                        id: fakeInputMethod
-                        property bool visible: fakeKeyboard.visible
-                        property var keyboardRectangle: QtObject {
-                            property real x: fakeKeyboard.x
-                            property real y: fakeKeyboard.y
-                            property real width: fakeKeyboard.width
-                            property real height: fakeKeyboard.height
-                        }
-                    }
-
                     Rectangle {
                         id: fakeKeyboard
                         color: "green"
                         opacity: 0.7
                         anchors.bottom: view.bottom
                         width: view.width
-                        height: view.height * 0.6
+                        height: visible ? view.height * 0.6 : 0
                         visible: keyboardVisibleCheckBox.checked
                         Text {
                             text: "Keyboard Rectangle"
@@ -196,12 +187,12 @@ StyledItem {
                 }
                 Row {
                     TextField {
-                        id: backgroundTopMarginField
+                        id: panelHeightField
                         width: units.gu(10)
                         text: "0"
                     }
                     Label {
-                        text: "backgroundTopMargin"
+                        text: "panelHeight"
                     }
                 }
                 Row {
@@ -671,13 +662,13 @@ StyledItem {
             keyboardVisibleCheckBox.checked = true;
 
             var halfway = (view.height - loginList.highlightedHeight) / 2;
-            var halfwayWithOsk = halfway - view.inputMethod.keyboardRectangle.height / 2;
+            var halfwayWithOsk = halfway - view.inputMethodRect.height / 2;
             tryCompare(loginList, "boxVerticalOffset", halfwayWithOsk);
 
             var highlightItem = findChild(loginList, "highlightItem");
             tryCompareFunction( function() {
                 var highlightRect = highlightItem.mapToItem(view, 0, 0, highlightItem.width, highlightItem.height);
-                return highlightRect.y + highlightRect.height <= view.inputMethod.keyboardRectangle.y;
+                return highlightRect.y + highlightRect.height <= view.testKeyboard.y;
             }, true);
 
             // once the vkb goes away, loginList goes back to its full height
@@ -700,9 +691,9 @@ StyledItem {
 
         function test_passcode() {
             var index = selectUser("has-pin");
-            var promptField = findChild(view, "promptField");
-
             view.alphanumeric = false;
+
+            var promptField = findChild(view, "promptField");
             compare(promptField.inputMethodHints & Qt.ImhDigitsOnly, Qt.ImhDigitsOnly);
 
             keyClick(Qt.Key_D);
@@ -775,6 +766,36 @@ StyledItem {
             selectUser("no-password");
             var greeterPrompt = findChild(view, "greeterPrompt0");
             verify(greeterPrompt.activeFocus);
+        }
+
+        function test_scrollChangesIndex() {
+            /* Check if the index of the current user gets changed
+             * if we scroll through the list.
+             * Expected result: the list has moved at least by one
+             * user and the index of the user is reported using the
+             * selected signal in LoginList.qml
+             * https://github.com/ubports/unity8/issues/397
+             */
+            var loginList = findChild(view, "loginList");
+            // FIXME: Fix scrolling sensitivity (scrolling by -1 shouldn't move more than one user down)
+            mouseWheel( loginList, loginList.width / 2, loginList.height / 2, 0, -1, null );
+            selectedSpy.wait();
+            tryVerify(function(){ return selectedSpy.signalArguments[0][0] > 0 });
+        }
+
+        function test_dragChangesIndex() {
+            /* Check if the index of the current user gets changed
+             * if we drag the list or swipe.on it.
+             * Expected result: the list has moved at least by one
+             * user and the index of the user is reported using the
+             * selected signal in LoginList.qml
+             * https://github.com/ubports/unity8/issues/397
+             */
+            var loginList = findChild(view, "loginList");
+            // FIXME: Fix scrolling sensitivity (the number of scrolled users is randomly changing)
+            touchFlick(loginList, loginList.width/2, loginList.height/3, loginList.width/2, loginList.height/3 -units.gu(2.1));
+            selectedSpy.wait();
+            tryVerify(function(){ return selectedSpy.signalArguments[0][0] > 0 });
         }
     }
 }

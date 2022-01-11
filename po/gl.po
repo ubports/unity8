@@ -1,23 +1,23 @@
-# Galician translation for lomiri
+# Galician translation for unity
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the lomiri package.
+# This file is distributed under the same license as the unity package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: lomiri\n"
+"Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2020-04-12 01:02+0000\n"
-"Last-Translator: Neutrum N <neutro@tutanota.com>\n"
-"Language-Team: Galician <https://translate.ubports.com/projects/lomiri/"
+"POT-Creation-Date: 2021-01-29 11:42-0600\n"
+"PO-Revision-Date: 2021-05-19 15:43+0000\n"
+"Last-Translator: Davidrebolomaga <davidre345@hotmail.com>\n"
+"Language-Team: Galician <https://translate.ubports.com/projects/ubports/"
 "lomiri/gl/>\n"
 "Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.8\n"
+"X-Generator: Weblate 3.11.3\n"
 "X-Launchpad-Export-Date: 2016-11-23 06:35+0000\n"
 
 #: plugins/LightDM/Greeter.cpp:199
@@ -26,15 +26,15 @@ msgstr "Contrasinal: "
 
 #: plugins/LightDM/Greeter.cpp:214
 msgid "Username"
-msgstr ""
+msgstr "Nome de usuario"
 
 #: plugins/LightDM/Greeter.cpp:258
 msgid "Failed to authenticate"
-msgstr ""
+msgstr "Fallou a autentificación"
 
 #: plugins/LightDM/Greeter.cpp:260
 msgid "Invalid password, please try again"
-msgstr ""
+msgstr "Contrasinal non válido; inténteo de novo"
 
 #: plugins/LightDM/Greeter.cpp:270
 msgid "Log In"
@@ -46,22 +46,22 @@ msgstr "Reintentar"
 
 #: plugins/LightDM/UsersModel.cpp:157
 msgid "Login"
-msgstr ""
+msgstr "Iniciar sesión"
 
 #: plugins/LightDM/UsersModel.cpp:165
 msgid "Guest Session"
-msgstr ""
+msgstr "Sesión de convidado"
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:49
-#: plugins/Lomiri/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:48
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Pin shortcut"
 msgstr "Fixar o atallo"
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:55
+#: plugins/Unity/Launcher/launcheritem.cpp:54
 msgid "Quit"
 msgstr "Saír"
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Unpin shortcut"
 msgstr "Eliminar o atallo"
 
@@ -84,7 +84,7 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Pechar a sesión"
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:284
 #: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
@@ -130,13 +130,17 @@ msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Reiniciar"
 
+#: qml/Components/Dialogs.qml:276
+msgid "Screenshot"
+msgstr "Captura de pantalla"
+
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
 msgstr "Atallos do teclado"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Lomiri 8"
-msgstr "Lomiri 8"
+msgid "Lomiri"
+msgstr "Lomiri"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -151,10 +155,8 @@ msgid "Alt + PrtScr"
 msgstr "Alt + ImpPant"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
-#, fuzzy
-#| msgid "Takes a screenshot of a window."
 msgid "Takes a screenshot of the current window."
-msgstr "Captura unha xanela da pantalla."
+msgstr "Fai captura de pantalla da xanela actual."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
@@ -173,16 +175,12 @@ msgid "Switches to previous keyboard layout."
 msgstr "Cambia á disposición anterior do teclado."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:114
-#, fuzzy
-#| msgid "Ctrl + Super + D"
 msgid "Ctrl + Alt + T"
-msgstr "Ctrl + Super + D"
+msgstr "Ctrl + Alt + T"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:119
-#, fuzzy
-#| msgid "Switches between applications."
 msgid "Starts the Terminal application."
-msgstr "Cambia entre aplicativos."
+msgstr "Comeza co aplicativo Terminal."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:131
 msgid "Launcher"
@@ -213,38 +211,20 @@ msgid "Switches applications via the launcher."
 msgstr "Cambia entre aplicativos co Iniciador."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:177
-#, fuzzy
-#| msgid "Super + 0 to 9"
 msgid "Super + 1 to 0"
-msgstr "Super + 0 a 9"
+msgstr "Super + 1 ao 0"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:182
 msgid "Same as clicking on a launcher icon."
 msgstr "Igual que premer nunha icona do Iniciador."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:190
-#, fuzzy
-#| msgid "Super + W"
 msgid "Super + A"
-msgstr "Super + W"
+msgstr "Super + A"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:195
-#, fuzzy
-#| msgid "Open the launcher"
 msgid "Opens the Application Drawer."
-msgstr "Abrir o Iniciador"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:207
-msgid "Scopes"
-msgstr "Ámbitos"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:214
-msgid "Super (Tap)"
-msgstr "Super (tocar)"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:219
-msgid "Opens the Scopes home."
-msgstr "Abre os Ámbitos."
+msgstr "Abre a túa caixa de aplicativos."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
@@ -304,7 +284,7 @@ msgstr "Minimiza ou restabelece a xanela actual."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:331
 msgid "Ctrl + Super + Left or Right"
-msgstr "Ctrl + Super + Esq. ou Der."
+msgstr "Ctrl + Super + Esquerda ou Dereita"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:336
 msgid "Semi-maximizes the current window."
@@ -381,22 +361,20 @@ msgstr ""
 "como área táctil para interactuar co punteiro."
 
 #: qml/Components/VirtualTouchPad.qml:327
-#, fuzzy
-#| msgid "Tap to return to call..."
 msgid "Tap left button to click."
-msgstr "Toque para volver á chamada..."
+msgstr "Prema o botón esquerda para facer clic."
 
 #: qml/Components/VirtualTouchPad.qml:339
 msgid "Tap right button to right click."
-msgstr ""
+msgstr "Prema o botón dereito para facer click dereito."
 
 #: qml/Components/VirtualTouchPad.qml:351
 msgid "Swipe with two fingers to scroll."
-msgstr ""
+msgstr "Esvare con dous dedos para desprazar."
 
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
-msgstr ""
+msgstr "Atope máis parámetros na configuración do sistema."
 
 #: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
@@ -426,14 +404,10 @@ msgid "Try again"
 msgstr "Tentar de novo"
 
 #: qml/Greeter/Greeter.qml:551
-#, fuzzy
-#| msgid "Enter passphrase"
 msgid "Enter passphrase to unlock"
-msgstr "Introduza a frase secreta"
+msgstr "Insira o contrasinal"
 
 #: qml/Greeter/Greeter.qml:552
-#, fuzzy
-#| msgid "Enter passcode"
 msgid "Enter passcode to unlock"
 msgstr "Introduza a clave"
 
@@ -453,11 +427,17 @@ msgstr "Clave"
 msgid "Select desktop environment"
 msgstr "Seleccione o ambiente de escritorio"
 
-#: qml/Launcher/Drawer.qml:249
-#, fuzzy
-#| msgid "Search"
+#: qml/Launcher/Drawer.qml:250
 msgid "Search…"
-msgstr "Buscar"
+msgstr "Buscar…"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:56
+msgid "Pull to refresh…"
+msgstr "Tirar para actualizar…"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:61
+msgid "Release to refresh…"
+msgstr "Soltar para actualizar…"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -547,9 +527,6 @@ msgid "Call back"
 msgstr "Chamar de volta"
 
 #: qml/Panel/PanelMenuPage.qml:92
-#, fuzzy
-#| msgctxt "Button: Go back one page in the Wizard"
-#| msgid "Back"
 msgid "Back"
 msgstr "Atrás"
 
@@ -557,15 +534,13 @@ msgstr "Atrás"
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr "Arrastre con 3 dedos calquera aplicativo dunha xanela á outra"
 
-#: qml/Stage/Stage.qml:668
+#: qml/Stage/Stage.qml:671
 msgid "No running apps"
-msgstr ""
+msgstr "Non hai aplicativos executándose"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
-#, fuzzy
-#| msgid "Long swipe from the left edge to open the Today scope"
 msgid "Long swipe from the left edge to open the Application Drawer"
-msgstr "Esvare longo desde o bordo esquerdo para abrir o ámbito Hoxe"
+msgstr "Esvare desde o bordo esquerdo para abrir a caixa de aplicativos"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
@@ -702,12 +677,9 @@ msgstr ""
 "o dispositivo reiniciarase automaticamente."
 
 #: qml/Wizard/Pages/79-system-update.qml:76
-#, fuzzy
-#| msgctxt "string identifying name of the update"
-#| msgid "Lomiri system"
 msgctxt "string identifying name of the update"
-msgid "Lomiri Touch system"
-msgstr "Sistema Lomiri"
+msgid "Ubuntu Touch system"
+msgstr "Sistema Ubuntu Touch"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -728,8 +700,8 @@ msgid "Welcome Back"
 msgstr "Benvida/o de novo"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Lomiri"
-msgstr "Benvida/o a Lomiri"
+msgid "Welcome to Ubuntu"
+msgstr "Benvida/o a Ubuntu"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -856,7 +828,19 @@ msgstr "O contrasinal é feble"
 msgid "Very weak password"
 msgstr "O contrasinal é moi feble"
 
-#~ msgctxt "Button: Open the Lomiri Store"
+#~ msgid "Unity 8"
+#~ msgstr "Unity 8"
+
+#~ msgid "Scopes"
+#~ msgstr "Ámbitos"
+
+#~ msgid "Super (Tap)"
+#~ msgstr "Super (tocar)"
+
+#~ msgid "Opens the Scopes home."
+#~ msgstr "Abre os Ámbitos."
+
+#~ msgctxt "Button: Open the Ubuntu Store"
 #~ msgid "Store"
 #~ msgstr "Tenda"
 
@@ -910,12 +894,6 @@ msgstr "O contrasinal é moi feble"
 
 #~ msgid "Add a review"
 #~ msgstr "Engadir unha opinión"
-
-#~ msgid "Pull to refresh…"
-#~ msgstr "Tirar para actualizar…"
-
-#~ msgid "Release to refresh…"
-#~ msgstr "Soltar para actualizar…"
 
 #~ msgid "Enable location data"
 #~ msgstr "Activar datos da localización"
@@ -1222,8 +1200,8 @@ msgstr "O contrasinal é moi feble"
 #~ msgid "Hi!"
 #~ msgstr "Boas!"
 
-#~ msgid "Welcome to your Lomiri phone."
-#~ msgstr "Benvido/a ao seu teléfono Lomiri."
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "Benvido/a ao seu teléfono Ubuntu."
 
 #~ msgid "Let’s get started."
 #~ msgstr "Comezamos."

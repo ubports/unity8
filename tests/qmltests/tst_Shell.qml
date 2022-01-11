@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2013-2016 Canonical, Ltd.
- * Copyright (C) 2019 UBports Foundation
+ * Copyright (C) 2019-2021 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -763,13 +763,16 @@ Rectangle {
             var greeter = findChild(shell, "greeter")
             tryCompare(greeter, "fullyShown", true);
 
-            var promptButton = findChild(greeter, "promptButton");
-            tryCompare(promptButton, "visible", isButton);
-
-            var promptField = findChild(greeter, "promptField");
-            tryCompare(promptField, "visible", !isButton);
-
-            mouseClick(promptButton);
+            if (isButton) {
+                var promptButton = findChild(greeter, "promptButton");
+                verify(promptButton);
+                tryCompare(promptButton, "visible", true);
+                mouseClick(promptButton);
+            } else {
+                var promptField = findChild(greeter, "promptField");
+                verify(promptField);
+                tryCompare(promptField, "visible", true);
+            }
         }
 
         function confirmLoggedIn(loggedIn) {
@@ -1308,7 +1311,7 @@ Rectangle {
 
             AccountsService.backgroundFile = Qt.resolvedUrl("../graphics/applicationIcons/dash.png");
             tryCompare(greeter, "hasCustomBackground", true);
-            compare(wallpaperResolver.background, AccountsService.backgroundFile);
+            tryCompare(wallpaperResolver, "background", AccountsService.backgroundFile);
         }
 
         function test_tapOnRightEdgeReachesApplicationSurface() {

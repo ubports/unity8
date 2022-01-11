@@ -1,5 +1,6 @@
 /*
  * Copyright (C)  2015 Canonical, Ltd.
+ * Copyright (C)  2021 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,5 +42,6 @@ Item {
     property var notifyAboutToFocusApp: (function(appId) { return; })
     property var notifyAppFocused: (function(appId) { return; })
     property var notifyShowingDashFromDrag: (function(appId) { return false; })
+    property var notifyUserRequestedApp: (function(appId) { return; })
 
 }

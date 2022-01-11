@@ -1,14 +1,14 @@
-# Catalan translation for lomiri
+# Catalan translation for unity
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the lomiri package.
+# This file is distributed under the same license as the unity package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: lomiri\n"
+"Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2021-02-02 17:32+0000\n"
+"POT-Creation-Date: 2021-01-29 11:42-0600\n"
+"PO-Revision-Date: 2021-03-23 02:24+0000\n"
 "Last-Translator: Joan CiberSheep <cibersheep@gmail.com>\n"
 "Language-Team: Catalan <https://translate.ubports.com/projects/ubports/"
 "lomiri/ca/>\n"
@@ -52,16 +52,16 @@ msgstr "Inicia sessió"
 msgid "Guest Session"
 msgstr "Sessió de convidat"
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:49
-#: plugins/Lomiri/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:48
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Pin shortcut"
 msgstr "Enganxa la drecera"
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:55
+#: plugins/Unity/Launcher/launcheritem.cpp:54
 msgid "Quit"
 msgstr "Surt"
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Unpin shortcut"
 msgstr "Desenganxa la drecera"
 
@@ -84,7 +84,7 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Surt"
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:284
 #: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
@@ -130,13 +130,17 @@ msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Reinicia"
 
+#: qml/Components/Dialogs.qml:276
+msgid "Screenshot"
+msgstr "Captura de pantalla"
+
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
 msgstr "Dreceres de teclat"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Lomiri 8"
-msgstr "Lomiri 8"
+msgid "Lomiri"
+msgstr "Lomiri"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -221,18 +225,6 @@ msgstr "Súper + A"
 #: qml/Components/KeyboardShortcutsOverlay.qml:195
 msgid "Opens the Application Drawer."
 msgstr "Obre el calaix d'aplicacions."
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:207
-msgid "Scopes"
-msgstr "Lents"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:214
-msgid "Super (Tap)"
-msgstr "Super (Toc)"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:219
-msgid "Opens the Scopes home."
-msgstr "Obre la pàgina d'inici dels lents."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
@@ -439,9 +431,17 @@ msgstr "Codi d'accés"
 msgid "Select desktop environment"
 msgstr "Seleccioneu l'entorn d'escriptori"
 
-#: qml/Launcher/Drawer.qml:249
+#: qml/Launcher/Drawer.qml:250
 msgid "Search…"
 msgstr "Cerca…"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:56
+msgid "Pull to refresh…"
+msgstr "Estireu per actualitzar…"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:61
+msgid "Release to refresh…"
+msgstr "Deixeu anar per actualitzar…"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -539,7 +539,7 @@ msgid "Drag using 3 fingers any application from one window to the other"
 msgstr ""
 "Arrossegueu usant 3 dits qualsevol aplicació d'una finestra a una altra"
 
-#: qml/Stage/Stage.qml:668
+#: qml/Stage/Stage.qml:671
 msgid "No running apps"
 msgstr "Cap aplicació activa"
 
@@ -688,8 +688,8 @@ msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Lomiri Touch system"
-msgstr "Sistema Lomiri Touch"
+msgid "Ubuntu Touch system"
+msgstr "Sistema Ubuntu Touch"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -710,8 +710,8 @@ msgid "Welcome Back"
 msgstr "Us tornem a donar la benvinguda"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Lomiri"
-msgstr "Us donem la benvinguda a l'Lomiri"
+msgid "Welcome to Ubuntu"
+msgstr "Us donem la benvinguda a l'Ubuntu"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -836,7 +836,19 @@ msgstr "La contrasenya és dèbil"
 msgid "Very weak password"
 msgstr "La contrasenya és molt dèbil"
 
-#~ msgctxt "Button: Open the Lomiri Store"
+#~ msgid "Unity 8"
+#~ msgstr "Unity 8"
+
+#~ msgid "Scopes"
+#~ msgstr "Lents"
+
+#~ msgid "Super (Tap)"
+#~ msgstr "Super (Toc)"
+
+#~ msgid "Opens the Scopes home."
+#~ msgstr "Obre la pàgina d'inici dels lents."
+
+#~ msgctxt "Button: Open the Ubuntu Store"
 #~ msgid "Store"
 #~ msgstr "Botiga"
 
@@ -890,12 +902,6 @@ msgstr "La contrasenya és molt dèbil"
 
 #~ msgid "Add a review"
 #~ msgstr "Afegiu una ressenya"
-
-#~ msgid "Pull to refresh…"
-#~ msgstr "Estireu per actualitzar…"
-
-#~ msgid "Release to refresh…"
-#~ msgstr "Deixeu anar per actualitzar…"
 
 #~ msgid "Enable location data"
 #~ msgstr "Habilita les dades d'ubicació"
@@ -1210,8 +1216,8 @@ msgstr "La contrasenya és molt dèbil"
 #~ msgid "Hi!"
 #~ msgstr "Hola!"
 
-#~ msgid "Welcome to your Lomiri phone."
-#~ msgstr "Us donem la benvinguda al vostre telèfon Lomiri."
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "Us donem la benvinguda al vostre telèfon Ubuntu."
 
 #~ msgid "Let’s get started."
 #~ msgstr "Comencem."

@@ -1,14 +1,14 @@
-# French translation for lomiri
+# French translation for unity
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the lomiri package.
+# This file is distributed under the same license as the unity package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: lomiri\n"
+"Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2021-03-18 20:39+0000\n"
+"POT-Creation-Date: 2021-01-29 11:42-0600\n"
+"PO-Revision-Date: 2021-03-21 15:22+0000\n"
 "Last-Translator: Anne Onyme <anneonyme017@netcourrier.com>\n"
 "Language-Team: French <https://translate.ubports.com/projects/ubports/lomiri/"
 "fr/>\n"
@@ -52,16 +52,16 @@ msgstr "Connexion"
 msgid "Guest Session"
 msgstr "Session invité(e)"
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:49
-#: plugins/Lomiri/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:48
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Pin shortcut"
 msgstr "Épingler le raccourci"
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:55
+#: plugins/Unity/Launcher/launcheritem.cpp:54
 msgid "Quit"
 msgstr "Quitter"
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Unpin shortcut"
 msgstr "Détacher le raccourci"
 
@@ -84,7 +84,7 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Fermer la session"
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:284
 #: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
@@ -130,13 +130,17 @@ msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Redémarrer"
 
+#: qml/Components/Dialogs.qml:276
+msgid "Screenshot"
+msgstr "Capture d'écran"
+
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
 msgstr "Raccourcis clavier"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Lomiri 8"
-msgstr "Lomiri 8"
+msgid "Lomiri"
+msgstr "Lomiri"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -221,18 +225,6 @@ msgstr "Super + A"
 #: qml/Components/KeyboardShortcutsOverlay.qml:195
 msgid "Opens the Application Drawer."
 msgstr "Ouvre le lanceur d'applications."
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:207
-msgid "Scopes"
-msgstr "Scopes"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:214
-msgid "Super (Tap)"
-msgstr "Super (appui court)"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:219
-msgid "Opens the Scopes home."
-msgstr "Ouvre la page d'accueil des Scopes."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
@@ -441,9 +433,17 @@ msgstr "Code"
 msgid "Select desktop environment"
 msgstr "Sélectionner l'environnement de bureau"
 
-#: qml/Launcher/Drawer.qml:249
+#: qml/Launcher/Drawer.qml:250
 msgid "Search…"
 msgstr "Rechercher…"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:56
+msgid "Pull to refresh…"
+msgstr "Tirer pour actualiser…"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:61
+msgid "Release to refresh…"
+msgstr "Relâcher pour actualiser…"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -542,7 +542,7 @@ msgstr ""
 "Faire glisser avec 3 doigts n'importe quelle application d'une fenêtre à "
 "l'autre"
 
-#: qml/Stage/Stage.qml:668
+#: qml/Stage/Stage.qml:671
 msgid "No running apps"
 msgstr "Aucune application en cours"
 
@@ -691,8 +691,8 @@ msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Lomiri Touch system"
-msgstr "Système Lomiri Touch"
+msgid "Ubuntu Touch system"
+msgstr "Système Ubuntu Touch"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -713,8 +713,8 @@ msgid "Welcome Back"
 msgstr "Bon retour parmi nous"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Lomiri"
-msgstr "Bienvenue sur Lomiri"
+msgid "Welcome to Ubuntu"
+msgstr "Bienvenue sur Ubuntu"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -841,7 +841,19 @@ msgstr "Mot de passe faible"
 msgid "Very weak password"
 msgstr "Mot de passe très faible"
 
-#~ msgctxt "Button: Open the Lomiri Store"
+#~ msgid "Unity 8"
+#~ msgstr "Unity 8"
+
+#~ msgid "Scopes"
+#~ msgstr "Scopes"
+
+#~ msgid "Super (Tap)"
+#~ msgstr "Super (appui court)"
+
+#~ msgid "Opens the Scopes home."
+#~ msgstr "Ouvre la page d'accueil des Scopes."
+
+#~ msgctxt "Button: Open the Ubuntu Store"
 #~ msgid "Store"
 #~ msgstr "Logithèque"
 
@@ -895,12 +907,6 @@ msgstr "Mot de passe très faible"
 
 #~ msgid "Add a review"
 #~ msgstr "Ajouter un avis"
-
-#~ msgid "Pull to refresh…"
-#~ msgstr "Tirer pour actualiser…"
-
-#~ msgid "Release to refresh…"
-#~ msgstr "Relâcher pour actualiser…"
 
 #~ msgid "Enable location data"
 #~ msgstr "Activer les données de localisation"
@@ -1214,8 +1220,8 @@ msgstr "Mot de passe très faible"
 #~ "Sans elle, vous ne serez pas en mesure de passer des appels ou d'envoyer "
 #~ "des SMS."
 
-#~ msgid "Welcome to your Lomiri phone."
-#~ msgstr "Bienvenue sur votre téléphone Lomiri."
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "Bienvenue sur votre téléphone Ubuntu."
 
 #~ msgid "Let’s get started."
 #~ msgstr "Commençons."
