@@ -16,8 +16,8 @@
 
 import QtQuick 2.4
 import QtTest 1.0
-import Ubuntu.Components 1.3
-import Unity.Test 0.1
+import Lomiri.Components 1.3
+import Lomiri.SelfTest 0.1
 
 import "../../../qml/Components"
 
@@ -27,7 +27,7 @@ Item {
     width: 150
     height: 100
 
-    property url defaultBackground: "../../data/unity/backgrounds/20x30.png"
+    property url defaultBackground: "../../data/lomiri/backgrounds/20x30.png"
     property real sourceSize: 0
 
     Component {
@@ -47,14 +47,14 @@ Item {
         }
     }
 
-    UnityTestCase {
+    LomiriTestCase {
         id: testCase
         name: "Wallpaper"
         when: windowShown
 
         function init() {
             root.sourceSize = 0;
-            root.defaultBackground = "../../data/unity/backgrounds/20x30.png";
+            root.defaultBackground = "../../data/lomiri/backgrounds/20x30.png";
         }
 
         // Ensures that the Wallpaper's sourceSize causes the image to be
@@ -110,7 +110,7 @@ Item {
             var wallpaper = createTemporaryObject(wallpaperComponent, root);
             var wallpaperFadeRectangle = findChild(wallpaper, "wallpaperFadeRectangle");
             compare(wallpaperFadeRectangle.opacity, 1);
-            root.defaultBackground = "../../data/unity/backgrounds/red.png";
+            root.defaultBackground = "../../data/lomiri/backgrounds/red.png";
             tryCompare(wallpaperFadeRectangle, "opacity", 0);
             compare(wallpaperFadeRectangle.visible, false);
         }

@@ -29,8 +29,8 @@ Image {
 
     source: wallpaperResolver.background
 
-    readonly property url blue: Qt.resolvedUrl("../../data/unity/backgrounds/blue.png")
-    readonly property url red: Qt.resolvedUrl("../../data/unity/backgrounds/red.png")
+    readonly property url blue: Qt.resolvedUrl("../../data/lomiri/backgrounds/blue.png")
+    readonly property url red: Qt.resolvedUrl("../../data/lomiri/backgrounds/red.png")
     readonly property url big: Qt.resolvedUrl("../../graphics/applicationIcons/dash.png")
 
     WallpaperResolver {

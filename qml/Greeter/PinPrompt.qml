@@ -1,5 +1,5 @@
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import "../Components"
 
 FocusScope {
@@ -142,11 +142,11 @@ FocusScope {
             height: units.gu(3)
             width: height
             color: d.drawColor
-            visible: !unity8Settings.alwaysShowOsk && root.hasKeyboard
+            visible: !lomiriSettings.alwaysShowOsk && root.hasKeyboard
             anchors.verticalCenter: parent.verticalCenter
             MouseArea {
                 anchors.fill: parent
-                onClicked: unity8Settings.alwaysShowOsk = true
+                onClicked: lomiriSettings.alwaysShowOsk = true
             }
         }
         Icon {

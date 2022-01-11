@@ -35,7 +35,7 @@ Showable {
         id: sideStageDragHandle
 
         opacity: root.shown ? 1 : 0
-        Behavior on opacity { UbuntuNumberAnimation {} }
+        Behavior on opacity { LomiriNumberAnimation {} }
 
         anchors {
             right: root.left
