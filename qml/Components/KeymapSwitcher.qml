@@ -83,8 +83,8 @@ QtObject {
     // indicator
     property QDBusActionGroup actionGroup: QDBusActionGroup {
         busType: DBus.SessionBus
-        busName: "com.canonical.indicator.keyboard"
-        objectPath: "/com/canonical/indicator/keyboard"
+        busName: "org.ayatana.indicator.keyboard"
+        objectPath: "/org/ayatana/indicator/keyboard"
 
         property variant currentAction: action("current") // the one that's checked by the indicator
         property variant activeAction: action("active")   // the one that we clicked

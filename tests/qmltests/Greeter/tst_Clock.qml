@@ -37,7 +37,7 @@ Rectangle {
     }
 
     function updateDatetimeModelTime(label) {
-        Indicators.LomiriMenuModelCache.setCachedModelData("/com/canonical/indicator/datetime/phone",
+        Indicators.LomiriMenuModelCache.setCachedModelData("/org/ayatana/indicator/datetime/phone",
             [{
                 "rowData": {
                     "actionState": { "label": label }

@@ -671,8 +671,8 @@ Item {
             QDBusActionGroup {
                 id: tzActionGroup
                 busType: DBus.SessionBus
-                busName: "com.canonical.indicator.datetime"
-                objectPath: "/com/canonical/indicator/datetime"
+                busName: "org.ayatana.indicator.datetime"
+                objectPath: "/org/ayatana/indicator/datetime"
 
                 property variant setLocation: action("set-location")
 
@@ -1149,7 +1149,7 @@ Item {
         }
         if (modelData.action !== undefined && modelData.action.indexOf("settings") > -1) {
             // FIXME : At the moment, the indicators aren't using
-            // com.canonical.indicators.link for settings menu. Need to fudge it.
+            // org.ayatana.indicators.link for settings menu. Need to fudge it.
             return linkMenu;
         }
         return standardMenu;
