@@ -93,7 +93,7 @@ StyledItem {
 
     readonly property bool orientationChangesEnabled: panel.indicators.fullyClosed
             && stage.orientationChangesEnabled
-            && (!greeter || !greeter.animating)
+            && (!greeter.animating)
 
     readonly property bool showingGreeter: greeter && greeter.shown
 
@@ -104,7 +104,7 @@ StyledItem {
         if (startingUp) {
             // Ensure we don't rotate during start up
             return Qt.PrimaryOrientation;
-        } else if (showingGreeter || notifications.topmostIsFullscreen) {
+        } else if (notifications.topmostIsFullscreen) {
             return Qt.PrimaryOrientation;
         } else {
             return shell.orientations ? shell.orientations.map(stage.supportedOrientations) : Qt.PrimaryOrientation;
@@ -436,6 +436,8 @@ StyledItem {
             enabled: panel.indicators.fullyClosed // hides OSK when panel is open
             hides: [launcher, panel.indicators, panel.applicationMenus]
             tabletMode: shell.usageScenario != "phone"
+            usageMode: shell.usageScenario
+            orientation: shell.orientation
             forcedUnlock: wizard.active || shell.mode === "full-shell"
             background: wallpaperResolver.background
             backgroundSourceSize: shell.largestScreenDimension
