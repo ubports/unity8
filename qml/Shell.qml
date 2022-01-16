@@ -603,7 +603,7 @@ StyledItem {
             superPressed: physicalKeysMapper.superPressed
             superTabPressed: physicalKeysMapper.superTabPressed
             panelWidth: units.gu(settings.launcherWidth)
-            lockedVisible: (lockedByUser || shell.atDesktop) && lockAllowed
+            lockedVisible: ((lockedByUser && !greeter.locked) || shell.atDesktop) && lockAllowed
             topPanelHeight: panel.panelHeight
             drawerEnabled: !greeter.active && tutorial.launcherLongSwipeEnabled
             privateMode: greeter.active
