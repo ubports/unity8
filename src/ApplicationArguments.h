@@ -44,7 +44,7 @@ public:
     QString mode() const { return m_mode; }
 
     void setInteractiveBlur(const bool &value) { m_interactiveBlur = value; }
-    bool interactiveBlur() { return m_blur; }
+    bool interactiveBlur() { return m_interactiveBlur; }
 
 Q_SIGNALS:
     void deviceNameChanged(const QString&);
