@@ -273,6 +273,7 @@ Item {
         nativeWidth: root.width
         nativeHeight: root.height
         mode: applicationArguments.mode
+        interactiveBlur: applicationArguments.interactiveBlur
         hasMouse: pointerInputDevices > 0
         hasKeyboard: keyboardsModel.count > 0
         hasTouchscreen: touchScreensModel.count > 0

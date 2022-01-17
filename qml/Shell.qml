@@ -59,6 +59,7 @@ StyledItem {
     property alias panelAreaShowProgress: panel.panelAreaShowProgress
     property string usageScenario: "phone" // supported values: "phone", "tablet" or "desktop"
     property string mode: "full-greeter"
+    property bool interactiveBlur: false
     property alias oskEnabled: inputMethod.enabled
     function updateFocusedAppOrientation() {
         stage.updateFocusedAppOrientation();
@@ -604,6 +605,8 @@ StyledItem {
             superTabPressed: physicalKeysMapper.superTabPressed
             panelWidth: units.gu(settings.launcherWidth)
             lockedVisible: (lockedByUser || shell.atDesktop) && lockAllowed
+            blurSource: greeter.shown ? greeter : stages
+            interactiveBlur: shell.interactiveBlur
             topPanelHeight: panel.panelHeight
             drawerEnabled: !greeter.active && tutorial.launcherLongSwipeEnabled
             privateMode: greeter.active
