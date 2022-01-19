@@ -58,6 +58,12 @@ ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
 
     m_qmlArgs.setMode(parser.mode());
 
+    {
+        char buffer[200];
+        property_get("ubuntu.unity8.interactive_blur", buffer, "false");
+        m_qmlArgs.setInteractiveBlur(QString(buffer) == QStringLiteral("true"));
+    }
+
     // The testability driver is only loaded by QApplication but not by QGuiApplication.
     // However, QApplication depends on QWidget which would add some unneeded overhead => Let's load the testability driver on our own.
     if (parser.hasTestability() || getenv("QT_LOAD_TESTABILITY")) {

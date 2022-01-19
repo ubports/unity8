@@ -28,6 +28,7 @@ class ApplicationArguments : public QObject
     Q_OBJECT
     Q_PROPERTY(QString deviceName READ deviceName NOTIFY deviceNameChanged)
     Q_PROPERTY(QString mode READ mode CONSTANT)
+    Q_PROPERTY(bool interactiveBlur READ interactiveBlur CONSTANT)
 public:
     ApplicationArguments(QObject *parent = nullptr);
 
@@ -42,12 +43,16 @@ public:
     void setMode(const QString &mode) { m_mode = mode; }
     QString mode() const { return m_mode; }
 
+    void setInteractiveBlur(const bool &value) { m_interactiveBlur = value; }
+    bool interactiveBlur() { return m_interactiveBlur; }
+
 Q_SIGNALS:
     void deviceNameChanged(const QString&);
 
 private:
     QString m_deviceName;
     QString m_mode;
+    bool m_interactiveBlur;
 };
 
 #endif // APPLICATION_ARGUMENTS_H
