@@ -132,16 +132,11 @@ FocusScope {
         draggable: false
         state: "LoginList"
 
-        blurAreaHeight: loginList.highlightedHeight + units.gu(4.5)
-        blurAreaWidth: loginList.width + units.gu(3)
-        blurAreaX: loginList.x - units.gu(1.5)
-        blurAreaY: loginList.boxVerticalOffset + loginList.y - units.gu(3)
-        blurRadius: root.usageMode != "phone" && root.usageMode != "tablet" ? 64 : 0
-
         background: root.background
         backgroundSourceSize: root.backgroundSourceSize
         panelHeight: root.panelHeight
         hasCustomBackground: root.hasCustomBackground
+        backgroundShadeOpacity: 0.6
 
         showInfographic: root.usageMode != "phone" && isLandscape && !delayedLockscreen.visible
         infographicModel: root.infographicModel
@@ -352,6 +347,7 @@ FocusScope {
         width: parent.width
         background: root.background
         hasCustomBackground: root.hasCustomBackground
+        backgroundShadeOpacity: 0.4
         panelHeight: root.panelHeight
         draggable: !root.waiting
         onTease: root.tease()
