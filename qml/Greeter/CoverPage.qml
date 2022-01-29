@@ -34,7 +34,7 @@ Showable {
     property var infographicModel
     property bool draggable: true
 
-    property alias showInfographic: infographicsLoader.active
+    property bool showInfographic: false
     property real infographicsLeftMargin: 0
     property real infographicsTopMargin: 0
     property real infographicsRightMargin: 0
@@ -108,15 +108,8 @@ Showable {
         visible: false
     }
 
-    Loader {
-        id: infographicsLoader
-        objectName: "infographicsLoader"
-        sourceComponent:Infographics {
-            id: infographics
-            objectName: "infographics"
-            model: root.infographicModel
-            clip: true // clip large data bubbles
-        }
+    Item {
+        id: infographicsArea
 
         anchors {
             leftMargin: root.infographicsLeftMargin
@@ -127,6 +120,20 @@ Showable {
             bottom: parent.bottom
             left: parent.left
             right: parent.right
+        }
+    }
+
+    Loader {
+        id: infographicsLoader
+        objectName: "infographicsLoader"
+        active: root.showInfographic && infographicsArea.width > units.gu(32)
+        anchors.fill: infographicsArea
+
+        sourceComponent:Infographics {
+            id: infographics
+            objectName: "infographics"
+            model: root.infographicModel
+            clip: true // clip large data bubbles
         }
     }
 

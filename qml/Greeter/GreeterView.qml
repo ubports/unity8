@@ -138,7 +138,7 @@ FocusScope {
         hasCustomBackground: root.hasCustomBackground
         backgroundShadeOpacity: 0.6
 
-        showInfographic: root.usageMode != "phone" && isLandscape && !delayedLockscreen.visible
+        showInfographic: isLandscape && root.usageMode != "phone" && (root.usageMode != "tablet" || root.multiUser) && !delayedLockscreen.visible
         infographicModel: root.infographicModel
 
         shown: false
@@ -355,7 +355,7 @@ FocusScope {
         backgroundSourceSize: root.backgroundSourceSize
         infographicModel: root.infographicModel
 
-        showInfographic: !root.multiUser && (!isLandscape || root.usageMode == "phone")
+        showInfographic: !root.multiUser && root.usageMode != "desktop"
 
         onShowProgressChanged: {
             if (showProgress === 0) {
