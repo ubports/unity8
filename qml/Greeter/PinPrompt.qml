@@ -166,7 +166,7 @@ FocusScope {
     // the user to be able to edit the field (simply because it would look
     // weird if we allowed that).  But until we have such a disabled mode,
     // we'll fake it by covering the real text field with a label.
-    FadingLabel {
+    Label {
         id: fakeLabel
         anchors.verticalCenter: extraIcons ? extraIcons.verticalCenter : undefined
         anchors.left: extraIcons ? extraIcons.left : undefined
