@@ -1295,8 +1295,8 @@ StyledItem {
                     multiUser: false,
                     usageMode: "tablet",
                     orientation: Qt.LandscapeOrientation,
-                    coverPage: false,
-                    lockscreen: true
+                    coverPage: true,
+                    lockscreen: false
                 },
                 {
                     tag: "tablet-landscape-multiuser",
