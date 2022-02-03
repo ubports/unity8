@@ -32,6 +32,8 @@ StyledItem {
     property bool waiting
     property alias boxVerticalOffset: highlightItem.y
     property string _realName
+    property bool isLandscape
+    property string usageMode
 
     readonly property int numAboveBelow: 4
     readonly property int cellHeight: units.gu(5)
@@ -257,8 +259,10 @@ StyledItem {
             horizontalCenter: highlightItem.horizontalCenter
             margins: units.gu(2)
         }
-        width: highlightItem.width - anchors.margins * 2
-
+        defaultPromptWidth: highlightItem.width - anchors.margins * 2
+        isLandscape: root.isLandscape
+        usageMode: root.usageMode
+        width: root.width
         focus: true
 
         onClicked: {

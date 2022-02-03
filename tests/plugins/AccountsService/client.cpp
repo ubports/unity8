@@ -227,6 +227,24 @@ private Q_SLOTS:
         QTRY_COMPARE(session.passwordDisplayHint(), AccountsService::Numeric);
     }
 
+    void testAsynchronousChangeForPinCodeManager()
+    {
+        AccountsService session(this, QTest::currentTestFunction());
+
+        ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
+                                                    "com.ubuntu.AccountsService.SecurityPrivacy",
+                                                    "PinCodePromptManager",
+                                                    dbusVariant("SchemaPinCodeManagerThatDoesNotExist")));
+        QTRY_COMPARE(session.pinCodePromptManager(), session.defaultPinCodePromptManager());
+
+        ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
+                                                    "com.ubuntu.AccountsService.SecurityPrivacy",
+                                                    "PinCodePromptManager",
+                                                    dbusVariant("ClockPinPrompt")));
+        QTRY_COMPARE(session.pinCodePromptManager(), "ClockPinPrompt.qml");
+
+    }
+
     void testAsynchronousChangeForBackgroundFile()
     {
         AccountsService session(this, QTest::currentTestFunction());

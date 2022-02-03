@@ -61,6 +61,11 @@ class AccountsService: public QObject
     Q_PROPERTY (PasswordDisplayHint passwordDisplayHint
                 READ passwordDisplayHint
                 NOTIFY passwordDisplayHintChanged)
+    Q_PROPERTY(QString pinCodePromptManager
+               READ pinCodePromptManager
+               WRITE setPinCodePromptManager
+               NOTIFY pinCodePromptManagerChanged)
+    Q_PROPERTY(QString defaultPinCodePromptManager READ defaultPinCodePromptManager CONSTANT)
     Q_PROPERTY (uint failedLogins
                 READ failedLogins
                 WRITE setFailedLogins
@@ -103,6 +108,9 @@ public:
     bool statsWelcomeScreen() const;
     void setStatsWelcomeScreen(bool statsWelcomeScreen);
     PasswordDisplayHint passwordDisplayHint() const;
+    QString pinCodePromptManager() const;
+    QString defaultPinCodePromptManager() const;
+    void setPinCodePromptManager(const QString pinCodePromptManager);
     uint failedLogins() const;
     void setFailedLogins(uint failedLogins);
     uint failedFingerprintLogins() const;
@@ -129,6 +137,7 @@ Q_SIGNALS:
     void realNameChanged();
     void emailChanged();
     void keymapsChanged();
+    void pinCodePromptManagerChanged();
 
 private:
     bool m_enableFingerprintIdentification;
@@ -145,4 +154,5 @@ private:
     QStringList m_kbdMap;
     QString m_email;
     UsersModel *m_usersModel;
+    QString m_pinCodePromptManager;
 };

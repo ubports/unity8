@@ -177,7 +177,7 @@ void Greeter::handleAuthenticate()
     if (d->authenticationUser == "no-password") {
         d->authenticated = true;
         Q_EMIT authenticationComplete();
-    } else if (d->authenticationUser == "has-pin") {
+    } else if (d->authenticationUser == "has-pin" || d->authenticationUser == "has-pin-clock") {
         Q_EMIT showPrompt("Password: ", Greeter::PromptTypeSecret);
     } else if (d->authenticationUser == "auth-error") {
         d->authenticated = false;
@@ -288,7 +288,7 @@ void Greeter::respond(const QString &response)
         return;
     }
 
-    if (d->authenticationUser == "has-pin") {
+    if (d->authenticationUser == "has-pin" || d->authenticationUser == "has-pin-clock") {
         d->authenticated = (response == "1234");
     } else if (d->authenticationUser == "question-prompt") {
         d->authenticated = (response == "blue");

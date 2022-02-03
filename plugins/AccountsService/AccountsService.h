@@ -58,6 +58,8 @@ class AccountsService: public QObject
     Q_PROPERTY (PasswordDisplayHint passwordDisplayHint
                 READ passwordDisplayHint
                 NOTIFY passwordDisplayHintChanged)
+    Q_PROPERTY(QString pinCodePromptManager READ pinCodePromptManager NOTIFY pinCodePromptManagerChanged)
+    Q_PROPERTY(QString defaultPinCodePromptManager READ defaultPinCodePromptManager CONSTANT)
     Q_PROPERTY (uint failedLogins
                 READ failedLogins
                 WRITE setFailedLogins
@@ -92,6 +94,8 @@ public:
     QString backgroundFile() const;
     bool statsWelcomeScreen() const;
     PasswordDisplayHint passwordDisplayHint() const;
+    QString pinCodePromptManager() const;
+    QString defaultPinCodePromptManager() const;
     uint failedLogins() const;
     void setFailedLogins(uint failedLogins);
     uint failedFingerprintLogins() const;
@@ -118,6 +122,7 @@ Q_SIGNALS:
     void realNameChanged();
     void emailChanged();
     void keymapsChanged();
+    void pinCodePromptManagerChanged();
 
 private Q_SLOTS:
     void onPropertiesChanged(const QString &user, const QString &interface, const QStringList &changed);
@@ -147,6 +152,7 @@ private:
         ProxyConverter proxyConverter{};
     };
     typedef QHash< QString, QHash<QString, PropertyInfo> > PropertyHash;
+    QString m_defaultPinPromptManager;
     PropertyHash m_properties;
     AccountsServiceDBusAdaptor *m_service;
     QDBusInterface *m_unityInput;

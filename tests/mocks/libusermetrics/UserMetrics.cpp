@@ -303,6 +303,7 @@ void UserMetricsPrivate::generateFakeData()
                         ninth, secondMonth, this));
         m_fakeData.insert("single", data);
         m_fakeData.insert("has-pin", data);
+        m_fakeData.insert("has-pin-clock", data);
     }
 
     {
@@ -319,6 +320,7 @@ void UserMetricsPrivate::generateFakeData()
                         firstMonth, eighth, secondMonth, this));
         m_fakeData.insert("single", data);
         m_fakeData.insert("has-pin", data);
+        m_fakeData.insert("has-pin-clock", data);
     }
 
     {
@@ -336,6 +338,7 @@ void UserMetricsPrivate::generateFakeData()
                         firstMonth, second, secondMonth, this));
         m_fakeData.insert("single", data);
         m_fakeData.insert("has-pin", data);
+        m_fakeData.insert("has-pin-clock", data);
         // Also use same data for some tablet users
         m_fakeData.insert("has-password", data);
         m_fakeData.insert("no-password", data);

@@ -45,6 +45,8 @@ void UsersModelPrivate::resetEntries()
         resetEntries_singlePassphrase();
     } else if (mockMode == "single-pin") {
         resetEntries_singlePin();
+    }  else if (mockMode == "single-pin-clock") {
+        resetEntries_singlePinClock();
     } else if (mockMode == "full") {
         resetEntries_full();
     }
@@ -93,12 +95,21 @@ void UsersModelPrivate::resetEntries_singlePin()
     };
 }
 
+void UsersModelPrivate::resetEntries_singlePinClock()
+{
+    entries =
+    {
+        { "has-pin-clock", "Has PIN Clock", 0, 0, false, false, "ubuntu", 0, 0 },
+    };
+}
+
 void UsersModelPrivate::resetEntries_full()
 {
     entries =
     {
         { "has-password",      "Has Password", 0, 0, false, false, "ubuntu", 0, 0 },
         { "has-pin",           "Has PIN",      0, 0, false, false, "ubuntu", 0, 0 },
+        { "has-pin-clock",     "Has PIN Clock", 0, 0, false, false, "ubuntu", 0, 0 },
         { "different-prompt",  "Different Prompt", 0, 0, false, false, "ubuntu", 0, 0 },
         { "no-password",       "No Password", 0, 0, false, false, "ubuntu", 0, 0 },
         { "auth-error",        "Auth Error", 0, 0, false, false, "ubuntu", 0, 0 },

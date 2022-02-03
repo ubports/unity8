@@ -31,6 +31,7 @@ Item {
     property bool hasCustomBackground
     property bool locked
     property bool alphanumeric
+    property string pinCodeManager
     property var userModel
     property var infographicModel
     property bool waiting

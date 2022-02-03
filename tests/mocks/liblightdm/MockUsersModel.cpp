@@ -159,6 +159,8 @@ void UsersModel::resetEntries()
         d->entries = {{"has-password", "Has Password", "", 0, false, false, "ubuntu", 0}};
     } else if (userMode == "single-pin") {
         d->entries = {{"has-pin", "Has PIN", "", 0, false, false, "ubuntu", 0}};
+    } else if (userMode == "single-pin-clock") {
+        d->entries = {{"has-pin-clock", "Has PIN Clock", "", 0, false, false, "ubuntu", 0}};
     } else if (userMode == "full") {
        /*
          * Since the real model sorts these entries alphabetically, the model indices
@@ -174,6 +176,7 @@ void UsersModel::resetEntries()
             { "empty-name",        "", 0, 0, false, false, "ubuntu", 0 },
             { "has-password",      "Has Password", 0, 0, false, false, "ubuntu", 0 },
             { "has-pin",           "Has PIN",      0, 0, false, false, "ubuntu", 0 },
+            { "has-pin-clock",      "Has PIN Clock",      0, 0, false, false, "ubuntu", 0 },
             { "html-info-prompt",  "HTML Info Prompt", 0, 0, false, false, "ubuntu", 0 },
             { "info-after-login",  "Info After Login", 0, 0, false, false, "ubuntu", 0 },
             { "info-prompt",       "Info Prompt", 0, 0, false, false, "ubuntu", 0 },

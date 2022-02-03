@@ -55,6 +55,7 @@ private:
     void resetEntries_single();
     void resetEntries_singlePassphrase();
     void resetEntries_singlePin();
+    void resetEntries_singlePinClock();
     void resetEntries_full();
     Q_DECLARE_PUBLIC(UsersModel)
 };

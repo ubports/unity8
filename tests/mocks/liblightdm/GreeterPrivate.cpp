@@ -40,7 +40,7 @@ void GreeterPrivate::handleAuthenticate()
     if (mockMode == "single") {
         authenticated = true;
         Q_EMIT q->authenticationComplete();
-    } else if (mockMode == "single-passphrase" || mockMode == "single-pin") {
+    } else if (mockMode == "single-passphrase" || mockMode == "single-pin" || mockMode == "single-pin-clock") {
         Q_EMIT q->showPrompt("Password: ", Greeter::PromptTypeSecret);
     } else if (mockMode == "full") {
         handleAuthenticate_full();
@@ -70,7 +70,7 @@ void GreeterPrivate::handleAuthenticate_full()
     if (authenticationUser == "no-password") {
         authenticated = true;
         Q_EMIT q->authenticationComplete();
-    } else if (authenticationUser == "has-pin"){
+    } else if (authenticationUser == "has-pin" || authenticationUser == "has-pin-clock"){
         Q_EMIT q->showPrompt("Password: ", Greeter::PromptTypeSecret);
     } else if (authenticationUser == "auth-error") {
         authenticated = false;
@@ -91,7 +91,7 @@ void GreeterPrivate::handleRespond(QString const &response)
     } else if (mockMode == "single-passphrase") {
         authenticated = (response == "password");
         q->sendAuthenticationComplete();
-    } else if (mockMode == "single-pin") {
+    } else if (mockMode == "single-pin" || mockMode == "single-pin-clock") {
         authenticated = (response == "1234");
         q->sendAuthenticationComplete();
     } else if (mockMode == "full") {
@@ -121,7 +121,7 @@ void GreeterPrivate::handleRespond_full(const QString &response)
         return;
     }
 
-    if (authenticationUser == "has-pin") {
+    if (authenticationUser == "has-pin" || authenticationUser == "has-pin-clock") {
         authenticated = (response == "1234");
     } else {
         authenticated = (response == "password");

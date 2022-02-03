@@ -93,6 +93,23 @@ Item {
                         }
                     }
                 }
+                Row {
+                    anchors { left: parent.left; right: parent.right }
+                    CheckBox {
+                        id: clockPinCodeCheckbox
+                        onCheckedChanged:  {
+                            if (checked) {
+                                AccountsService.pinCodePromptManager = "ClockPinPrompt.qml"
+                            } else {
+                                AccountsService.pinCodePromptManager = "PinPrompt.qml"
+                            }
+                        }
+                    }
+                    Label {
+                        color: "grey"
+                        text: "Clock based pincode"
+                    }
+                }
                 Button {
                     anchors { left: parent.left; right: parent.right }
                     text: "Show Greeter"

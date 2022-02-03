@@ -23,6 +23,7 @@
 #include <QDebug>
 
 #include <glib.h>
+#include <paths.h>
 
 #define IFACE_ACCOUNTS_USER          QStringLiteral("org.freedesktop.Accounts.User")
 #define IFACE_UBUNTU_INPUT           QStringLiteral("com.ubuntu.AccountsService.Input")
@@ -48,6 +49,7 @@
 #define PROP_MOUSE_PRIMARY_BUTTON              QStringLiteral("MousePrimaryButton")
 #define PROP_MOUSE_SCROLL_SPEED                QStringLiteral("MouseScrollSpeed")
 #define PROP_PASSWORD_DISPLAY_HINT             QStringLiteral("PasswordDisplayHint")
+#define PROP_PINCODE_PROMPT_MANAGER            QStringLiteral("PinCodePromptManager")
 #define PROP_REAL_NAME                         QStringLiteral("RealName")
 #define PROP_STATS_WELCOME_SCREEN              QStringLiteral("StatsWelcomeScreen")
 #define PROP_TOUCHPAD_CURSOR_SPEED             QStringLiteral("TouchpadCursorSpeed")
@@ -78,6 +80,7 @@ QVariant primaryButtonConverter(const QVariant &value)
 
 AccountsService::AccountsService(QObject* parent, const QString &user)
     : QObject(parent)
+    , m_defaultPinPromptManager("PinPrompt.qml")
     , m_service(new AccountsServiceDBusAdaptor(this))
 {
     m_unityInput = new QDBusInterface(QStringLiteral("com.canonical.Unity.Input"),
@@ -92,6 +95,7 @@ AccountsService::AccountsService(QObject* parent, const QString &user)
     registerProperty(IFACE_ACCOUNTS_USER, PROP_EMAIL, QStringLiteral("emailChanged"));
     registerProperty(IFACE_ACCOUNTS_USER, PROP_REAL_NAME, QStringLiteral("realNameChanged"));
     registerProperty(IFACE_ACCOUNTS_USER, PROP_INPUT_SOURCES, QStringLiteral("keymapsChanged"));
+    registerProperty(IFACE_UBUNTU_SECURITY, PROP_PINCODE_PROMPT_MANAGER, QStringLiteral("pinCodePromptManagerChanged"));
     registerProperty(IFACE_UBUNTU_SECURITY, PROP_ENABLE_FINGERPRINT_IDENTIFICATION, QStringLiteral("enableFingerprintIdentificationChanged"));
     registerProperty(IFACE_UBUNTU_SECURITY, PROP_ENABLE_LAUNCHER_WHILE_LOCKED, QStringLiteral("enableLauncherWhileLockedChanged"));
     registerProperty(IFACE_UBUNTU_SECURITY, PROP_ENABLE_INDICATORS_WHILE_LOCKED, QStringLiteral("enableIndicatorsWhileLockedChanged"));
@@ -211,6 +215,30 @@ AccountsService::PasswordDisplayHint AccountsService::passwordDisplayHint() cons
 {
     auto value = getProperty(IFACE_UBUNTU_SECURITY, PROP_PASSWORD_DISPLAY_HINT);
     return (PasswordDisplayHint)value.toInt();
+}
+
+QString AccountsService::pinCodePromptManager() const
+{
+
+    auto value = getProperty(IFACE_UBUNTU_SECURITY, PROP_PINCODE_PROMPT_MANAGER);
+    if (!value.isValid()) {
+        return m_defaultPinPromptManager;
+    } else {
+        QString file = value.toString() + ".qml";
+        if (file == m_defaultPinPromptManager) {
+            return m_defaultPinPromptManager;
+        } else if (!QFile::exists(qmlDirectory() + "/Greeter/" + file)) {
+            qWarning() << "failed to load pinCodePromptManager " << file << ", fallback to " << m_defaultPinPromptManager;
+            return m_defaultPinPromptManager;
+        } else {
+            return file;
+        }
+    }
+}
+
+QString AccountsService::defaultPinCodePromptManager() const
+{
+    return m_defaultPinPromptManager;
 }
 
 QString AccountsService::realName() const

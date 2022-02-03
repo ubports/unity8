@@ -31,7 +31,8 @@ AccountsService::AccountsService(QObject* parent)
     m_failedFingerprintLogins(0),
     m_demoEdges(false),
     m_demoEdgesCompleted(),
-    m_usersModel(new UsersModel(this))
+    m_usersModel(new UsersModel(this)),
+    m_pinCodePromptManager("PinPrompt.qml")
 {
 }
 
@@ -46,6 +47,7 @@ void AccountsService::setUser(const QString &user)
     Q_EMIT userChanged();
     Q_EMIT passwordDisplayHintChanged();
     Q_EMIT backgroundFileChanged();
+    Q_EMIT pinCodePromptManagerChanged();
 }
 
 bool AccountsService::demoEdges() const
@@ -146,10 +148,30 @@ void AccountsService::setStatsWelcomeScreen(bool statsWelcomeScreen)
 
 AccountsService::PasswordDisplayHint AccountsService::passwordDisplayHint() const
 {
-    if (m_user == "has-pin")
+    if (m_user == "has-pin" || m_user == "has-pin-clock")
         return PasswordDisplayHint::Numeric;
     else
         return PasswordDisplayHint::Keyboard;
+}
+
+QString AccountsService::pinCodePromptManager() const
+{
+    if (m_user == "has-pin-clock") {
+        return "ClockPinPrompt.qml";
+    } else {
+        return m_pinCodePromptManager;
+    }
+}
+
+QString AccountsService::defaultPinCodePromptManager() const
+{
+    return "PinPrompt.qml";
+}
+
+void AccountsService::setPinCodePromptManager(const QString pinCodePromptManager)
+{
+    m_pinCodePromptManager = pinCodePromptManager;
+    Q_EMIT pinCodePromptManagerChanged();
 }
 
 uint AccountsService::failedLogins() const
