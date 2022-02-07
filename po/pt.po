@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-29 11:42-0600\n"
-"PO-Revision-Date: 2021-06-01 14:51+0000\n"
-"Last-Translator: Ivo Xavier <ivofernandes12@gmail.com>\n"
+"PO-Revision-Date: 2021-11-19 22:39+0000\n"
+"Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://translate.ubports.com/projects/ubports/"
 "lomiri/pt/>\n"
 "Language: pt\n"
@@ -531,7 +531,7 @@ msgstr "Ligar de volta"
 
 #: qml/Panel/PanelMenuPage.qml:92
 msgid "Back"
-msgstr "Retroceder"
+msgstr "Voltar"
 
 #: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
@@ -712,7 +712,7 @@ msgstr "Está pronto/a para usar o seu dispositivo"
 
 #: qml/Wizard/Pages/80-finished.qml:126
 msgid "Continue"
-msgstr "Avançar"
+msgstr "Continuar"
 
 #: qml/Wizard/Pages/80-finished.qml:126
 msgid "Get Started"

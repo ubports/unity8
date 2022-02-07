@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-29 11:42-0600\n"
-"PO-Revision-Date: 2021-07-22 23:44+0000\n"
+"PO-Revision-Date: 2021-10-15 10:11+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://translate.ubports.com/projects/"
 "ubports/lomiri/nb/>\n"
@@ -131,10 +131,8 @@ msgid "Restart"
 msgstr "Start på nytt"
 
 #: qml/Components/Dialogs.qml:276
-#, fuzzy
-#| msgid "Takes a screenshot."
 msgid "Screenshot"
-msgstr "Tar bilde av skjermen."
+msgstr "Skjermavbildning"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
