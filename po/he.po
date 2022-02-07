@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-29 11:42-0600\n"
-"PO-Revision-Date: 2020-09-05 22:10+0000\n"
-"Last-Translator: tamer dab <dabsantamer@yahoo.com>\n"
-"Language-Team: Hebrew <https://translate.ubports.com/projects/unity8/unity8/"
+"PO-Revision-Date: 2022-02-07 20:15+0000\n"
+"Last-Translator: anonymous <noreply@weblate.org>\n"
+"Language-Team: Hebrew <https://translate.ubports.com/projects/ubports/lomiri/"
 "he/>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
@@ -129,10 +129,8 @@ msgid "Restart"
 msgstr "הפעלה מחדש"
 
 #: qml/Components/Dialogs.qml:276
-#, fuzzy
-#| msgid "Takes a screenshot."
 msgid "Screenshot"
-msgstr "מצלם מסך."
+msgstr "צילום מסך"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
@@ -140,7 +138,7 @@ msgstr "קיצורי דרך במקלדת"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
 msgid "Lomiri"
-msgstr ""
+msgstr "Lomiri"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -458,13 +456,13 @@ msgstr "שום דבר לא מתנגן"
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 שעה"
-msgstr[1] "%1 שעות"
+msgstr[1] "%1 שעת"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1001
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
-msgstr[0] "דקה %1"
+msgstr[0] "%1 דקה"
 msgstr[1] "%1 דקות"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1006
@@ -526,7 +524,7 @@ msgstr "התקשר חזרה"
 
 #: qml/Panel/PanelMenuPage.qml:92
 msgid "Back"
-msgstr "חזור"
+msgstr "חזרה"
 
 #: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
@@ -559,7 +557,7 @@ msgstr "החלק מהקצה העליון כדי לגשת להתראות ולהג
 #: qml/Wizard/Page.qml:59
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
-msgstr "חזור"
+msgstr "חזרה"
 
 #: qml/Wizard/Pages/10-welcome.qml:29
 msgid "Language"

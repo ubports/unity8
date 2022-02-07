@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-29 11:42-0600\n"
-"PO-Revision-Date: 2021-07-18 22:26+0000\n"
-"Last-Translator: Mike <miguel2000@livecom.it>\n"
+"PO-Revision-Date: 2022-01-22 21:58+0000\n"
+"Last-Translator: Matteo <mattbel10@hotmail.com>\n"
 "Language-Team: Italian <https://translate.ubports.com/projects/ubports/"
 "lomiri/it/>\n"
 "Language: it\n"
@@ -409,7 +409,7 @@ msgstr "Riprova"
 
 #: qml/Greeter/Greeter.qml:551
 msgid "Enter passphrase to unlock"
-msgstr "Inserire passphrase per sbloccare"
+msgstr "Inserire parola chiave per sbloccare"
 
 #: qml/Greeter/Greeter.qml:552
 msgid "Enter passcode to unlock"
@@ -421,7 +421,7 @@ msgstr "Emergenza"
 
 #: qml/Greeter/PromptList.qml:126
 msgid "Passphrase"
-msgstr "Passphrase"
+msgstr "Parola chiave"
 
 #: qml/Greeter/PromptList.qml:126
 msgid "Passcode"
@@ -540,12 +540,12 @@ msgstr "Trascinare con 3 dita qualsiasi applicazione da una finestra all'altra"
 
 #: qml/Stage/Stage.qml:671
 msgid "No running apps"
-msgstr "Nessun applicazione in esecuzione"
+msgstr "Nessuna applicazione in esecuzione"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
 msgid "Long swipe from the left edge to open the Application Drawer"
 msgstr ""
-"Scorrere lentamente dal bordo sinistro per aprire il Drawer delle "
+"Scorrere lentamente dal bordo sinistro per aprire il Cassetto delle "
 "Applicazioni"
 
 #: qml/Tutorial/TutorialLeft.qml:47

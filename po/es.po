@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-29 11:42-0600\n"
-"PO-Revision-Date: 2021-03-31 05:24+0000\n"
-"Last-Translator: Josué <j2g2rp@gmail.com>\n"
+"PO-Revision-Date: 2021-10-04 12:20+0000\n"
+"Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://translate.ubports.com/projects/ubports/"
 "lomiri/es/>\n"
 "Language: es\n"
@@ -34,11 +34,11 @@ msgstr "Fallo al autenticar"
 
 #: plugins/LightDM/Greeter.cpp:260
 msgid "Invalid password, please try again"
-msgstr "Contraseña incorrecta, por favor, inténtelo de nuevo"
+msgstr "Contraseña incorrecta; inténtelo de nuevo"
 
 #: plugins/LightDM/Greeter.cpp:270
 msgid "Log In"
-msgstr "Iniciar sesión"
+msgstr "Acceder"
 
 #: plugins/LightDM/Greeter.cpp:270
 msgid "Retry"
@@ -46,7 +46,7 @@ msgstr "Reintentar"
 
 #: plugins/LightDM/UsersModel.cpp:157
 msgid "Login"
-msgstr "Iniciar sesión"
+msgstr "Acceder"
 
 #: plugins/LightDM/UsersModel.cpp:165
 msgid "Guest Session"
@@ -68,7 +68,7 @@ msgstr "Desanclar atajo"
 #: qml/Components/Dialogs.qml:176
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
-msgstr "Cerrar la sesión"
+msgstr "Cerrar sesión"
 
 #: qml/Components/Dialogs.qml:177
 msgid "Are you sure you want to log out?"
@@ -82,7 +82,7 @@ msgstr "Bloquear"
 #: qml/Components/Dialogs.qml:191
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
-msgstr "Cerrar la sesión"
+msgstr "Cerrar sesión"
 
 #: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:284
 #: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
@@ -164,7 +164,7 @@ msgstr "Super + Espacio"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:93
 msgid "Switches to next keyboard layout."
-msgstr "Cambia a la siguiente disposición de teclado."
+msgstr "Cambia a la disposición de teclado siguiente."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:101
 msgid "Super + Shift + Space"
@@ -172,7 +172,7 @@ msgstr "Super + Mayús + Espacio"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:106
 msgid "Switches to previous keyboard layout."
-msgstr "Cambia a la anterior disposición de teclado."
+msgstr "Cambia a la disposición de teclado anterior."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:114
 msgid "Ctrl + Alt + T"
@@ -184,15 +184,15 @@ msgstr "Abre la aplicación Terminal."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:131
 msgid "Launcher"
-msgstr "Lanzador"
+msgstr "Iniciador"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:138
 msgid "Super (Hold)"
-msgstr "Super (Mantener)"
+msgstr "Súper (mantener)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:143
 msgid "Opens the launcher, displays shortcuts."
-msgstr "Abre el lanzador y muestra los atajos."
+msgstr "Abre el iniciador y muestra los atajos."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:151
 msgid "Alt + F1"
@@ -200,7 +200,7 @@ msgstr "Alt + F1"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:156
 msgid "Opens launcher keyboard navigation mode."
-msgstr "Abre el Lanzador en modo de navegación de teclado."
+msgstr "Abre el iniciador en modo de navegación de teclado."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:164
 msgid "Super + Tab"
@@ -208,7 +208,7 @@ msgstr "Super + Tab"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:169
 msgid "Switches applications via the launcher."
-msgstr "Recorre las aplicaciones del Lanzador."
+msgstr "Cambia de aplicación mediante el iniciador."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:177
 msgid "Super + 1 to 0"
@@ -216,7 +216,7 @@ msgstr "Súper + 1 a 0"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:182
 msgid "Same as clicking on a launcher icon."
-msgstr "Lo mismo que hacer clic en un icono del Lanzador."
+msgstr "Lo mismo que pulsar en un icono del iniciador."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:190
 msgid "Super + A"
@@ -288,7 +288,7 @@ msgstr "Ctrl + Super + Arriba o Derecha"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:336
 msgid "Semi-maximizes the current window."
-msgstr "Semi-maximiza la ventana actual."
+msgstr "Semimaximiza la ventana actual."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:344
 msgid "Alt + F4"
@@ -373,7 +373,7 @@ msgstr "Deslice con dos dedos para desplazarse."
 
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
-msgstr "Encuentre mas ajustes en la configuración del sistema."
+msgstr "Encuentre más ajustes en Configuración del sistema."
 
 #: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
@@ -549,21 +549,21 @@ msgstr ""
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
-msgstr "Deslizar un poco desde el borde izquierdo para abrir el lanzador"
+msgstr "Deslice un poco desde el borde izquierdo para abrir el iniciador"
 
 #: qml/Tutorial/TutorialRight.qml:54
 msgid "Push your mouse against the right edge to view your open apps"
 msgstr ""
-"Para ver las aplicaciones abiertas empuja el ratón contra el borde derecho"
+"Para ver las aplicaciones abiertas empuje el ratón contra el borde derecho"
 
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Swipe from the right edge to view your open apps"
-msgstr "Deslizar desde el borde derecho para ver las aplis abiertas"
+msgstr "Deslice desde el borde derecho para ver las aplicaciones abiertas"
 
 #: qml/Tutorial/TutorialTop.qml:53
 msgid "Swipe from the top edge to access notifications and quick settings"
 msgstr ""
-"Deslizar desde el borde superior para acceder a las notificaciones y "
+"Deslice desde el borde superior para acceder a las notificaciones y "
 "configuración"
 
 #: qml/Wizard/Page.qml:59
@@ -583,7 +583,7 @@ msgstr "Idioma"
 #: qml/Wizard/Pages/passcode-desktop.qml:154
 #: qml/Wizard/Pages/password-set.qml:153
 msgid "Next"
-msgstr "Siguiente"
+msgstr "Sig."
 
 #: qml/Wizard/Pages/10-welcome-update.qml:91
 msgid "Welcome to "

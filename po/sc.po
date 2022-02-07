@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-29 11:42-0600\n"
-"PO-Revision-Date: 2021-04-22 10:44+0000\n"
+"PO-Revision-Date: 2021-11-21 15:09+0000\n"
 "Last-Translator: Adria <adriamartinmor@gmail.com>\n"
 "Language-Team: Sardinian <https://translate.ubports.com/projects/ubports/"
 "lomiri/sc/>\n"
@@ -539,7 +539,7 @@ msgstr "Traga cun 3 ditos is aplicatziones dae una ventana a s'àtera"
 
 #: qml/Stage/Stage.qml:671
 msgid "No running apps"
-msgstr "Peruna aplicatzione ativa"
+msgstr "Nissuna aplicatzione ativa"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
 msgid "Long swipe from the left edge to open the Application Drawer"
@@ -634,7 +634,7 @@ msgstr "Retes Wi-Fi a disponimentu"
 
 #: qml/Wizard/Pages/30-wifi.qml:173
 msgid "No available Wi-Fi networks"
-msgstr "Peruna rete Wi-Fi a disponimentu"
+msgstr "Nissuna rete Wi-Fi a disponimentu"
 
 #: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
@@ -669,7 +669,7 @@ msgstr "Crea unu còdighe de atzessu (nùmeros isceti)"
 #: qml/Wizard/Pages/70-passwd-type.qml:107
 msgctxt "Label: Type of security method"
 msgid "No lock code"
-msgstr "Perunu còdighe de blocu"
+msgstr "Nissunu còdighe de blocu"
 
 #: qml/Wizard/Pages/79-system-update.qml:28
 msgid "Update Device"
@@ -696,7 +696,7 @@ msgstr "Versione %1"
 
 #: qml/Wizard/Pages/79-system-update.qml:95
 msgid "This could take a few minutes..."
-msgstr "B'at a pònnere carchi minutu..."
+msgstr "Podet trigare calicunu minutu..."
 
 #: qml/Wizard/Pages/79-system-update.qml:109
 msgid "Install and restart now"
@@ -783,7 +783,7 @@ msgstr "Cunfirma sa crae"
 
 #: qml/Wizard/Pages/sim.qml:27
 msgid "No SIM card installed"
-msgstr "Peruna SIM installada"
+msgstr "Nissuna SIM installada"
 
 #: qml/Wizard/Pages/sim.qml:54
 msgid "SIM card added"

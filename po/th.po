@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-29 11:42-0600\n"
-"PO-Revision-Date: 2021-05-23 05:10+0000\n"
+"PO-Revision-Date: 2021-10-14 16:02+0000\n"
 "Last-Translator: Wannaphong Phatthiyaphaibun <wannaphong@yahoo.com>\n"
 "Language-Team: Thai <https://translate.ubports.com/projects/ubports/lomiri/"
 "th/>\n"
@@ -22,31 +22,31 @@ msgstr ""
 
 #: plugins/LightDM/Greeter.cpp:199
 msgid "Password: "
-msgstr ""
+msgstr "รหัสผ่าน: "
 
 #: plugins/LightDM/Greeter.cpp:214
 msgid "Username"
-msgstr ""
+msgstr "ชื่อผู้ใช้"
 
 #: plugins/LightDM/Greeter.cpp:258
 msgid "Failed to authenticate"
-msgstr ""
+msgstr "ไม่สามารถตรวจสอบสิทธิ์ได้"
 
 #: plugins/LightDM/Greeter.cpp:260
 msgid "Invalid password, please try again"
-msgstr ""
+msgstr "รหัสผ่านไม่ถูกต้อง กรุณาลองอีกครั้ง"
 
 #: plugins/LightDM/Greeter.cpp:270
 msgid "Log In"
-msgstr ""
+msgstr "เข้าสู่ระบบ"
 
 #: plugins/LightDM/Greeter.cpp:270
 msgid "Retry"
-msgstr ""
+msgstr "ลองอีกครั้ง"
 
 #: plugins/LightDM/UsersModel.cpp:157
 msgid "Login"
-msgstr ""
+msgstr "เข้าสู่ระบบ"
 
 #: plugins/LightDM/UsersModel.cpp:165
 msgid "Guest Session"
@@ -68,7 +68,7 @@ msgstr ""
 #: qml/Components/Dialogs.qml:176
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
-msgstr ""
+msgstr "ลงชื่อออก"
 
 #: qml/Components/Dialogs.qml:177
 msgid "Are you sure you want to log out?"
@@ -77,7 +77,7 @@ msgstr ""
 #: qml/Components/Dialogs.qml:180
 msgctxt "Button: Lock the system"
 msgid "Lock"
-msgstr ""
+msgstr "ล็อก"
 
 #: qml/Components/Dialogs.qml:191
 msgctxt "Button: Log out from the system"
@@ -101,16 +101,16 @@ msgstr ""
 
 #: qml/Components/Dialogs.qml:215
 msgid "No"
-msgstr ""
+msgstr "ไม่"
 
 #: qml/Components/Dialogs.qml:223
 msgid "Yes"
-msgstr ""
+msgstr "ใช่"
 
 #: qml/Components/Dialogs.qml:243
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
-msgstr ""
+msgstr "พลังงาน"
 
 #: qml/Components/Dialogs.qml:244
 msgid ""
@@ -121,7 +121,7 @@ msgstr ""
 #: qml/Components/Dialogs.qml:248
 msgctxt "Button: Power off the system"
 msgid "Power off"
-msgstr ""
+msgstr "ปิดเครื่อง"
 
 #: qml/Components/Dialogs.qml:263
 msgctxt "Button: Restart the system"
@@ -138,7 +138,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
 msgid "Lomiri"
-msgstr ""
+msgstr "Lomiri"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -395,7 +395,7 @@ msgstr[1] ""
 
 #: qml/Greeter/Greeter.qml:550
 msgid "Try again"
-msgstr ""
+msgstr "ลองอีกครั้ง"
 
 #: qml/Greeter/Greeter.qml:551
 msgid "Enter passphrase to unlock"
@@ -407,7 +407,7 @@ msgstr ""
 
 #: qml/Greeter/NarrowView.qml:235
 msgid "Emergency"
-msgstr ""
+msgstr "เหตุฉุกเฉิน"
 
 #: qml/Greeter/PromptList.qml:126
 msgid "Passphrase"
@@ -423,7 +423,7 @@ msgstr ""
 
 #: qml/Launcher/Drawer.qml:250
 msgid "Search…"
-msgstr ""
+msgstr "ค้นหา…"
 
 #: qml/Launcher/PullToRefreshScopeStyle.qml:56
 msgid "Pull to refresh…"
@@ -435,7 +435,7 @@ msgstr ""
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
-msgstr ""
+msgstr "แสดงรหัสผ่าน"
 
 #: qml/Panel/ActiveCallHint.qml:79
 msgid "Tap to return to call..."
@@ -699,7 +699,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:126
 msgid "Continue"
-msgstr ""
+msgstr "ดำเนินการต่อ"
 
 #: qml/Wizard/Pages/80-finished.qml:126
 msgid "Get Started"

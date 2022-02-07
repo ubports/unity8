@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-29 11:42-0600\n"
-"PO-Revision-Date: 2021-10-03 05:18+0000\n"
+"PO-Revision-Date: 2021-10-12 07:49+0000\n"
 "Last-Translator: HEROBRINE7GAMER <tapermeerkat77@gmail.com>\n"
 "Language-Team: Arabic <https://translate.ubports.com/projects/ubports/lomiri/"
 "ar/>\n"
@@ -73,7 +73,7 @@ msgstr "اخرج"
 
 #: qml/Components/Dialogs.qml:177
 msgid "Are you sure you want to log out?"
-msgstr "أمتأكد أنك تريد الخروج ؟"
+msgstr "أمتأكد أنك تريد تسجيل الخروج ؟"
 
 #: qml/Components/Dialogs.qml:180
 msgctxt "Button: Lock the system"
@@ -625,7 +625,7 @@ msgstr "تخطيط لوحة المفاتيح"
 #: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/79-system-update.qml:144
 #: qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
-msgstr "تخطى"
+msgstr "تخط"
 
 #: qml/Wizard/Pages/30-wifi.qml:31
 msgid "Connect to Wi‑Fi"
