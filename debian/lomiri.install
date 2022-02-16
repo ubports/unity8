@@ -1,7 +1,5 @@
 data/devices.conf etc/lomiri/
 data/test.sensors etc/lomirisensors/
-data/lomiri-filewatcher.conf usr/share/upstart/sessions/
-data/lomiri.conf usr/share/upstart/sessions/
 usr/bin/lomiri
 usr/lib/systemd/user/*
 usr/libexec/lomiri-systemd-wrapper
