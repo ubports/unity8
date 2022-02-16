@@ -28,6 +28,7 @@
 #include <QProcess>
 #include <QDebug>
 #include <QSettings>
+#include <QStringBuilder>
 
 System::System()
     : QObject()
@@ -138,19 +139,25 @@ void System::watcherFileChanged()
 
 void System::setSessionVariable(const QString &variable, const QString &value)
 {
-    // We need to update both upstart's and DBus's environment
-    QProcess::startDetached(QStringLiteral("initctl set-env --global %1=%2").arg(variable, value));
+    // We need to update both systemd's and DBus's environment
+    QStringList vars = { variable % QChar('=') % value };
+    QDBusMessage systemdMsg = QDBusMessage::createMethodCall(QStringLiteral("org.freedesktop.systemd1"),
+                                                             QStringLiteral("/org/freedesktop/systemd1"),
+                                                             QStringLiteral("org.freedesktop.systemd1.Manager"),
+                                                             QStringLiteral("SetEnvironment"));
+    systemdMsg << QVariant::fromValue(vars);
+    QDBusConnection::sessionBus().asyncCall(systemdMsg);
 
     QMap<QString,QString> valueMap;
     valueMap.insert(variable, value);
 
-    QDBusMessage msg = QDBusMessage::createMethodCall(QStringLiteral("org.freedesktop.DBus"),
+    QDBusMessage dbusMsg = QDBusMessage::createMethodCall(QStringLiteral("org.freedesktop.DBus"),
                                                       QStringLiteral("/org/freedesktop/DBus"),
                                                       QStringLiteral("org.freedesktop.DBus"),
                                                       QStringLiteral("UpdateActivationEnvironment"));
 
-    msg << QVariant::fromValue(valueMap);
-    QDBusConnection::sessionBus().asyncCall(msg);
+    dbusMsg << QVariant::fromValue(valueMap);
+    QDBusConnection::sessionBus().asyncCall(dbusMsg);
 }
 
 void System::updateSessionLocale(const QString &locale)
@@ -166,11 +173,7 @@ void System::updateSessionLocale(const QString &locale)
     QLocale::setDefault(QLocale(locale));
 
     // Restart bits of the session to pick up new language.
-    QProcess::startDetached(QStringLiteral("sh -c \"initctl emit indicator-services-end; \
-                                     initctl emit --no-wait indicator-services-start; \
-                                     initctl restart --no-wait lomiri-location-service-trust-stored; \
-                                     initctl restart --no-wait maliit-server; \
-                                     initctl restart --no-wait indicator-messages"));
+    // FIXME not implemented
 }
 
 void System::skipUntilFinishedPage()
