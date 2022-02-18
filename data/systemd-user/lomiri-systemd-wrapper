@@ -1,5 +1,7 @@
 #!/bin/sh -ef
 
+# Copyright (C) 2021 UBports Foundation
+
 # Ensure the shell always gets unthrottled touch events, so that applications
 # who want full speed low-latency input can get it (LP: #1497105) and so that
 # apps can use QML touch compression safely (the QML touch compression
