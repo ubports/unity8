@@ -67,9 +67,13 @@ FocusScope {
 
                 readonly property bool isLabel: model.type == LightDMService.prompts.Message ||
                                                 model.type == LightDMService.prompts.Error
-                readonly property var modelData: model
+                readonly property var modelText: model.text
+                readonly property var modelType: model.type
+                readonly property var modelIndex: model.index
 
                 sourceComponent: isLabel ? infoLabel : greeterPrompt
+
+                active: root.visible
 
                 onLoaded: {
                     for (var i = 0; i < repeater.count; i++) {
@@ -81,12 +85,6 @@ FocusScope {
                     }
                     loader.item.opacity = 1;
                 }
-
-                Binding {
-                    target: loader.item
-                    property: "model"
-                    value: loader.modelData
-                }
             }
         }
     }
@@ -95,19 +93,18 @@ FocusScope {
         id: infoLabel
 
         FadingLabel {
-            objectName: "infoLabel" + model.index
+            objectName: "infoLabel" + modelIndex
             width: root.width
 
-            property var model
             readonly property bool isPrompt: false
 
-            color: model.type === LightDMService.prompts.Message ? theme.palette.normal.raisedSecondaryText
+            color: modelType === LightDMService.prompts.Message ? theme.palette.normal.raisedSecondaryText
                                                           : theme.palette.normal.negative
             fontSize: "small"
             textFormat: Text.PlainText
-            text: model.text
+            text: modelText
 
-            visible: model.type === LightDMService.prompts.Message
+            visible: modelType === LightDMService.prompts.Message
 
             Behavior on opacity { UbuntuNumberAnimation {} }
             opacity: 0
@@ -118,23 +115,23 @@ FocusScope {
         id: greeterPrompt
 
         GreeterPrompt {
-            objectName: "greeterPrompt" + model.index
+            objectName: "greeterPrompt" + modelIndex
             width: root.width
 
-            property var model
+            property bool isAlphanumeric: modelText !== "" || root.alphanumeric
 
             interactive: root.interactive
-            isAlphanumeric: model.text !== "" || root.alphanumeric
-            isPrompt: model.type !== LightDMService.prompts.Button
-            isSecret: model.type === LightDMService.prompts.Secret
+            isPrompt: modelType !== LightDMService.prompts.Button
+            isSecret: modelType === LightDMService.prompts.Secret
+            isPinPrompt: isPrompt && !isAlphanumeric && isSecret
             loginError: root.loginError
             hasKeyboard: root.hasKeyboard
-            text: model.text ? model.text : (isAlphanumeric ? i18n.tr("Passphrase") : i18n.tr("Passcode"))
+            text: modelText ? modelText : (isAlphanumeric ? i18n.tr("Passphrase") : i18n.tr("Passcode"))
 
             onClicked: root.clicked()
             onAccepted: {
                 // If there is another GreeterPrompt, focus it.
-                for (var i = model.index + 1; i < repeater.count; i++) {
+                for (var i = modelIndex + 1; i < repeater.count; i++) {
                     var item = repeater.itemAt(i).item;
                     if (item.isPrompt) {
                         item.forceActiveFocus();
