@@ -119,12 +119,6 @@ LomiriApplication::LomiriApplication(int & argc, char ** argv)
         m_mouseTouchAdaptor = MouseTouchAdaptor::instance();
     }
     #endif
-
-    if (m_qmlArgs.mode().compare("greeter") == 0) {
-        if (!QProcess::startDetached("initctl emit --no-wait lomiri-greeter-started")) {
-            qDebug() << "Unable to send lomiri-greeter-started event to Upstart";
-        }
-    }
 }
 
 LomiriApplication::~LomiriApplication()

@@ -1,4 +1,3 @@
-data/lomiri-mock-indicator-service.conf usr/share/upstart/sessions/
 usr/bin/lomiri-mock-indicator-service
 usr/lib/*/lomiri/qml/mocks
 usr/lib/*/lomiri/qml/nonmirplugins

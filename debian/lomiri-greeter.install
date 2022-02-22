@@ -1,4 +1,3 @@
-data/lomiri-greeter-init.conf usr/share/upstart/sessions/
 data/lomiri-greeter-wrapper usr/bin/
 data/lomiri-greeter.pkla /var/lib/polkit-1/localauthority/10-vendor.d/
 usr/share/lightdm/greeters/lomiri-greeter.desktop
