@@ -1,13 +1,13 @@
-# Bengali translation for lomiri
+# Bengali translation for unity8
 # Copyright (c) 2015 Rosetta Contributors and Canonical Ltd 2015
-# This file is distributed under the same license as the lomiri package.
+# This file is distributed under the same license as the unity8 package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: lomiri\n"
+"Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 12:15-0500\n"
+"POT-Creation-Date: 2021-01-29 11:42-0600\n"
 "PO-Revision-Date: 2021-02-01 21:06+0000\n"
 "Last-Translator: imrufbd <imrufbd@gmail.com>\n"
 "Language-Team: Bengali <https://translate.ubports.com/projects/ubports/"
@@ -52,16 +52,16 @@ msgstr "লগইন করুন"
 msgid "Guest Session"
 msgstr "গেস্ট সেশন"
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:49
-#: plugins/Lomiri/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:48
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Pin shortcut"
 msgstr "শর্টকাট যোগ করুন"
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:55
+#: plugins/Unity/Launcher/launcheritem.cpp:54
 msgid "Quit"
 msgstr "বাহির"
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Unpin shortcut"
 msgstr "শর্টকাট সরান"
 
@@ -84,7 +84,7 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "লগআউট করুন"
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:284
 #: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
@@ -130,13 +130,19 @@ msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "পুনরায় চালু"
 
+#: qml/Components/Dialogs.qml:276
+#, fuzzy
+#| msgid "Takes a screenshot."
+msgid "Screenshot"
+msgstr "স্ক্রীনশট নেওয়া।"
+
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
 msgstr "কিবোর্ড শর্টকাট"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Lomiri 8"
-msgstr "ইউনিটি ৮"
+msgid "Lomiri"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -221,18 +227,6 @@ msgstr "সুপার কী + A"
 #: qml/Components/KeyboardShortcutsOverlay.qml:195
 msgid "Opens the Application Drawer."
 msgstr "এপ্লিকেশন ড্রয়ারে প্রবেশ।"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:207
-msgid "Scopes"
-msgstr "প্রাচুর্য"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:214
-msgid "Super (Tap)"
-msgstr "সুপার কী (ট্যাপ করুন)"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:219
-msgid "Opens the Scopes home."
-msgstr "প্রাচুর্য নীড়পাতায় প্রবেশ।"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
@@ -337,8 +331,7 @@ msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
-"পূনসংযুক্ত করুন, প্রক্রিয়া চলমান রাখার জন্য কাজগুলি সংরক্ষণ করে অ্যাপগুলি বন্"
-"ধ করুন।"
+"পূনসংযুক্ত করুন, প্রক্রিয়া চলমান রাখার জন্য কাজগুলি সংরক্ষণ করে অ্যাপগুলি বন্ধ করুন।"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:67
 msgid "Or force close now (unsaved data will be lost)."
@@ -365,8 +358,8 @@ msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the pointer."
 msgstr ""
-"আপনার ডিভাইস অন্য পর্দার সাথে সংযুক্ত হয়েছে। মাউসের জন্য এই পর্দাটি টাচপ্যাড "
-"হিসেবে ব্যবহার করুন।"
+"আপনার ডিভাইস অন্য পর্দার সাথে সংযুক্ত হয়েছে। মাউসের জন্য এই পর্দাটি টাচপ্যাড হিসেবে "
+"ব্যবহার করুন।"
 
 #: qml/Components/VirtualTouchPad.qml:327
 msgid "Tap left button to click."
@@ -435,9 +428,17 @@ msgstr "পাসকোড"
 msgid "Select desktop environment"
 msgstr "ডেস্কটপ বাতাবরণ নির্বাচন করুন"
 
-#: qml/Launcher/Drawer.qml:249
+#: qml/Launcher/Drawer.qml:250
 msgid "Search…"
 msgstr "অনুসন্ধান …"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:56
+msgid "Pull to refresh…"
+msgstr "রিফ্রেশ করার জন্য টানুন"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:61
+msgid "Release to refresh…"
+msgstr "রিফ্রেশ করার জন্য ছেড়ে দিন"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -534,7 +535,7 @@ msgstr "পূর্বপাতা"
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr "তিন আঙুল দিয়ে ধরে যেকোন অ্যাপ্লিকেেশন এক উইন্ডো থেকে অন্যটিতে নিয়ে আসুন"
 
-#: qml/Stage/Stage.qml:668
+#: qml/Stage/Stage.qml:671
 msgid "No running apps"
 msgstr "কোন অ্যাপ চলমান নেই"
 
@@ -671,12 +672,12 @@ msgid ""
 "There is a system update available and ready to install. Afterwards, the "
 "device will automatically restart."
 msgstr ""
-"একটি সিস্টেম সংযোজন ইন্সটলের জন্য প্রস্তুত। ইন্সটল শেষে ডিভাইসটি নিজেই পুনরা"
-"য় চালু হবে।"
+"একটি সিস্টেম সংযোজন ইন্সটলের জন্য প্রস্তুত। ইন্সটল শেষে ডিভাইসটি নিজেই পুনরায় চালু "
+"হবে।"
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Lomiri Touch system"
+msgid "Ubuntu Touch system"
 msgstr "উবুন্টু টাচ সিস্টেম"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
@@ -698,7 +699,7 @@ msgid "Welcome Back"
 msgstr "ফিরে আসায় স্বাগতম"
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Lomiri"
+msgid "Welcome to Ubuntu"
 msgstr "উবুন্টুতে স্বাগতম"
 
 #: qml/Wizard/Pages/80-finished.qml:106
@@ -824,7 +825,19 @@ msgstr "দুর্বল পাসওয়ার্ড"
 msgid "Very weak password"
 msgstr "অত্যন্ত দুর্বল পাসওয়ার্ড"
 
-#~ msgctxt "Button: Open the Lomiri Store"
+#~ msgid "Unity 8"
+#~ msgstr "ইউনিটি ৮"
+
+#~ msgid "Scopes"
+#~ msgstr "প্রাচুর্য"
+
+#~ msgid "Super (Tap)"
+#~ msgstr "সুপার কী (ট্যাপ করুন)"
+
+#~ msgid "Opens the Scopes home."
+#~ msgstr "প্রাচুর্য নীড়পাতায় প্রবেশ।"
+
+#~ msgctxt "Button: Open the Ubuntu Store"
 #~ msgid "Store"
 #~ msgstr "স্টোর"
 
@@ -860,12 +873,6 @@ msgstr "অত্যন্ত দুর্বল পাসওয়ার্ড"
 
 #~ msgid "Add a review"
 #~ msgstr "আপনার মতামত দিন"
-
-#~ msgid "Pull to refresh…"
-#~ msgstr "রিফ্রেশ করার জন্য টানুন"
-
-#~ msgid "Release to refresh…"
-#~ msgstr "রিফ্রেশ করার জন্য ছেড়ে দিন"
 
 #~ msgid "Enable location data"
 #~ msgstr "অবস্থান নির্ণয় চালু করুন"
@@ -920,7 +927,7 @@ msgstr "অত্যন্ত দুর্বল পাসওয়ার্ড"
 #~ msgid "To view open apps"
 #~ msgstr "সচল অ্যাপগুলো দেখার জন্য"
 
-#~ msgid "Welcome to your Lomiri phone."
+#~ msgid "Welcome to your Ubuntu phone."
 #~ msgstr "আপনার উবুন্টু ফোনে স্বাগতম।"
 
 #~ msgid "Try again."

@@ -1,6 +1,6 @@
-﻿/*
+/*
  * Copyright (C) 2013-2016 Canonical, Ltd.
- * Copyright (C) 2019-2020 UBports Foundation
+ * Copyright (C) 2019-2021 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.4
+import QtQuick 2.8
 import QtQuick.Window 2.2
 import AccountsService 0.1
 import QtMir.Application 0.1
@@ -72,6 +72,20 @@ StyledItem {
     property bool hasKeyboard: false
     property bool hasTouchscreen: false
     property bool supportsMultiColorLed: true
+
+    // The largest dimension, in pixels, of all of the screens this Shell is
+    // operating on.
+    // If a script sets the shell to 240x320 when it was 320x240, we could
+    // end up in a situation where our dimensions are 240x240 for a short time.
+    // Notifying the Wallpaper of both events would make it reload the image
+    // twice. So, we use a Binding { delayed: true }.
+    property real largestScreenDimension
+    Binding {
+        target: shell
+        delayed: true
+        property: "largestScreenDimension"
+        value: Math.max(nativeWidth, nativeHeight)
+    }
 
     // Used by tests
     property alias lightIndicators: indicatorsModel.light
@@ -309,6 +323,7 @@ StyledItem {
 
             dragAreaWidth: shell.edgeSize
             background: wallpaperResolver.background
+            backgroundSourceSize: shell.largestScreenDimension
 
             applicationManager: ApplicationManager
             topLevelSurfaceList: shell.topLevelSurfaceList
@@ -393,7 +408,6 @@ StyledItem {
         id: greeterLoader
         objectName: "greeterLoader"
         anchors.fill: parent
-        anchors.topMargin: panel.panelHeight
         sourceComponent: {
             if (shell.mode != "shell") {
                 if (screenWindow.primary) return integratedGreeter;
@@ -431,10 +445,14 @@ StyledItem {
             tabletMode: shell.usageScenario != "phone"
             forcedUnlock: wizard.active || shell.mode === "full-shell"
             background: wallpaperResolver.background
+            backgroundSourceSize: shell.largestScreenDimension
             hasCustomBackground: wallpaperResolver.hasCustomBackground
+            inputMethodRect: inputMethod.visibleRect
+            hasKeyboard: shell.hasKeyboard
             allowFingerprint: !dialogs.hasActiveDialog &&
                               !notifications.topmostIsFullscreen &&
                               !panel.indicators.shown
+            panelHeight: panel.panelHeight
 
             // avoid overlapping with Launcher's edge drag area
             // FIXME: Fix TouchRegistry & friends and remove this workaround
@@ -603,6 +621,7 @@ StyledItem {
             drawerEnabled: !greeter.active && tutorial.launcherLongSwipeEnabled
             privateMode: greeter.active
             background: wallpaperResolver.background
+            backgroundSourceSize: shell.largestScreenDimension
 
             // It can be assumed that the Launcher and Panel would overlap if
             // the Panel is open and taking up the full width of the shell

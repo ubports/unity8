@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2014-2017 Canonical, Ltd.
+ * Copyright (C) 2021 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,6 +37,7 @@ FocusScope {
     property QtObject topLevelSurfaceList
     property bool altTabPressed
     property url background
+    property alias backgroundSourceSize: wallpaper.sourceSize
     property int dragAreaWidth
     property real nativeHeight
     property real nativeWidth
@@ -265,7 +267,7 @@ FocusScope {
         shortcut: Qt.ControlModifier|Qt.AltModifier|Qt.Key_T
         onTriggered: {
             // try in this order: snap pkg, new deb name, old deb name
-            var candidates = ["lomiri-terminal-app_lomiri-terminal-app", "lomiri-terminal-app", "com.lomiri.terminal"];
+            var candidates = ["lomiri-terminal-app_lomiri-terminal-app", "lomiri-terminal-app", "com.lomiri.terminal_terminal"];
             for (var i = 0; i < candidates.length; i++) {
                 if (priv.startApp(candidates[i]))
                     break;
@@ -678,6 +680,7 @@ FocusScope {
 
         Wallpaper {
             id: wallpaper
+            objectName: "stageBackground"
             anchors.fill: parent
             source: root.background
             // Make sure it's the lowest item. Due to the left edge drag we sometimes need
@@ -1468,6 +1471,7 @@ FocusScope {
                     mainStageDelegate: priv.mainStageDelegate
                     sideStageDelegate: priv.sideStageDelegate
                     sideStageWidth: sideStage.panelWidth
+                    sideStageHandleWidth: sideStage.handleWidth
                     sideStageX: sideStage.x
                     itemIndex: appDelegate.itemIndex
                     nextInStack: priv.nextInStack

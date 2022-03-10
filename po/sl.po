@@ -1,13 +1,13 @@
-# Slovenian translation for lomiri
+# Slovenian translation for unity
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the lomiri package.
+# This file is distributed under the same license as the unity package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: lomiri\n"
+"Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 12:15-0500\n"
+"POT-Creation-Date: 2021-01-29 11:42-0600\n"
 "PO-Revision-Date: 2016-01-31 18:34+0000\n"
 "Last-Translator: Bernard Banko <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
@@ -52,16 +52,16 @@ msgstr ""
 msgid "Guest Session"
 msgstr ""
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:49
-#: plugins/Lomiri/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:48
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Pin shortcut"
 msgstr "Pripni bližnjico"
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:55
+#: plugins/Unity/Launcher/launcheritem.cpp:54
 msgid "Quit"
 msgstr "Končaj"
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Unpin shortcut"
 msgstr "Odpni bližnjico"
 
@@ -84,7 +84,7 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Odjavi se"
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:284
 #: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
@@ -130,13 +130,19 @@ msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Ponovno zaženi"
 
+#: qml/Components/Dialogs.qml:276
+#, fuzzy
+#| msgid "Takes a screenshot."
+msgid "Screenshot"
+msgstr "Zajame zaslonsko sliko."
+
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
 msgstr "Tipkovne bližnjice"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Lomiri 8"
-msgstr "Lomiri 8"
+msgid "Lomiri"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -227,18 +233,6 @@ msgstr ""
 #| msgid "Open the launcher"
 msgid "Opens the Application Drawer."
 msgstr "Odpri zaganjalnik"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:207
-msgid "Scopes"
-msgstr "Viri"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:214
-msgid "Super (Tap)"
-msgstr ""
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:219
-msgid "Opens the Scopes home."
-msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
@@ -449,11 +443,19 @@ msgstr ""
 msgid "Select desktop environment"
 msgstr "Izberite namizno okolje"
 
-#: qml/Launcher/Drawer.qml:249
+#: qml/Launcher/Drawer.qml:250
 #, fuzzy
 #| msgid "Search"
 msgid "Search…"
 msgstr "Iskanje"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:56
+msgid "Pull to refresh…"
+msgstr "Povlecite za osvežitev ..."
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:61
+msgid "Release to refresh…"
+msgstr "Spustite za osvežitev ..."
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -559,7 +561,7 @@ msgstr "Nazaj"
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr "S tremi prsti povlecite program iz enega v drugo okno"
 
-#: qml/Stage/Stage.qml:668
+#: qml/Stage/Stage.qml:671
 msgid "No running apps"
 msgstr ""
 
@@ -607,7 +609,7 @@ msgstr "Naslednji"
 #: qml/Wizard/Pages/10-welcome-update.qml:91
 #, fuzzy
 msgid "Welcome to "
-msgstr "Dobrodošli v Lomiriju"
+msgstr "Dobrodošli v Ubuntuju"
 
 #: qml/Wizard/Pages/10-welcome-update.qml:106
 msgid "We will make sure your device is ready to use "
@@ -704,10 +706,10 @@ msgstr ""
 #: qml/Wizard/Pages/79-system-update.qml:76
 #, fuzzy
 #| msgctxt "string identifying name of the update"
-#| msgid "Lomiri system"
+#| msgid "Ubuntu system"
 msgctxt "string identifying name of the update"
-msgid "Lomiri Touch system"
-msgstr "Sistem Lomiri"
+msgid "Ubuntu Touch system"
+msgstr "Sistem Ubuntu"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -728,8 +730,8 @@ msgid "Welcome Back"
 msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Lomiri"
-msgstr "Dobrodošli v Lomiriju"
+msgid "Welcome to Ubuntu"
+msgstr "Dobrodošli v Ubuntuju"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -855,7 +857,13 @@ msgstr "Šibko geslo"
 msgid "Very weak password"
 msgstr "Zelo šibko geslo"
 
-#~ msgctxt "Button: Open the Lomiri Store"
+#~ msgid "Unity 8"
+#~ msgstr "Unity 8"
+
+#~ msgid "Scopes"
+#~ msgstr "Viri"
+
+#~ msgctxt "Button: Open the Ubuntu Store"
 #~ msgid "Store"
 #~ msgstr "Trgovina"
 
@@ -909,12 +917,6 @@ msgstr "Zelo šibko geslo"
 
 #~ msgid "Add a review"
 #~ msgstr "Dodaj oceno"
-
-#~ msgid "Pull to refresh…"
-#~ msgstr "Povlecite za osvežitev ..."
-
-#~ msgid "Release to refresh…"
-#~ msgstr "Spustite za osvežitev ..."
 
 #~ msgid "Enable location data"
 #~ msgstr "Omogoči podatke o položaju"
@@ -1168,8 +1170,8 @@ msgstr "Zelo šibko geslo"
 #~ msgid "Hi!"
 #~ msgstr "Živjo!"
 
-#~ msgid "Welcome to your Lomiri phone."
-#~ msgstr "Dobrodošli v svoj telefon Lomiri."
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "Dobrodošli v svoj telefon Ubuntu."
 
 #~ msgid "Let’s get started."
 #~ msgstr "Pa začnimo."

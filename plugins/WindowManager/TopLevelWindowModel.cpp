@@ -338,10 +338,11 @@ void TopLevelWindowModel::onSurfaceDied(lomiriapi::MirSurfaceInterface *surface)
 
     auto application = m_windowModel[i].application;
 
-    // can't be starting if it already has a surface
-    Q_ASSERT(application->state() != lomiriapi::ApplicationInfoInterface::Starting);
+    DEBUG_MSG << " application->name()=" << application->name()
+              << " application->state()=" << application->state();
 
-    if (application->state() == lomiriapi::ApplicationInfoInterface::Running) {
+    if (application->state() == lomiriapi::ApplicationInfoInterface::Running
+        || application->state() == lomiriapi::ApplicationInfoInterface::Starting) {
         m_windowModel[i].removeOnceSurfaceDestroyed = true;
     } else {
         // assume it got killed by the out-of-memory daemon.

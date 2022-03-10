@@ -26,25 +26,29 @@ Showable {
     property int panelWidth: units.gu(40)
     readonly property alias dragging: hideSideStageDragArea.dragging
     readonly property real progress: width / panelWidth
+    readonly property real handleWidth: units.gu(2)
 
     width: 0
     shown: false
 
-    Item {
+    Handle {
         id: sideStageDragHandle
+
+        opacity: root.shown ? 1 : 0
+        Behavior on opacity { LomiriNumberAnimation {} }
+
         anchors {
             right: root.left
             top: root.top
             bottom: root.bottom
         }
-        width: units.gu(2)
-
-        opacity: root.shown ? 1 : 0
-        Behavior on opacity { LomiriNumberAnimation {} }
+        width: root.handleWidth
+        active: hideSideStageDragArea.pressed
 
         Image {
+            z: -1
             anchors.centerIn: parent
-            width: hideSideStageDragArea.pressed ? parent.width * 2 : parent.width
+            width: hideSideStageDragArea.pressed ? parent.width * 3 : parent.width * 2
             height: parent.height
             source: "graphics/sidestage_handle@20.png"
             Behavior on width { LomiriNumberAnimation {} }

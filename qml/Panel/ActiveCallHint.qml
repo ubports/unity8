@@ -78,6 +78,7 @@ Item {
                 height: callHint.height
                 verticalAlignment: Text.AlignVCenter
                 text: i18n.tr("Tap to return to call...");
+                color: theme.palette.normal.activityText
             }
 
             Label {
@@ -96,6 +97,7 @@ Item {
                         return "Pending Lomiri.Telephony dependency!"
                     }
                 }
+                color: theme.palette.normal.activityText
             }
         }
     }
@@ -129,6 +131,7 @@ Item {
                     return m + ":0" + ss;
                 }
             }
+            color: theme.palette.normal.activityText
         }
 
         PathView {

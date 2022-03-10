@@ -26,6 +26,7 @@ StyledItem {
 
     property alias model: userList.model
     property alias alphanumeric: promptList.alphanumeric
+    property alias hasKeyboard: promptList.hasKeyboard
     property int currentIndex
     property bool locked
     property bool waiting
@@ -39,6 +40,8 @@ StyledItem {
     property string currentSession // Initially set by LightDM
     readonly property string currentUser: userList.currentItem.username
 
+    readonly property alias currentUserIndex: userList.currentIndex
+
     signal responded(string response)
     signal selected(int index)
     signal sessionChooserButtonClicked()
@@ -48,6 +51,7 @@ StyledItem {
     }
 
     function showError() {
+        promptList.loginError = true;
         wrongPasswordAnimation.start();
     }
 
@@ -79,6 +83,7 @@ StyledItem {
 
     onCurrentIndexChanged: {
         userList.currentIndex = currentIndex;
+        promptList.loginError = false;
     }
 
     LoginAreaContainer {
@@ -93,18 +98,6 @@ StyledItem {
 
         height: Math.max(units.gu(15), promptList.height + units.gu(8))
         Behavior on height { NumberAnimation { duration: root.moveDuration; easing.type: Easing.InOutQuad; } }
-
-        Label {
-          // HACK: Work around https://github.com/ubports/lomiri/issues/185
-          text: _realName ? _realName : LightDMService.greeter.authenticationUser
-          visible: userList.count == 1
-          anchors {
-            left: parent.left
-            top: parent.top
-            topMargin: units.gu(2)
-            leftMargin: units.gu(2)
-          }
-        }
     }
 
     ListView {
@@ -115,13 +108,15 @@ StyledItem {
         anchors.leftMargin: units.gu(2)
         anchors.rightMargin: units.gu(2)
 
-        preferredHighlightBegin: highlightItem.y
-        preferredHighlightEnd: highlightItem.y
+        preferredHighlightBegin: highlightItem.y + units.gu(1.5)
+        preferredHighlightEnd: highlightItem.y + units.gu(1.5)
         highlightRangeMode: ListView.StrictlyEnforceRange
         highlightMoveDuration: root.moveDuration
         interactive: count > 1
 
         readonly property bool movingInternally: moveTimer.running || userList.moving
+
+        onMovingChanged: if (!moving) root.selected(currentIndex)
 
         onCurrentIndexChanged: {
             moveTimer.start();
@@ -132,6 +127,7 @@ StyledItem {
             height: root.cellHeight
 
             readonly property bool belowHighlight: (userList.currentIndex < 0 && index > 0) || (userList.currentIndex >= 0 && index > userList.currentIndex)
+            readonly property bool aboveCurrent: (userList.currentIndex > 0 && index < 0) || (userList.currentIndex >= 0 && index < userList.currentIndex)
             readonly property int belowOffset: root.highlightedHeight - root.cellHeight
             readonly property string userSession: session
             readonly property string username: name
@@ -154,40 +150,74 @@ StyledItem {
                 return 1 - Math.min(1, (Math.abs(highlightDist) + root.cellHeight) / ((root.numAboveBelow + 1) * root.cellHeight))
             }
 
-            FadingLabel {
-                objectName: "username" + index
-                visible: userList.count != 1 // HACK Hide username label until someone sorts out the anchoring with the keyboard-dismiss animation, Work around https://github.com/ubports/lomiri/issues/185
+            Row {
+                spacing: units.gu(1)
+//                visible: userList.count != 1 // HACK Hide username label until someone sorts out the anchoring with the keyboard-dismiss animation, Work around https://github.com/ubports/unity8/issues/185
 
                 anchors {
-                    left: parent.left
                     leftMargin: units.gu(2)
-                    right: parent.right
                     rightMargin: units.gu(2)
+                    horizontalCenter: parent.horizontalCenter
                     bottom: parent.top
                     // Add an offset to bottomMargin for any items below the highlight
-                    bottomMargin: -(units.gu(4) + (parent.belowHighlight ? parent.belowOffset : 0))
+                    bottomMargin: -(units.gu(4) + (parent.belowHighlight ? parent.belowOffset : parent.aboveCurrent ? -units.gu(5) : 0))
                 }
-                text: userList.currentIndex === index
-                      && name === "*other"
-                      && LightDMService.greeter.authenticationUser !== ""
-                      ?  LightDMService.greeter.authenticationUser : realName
-                color: userList.currentIndex !== index ? theme.palette.normal.raised
-                                                       : theme.palette.normal.raisedText
-
-                Component.onCompleted: _realName = realName
-
-                Behavior on anchors.topMargin { NumberAnimation { duration: root.moveDuration; easing.type: Easing.InOutQuad; } }
 
                 Rectangle {
                     id: activeIndicator
-                    anchors.horizontalCenter: parent.left
-                    anchors.horizontalCenterOffset: -units.gu(1)
                     anchors.verticalCenter: parent.verticalCenter
-                    color: userList.currentIndex !== index ? theme.palette.normal.raised
-                                                           : theme.palette.normal.focus
+                    color: theme.palette.normal.raised
                     visible: userList.count > 1 && loggedIn
-                    height: units.gu(0.5)
+                    height: visible ? units.gu(0.5) : 0
                     width: height
+                }
+
+                Icon {
+                    id: userIcon
+                    name: "account"
+                    height: userList.currentIndex === index ? units.gu(4.5) : units.gu(3)
+                    width: height
+                    color: theme.palette.normal.raisedSecondaryText
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+
+                Column {
+                    anchors.verticalCenter: parent.verticalCenter
+                    spacing: units.gu(0.25)
+
+                    FadingLabel {
+                        objectName: "username" + index
+
+                        text: userList.currentIndex === index
+                              && name === "*other"
+                              && LightDMService.greeter.authenticationUser !== ""
+                              ?  LightDMService.greeter.authenticationUser : realName
+                        color: userList.currentIndex !== index ? theme.palette.normal.raised
+                                                               : theme.palette.normal.raisedSecondaryText
+                        font.weight: userList.currentIndex === index ? Font.Normal : Font.Light
+                        font.pointSize: units.gu(2)
+
+                        width: highlightItem.width
+                                && contentWidth > highlightItem.width - userIcon.width - units.gu(4)
+                                    ? highlightItem.width - userIcon.width - units.gu(4)
+                                    : contentWidth
+
+                        Component.onCompleted: _realName = realName
+
+                        Behavior on anchors.topMargin { NumberAnimation { duration: root.moveDuration; easing.type: Easing.InOutQuad; } }
+                    }
+
+                    Row {
+                        spacing: units.gu(1)
+
+                        FadingLabel {
+                            text: root.alphanumeric ? "Login with password" : "Login with pin"
+                            color: theme.palette.normal.raisedSecondaryText
+                            visible: userList.currentIndex === index && false
+                            font.weight: Font.Light
+                            font.pointSize: units.gu(1.25)
+                        }
+                    }
                 }
             }
 
@@ -197,7 +227,7 @@ StyledItem {
                     right: parent.right
                     top: parent.top
                     // Add an offset to topMargin for any items below the highlight
-                    topMargin: parent.belowHighlight ? parent.belowOffset : 0
+                    topMargin: parent.belowHighlight ? parent.belowOffset : parent.aboveCurrent ? -units.gu(5) : 0
                 }
                 height: parent.height
                 enabled: userList.currentIndex !== index && parent.opacity > 0
@@ -217,67 +247,6 @@ StyledItem {
         }
     }
 
-    // Use an AbstractButton due to icon limitations with Button
-    AbstractButton {
-        id: sessionChooser
-        objectName: "sessionChooserButton"
-
-        readonly property alias icon: badge.source
-
-        visible: LightDMService.sessions.count > 1 &&
-            !LightDMService.users.data(userList.currentIndex, LightDMService.userRoles.LoggedInRole)
-
-        height: units.gu(3.5)
-        width: units.gu(3.5)
-
-        activeFocusOnTab: true
-        anchors {
-            right: highlightItem.right
-            rightMargin: units.gu(2)
-
-            top: highlightItem.top
-            topMargin: units.gu(1.5)
-        }
-
-        Rectangle {
-            id: badgeHighlight
-
-            anchors.fill: parent
-            visible: parent.activeFocus
-            color: "transparent"
-            border.color: theme.palette.normal.focus
-            border.width: units.dp(1)
-            radius: 3
-        }
-
-        Icon {
-            id: badge
-            anchors.fill: parent
-            anchors.margins: units.dp(3)
-            keyColor: "#ffffff" // icon providers give us white icons
-            color: theme.palette.normal.raisedSecondaryText
-            source: LightDMService.sessions.iconUrl(root.currentSession)
-        }
-
-        Keys.onReturnPressed: {
-            sessionChooserButtonClicked();
-            event.accepted = true;
-        }
-
-        onClicked: {
-            sessionChooserButtonClicked();
-        }
-
-        // Refresh the icon path if looking at different places at runtime
-        // this is mainly for testing
-        Connections {
-            target: LightDMService.sessions
-            onIconSearchDirectoriesChanged: {
-                badge.source = LightDMService.sessions.iconUrl(root.currentSession)
-            }
-        }
-    }
-
     PromptList {
         id: promptList
         objectName: "promptList"
@@ -287,6 +256,8 @@ StyledItem {
             margins: units.gu(2)
         }
         width: highlightItem.width - anchors.margins * 2
+
+        focus: true
 
         onClicked: {
             interactive = false;

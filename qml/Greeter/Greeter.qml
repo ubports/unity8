@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2013-2016 Canonical, Ltd.
+ * Copyright (C) 2021 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,9 +36,13 @@ Showable {
 
     property url background
     property bool hasCustomBackground
+    property real backgroundSourceSize
 
     // How far to offset the top greeter layer during a launcher left-drag
     property real launcherOffset
+
+    // How far down to position the greeter's interface to avoid the Panel
+    property real panelHeight
 
     readonly property bool active: required || hasLockedApp
     readonly property bool fullyShown: loader.item ? loader.item.fullyShown : false
@@ -61,6 +66,10 @@ Showable {
     property int failedFingerprintLoginsDisableAttempts: 3 // number of failed fingerprint logins
 
     readonly property bool animating: loader.item ? loader.item.animating : false
+
+    property rect inputMethodRect
+
+    property bool hasKeyboard: false
 
     signal tease()
     signal sessionStarted()
@@ -381,8 +390,8 @@ Showable {
 
         Binding {
             target: loader.item
-            property: "backgroundTopMargin"
-            value: -root.y
+            property: "panelHeight"
+            value: root.panelHeight
         }
 
         Binding {
@@ -407,6 +416,12 @@ Showable {
             target: loader.item
             property: "background"
             value: root.background
+        }
+
+        Binding {
+            target: loader.item
+            property: "backgroundSourceSize"
+            value: root.backgroundSourceSize
         }
 
         Binding {
@@ -449,6 +464,18 @@ Showable {
             target: loader.item
             property: "infographicModel"
             value: LightDMService.infographic
+        }
+
+        Binding {
+            target: loader.item
+            property: "inputMethodRect"
+            value: root.inputMethodRect
+        }
+
+        Binding {
+            target: loader.item
+            property: "hasKeyboard"
+            value: root.hasKeyboard
         }
     }
 

@@ -1,13 +1,13 @@
-# Indonesian translation for lomiri
+# Indonesian translation for unity
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the lomiri package.
+# This file is distributed under the same license as the unity package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: lomiri\n"
+"Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 12:15-0500\n"
+"POT-Creation-Date: 2021-01-29 11:42-0600\n"
 "PO-Revision-Date: 2021-02-25 17:35+0000\n"
 "Last-Translator: Darkness Hidden <kmd36rk@gmail.com>\n"
 "Language-Team: Indonesian <https://translate.ubports.com/projects/ubports/"
@@ -52,16 +52,16 @@ msgstr "Masuk"
 msgid "Guest Session"
 msgstr "Sesi tamu"
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:49
-#: plugins/Lomiri/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:48
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Pin shortcut"
 msgstr "Paku pintasan"
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:55
+#: plugins/Unity/Launcher/launcheritem.cpp:54
 msgid "Quit"
 msgstr "Keluar"
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Unpin shortcut"
 msgstr "Lepas pintasan"
 
@@ -84,7 +84,7 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:284
 #: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
@@ -130,12 +130,18 @@ msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Booting ulang"
 
+#: qml/Components/Dialogs.qml:276
+#, fuzzy
+#| msgid "Takes a screenshot."
+msgid "Screenshot"
+msgstr "Ambil tangkapan layar"
+
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
 msgstr "Pintasan papan ketik"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Lomiri 8"
+msgid "Lomiri"
 msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
@@ -220,18 +226,6 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:195
 msgid "Opens the Application Drawer."
-msgstr ""
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:207
-msgid "Scopes"
-msgstr ""
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:214
-msgid "Super (Tap)"
-msgstr ""
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:219
-msgid "Opens the Scopes home."
 msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
@@ -438,11 +432,19 @@ msgstr ""
 msgid "Select desktop environment"
 msgstr ""
 
-#: qml/Launcher/Drawer.qml:249
+#: qml/Launcher/Drawer.qml:250
 #, fuzzy
 #| msgid "Search"
 msgid "Search…"
 msgstr "Cari"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:56
+msgid "Pull to refresh…"
+msgstr "Tarik untuk menyegarkan..."
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:61
+msgid "Release to refresh…"
+msgstr "Lepas untuk menyegarkan..."
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -539,7 +541,7 @@ msgstr "Kembali"
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr ""
 
-#: qml/Stage/Stage.qml:668
+#: qml/Stage/Stage.qml:671
 msgid "No running apps"
 msgstr ""
 
@@ -682,7 +684,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Lomiri Touch system"
+msgid "Ubuntu Touch system"
 msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:83
@@ -704,7 +706,7 @@ msgid "Welcome Back"
 msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Lomiri"
+msgid "Welcome to Ubuntu"
 msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:106
@@ -850,12 +852,6 @@ msgstr ""
 
 #~ msgid "Add a review"
 #~ msgstr "Berikan ulasan"
-
-#~ msgid "Pull to refresh…"
-#~ msgstr "Tarik untuk menyegarkan..."
-
-#~ msgid "Release to refresh…"
-#~ msgstr "Lepas untuk menyegarkan..."
 
 #~ msgid "Manage"
 #~ msgstr "Kelola"

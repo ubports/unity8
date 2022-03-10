@@ -1,13 +1,13 @@
-# Interlingua translation for lomiri
+# Interlingua translation for unity8
 # Copyright (c) 2015 Rosetta Contributors and Canonical Ltd 2015
-# This file is distributed under the same license as the lomiri package.
+# This file is distributed under the same license as the unity8 package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: lomiri\n"
+"Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 12:15-0500\n"
+"POT-Creation-Date: 2021-01-29 11:42-0600\n"
 "PO-Revision-Date: 2015-08-25 19:31+0000\n"
 "Last-Translator: karm <melo@carmu.com>\n"
 "Language-Team: Interlingua <ia@li.org>\n"
@@ -51,16 +51,16 @@ msgstr ""
 msgid "Guest Session"
 msgstr ""
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:49
-#: plugins/Lomiri/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:48
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Pin shortcut"
 msgstr "Via-breve a pin"
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:55
+#: plugins/Unity/Launcher/launcheritem.cpp:54
 msgid "Quit"
 msgstr "Quitar"
 
-#: plugins/Lomiri/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Unpin shortcut"
 msgstr "Via-breve a levar pin"
 
@@ -83,7 +83,7 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Claude session"
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:284
 #: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
@@ -129,13 +129,19 @@ msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Reinitiar"
 
+#: qml/Components/Dialogs.qml:276
+#, fuzzy
+#| msgid "Takes a screenshot."
+msgid "Screenshot"
+msgstr "Prende un imagine instantanee del schermo."
+
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
 msgstr "Vias breve del claviero"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
-msgid "Lomiri 8"
-msgstr "Lomiri 8"
+msgid "Lomiri"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -232,18 +238,6 @@ msgstr "Super + W"
 #| msgid "Open the launcher"
 msgid "Opens the Application Drawer."
 msgstr "Aperi le lanceator"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:207
-msgid "Scopes"
-msgstr "Miras"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:214
-msgid "Super (Tap)"
-msgstr "Super (Tap)"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:219
-msgid "Opens the Scopes home."
-msgstr "Aperi le initio de Scopes."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
@@ -452,11 +446,19 @@ msgstr "Codice-contrasigno"
 msgid "Select desktop environment"
 msgstr "Seliger le ambiente del scriptorio"
 
-#: qml/Launcher/Drawer.qml:249
+#: qml/Launcher/Drawer.qml:250
 #, fuzzy
 #| msgid "Search"
 msgid "Search…"
 msgstr "Cercar"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:56
+msgid "Pull to refresh…"
+msgstr "Tirar pro renovar…"
+
+#: qml/Launcher/PullToRefreshScopeStyle.qml:61
+msgid "Release to refresh…"
+msgstr "Relaxar pro renovar…"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -556,7 +558,7 @@ msgstr "Retro"
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr "Tirar per 3 digitos qualcunque application ab un fenestra al altere"
 
-#: qml/Stage/Stage.qml:668
+#: qml/Stage/Stage.qml:671
 msgid "No running apps"
 msgstr ""
 
@@ -607,7 +609,7 @@ msgstr "Sequente"
 #: qml/Wizard/Pages/10-welcome-update.qml:91
 #, fuzzy
 msgid "Welcome to "
-msgstr "Benvenite a Lomiri."
+msgstr "Benvenite a Ubuntu."
 
 #: qml/Wizard/Pages/10-welcome-update.qml:106
 msgid "We will make sure your device is ready to use "
@@ -706,10 +708,10 @@ msgstr ""
 #: qml/Wizard/Pages/79-system-update.qml:76
 #, fuzzy
 #| msgctxt "string identifying name of the update"
-#| msgid "Lomiri system"
+#| msgid "Ubuntu system"
 msgctxt "string identifying name of the update"
-msgid "Lomiri Touch system"
-msgstr "Systema Lomiri"
+msgid "Ubuntu Touch system"
+msgstr "Systema Ubuntu"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -730,8 +732,8 @@ msgid "Welcome Back"
 msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Lomiri"
-msgstr "Benvenite a Lomiri."
+msgid "Welcome to Ubuntu"
+msgstr "Benvenite a Ubuntu."
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
@@ -857,7 +859,19 @@ msgstr "Contrasigno debile"
 msgid "Very weak password"
 msgstr "Contrasigno troppo debile"
 
-#~ msgctxt "Button: Open the Lomiri Store"
+#~ msgid "Unity 8"
+#~ msgstr "Unity 8"
+
+#~ msgid "Scopes"
+#~ msgstr "Miras"
+
+#~ msgid "Super (Tap)"
+#~ msgstr "Super (Tap)"
+
+#~ msgid "Opens the Scopes home."
+#~ msgstr "Aperi le initio de Scopes."
+
+#~ msgctxt "Button: Open the Ubuntu Store"
 #~ msgid "Store"
 #~ msgstr "Salva"
 
@@ -911,12 +925,6 @@ msgstr "Contrasigno troppo debile"
 
 #~ msgid "Add a review"
 #~ msgstr "Adder un revision"
-
-#~ msgid "Pull to refresh…"
-#~ msgstr "Tirar pro renovar…"
-
-#~ msgid "Release to refresh…"
-#~ msgstr "Relaxar pro renovar…"
 
 #~ msgid "Enable location data"
 #~ msgstr "Habilita le datos del location"
@@ -1189,8 +1197,8 @@ msgstr "Contrasigno troppo debile"
 #~ msgid "Hi!"
 #~ msgstr "Salute!"
 
-#~ msgid "Welcome to your Lomiri phone."
-#~ msgstr "Benvenite a tu telephono Lomiri."
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "Benvenite a tu telephono Ubuntu."
 
 #~ msgid "Let’s get started."
 #~ msgstr "Que nos initia."
