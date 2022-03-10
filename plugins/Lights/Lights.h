@@ -22,6 +22,8 @@
 #include <QtCore/QObject>
 #include <QtGui/QColor>
 
+struct light_device_t;
+
 class Lights: public QObject
 {
     Q_OBJECT
@@ -38,6 +40,7 @@ public:
     Q_ENUM(State)
 
     explicit Lights(QObject *parent = 0);
+    ~Lights();
 
     void setState(State newState);
     State state() const;
@@ -57,15 +60,16 @@ Q_SIGNALS:
     void onMillisecChanged(int onMs);
     void offMillisecChanged(int offMs);
 
-protected:
+private:
+    light_device_t* m_lightDevice;
     QColor m_color;
     State m_state;
     int m_onMs;
     int m_offMs;
 
-    virtual bool init() = 0;
-    virtual void turnOff() = 0;
-    virtual void turnOn() = 0;
+    bool init();
+    void turnOff();
+    void turnOn();
 };
 
 #endif
