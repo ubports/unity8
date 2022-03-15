@@ -40,7 +40,11 @@ static QObject *orientationlock_provider(QQmlEngine */*engine*/, QJSEngine */*js
 
 void SessionPlugin::registerTypes(const char *uri)
 {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+    qmlRegisterAnonymousType<QAbstractItemModel>(uri, 0);
+#else
     qmlRegisterType<QAbstractItemModel>();
+#endif
 
     Q_ASSERT(uri == QLatin1String("Lomiri.Session"));
     qmlRegisterSingletonType<DBusLomiriSessionService>(uri, 0, 1, "DBusLomiriSessionService", dbuslomirisessionservice_provider);
