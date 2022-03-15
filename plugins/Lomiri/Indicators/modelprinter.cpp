@@ -105,7 +105,7 @@ QString ModelPrinter::getRowSring(AyatanaMenuModel* sourceModel, int row, int de
     // Print out this row
     QHash<int, QByteArray> roleNames = sourceModel->roleNames();
     QList<int> roles = roleNames.keys();
-    qSort(roles);
+    std::sort(roles.begin(), roles.end());
 
     Q_FOREACH(int role, roles) {
         const QByteArray& roleName = roleNames[role];
