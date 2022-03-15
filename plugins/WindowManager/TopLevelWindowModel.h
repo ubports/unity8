@@ -135,7 +135,11 @@ public:
     lomiri::shell::application::MirSurfaceInterface* inputMethodSurface() const;
     Window* focusedWindow() const;
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+    int nextId() const { return m_nextId.loadRelaxed(); }
+#else
     int nextId() const { return m_nextId.load(); }
+#endif
 
 public:
     /**
