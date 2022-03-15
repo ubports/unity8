@@ -14,19 +14,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MOCK_POWER_PLUGIN_H
-#define MOCK_POWER_PLUGIN_H
+#include "plugin.h"
+#include "Leds.h"
 
-#include <QtQml/QQmlEngine>
-#include <QtQml/QQmlExtensionPlugin>
+#include <QtQml/qqml.h>
 
-class PowerdPlugin : public QQmlExtensionPlugin
+static QObject *leds_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
-    Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
 
-public:
-    void registerTypes(const char *uri) override;
-};
+    return new Leds();
+}
 
-#endif
+void PowerdPlugin::registerTypes(const char *uri)
+{
+    Q_ASSERT(uri == QLatin1String("Hfd"));
+    qmlRegisterSingletonType<Leds>(uri, 0, 1, "Leds", leds_provider);
+}

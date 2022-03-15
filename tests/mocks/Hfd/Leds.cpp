@@ -14,24 +14,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Lights.h"
+#include "Leds.h"
 
 #include <QDebug>
 
-Lights::Lights(QObject* parent)
+Leds::Leds(QObject* parent)
   : QObject(parent),
     m_color("blue"),
-    m_state(Lights::Off),
+    m_state(Leds::Off),
     m_onMs(1000),
     m_offMs(3000)
 {
 }
 
-Lights::~Lights()
+Leds::~Leds()
 {
 }
 
-void Lights::setState(Lights::State newState)
+void Leds::setState(Leds::State newState)
 {
     if (m_state != newState) {
         m_state = newState;
@@ -39,12 +39,12 @@ void Lights::setState(Lights::State newState)
     }
 }
 
-Lights::State Lights::state() const
+Leds::State Leds::state() const
 {
     return m_state;
 }
 
-void Lights::setColor(const QColor &color)
+void Leds::setColor(const QColor &color)
 {
     if (m_color != color) {
         m_color = color;
@@ -52,17 +52,17 @@ void Lights::setColor(const QColor &color)
     }
 }
 
-QColor Lights::color() const
+QColor Leds::color() const
 {
     return m_color;
 }
 
-int Lights::onMillisec() const
+int Leds::onMillisec() const
 {
     return m_onMs;
 }
 
-void Lights::setOnMillisec(int onMs)
+void Leds::setOnMillisec(int onMs)
 {
     if (m_onMs != onMs) {
         m_onMs = onMs;
@@ -70,12 +70,12 @@ void Lights::setOnMillisec(int onMs)
     }
 }
 
-int Lights::offMillisec() const
+int Leds::offMillisec() const
 {
     return m_offMs;
 }
 
-void Lights::setOffMillisec(int offMs)
+void Leds::setOffMillisec(int offMs)
 {
     if (m_offMs != offMs) {
         m_offMs = offMs;

@@ -3,7 +3,6 @@ Section: x11
 Priority: optional
 Maintainer: Lomiri Developers <lomiri-devel-discuss@lists.lomiri.com>
 Build-Depends:
- android-headers,
  cmake,
  cmake-extras,
  dbus-test-runner,
@@ -25,7 +24,6 @@ Build-Depends:
  libglib2.0-dev,
  libgnome-desktop-3-dev,
  libgsettings-qt-dev,
- libhardware-dev,
  liblightdm-qt5-3-dev,
  liblomiri-connectivity-qt1-dev,
  libpam0g-dev,
@@ -135,6 +133,7 @@ Depends:
  qml-module-qtqml-statemachine,
  qml-module-qtquick-xmllistmodel,
  qml-module-qtsysteminfo,
+ qml-module-hfd,
 # qtdeclarative5-lomiri-telephony0.1,
  qtmir,
 # lomiri-system-settings (>= 0.4),
@@ -241,7 +240,6 @@ Pre-Depends:
 Depends:
  accountsservice-ubuntu-schemas (>= 0.0.7),
  lomiri-schemas,
- libhardware2,
  qml-module-gsettings1.0,
  qml-module-qtmultimedia,
  lomiri-schemas,
