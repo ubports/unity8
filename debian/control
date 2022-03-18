@@ -136,7 +136,7 @@ Depends:
  qml-module-hfd,
 # qtdeclarative5-lomiri-telephony0.1,
  qtmir,
-# lomiri-system-settings (>= 0.4),
+ lomiri-system-settings,
  lomiri-launcher-impl-13,
  lomiri-common (= ${source:Version}),
  lomiri-private (= ${binary:Version}),
