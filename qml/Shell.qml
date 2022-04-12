@@ -22,8 +22,7 @@ import QtMir.Application 0.1
 import Lomiri.Components 1.3
 import Lomiri.Components.Popups 1.3
 import Lomiri.Gestures 0.1
-// FIXME: uncomment this when telephony-service is available in UBports Focal
-// import Lomiri.Telephony 0.1 as Telephony
+import Lomiri.Telephony 0.1 as Telephony
 import Lomiri.ModemConnectivity 0.1
 import Lomiri.Launcher 0.1
 import GlobalShortcut 1.0 // has to be before Utils, because of WindowInputFilter
@@ -513,7 +512,7 @@ StyledItem {
 
         onStatusChanged: {
             if (Powerd.status === Powerd.Off && reason !== Powerd.Proximity &&
-                    /* !callManager.hasCalls && */ !wizard.active) {
+                    !callManager.hasCalls && !wizard.active) {
                 // We don't want to simply call greeter.showNow() here, because
                 // that will take too long.  Qt will delay button event
                 // handling until the greeter is done loading and may think the
@@ -710,7 +709,7 @@ StyledItem {
             objectName: "tutorial"
             anchors.fill: parent
 
-            paused: /* callManager.hasCalls || */ !greeter || greeter.active || wizard.active
+            paused: callManager.hasCalls || !greeter || greeter.active || wizard.active
                     || !hasTouchscreen // TODO #1661557 something better for no touchscreen
             delayed: dialogs.hasActiveDialog || notifications.hasNotification ||
                      inputMethod.visible ||

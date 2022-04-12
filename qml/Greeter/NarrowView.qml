@@ -19,8 +19,7 @@ import QtQuick 2.4
 import QtQuick.Window 2.2
 import QtGraphicalEffects 1.12
 import Lomiri.Components 1.3
-// FIXME: uncomment this when telephony-service is available in UBports Focal
-// import Lomiri.Telephony 0.1 as Telephony
+import Lomiri.Telephony 0.1 as Telephony
 import "../Components"
 
 FocusScope {
