@@ -301,7 +301,7 @@ StyledItem {
                             right: parent.right
                         }
                         visible: type !== Notification.Confirmation
-                        fontSize: "medium"
+                        fontSize: "large"
                         font.weight: Font.Light
                         color: theme.palette.normal.backgroundSecondaryText
                         elide: Text.ElideRight
@@ -317,7 +317,7 @@ StyledItem {
                             right: parent.right
                         }
                         visible: body != "" && type !== Notification.Confirmation
-                        fontSize: "small"
+                        fontSize: "medium"
                         font.weight: Font.Light
                         color: theme.palette.normal.backgroundTertiaryText
                         wrapMode: Text.Wrap
