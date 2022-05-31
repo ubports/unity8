@@ -27,13 +27,13 @@ Item {
     // For testing
     property var screen: Screen
     property var orientationLock: OrientationLock
+    property alias overrideDeviceName: root.deviceConfiguration.overrideName
 
     property bool oskEnabled: false
 
     property alias deviceConfiguration: _deviceConfiguration
     DeviceConfiguration {
         id: _deviceConfiguration
-        name: applicationArguments.deviceName
     }
 
     Item {

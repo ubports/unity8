@@ -27,9 +27,6 @@
 
 #include <libintl.h>
 
-// libandroid-properties
-#include <hybris/properties/properties.h>
-
 // qtmir
 #include <qtmir/displayconfigurationstorage.h>
 
@@ -54,12 +51,6 @@ LomiriApplication::LomiriApplication(int & argc, char ** argv)
     setOrganizationName(QStringLiteral("Canonical"));
 
     setupQmlEngine();
-
-    if (m_qmlArgs.deviceName().isEmpty()) {
-        char buffer[200];
-        property_get("ro.product.device", buffer /* value */, "desktop" /* default_value*/);
-        m_qmlArgs.setDeviceName(QString(buffer));
-    }
 
     // The testability driver is only loaded by QApplication but not by QGuiApplication.
     // However, QApplication depends on QWidget which would add some unneeded overhead => Let's load the testability driver on our own.

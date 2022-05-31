@@ -34,9 +34,6 @@ Item {
 
         // Mock some things here
         property int internalGu: units.gu(1)
-        property var applicationArguments: QtObject {
-            property string deviceName: "mako"
-        }
 
         screen: QtObject {
             property int orientation: {
