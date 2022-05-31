@@ -306,16 +306,6 @@ msgstr ""
 msgid "OK"
 msgstr ""
 
-#: qml/Components/MediaServices/VideoPlayerControls.qml:44
-#, qt-format
-msgid "%1:%2:%3"
-msgstr ""
-
-#: qml/Components/MediaServices/VideoPlayerControls.qml:49
-#, qt-format
-msgid "%1:%2"
-msgstr ""
-
 #: qml/Components/ModeSwitchWarningDialog.qml:33
 msgid "Apps may have unsaved data:"
 msgstr ""
