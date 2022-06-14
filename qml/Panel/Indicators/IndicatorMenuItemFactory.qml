@@ -482,7 +482,17 @@ Item {
                 userTarget: switchItem
                 userProperty: "checked"
 
-                onSyncTriggered: menuModel.activate(switchItem.menuIndex);
+                onSyncTriggered: {
+                    if (menuData && menuData.type === 'org.ayatana.indicator.switch') {
+                        // Workaround action change for Ayatana Indicators.
+                        // https://github.com/AyatanaIndicators/qmenumodel/issues/21
+                        // https://gitlab.com/ubports/development/core/lomiri/-/issues/17
+                        // FIXME: when the permanent fix is merged, look at this again.
+                        menuModel.activate(switchItem.menuIndex, switchItem.checked);
+                    } else {
+                        menuModel.activate(switchItem.menuIndex);
+                    }
+                }
             }
         }
     }
