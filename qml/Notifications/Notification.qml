@@ -321,7 +321,15 @@ StyledItem {
                         font.weight: Font.Light
                         color: theme.palette.normal.backgroundTertiaryText
                         wrapMode: Text.Wrap
-                        maximumLineCount: type === Notification.SnapDecision ? 12 : 2
+                        maximumLineCount: {
+                            if (type === Notification.SnapDecision) {
+                                return 12;
+                            } else if (notification.hints["x-canonical-truncation"] === false) {
+                                return 20;
+                            } else {
+                                return 2;
+                            }
+                        }
                         elide: Text.ElideRight
                         textFormat: Text.PlainText
                         lineHeight: 1.1
