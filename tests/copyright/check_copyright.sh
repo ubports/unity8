@@ -34,9 +34,9 @@ usage()
 # image files
 ignore_pat="\\.sci$|\\.svg$|\\.png$|\\.jpg$"
 # git/bzr files
-ignore_pat="$ignore_pat|/\\.bzr/|\\.bzrignore$|\\.gitignore$|/\\.bazaar/Makefile$|/\\.bzr-builddeb/default\\.conf$"
+ignore_pat="$ignore_pat|/\\.git/|/\\.bzr/|\\.bzrignore$|\\.gitignore$|/\\.bazaar/Makefile$|/\\.bzr-builddeb/default\\.conf$"
 # info files
-ignore_pat="$ignore_pat|/README$|/CODING$|/LGPL_EXCEPTION\\.txt$"
+ignore_pat="$ignore_pat|/README(.md)?$|/CODING$|/LGPL_EXCEPTION\\.txt$"
 # cmake files
 ignore_pat="$ignore_pat|/CMakeLists\\.txt$|\\.cmake$"
 # card creator test files
@@ -48,13 +48,15 @@ ignore_pat="$ignore_pat|/tests/.*/.*\\.desktop$"
 # xml files
 ignore_pat="$ignore_pat|\\.xml$"
 # /data/ files
-ignore_pat="$ignore_pat|/data/.*\\.conf$|/data/.*\\.in|/data/.*\\.url-dispatcher$|/data/.*\\.pkla$"
+ignore_pat="$ignore_pat|/data/.*\\.conf$|/data/.*\\.in|/data/.*\\.url-dispatcher$|/data/.*\\.pkla$|/data/.*\\.sensors$"
 # polkit files
 ignore_pat="$ignore_pat|\\.pkla$"
 # /debian/ files
 ignore_pat="$ignore_pat|/debian/"
-# qmldir files
-ignore_pat="$ignore_pat|/qmldir$"
+# click data files
+ignore_pat="$ignore_pat|/clickable.json$"
+# qml generated files
+ignore_pat="$ignore_pat|/qmldir$|\\.qmltypes$"
 # Doxygen files
 ignore_pat="$ignore_pat|/Doxyfile.in$"
 # Wizard license files
@@ -65,6 +67,8 @@ ignore_pat="$ignore_pat|\\.qrc$"
 ignore_pat="$ignore_pat|/doc/devices\\.conf$"
 # Jenkins configuration
 ignore_pat="$ignore_pat|/Jenkinsfile"
+# upstart jobs
+ignore_pat="$ignore_pat|/plugins/Wizard/.*\\.conf$"
 
 #
 # We don't use the -i option of licensecheck to add ignore_dir to the pattern because Jenkins creates directories
