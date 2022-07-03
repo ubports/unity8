@@ -17,6 +17,7 @@
 import QtQuick 2.4
 import Unity.Indicators 0.1 as Indicators
 
+// this file
 Rectangle {
     id: root
     color: theme.palette.normal.background
@@ -57,6 +58,30 @@ Rectangle {
                 break;
             }
         }
+    }
+
+    // get actual indicator index from original model index
+    function getIndicatorIndex(index) {
+        var i;
+        for (i = 0; i < __indicatorsModel.modelData.length; i++) {
+            if (__indicatorsModel.modelData[i]["identifier"] === __indicatorsModel.originalModelData[index]["identifier"]) {
+                console.log(__indicatorsModel.modelData[i]["identifier"])
+                return i;
+            }
+        }
+    }
+
+    function getIndicatorIndexFromIdentifier(identifier) {
+        var i;
+        for (i = 0; i < __indicatorsModel.modelData.length; i++) {
+            if (__indicatorsModel.modelData[i]["identifier"] === identifier) {
+                return i;
+            }
+        }
+    }
+
+    function moveNotch(index) {
+        __indicatorsModel.moveNotchToIndex(getIndicatorIndex(6), index)
     }
 
     function setIndicatorVisible(index, visible) {

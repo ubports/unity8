@@ -34,9 +34,16 @@ Item {
 
     property alias hideRow: row.hideRow
     property alias rowItemDelegate: row.delegate
+    property alias listView: row.listView
 
     implicitWidth: flickable.contentWidth
 
+    function indicatorAt(x, y) {
+        return row.indicatorAt(x, y)
+    }
+    function getCurrentItemX() {
+        return row.getCurrentItemX()
+    }
     function selectItemAt(lateralPosition) {
         if (!expanded) {
             row.resetCurrentItem();

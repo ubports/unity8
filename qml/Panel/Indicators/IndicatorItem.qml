@@ -30,6 +30,8 @@ IndicatorDelegate {
     property bool expanded: false
     property bool selected: false
     property real iconHeight: units.gu(2)
+    property bool notch: identifier === "notch"
+    property real notchW: units.gu(3)
     readonly property color color: {
         if (!expanded) return theme.palette.normal.backgroundText;
         if (!selected) return theme.palette.disabled.backgroundText;
@@ -65,7 +67,7 @@ IndicatorDelegate {
         id: mainItems
         anchors.centerIn: parent
 
-        width: leftLabelItem.width + iconsItem.width + rightLabelItem.width
+        width: notch ? notchW : leftLabelItem.width + iconsItem.width + rightLabelItem.width
         implicitHeight: units.gu(2)
 
         Label {
@@ -106,6 +108,7 @@ IndicatorDelegate {
                     id: iconRepeater
                     objectName: "iconRepeater"
 
+                    // model: notch ? [] : d.useFallbackIcon ? [ "image://theme/settings" ] : root.icons
                     model: d.useFallbackIcon ? [ "image://theme/settings" ] : root.icons
 
                     Icon {
@@ -117,6 +120,7 @@ IndicatorDelegate {
                         source: modelData
                         color: root.color
                         Behavior on color { ColorAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing } }
+                        visible: !notch
 
                         // Workaround indicators getting stretched/squished when (un)plugging external/virtual monitor
                         onHeightChanged: {

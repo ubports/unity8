@@ -52,6 +52,11 @@ Item {
     // Whether our expanded menus should take up the full width of the panel
     property bool partialWidth: width >= units.gu(60)
 
+    property alias expanded: __indicators.expanded
+    property alias listView: __indicators.listView
+    property real notchW: units.gu(3)
+    // onNotchWChanged: console.log(notchW)
+
     property string mode: "staged"
 
     MouseArea {
@@ -422,6 +427,8 @@ Item {
                 height: parent.height
                 expanded: indicators.expanded
                 selected: ListView.isCurrentItem
+                notchW: root.notchW
+                // onNotchWChanged: console.log(notchW)
 
                 identifier: model.identifier
                 busName: indicatorProperties.busName
@@ -437,17 +444,20 @@ Item {
             }
 
             pageDelegate: PanelMenuPage {
-                objectName: modelData.identifier + "-page"
+                objectName: modelData ? modelData.identifier + "-page" : ""
                 submenuIndex: 0
 
                 menuModel: delegate.menuModel
 
                 factory: IndicatorMenuItemFactory {
                     indicator: {
-                        var context = modelData.identifier;
+                        var context = modelData ? modelData.identifier : "";
                         if (context && context.indexOf("fake-") === 0) {
                             context = context.substring("fake-".length)
                         }
+                        // if (context && context === "notch") {
+                        //     return undefined
+                        // }
                         return context;
                     }
                     rootModel: delegate.menuModel
@@ -455,9 +465,9 @@ Item {
 
                 IndicatorDelegate {
                     id: delegate
-                    busName: modelData.indicatorProperties.busName
-                    actionsObjectPath: modelData.indicatorProperties.actionsObjectPath
-                    menuObjectPath: modelData.indicatorProperties.menuObjectPath
+                    busName: modelData ? modelData.indicatorProperties.busName : ""
+                    actionsObjectPath: modelData ? modelData.indicatorProperties.actionsObjectPath : ""
+                    menuObjectPath: modelData ? modelData.indicatorProperties.menuObjectPath : ""
                 }
             }
 
