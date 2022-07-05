@@ -144,8 +144,8 @@ Depends:
  ${misc:Depends},
  ${shlibs:Depends},
 Recommends:
- indicator-keyboard,
- indicator-session,
+ ayatana-indicator-keyboard,
+ ayatana-indicator-session,
  lomiri-greeter-session-broadcast,
 Breaks:
  indicator-network (<< 0.5.1+14.10.20141014),
