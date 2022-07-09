@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-29 11:42-0600\n"
-"PO-Revision-Date: 2022-03-14 13:38+0000\n"
+"PO-Revision-Date: 2022-04-04 11:51+0000\n"
 "Last-Translator: ប៉ុកណូ រ៉ូយ៉ាល់ <poknoroyal@outlook.com>\n"
 "Language-Team: Central Khmer <https://translate.ubports.com/projects/ubports/"
 "lomiri/km/>\n"
@@ -30,7 +30,7 @@ msgstr "អត្ថនាម"
 
 #: plugins/LightDM/Greeter.cpp:258
 msgid "Failed to authenticate"
-msgstr ""
+msgstr "បានបរាជ័យក្នុងយថាភូត"
 
 #: plugins/LightDM/Greeter.cpp:260
 msgid "Invalid password, please try again"
@@ -42,7 +42,7 @@ msgstr ""
 
 #: plugins/LightDM/Greeter.cpp:270
 msgid "Retry"
-msgstr "ព្យាយាម​ម្ដងទៀត"
+msgstr "ព្យាយាម​ឡើងវិញ"
 
 #: plugins/LightDM/UsersModel.cpp:157
 msgid "Login"
@@ -50,12 +50,12 @@ msgstr ""
 
 #: plugins/LightDM/UsersModel.cpp:165
 msgid "Guest Session"
-msgstr ""
+msgstr "សម័យភ្ញៀវ"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:48
 #: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Pin shortcut"
-msgstr "ភ្ជាប់​ផ្លូវកាត់"
+msgstr "បិត​ផ្លូវកាត់"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:54
 msgid "Quit"
@@ -105,7 +105,7 @@ msgstr "ទេ"
 
 #: qml/Components/Dialogs.qml:223
 msgid "Yes"
-msgstr "បាទ/ចាស"
+msgstr "បាទ"
 
 #: qml/Components/Dialogs.qml:243
 msgctxt "Title: Power off/Restart dialog"
@@ -449,7 +449,7 @@ msgstr "ប៉ះ​ដើម្បី​ត្រឡប់​ទៅ​ការ
 
 #: qml/Panel/ActiveCallHint.qml:92
 msgid "Conference"
-msgstr "សន្និសីទ"
+msgstr "ការប្រជុំ"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:869
 msgid "Nothing is playing"
@@ -501,7 +501,7 @@ msgstr "បាន​បោះបង់"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1027
 msgid "Finished"
-msgstr "បាន​បញ្ចប់"
+msgstr "បានបញ្ចប់"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1029
 msgid "Failed, tap to retry"

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-29 11:42-0600\n"
-"PO-Revision-Date: 2021-10-12 07:49+0000\n"
+"PO-Revision-Date: 2022-03-24 05:37+0000\n"
 "Last-Translator: HEROBRINE7GAMER <tapermeerkat77@gmail.com>\n"
 "Language-Team: Arabic <https://translate.ubports.com/projects/ubports/lomiri/"
 "ar/>\n"
@@ -89,7 +89,7 @@ msgstr "اخرج"
 #: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
-msgstr "ألغ"
+msgstr "إلغاء"
 
 #: qml/Components/Dialogs.qml:211
 msgctxt "Title: Reboot dialog"
@@ -484,12 +484,12 @@ msgstr[5] "%1 دقيقة"
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
-msgstr[0] "أقل من ثانية (%1)"
-msgstr[1] "ثانية واحدة (%1)"
-msgstr[2] "ثانيتان (%1)"
-msgstr[3] "%1 ثوان"
-msgstr[4] "%1 ثانية"
-msgstr[5] "%1 ثانية"
+msgstr[0] "%1 ثانية"
+msgstr[1] "ثانية %1"
+msgstr[2] "ثانيتان %1"
+msgstr[3] "%1 ثواني"
+msgstr[4] "%1 ثواني"
+msgstr[5] "%1 ثواني"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1009
 msgid "0 seconds"
