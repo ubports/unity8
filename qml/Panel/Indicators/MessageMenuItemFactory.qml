@@ -18,7 +18,7 @@
  *      Olivier Tilloy <olivier.tilloy@canonical.com>
  */
 
-import QtQuick 2.4
+import QtQuick 2.12
 import Ubuntu.Components 1.3
 import Ubuntu.Settings.Menus 0.1 as Menus
 import QMenuModel 0.1 as QMenuModel

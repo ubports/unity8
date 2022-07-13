@@ -15,7 +15,7 @@
  */
 
 pragma Singleton
-import QtQuick 2.4
+import QtQuick 2.12
 
 // TODO sanitize input, move to persistent storage
 
