@@ -37,7 +37,7 @@ Item {
         objectName: "wallpaperImage"
         anchors.fill: parent
         fillMode: Image.PreserveAspectCrop
-
+        autoTransform: true
         asynchronous: true
 
         property real oldSourceSize: 0.0

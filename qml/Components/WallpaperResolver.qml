@@ -49,6 +49,7 @@ Item {
         model: root.candidates.slice(0, -1)
         delegate: Image {
             source: modelData
+            autoTransform: true
             asynchronous: true
             cache: root.cache
             height: 0
