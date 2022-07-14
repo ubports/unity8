@@ -49,7 +49,7 @@ Item {
                 height: loader.height
                 background: defaultBackground
                 viewSource: Qt.resolvedUrl("TestView.qml")
-
+                failedFingerprintReaderRetryDelay: 0
                 Component.onDestruction: {
                     loader.itemDestroyed = true;
                 }
@@ -548,7 +548,8 @@ Item {
             verify(biometryd.operation.running);
 
             biometryd.operation.mockSuccess(LightDM.Users.data(index, LightDM.UserRoles.UidRole));
-            viewTryToUnlockSpy.wait();
+            viewShowErrorMessageSpy.wait();
+            compare(viewShowErrorMessageSpy.signalArguments[0][0], i18n.tr("Enter passphrase to unlock"));
             verify(greeter.locked);
         }
 
@@ -577,22 +578,29 @@ Item {
             compare(viewShowErrorMessageSpy.signalArguments[0][0], i18n.tr("Try again"));
         }
 
+        function repeatBiometrydMockFailure(operationHost, count) {
+            for (var i = 0; i < count; i++) {
+                operationHost.operation.mockFailure("error");
+            }
+        }
+
         function test_fingerprintTooManyFailures() {
             var index = selectUser("has-password");
             unlockAndShowGreeter(); // turn on lockscreen mode
 
             var biometryd = findInvisibleChild(greeter, "biometryd");
-            biometryd.operation.mockFailure("error");
-            biometryd.operation.mockFailure("error");
+            repeatBiometrydMockFailure(biometryd, 4);
             compare(viewTryToUnlockSpy.count, 0);
 
-            biometryd.operation.mockFailure("error");
-            viewTryToUnlockSpy.wait();
-            viewTryToUnlockSpy.clear();
+            repeatBiometrydMockFailure(biometryd, 1);
+            viewShowErrorMessageSpy.wait();
+            compare(viewShowErrorMessageSpy.signalArguments[0][0], i18n.tr("Try again"));
+            viewShowErrorMessageSpy.clear();
 
             // Confirm that we are stuck in this mode until next login
             biometryd.operation.mockSuccess(LightDM.Users.data(index, LightDM.UserRoles.UidRole));
-            viewTryToUnlockSpy.wait();
+            viewShowErrorMessageSpy.wait();
+            compare(viewShowErrorMessageSpy.signalArguments[0][0], i18n.tr("Enter passphrase to unlock"));
 
             unlockAndShowGreeter();
 
@@ -605,17 +613,16 @@ Item {
             unlockAndShowGreeter(); // turn on lockscreen mode
 
             var biometryd = findInvisibleChild(greeter, "biometryd");
-            biometryd.operation.mockFailure("error");
-            biometryd.operation.mockFailure("error");
+            repeatBiometrydMockFailure(biometryd, 4);
             compare(viewTryToUnlockSpy.count, 0);
 
             unlockAndShowGreeter();
-            biometryd.operation.mockFailure("error");
-            biometryd.operation.mockFailure("error");
+            repeatBiometrydMockFailure(biometryd, 4);
             compare(viewTryToUnlockSpy.count, 0);
 
-            biometryd.operation.mockFailure("error");
-            viewTryToUnlockSpy.wait();
+            repeatBiometrydMockFailure(biometryd, 1);
+            viewShowErrorMessageSpy.wait();
+            compare(viewShowErrorMessageSpy.signalArguments[0][0], i18n.tr("Try again"));
         }
 
         function test_fingerprintWrongUid() {
