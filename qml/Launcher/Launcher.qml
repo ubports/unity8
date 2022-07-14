@@ -378,6 +378,7 @@ FocusScope {
                           drawer.width + drawer.x - panel.width,
                           height - root.topPanelHeight)
         cached: drawer.moving
+        occluding: (drawer.width == root.width) && drawer.fullyOpen
     }
 
     Drawer {
