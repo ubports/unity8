@@ -17,7 +17,7 @@
  *      Mirco Mueller <mirco.mueller@canonical.com>
  */
 
-import QtQuick 2.4
+import QtQuick 2.12
 import QtTest 1.0
 import ".."
 import "../../../qml/Notifications"

@@ -17,7 +17,7 @@
  *      Nick Dedekind <nick.dedekind@canonical.com>
  */
 
-import QtQuick 2.4
+import QtQuick 2.12
 
 IndicatorBase {
     readonly property bool indicatorVisible: rootActionState.indicatorVisible

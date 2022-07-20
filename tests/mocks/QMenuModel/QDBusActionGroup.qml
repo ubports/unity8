@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.4
+import QtQuick 2.12
 import QMenuModel 0.1
 
 QtObject {
@@ -30,7 +30,7 @@ QtObject {
 
     function action(actionName) {
         return Qt.createQmlObject("
-            import QtQuick 2.4
+            import QtQuick 2.12
             import QMenuModel 0.1
 
             QtObject {

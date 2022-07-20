@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.4
+import QtQuick 2.12
 import Ubuntu.Components 1.3
 
 Item {
@@ -49,6 +49,7 @@ Item {
         model: root.candidates.slice(0, -1)
         delegate: Image {
             source: modelData
+            autoTransform: true
             asynchronous: true
             cache: root.cache
             height: 0

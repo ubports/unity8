@@ -18,7 +18,7 @@
  *      Olivier Tilloy <olivier.tilloy@canonical.com>
  */
 
-import QtQuick 2.0
+import QtQuick 2.12
 import Ubuntu.Components 0.1
 import Unity.IndicatorsLegacy 0.1 as Indicators
 
