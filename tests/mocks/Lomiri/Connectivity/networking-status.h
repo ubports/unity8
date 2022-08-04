@@ -29,14 +29,14 @@ class Q_DECL_EXPORT NetworkingStatus : public QObject
     Q_PROPERTY(QVector<Limitations> limitations READ limitations NOTIFY limitationsChanged)
     Q_PROPERTY(Status status READ status WRITE setStatus NOTIFY statusChanged)
     Q_PROPERTY(bool online READ online NOTIFY onlineChanged)
-    Q_PROPERTY(bool limitedBandwith READ limitedBandwith WRITE setLimitedBandwidth NOTIFY limitedBandwithChanged)
+    Q_PROPERTY(bool limitedBandwidth READ limitedBandwidth WRITE setLimitedBandwidth NOTIFY limitedBandwidthChanged)
 
 public:
     explicit NetworkingStatus(QObject *parent = 0);
     virtual ~NetworkingStatus();
 
     enum Limitations {
-        Bandwith
+        Bandwidth
     };
     Q_ENUM(Limitations)
 
@@ -50,7 +50,7 @@ public:
     QVector<Limitations> limitations() const;
     NetworkingStatus::Status status() const;
     bool online() const;
-    bool limitedBandwith() const;
+    bool limitedBandwidth() const;
 
     // Only in the fake one
     void setLimitedBandwidth(bool limited);
@@ -60,7 +60,7 @@ Q_SIGNALS:
     void limitationsChanged();
     void statusChanged(NetworkingStatus::Status status);
     void onlineChanged(bool value);
-    void limitedBandwithChanged(bool value);
+    void limitedBandwidthChanged(bool value);
 
 private:
     QVector<NetworkingStatus::Limitations> m_limitations;
