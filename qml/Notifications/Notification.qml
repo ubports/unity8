@@ -185,7 +185,7 @@ StyledItem {
         LomiriMenuModelPaths {
             id: paths
 
-            source: hints["x-canonical-private-menu-model"]
+            source: hints["x-lomiri-private-menu-model"]
 
             busNameHint: "busName"
             actionsHint: "actions"
@@ -520,7 +520,7 @@ StyledItem {
 
                 Loader {
                     id: notifySwipeButtonLoader
-                    active: notification.hints["x-canonical-snap-decisions-swipe"] === "true"
+                    active: notification.hints["x-lomiri-snap-decisions-swipe"] === "true"
 
                     sourceComponent: SwipeToAct  {
                         objectName: "notify_swipe_button"
