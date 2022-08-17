@@ -371,13 +371,11 @@ FocusScope {
         anchors.fill: parent
         anchors.topMargin: root.inverted ? 0 : -root.topPanelHeight
         visible: root.interactiveBlur && root.blurSource && drawer.x > -drawer.width
-        blurAmount: units.gu(6)
         sourceItem: root.blurSource
         blurRect: Qt.rect(panel.width,
                           root.topPanelHeight,
                           drawer.width + drawer.x - panel.width,
                           height - root.topPanelHeight)
-        cached: drawer.moving
         occluding: (drawer.width == root.width) && drawer.fullyOpen
     }
 
