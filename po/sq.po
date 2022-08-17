@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-29 11:42-0600\n"
-"PO-Revision-Date: 2022-05-17 17:23+0000\n"
-"Last-Translator: Rrahim Gashi <himi-f@hotmail.com>\n"
+"PO-Revision-Date: 2022-08-07 01:00+0000\n"
+"Last-Translator: Edis Hasaj <edisnord@gmail.com>\n"
 "Language-Team: Albanian <https://translate.ubports.com/projects/ubports/"
 "lomiri/sq/>\n"
 "Language: sq\n"
@@ -26,7 +26,7 @@ msgstr "Fjalëkalimi: "
 
 #: plugins/LightDM/Greeter.cpp:214
 msgid "Username"
-msgstr ""
+msgstr "Emri i perdoruesit:"
 
 #: plugins/LightDM/Greeter.cpp:258
 msgid "Failed to authenticate"
@@ -34,11 +34,11 @@ msgstr ""
 
 #: plugins/LightDM/Greeter.cpp:260
 msgid "Invalid password, please try again"
-msgstr ""
+msgstr "Fjalëkalim i gabuar, ju lutem provoni përsëri"
 
 #: plugins/LightDM/Greeter.cpp:270
 msgid "Log In"
-msgstr ""
+msgstr "Hyr"
 
 #: plugins/LightDM/Greeter.cpp:270
 msgid "Retry"
@@ -46,16 +46,16 @@ msgstr "Riprovo"
 
 #: plugins/LightDM/UsersModel.cpp:157
 msgid "Login"
-msgstr ""
+msgstr "Hyrje"
 
 #: plugins/LightDM/UsersModel.cpp:165
 msgid "Guest Session"
-msgstr ""
+msgstr "Seancë Mysafiri"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:48
 #: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Pin shortcut"
-msgstr ""
+msgstr "Ruaj shkurtore"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:54
 msgid "Quit"
@@ -63,7 +63,7 @@ msgstr "Dil"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Unpin shortcut"
-msgstr ""
+msgstr "Hiq shkurtore"
 
 #: qml/Components/Dialogs.qml:176
 msgctxt "Title: Lock/Log out dialog"
@@ -72,7 +72,7 @@ msgstr "Dalja"
 
 #: qml/Components/Dialogs.qml:177
 msgid "Are you sure you want to log out?"
-msgstr ""
+msgstr "Je i sigurt që do të dalesh?"
 
 #: qml/Components/Dialogs.qml:180
 msgctxt "Button: Lock the system"
@@ -97,7 +97,7 @@ msgstr "Rindize"
 
 #: qml/Components/Dialogs.qml:212
 msgid "Are you sure you want to reboot?"
-msgstr ""
+msgstr "Je i sigurt që do ta rindezesh pajisjen?"
 
 #: qml/Components/Dialogs.qml:215
 msgid "No"
@@ -117,6 +117,8 @@ msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr ""
+"A je i sigurt që dëshiron\n"
+"ta fikësh pajisjen?"
 
 #: qml/Components/Dialogs.qml:248
 msgctxt "Button: Power off the system"

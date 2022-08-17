@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-29 11:42-0600\n"
-"PO-Revision-Date: 2022-02-11 14:14+0000\n"
+"PO-Revision-Date: 2022-08-07 01:00+0000\n"
 "Last-Translator: Muhammad <alimuhammad42620@gmail.com>\n"
 "Language-Team: Urdu <https://translate.ubports.com/projects/ubports/lomiri/"
 "ur/>\n"
@@ -110,7 +110,7 @@ msgstr "ھاں"
 #: qml/Components/Dialogs.qml:243
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
-msgstr ""
+msgstr "پاور"
 
 #: qml/Components/Dialogs.qml:244
 msgid ""
@@ -136,47 +136,47 @@ msgstr "سکرین کی تصویر"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
-msgstr ""
+msgstr "کی بورڈ شارٹ کٹس"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
 msgid "Lomiri"
-msgstr ""
+msgstr "لومیری"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
-msgstr ""
+msgstr "پرنٹ سکرین"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:67
 msgid "Takes a screenshot."
-msgstr ""
+msgstr "اسکرین شاٹ لیتا ہے."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:75
 msgid "Alt + PrtScr"
-msgstr ""
+msgstr "Alt + PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
 msgid "Takes a screenshot of the current window."
-msgstr ""
+msgstr "موجودہ ونڈو کا اسکرین شاٹ لیتا ہے۔"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
-msgstr ""
+msgstr "Super + Space"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:93
 msgid "Switches to next keyboard layout."
-msgstr ""
+msgstr "اگلے کیبورڈ لے آؤٹ پر تبدیل کرتا ہے۔"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:101
 msgid "Super + Shift + Space"
-msgstr ""
+msgstr "Super + Shift + Space"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:106
 msgid "Switches to previous keyboard layout."
-msgstr ""
+msgstr "پچھلے کیبورڈ لے آؤٹ پر تبدیل کرتا ہے۔"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:114
 msgid "Ctrl + Alt + T"
-msgstr ""
+msgstr "Ctrl + Alt + T"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:119
 msgid "Starts the Terminal application."

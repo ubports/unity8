@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-29 11:42-0600\n"
-"PO-Revision-Date: 2021-10-19 20:55+0000\n"
-"Last-Translator: Jakob Fridesjö <jakob.fridesjo@tuta.io>\n"
+"PO-Revision-Date: 2022-08-07 01:00+0000\n"
+"Last-Translator: Åke Engelbrektson <eson@svenskasprakfiler.se>\n"
 "Language-Team: Swedish <https://translate.ubports.com/projects/ubports/"
 "lomiri/sv/>\n"
 "Language: sv\n"
@@ -503,7 +503,7 @@ msgstr "Avbröt"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1027
 msgid "Finished"
-msgstr "Klart"
+msgstr "Slutfört"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1029
 msgid "Failed, tap to retry"
@@ -527,7 +527,7 @@ msgstr "Ring upp"
 
 #: qml/Panel/PanelMenuPage.qml:92
 msgid "Back"
-msgstr "Backa"
+msgstr "Tillbaka"
 
 #: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
