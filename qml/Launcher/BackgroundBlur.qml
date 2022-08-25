@@ -21,26 +21,16 @@ import QtGraphicalEffects 1.0
 Item {
     id: root
 
-    property int blurAmount: 32
     property Item sourceItem
     property rect blurRect: Qt.rect(0,0,0,0)
-    property alias cached: fastBlur.cached
     property bool occluding: false
 
-    ShaderEffect {
-        id: maskedBlurEffect
-        x: blurRect.x
-        y: blurRect.y
-        width: blurRect.width
-        height: blurRect.height
-
-        property variant source: ShaderEffectSource {
-            id: shaderEffectSource
-            sourceItem: root.sourceItem
-            hideSource: root.occluding
-            sourceRect: root.blurRect
-            live: false
-        }
+    ShaderEffectSource {
+        id: shaderEffectSource
+        sourceItem: root.sourceItem
+        hideSource: root.occluding
+        sourceRect: root.blurRect
+        live: false
     }
 
     FastBlur {
@@ -49,13 +39,14 @@ Item {
         y: blurRect.y
         width: blurRect.width
         height: blurRect.height
-        source: maskedBlurEffect
-        radius: Math.min(blurAmount, 128)
+        source: shaderEffectSource
+        radius: units.gu(3)
+        cached: false
     }
 
     Timer {
         interval: 48
-        repeat: !cached
+        repeat: root.visible
         running: repeat
         onTriggered: shaderEffectSource.scheduleUpdate()
     }
