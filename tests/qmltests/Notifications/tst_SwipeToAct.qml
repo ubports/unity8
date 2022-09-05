@@ -175,7 +175,7 @@ Item {
                 {
                     tag: "Snap Decision with SwipeToAct-widget (accept)",
                     type: Notification.SnapDecision,
-                    hints: {"x-canonical-snap-decisions-swipe": "true"},
+                    hints: {"x-lomiri-snap-decisions-swipe": "true"},
                     summary: "Incoming call",
                     body: "Frank Zappa\n+44 (0)7736 027340",
                     icon: Qt.resolvedUrl("../../graphics/avatars/amanda.png"),
@@ -194,7 +194,7 @@ Item {
                 {
                     tag: "Snap Decision with SwipeToAct-widget (reject)",
                     type: Notification.SnapDecision,
-                    hints: {"x-canonical-snap-decisions-swipe": "true"},
+                    hints: {"x-lomiri-snap-decisions-swipe": "true"},
                     summary: "Incoming call",
                     body: "Bro Coly\n+49 (0)221 426973",
                     icon: Qt.resolvedUrl("../../graphics/avatars/funky.png"),

@@ -130,7 +130,7 @@ class InteractiveNotificationBase(NotificationsBase):
         actions = [("action_id", "dummy")]
         hints = [
             ("x-lomiri-switch-to-application", "true"),
-            ("x-canonical-secondary-icon", "dialer")
+            ("x-lomiri-secondary-icon", "dialer")
         ]
 
         self._create_interactive_notification(
@@ -431,7 +431,7 @@ class EphemeralNotificationsTests(NotificationsBase):
                "join me and Anna?"
         icon_path = self._get_icon_path('avatars/anna_olsson.png')
         hints = [
-            ("x-canonical-secondary-icon", "message")
+            ("x-lomiri-secondary-icon", "message")
         ]
 
         notification = shell.create_ephemeral_notification(
@@ -677,7 +677,7 @@ class EphemeralNotificationsTests(NotificationsBase):
             icon_path
         )
         notification.set_hint_string(
-            'x-canonical-secondary-icon',
+            'x-lomiri-secondary-icon',
             hint_icon
         )
         notification.show()
