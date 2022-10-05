@@ -74,7 +74,11 @@ static QObject *createGlobalFunctions(QQmlEngine *engine, QJSEngine *scriptEngin
 void FakeUtilsPlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("Utils"));
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+    qmlRegisterAnonymousType<QAbstractItemModel>(uri, 0);
+#else
     qmlRegisterType<QAbstractItemModel>();
+#endif
     qmlRegisterType<QLimitProxyModelQML>(uri, 0, 1, "LimitProxyModel");
     qmlRegisterType<LomiriSortFilterProxyModelQML>(uri, 0, 1, "LomiriSortFilterProxyModel");
     qmlRegisterType<LomiriMenuModelPaths>(uri, 0, 1, "LomiriMenuModelPaths");

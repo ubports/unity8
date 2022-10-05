@@ -69,7 +69,11 @@ void UtilsPlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("Utils"));
     qmlRegisterType<WindowInputMonitor>(uri, 0, 1, "WindowInputMonitor");
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+    qmlRegisterAnonymousType<QAbstractItemModel>(uri, 0);
+#else
     qmlRegisterType<QAbstractItemModel>();
+#endif
     qmlRegisterType<QLimitProxyModelQML>(uri, 0, 1, "LimitProxyModel");
     qmlRegisterType<LomiriSortFilterProxyModelQML>(uri, 0, 1, "LomiriSortFilterProxyModel");
     qmlRegisterType<LomiriMenuModelPaths>(uri, 0, 1, "LomiriMenuModelPaths");

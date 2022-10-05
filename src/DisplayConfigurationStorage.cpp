@@ -86,7 +86,11 @@ bool DisplayConfigurationStorage::load(const miral::DisplayId &displayId, miral:
 
             if (jsonMode.contains("size") && jsonMode.contains("refresh_rate")) {
                 QString sz(jsonMode["size"].toString());
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+                QStringList geo = sz.split("x", Qt::SkipEmptyParts);
+#else
                 QStringList geo = sz.split("x", QString::SkipEmptyParts);
+#endif
                 if (geo.count() == 2) {
                     miral::DisplayConfigurationOptions::DisplayMode mode;
                     mode.size = mir::geometry::Size(geo[0].toInt(), geo[1].toInt());

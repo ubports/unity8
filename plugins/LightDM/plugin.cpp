@@ -74,8 +74,13 @@ static QObject *infographic_provider(QQmlEngine *engine, QJSEngine *scriptEngine
 
 void PLUGIN_CLASSNAME::registerTypes(const char *uri)
 {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+    qmlRegisterAnonymousType<QAbstractItemModel>(uri, 0);
+    qmlRegisterAnonymousType<UserMetricsOutput::ColorTheme>(uri, 0);
+#else
     qmlRegisterType<QAbstractItemModel>();
     qmlRegisterType<UserMetricsOutput::ColorTheme>();
+#endif
 
 #if defined INTEGRATED_LIGHTDM
     Q_ASSERT(uri == QLatin1String("LightDM.IntegratedLightDM"));

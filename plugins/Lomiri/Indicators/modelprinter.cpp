@@ -76,7 +76,11 @@ QString ModelPrinter::getModelDataString(AyatanaMenuModel* sourceModel, int leve
     int rowCount = sourceModel->rowCount();
     for (int row = 0; row < rowCount; row++) {
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+        stream << getRowSring(sourceModel, row, level) << Qt::endl;
+#else
         stream << getRowSring(sourceModel, row, level) << endl;
+#endif
 
         AyatanaMenuModel* childMenuModel = qobject_cast<AyatanaMenuModel*>(sourceModel->submenu(row));
         if (childMenuModel) {
@@ -138,7 +142,11 @@ QString ModelPrinter::getVariantString(const QString& roleName, const QVariant &
                 << iter.key()
                 << ": "
                 << getVariantString(iter.value())
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+                << Qt::endl;
+#else
                 << endl;
+#endif
         }
     }
     else {
@@ -146,7 +154,11 @@ QString ModelPrinter::getVariantString(const QString& roleName, const QVariant &
             stream << roleName
                 << ": "
                 << getVariantString(vData)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+                << Qt::endl;
+#else
                 << endl;
+#endif
     }
     return str;
 }
