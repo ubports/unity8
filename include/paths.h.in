@@ -151,7 +151,7 @@ inline void prependImportPaths(QQmlEngine *engine, const QStringList &paths)
     for (int i = paths.count() -1; i >= 0; i--) {
         // don't duplicate
         const QString& path = paths[i];
-        QStringList::iterator iter = qFind(importPathList.begin(), importPathList.end(), path);
+        QStringList::iterator iter = std::find(importPathList.begin(), importPathList.end(), path);
         if (iter == importPathList.end()) {
             engine->addImportPath(path);
         }
@@ -166,7 +166,7 @@ inline void appendImportPaths(QQmlEngine *engine, const QStringList &paths)
     QStringList importPathList = engine->importPathList();
     Q_FOREACH(const QString& path, paths) {
         // don't duplicate
-        QStringList::iterator iter = qFind(importPathList.begin(), importPathList.end(), path);
+        QStringList::iterator iter = std::find(importPathList.begin(), importPathList.end(), path);
         if (iter == importPathList.end()) {
             importPathList.append(path);
         }
