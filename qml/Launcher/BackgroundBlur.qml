@@ -35,10 +35,7 @@ Item {
 
     FastBlur {
         id: fastBlur
-        x: blurRect.x
-        y: blurRect.y
-        width: blurRect.width
-        height: blurRect.height
+        anchors.fill: parent
         source: shaderEffectSource
         radius: units.gu(3)
         cached: false

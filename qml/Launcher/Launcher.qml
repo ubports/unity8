@@ -366,17 +366,26 @@ FocusScope {
         }
     }
 
-    BackgroundBlur {
-        id: backgroundBlur
-        anchors.fill: parent
-        anchors.topMargin: root.inverted ? 0 : -root.topPanelHeight
-        visible: root.interactiveBlur && root.blurSource && drawer.x > -drawer.width
-        sourceItem: root.blurSource
-        blurRect: Qt.rect(panel.width,
-                          root.topPanelHeight,
-                          drawer.width + drawer.x - panel.width,
-                          height - root.topPanelHeight)
-        occluding: (drawer.width == root.width) && drawer.fullyOpen
+    Item {
+        clip: true
+        x: 0
+        y: drawer.y
+        width: drawer.width + drawer.x
+        height: drawer.height
+        BackgroundBlur {
+            id: backgroundBlur
+            x: 0
+            y: 0
+            width: drawer.width
+            height: drawer.height
+            visible: root.interactiveBlur && root.blurSource && drawer.x > -drawer.width
+            sourceItem: root.blurSource
+            blurRect: Qt.rect(0,
+                              root.topPanelHeight,
+                              drawer.width,
+                              drawer.height)
+            occluding: (drawer.width == root.width) && drawer.fullyOpen
+        }
     }
 
     Drawer {
