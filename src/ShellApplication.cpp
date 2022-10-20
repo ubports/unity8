@@ -60,7 +60,7 @@ ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
 
     {
         char buffer[200];
-        property_get("ubuntu.unity8.interactive_blur", buffer, "false");
+        property_get("ubuntu.unity8.interactive_blur", buffer, "true");
         m_qmlArgs.setInteractiveBlur(QString(buffer) == QStringLiteral("true"));
     }
 
