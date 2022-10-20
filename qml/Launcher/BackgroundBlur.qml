@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2016 Canonical, Ltd.
+ * Copyright (C) 2022 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,10 +36,7 @@ Item {
 
     FastBlur {
         id: fastBlur
-        x: blurRect.x
-        y: blurRect.y
-        width: blurRect.width
-        height: blurRect.height
+        anchors.fill: parent
         source: shaderEffectSource
         radius: units.gu(3)
         cached: false
