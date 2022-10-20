@@ -416,6 +416,14 @@ FocusScope {
         onOpenRequested: {
             root.toggleDrawer(false, true);
         }
+
+        onFullyClosedChanged: {
+            if (!fullyClosed)
+                return
+
+            drawer.unFocusInput()
+            root.focus = false
+        }
     }
 
     LauncherPanel {
