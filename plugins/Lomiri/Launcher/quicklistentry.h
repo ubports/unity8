@@ -1,4 +1,4 @@
-/* Copyright (C) 2013, 2015 Canonical, Ltd.
+/* Copyright (C) 2013, 2015 Canonical Ltd.
  *
  * Authors:
  *  Michael Zanetti <michael.zanetti@canonical.com>

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2016 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical Ltd.
  *
  * Authors:
  *   Michał Sawicz <michal.sawicz@canonical.com>

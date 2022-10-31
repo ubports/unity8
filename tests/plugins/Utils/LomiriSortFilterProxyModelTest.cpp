@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Canonical, Ltd.
+ * Copyright (C) 2011 Canonical Ltd.
  *
  * Authors:
  *  Florian Boucault <florian.boucault@canonical.com>
