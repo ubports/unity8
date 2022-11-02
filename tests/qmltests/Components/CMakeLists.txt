@@ -23,7 +23,7 @@ target_link_libraries(DragHandleTestExec
     LomiriGesturesQml ${LOMIRIGESTURES_LIBRARIES}
     )
 install(TARGETS DragHandleTestExec
-    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/qmltests/Components"
+    DESTINATION "${SHELL_PRIVATE_LIBEXECDIR}/tests/qmltests/Components"
     )
 set_target_properties(DragHandleTestExec PROPERTIES
     INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${SHELL_INSTALL_QML}/Lomiri/Gestures:${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}"
@@ -41,7 +41,7 @@ target_link_libraries(EdgeDragEvaluatorTestExec
     LomiriGesturesQml ${LOMIRIGESTURES_LIBRARIES}
     )
 install(TARGETS EdgeDragEvaluatorTestExec
-    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/qmltests/Components"
+    DESTINATION "${SHELL_PRIVATE_LIBEXECDIR}/tests/qmltests/Components"
     )
 set_target_properties(EdgeDragEvaluatorTestExec PROPERTIES
     INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${SHELL_INSTALL_QML}/Lomiri/Gestures:${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}"

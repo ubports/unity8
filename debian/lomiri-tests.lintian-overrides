@@ -1,1 +1,2 @@
-lomiri-tests: unusual-interpreter usr/lib/*/lomiri/tests/scripts/*.sh #!/usr/bin/parallel
+# ignore unusual interpreter, the shebang is as wanted...
+lomiri-tests: unusual-interpreter usr/libexec/lomiri/tests/scripts/*.sh #!/usr/bin/parallel

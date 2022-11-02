@@ -26,7 +26,7 @@ add_executable(MockBroadcastServer
 )
 target_link_libraries(MockBroadcastServer Qt5::Core Qt5::DBus)
 install(TARGETS MockBroadcastServer
-    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/SessionBroadcast"
+    DESTINATION "${SHELL_PRIVATE_LIBEXECDIR}/tests/plugins/SessionBroadcast"
 )
 
 ### SessionBroadcastTest
@@ -36,7 +36,7 @@ add_executable(sessionbroadcasttestExec
 )
 target_link_libraries(sessionbroadcasttestExec Qt5::Test Qt5::Core Qt5::Qml Qt5::DBus)
 install(TARGETS sessionbroadcasttestExec
-    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/SessionBroadcast"
+    DESTINATION "${SHELL_PRIVATE_LIBEXECDIR}/tests/plugins/SessionBroadcast"
 )
 
 add_lomiri_unittest(SessionBroadcast dbus-test-runner

@@ -42,7 +42,7 @@ add_executable(mock-server
     )
 target_link_libraries(mock-server Qt5::Core Qt5::DBus)
 install(TARGETS mock-server
-    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/AccountsService"
+    DESTINATION "${SHELL_PRIVATE_LIBEXECDIR}/tests/plugins/AccountsService"
 )
 
 add_executable(test-accountsservice
@@ -52,7 +52,7 @@ add_executable(test-accountsservice
     )
 target_link_libraries(test-accountsservice Qt5::Core Qt5::DBus Qt5::Test)
 install(TARGETS test-accountsservice
-    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/AccountsService"
+    DESTINATION "${SHELL_PRIVATE_LIBEXECDIR}/tests/plugins/AccountsService"
 )
 
 add_lomiri_unittest(AccountsService dbus-test-runner

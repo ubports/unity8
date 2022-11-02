@@ -48,7 +48,7 @@ target_link_libraries(launchermodeltestExec
     )
 add_dependencies(launchermodeltestExec mock-server)
 install(TARGETS launchermodeltestExec
-    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Lomiri/Launcher"
+    DESTINATION "${SHELL_PRIVATE_LIBEXECDIR}/tests/plugins/Lomiri/Launcher"
     )
 
 add_lomiri_unittest(LauncherModel dbus-test-runner
@@ -83,7 +83,7 @@ target_link_libraries(appdrawermodeltestExec
     )
 add_dependencies(appdrawermodeltestExec mock-server)
 install(TARGETS appdrawermodeltestExec
-    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Lomiri/Launcher"
+    DESTINATION "${SHELL_PRIVATE_LIBEXECDIR}/tests/plugins/Lomiri/Launcher"
     )
 
 add_lomiri_unittest(AppDrawerModel dbus-test-runner
@@ -101,5 +101,5 @@ file(COPY applications
      DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
     )
 install(DIRECTORY applications
-    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Lomiri/Launcher"
+    DESTINATION "${SHELL_PRIVATE_LIBEXECDIR}/tests/plugins/Lomiri/Launcher"
     )

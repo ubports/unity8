@@ -30,7 +30,7 @@ target_link_libraries(launchermodelastestExec
     )
 add_dependencies(launchermodelastestExec mock-server)
 install(TARGETS launchermodelastestExec
-    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Greeter/Lomiri/Launcher"
+    DESTINATION "${SHELL_PRIVATE_LIBEXECDIR}/tests/plugins/Greeter/Lomiri/Launcher"
 )
 add_lomiri_unittest(LauncherModelAS dbus-test-runner
     ARG_PREFIX "--parameter"
