@@ -282,7 +282,7 @@ function(add_meta_test TARGET_NAME)
         PERMISSIONS OWNER_EXECUTE OWNER_READ OWNER_WRITE
                     GROUP_EXECUTE GROUP_READ
                     WORLD_EXECUTE WORLD_READ
-        DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/scripts"
+        DESTINATION "${SHELL_PRIVATE_LIBEXECDIR}/tests/scripts"
     )
 endfunction()
 
@@ -299,7 +299,7 @@ function(install_test_script TARGET_NAME)
         set(script "${script}export ${ONE_ENV}\n")
     endforeach()
     set(script "${script}export LOMIRI_TESTING_DATADIR=\"${CMAKE_INSTALL_PREFIX}/${SHELL_APP_DIR}\"\n")
-    set(script "${script}export LOMIRI_TESTING_LIBDIR=\"${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}\"\n")
+    set(script "${script}export LOMIRI_TESTING_LIBEXECDIR=\"${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBEXECDIR}\"\n")
     set(script "${script}\n")
     set(script "${script}XML_ARGS=\n")
     set(script "${script}if [ -n \"\$ARTIFACTS_DIR\" ]; then\n")
@@ -345,11 +345,11 @@ function(install_test_script TARGET_NAME)
     # replace build/source roots with their install paths
     string(REPLACE \"${CMAKE_BINARY_DIR}/libs\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}\" replacestr \"\${replacestr}\")
     string(REPLACE \"${CMAKE_BINARY_DIR}/plugins\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_INSTALL_QML}\" replacestr \"\${replacestr}\")
-    string(REPLACE \"${CMAKE_BINARY_DIR}/tests/libs\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}/tests/libs\" replacestr \"\${replacestr}\")
+    string(REPLACE \"${CMAKE_BINARY_DIR}/tests/libs\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBEXECDIR}/tests/libs\" replacestr \"\${replacestr}\")
     string(REPLACE \"${CMAKE_BINARY_DIR}/tests/mocks\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_INSTALL_QML}/mocks\" replacestr \"\${replacestr}\")
-    string(REPLACE \"${CMAKE_BINARY_DIR}/tests/plugins\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}/tests/plugins\" replacestr \"\${replacestr}\")
-    string(REPLACE \"${CMAKE_BINARY_DIR}/tests/qmltests\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}/tests/qmltests\" replacestr \"\${replacestr}\")
-    string(REPLACE \"${CMAKE_BINARY_DIR}/tests/uqmlscene\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}\" replacestr \"\${replacestr}\")
+    string(REPLACE \"${CMAKE_BINARY_DIR}/tests/plugins\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBEXECDIR}/tests/plugins\" replacestr \"\${replacestr}\")
+    string(REPLACE \"${CMAKE_BINARY_DIR}/tests/qmltests\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBEXECDIR}/tests/qmltests\" replacestr \"\${replacestr}\")
+    string(REPLACE \"${CMAKE_BINARY_DIR}/tests/uqmlscene\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBEXECDIR}\" replacestr \"\${replacestr}\")
     string(REPLACE \"${CMAKE_BINARY_DIR}/tests/utils/modules\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_INSTALL_QML}/utils\" replacestr \"\${replacestr}\")
     string(REPLACE \"${CMAKE_SOURCE_DIR}/tests/plugins\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_APP_DIR}/tests/plugins\" replacestr \"\${replacestr}\")
     string(REPLACE \"${CMAKE_SOURCE_DIR}/tests/qmltests\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_APP_DIR}/tests/qmltests\" replacestr \"\${replacestr}\")
@@ -362,7 +362,7 @@ function(install_test_script TARGET_NAME)
         PERMISSIONS OWNER_EXECUTE OWNER_READ OWNER_WRITE
                     GROUP_EXECUTE GROUP_READ
                     WORLD_EXECUTE WORLD_READ
-        DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/scripts"
+        DESTINATION "${SHELL_PRIVATE_LIBEXECDIR}/tests/scripts"
     )
 endfunction()
 
@@ -375,7 +375,7 @@ function(add_meta_dependencies UPSTREAM_TARGET)
         # add depend to the meta test script that we will install on system
         set(filename "${CMAKE_BINARY_DIR}/tests/scripts/${UPSTREAM_TARGET}.sh")
         if (EXISTS "${filename}")
-            file(APPEND "${filename}" "${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}/tests/scripts/${depend}.sh \"\$@\" 2>&1\n")
+            file(APPEND "${filename}" "${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBEXECDIR}/tests/scripts/${depend}.sh \"\$@\" 2>&1\n")
         endif()
     endforeach()
 endfunction()

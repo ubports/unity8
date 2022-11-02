@@ -30,7 +30,7 @@ add_executable(LightDMServer
 )
 target_link_libraries(LightDMServer Qt5::Core Qt5::DBus)
 install(TARGETS LightDMServer
-    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Lomiri/Session"
+    DESTINATION "${SHELL_PRIVATE_LIBEXECDIR}/tests/plugins/Lomiri/Session"
     )
 
 ### Preload
@@ -41,7 +41,7 @@ target_link_libraries(SessionBackendTestPreload
     ${GLIB_LIBRARIES}
     )
 install(TARGETS SessionBackendTestPreload
-    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Lomiri/Session"
+    DESTINATION "${SHELL_PRIVATE_LIBEXECDIR}/tests/plugins/Lomiri/Session"
     )
 
 ### SessionBackendTest
@@ -55,7 +55,7 @@ target_link_libraries(sessionbackendtestExec
     )
 target_link_libraries(sessionbackendtestExec Qt5::Test Qt5::Core Qt5::Qml Qt5::DBus)
 install(TARGETS sessionbackendtestExec
-    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Lomiri/Session"
+    DESTINATION "${SHELL_PRIVATE_LIBEXECDIR}/tests/plugins/Lomiri/Session"
 )
 
 add_lomiri_unittest(SessionBackend dbus-test-runner

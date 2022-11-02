@@ -22,7 +22,7 @@ target_link_libraries(platformtest
 
 
 install(TARGETS platformtest
-    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Lomiri/Platform"
+    DESTINATION "${SHELL_PRIVATE_LIBEXECDIR}/tests/plugins/Lomiri/Platform"
 )
 
 add_lomiri_unittest(Platform qdbus-simple-test-runner

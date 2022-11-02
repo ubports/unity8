@@ -26,7 +26,7 @@ target_link_libraries(TopLevelWindowModelTestExec
 )
 
 install(TARGETS TopLevelWindowModelTestExec
-    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/WindowManager"
+    DESTINATION "${SHELL_PRIVATE_LIBEXECDIR}/tests/plugins/WindowManager"
 )
 
 # To find libwindowmanager-qml.so
