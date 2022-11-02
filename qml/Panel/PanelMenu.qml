@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2016 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical Ltd.
  * Copyright (C) 2020 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify

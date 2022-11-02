@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 UBports foundation.
+ * Copyright (C) 2022 UBports Foundation
  * Author(s): Marius Gripsgard <marius@ubports.com>
  *
  * This program is free software: you can redistribute it and/or modify it under

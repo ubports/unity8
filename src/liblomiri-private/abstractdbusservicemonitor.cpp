@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2014 Canonical, Ltd.
+ * Copyright (C) 2011-2014 Canonical Ltd.
  *
  * Authors:
  *  Ugo Riboni <ugo.riboni@canonical.com>

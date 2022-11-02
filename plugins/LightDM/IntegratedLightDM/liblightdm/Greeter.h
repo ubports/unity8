@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013 Canonical Ltd.
  * Copyright (C) 2010-2011 David Edmundson.
  * Copyright (C) 2010-2011 Robert Ancell
  *

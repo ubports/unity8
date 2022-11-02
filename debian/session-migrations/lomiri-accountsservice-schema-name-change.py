@@ -2,7 +2,7 @@
 # -*- coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Copyright (C) 2016 Canonical Ltd.
-# Copyright (C) 2021 UBports Foundation.
+# Copyright (C) 2021 UBports Foundation
 #
 # This program is free software; you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
