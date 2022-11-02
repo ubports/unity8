@@ -30,11 +30,11 @@ else()
     string(REPLACE ";" " " DOXYGEN_INPUT "${DOC_FILES}")
 
     configure_file(${PROJECT_SOURCE_DIR}/doc/Doxyfile.in ${PROJECT_BINARY_DIR}/doc/Doxyfile @ONLY IMMEDIATE)
-    add_custom_command(OUTPUT ${PROJECT_BINARY_DIR}/doc/${PROJECT_NAME}/index.html
+    add_custom_command(OUTPUT ${PROJECT_BINARY_DIR}/doc/html/index.html
                        COMMAND ${DOXYGEN_EXECUTABLE} ${PROJECT_BINARY_DIR}/doc/Doxyfile
                        DEPENDS ${PROJECT_BINARY_DIR}/doc/Doxyfile ${DOC_FILES})
-    add_custom_target(doc DEPENDS ${PROJECT_BINARY_DIR}/doc/${PROJECT_NAME}/index.html)
-    install(DIRECTORY ${PROJECT_BINARY_DIR}/doc/${PROJECT_NAME}
-            DESTINATION ${CMAKE_INSTALL_PREFIX}/share/doc
+    add_custom_target(doc DEPENDS ${PROJECT_BINARY_DIR}/doc/html/index.html)
+    install(DIRECTORY ${PROJECT_BINARY_DIR}/doc/html
+            DESTINATION ${CMAKE_INSTALL_PREFIX}/share/doc/${PROJECT_NAME}
             OPTIONAL)
 endif()
