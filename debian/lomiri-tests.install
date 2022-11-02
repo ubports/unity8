@@ -2,7 +2,7 @@ usr/bin/lomiri-mock-indicator-service
 usr/lib/*/lomiri/qml/mocks
 usr/lib/*/lomiri/qml/nonmirplugins
 usr/lib/*/lomiri/qml/utils
-usr/lib/*/lomiri/tests
-usr/lib/*/lomiri/uqmlscene
+usr/libexec/lomiri/tests
+usr/libexec/lomiri/uqmlscene
 usr/share/lomiri/mocks
 usr/share/lomiri/tests
