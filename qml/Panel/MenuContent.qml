@@ -22,14 +22,12 @@ import Utils 0.1
 import "../Components"
 import "Indicators"
 
-Rectangle {
+Item {
     id: content
 
     property QtObject model: null
     property int currentMenuIndex: -1
     property Component pageDelegate
-
-    color: theme.palette.normal.background
 
     width: units.gu(40)
     height: units.gu(42)
