@@ -409,8 +409,9 @@ StyledItem {
         anchors.fill: parent
         sourceComponent: {
             if (shell.mode != "shell") {
-                if (screenWindow.primary) return integratedGreeter;
-                return secondaryGreeter;
+                //if (screenWindow.primary) return integratedGreeter;
+                //return secondaryGreeter;
+                return integratedGreeter;
             }
             return Qt.createComponent(Qt.resolvedUrl("Greeter/ShimGreeter.qml"));
         }

@@ -37,7 +37,7 @@ Item {
     property bool lightIndicators: false
 
     onWidthChanged: calculateUsageMode();
-    property var overrideDeviceName: screens.count > 1 ? "desktop" : false
+    property var overrideDeviceName: Screens.count > 1 ? "desktop" : false
 
     DeviceConfiguration {
         id: _deviceConfiguration
@@ -116,7 +116,7 @@ Item {
         if (lomiriSettings.usageMode === undefined)
             return; // gsettings isn't loaded yet, we'll try again in Component.onCompleted
 
-        console.log("Calculating new usage mode. Pointer devices:", pointerInputDevices, "current mode:", lomiriSettings.usageMode, "old device count", miceModel.oldCount + touchPadModel.oldCount, "root width:", root.width / units.gu(1), "height:", root.height / units.gu(1))
+        console.log("Calculating new usage mode. Pointer devices:", pointerInputDevices, "current mode:", lomiriSettings.usageMode, "old device count", miceModel.oldCount + touchPadModel.oldCount, "root width:", root.width, "height:", root.height)
         if (lomiriSettings.usageMode === "Windowed") {
             if (Math.min(root.width, root.height) > units.gu(60)) {
                 if (pointerInputDevices === 0) {
