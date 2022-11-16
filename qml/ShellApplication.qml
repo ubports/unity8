@@ -43,7 +43,10 @@ Instantiator {
             value: applicationArguments.windowGeometry.height
         }
 
-        Component.onCompleted: screen.active = true
+        Component.onCompleted: {
+            screen.active = true
+            units.gridUnit = 8 * screen.scale
+        }
         primary: index == 0
     }
 
