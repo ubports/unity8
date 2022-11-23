@@ -74,6 +74,7 @@ void WindowManagerPlugin::registerTypes(const char *uri)
     qmlRegisterSingletonType<WindowManagerObjects>(uri, 1, 0, "WindowManagerObjects", objectsSingleton);
     qmlRegisterSingletonType<InputMethodManager>(uri, 1, 0, "InputMethodManager", inputMethodManager);
 
+    qRegisterMetaType<Screen*>("Screen*");
     qRegisterMetaType<ConcreteScreen*>("ConcreteScreen*");
     qRegisterMetaType<ProxyScreens*>("ProxyScreens*");
     qRegisterMetaType<Workspace*>("Workspace*");

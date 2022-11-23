@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.4
+import QtQml.Models 2.2
 import Lomiri.Components 1.3
 import Lomiri.Components.Popups 1.3
 import WindowManager 1.0
@@ -45,8 +46,10 @@ Item {
             model: screensProxy
 
             delegate: Item {
+                id: delegateItem
                 height: root.height - units.gu(6)
                 width: workspaces.width
+                visible: model.screen.formFactor != 1 // Hides a phone's internal display
 
                 Item {
                     id: header

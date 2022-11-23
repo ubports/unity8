@@ -47,7 +47,7 @@ public:
     void setActiveWorkspace(Workspace* workspace);
 
     Workspace* createWorkspace();
-    void destroyWorkspace(Workspace* workspace);
+    Q_INVOKABLE void destroyWorkspace(Workspace* workspace);
 
     void destroyFloatingWorkspaces();
 

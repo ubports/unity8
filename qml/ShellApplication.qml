@@ -15,19 +15,31 @@
 */
 
 import QtQuick 2.4
+import QtQml 2.12
 import QtQuick.Window 2.2
 import WindowManager 1.0
 import QtMir.Application 0.1
 
-Instantiator {
+QtObject {
     id: root
-    model: Screens
 
+    Component.onCompleted: {
+        Screens.screenAdded.connect(createShellScreen)
+        for (var i = 0; i < Screens.count; i++) {
+            createShellScreen(Screens.get(i))
+        }
+    }
+
+    function createShellScreen(screen) {
+        console.log("Creating shell screen")
+        shellScreenComponent.createObject(root, {screen: screen})
+    }
+
+    property var shellScreenComponent : Component {
     ShellScreen {
         id: window
-        objectName: "screen"+index
-        screen: model.screen
-        visibility:  applicationArguments.hasFullscreen ? Window.FullScreen : Window.Windowed
+        objectName: screen.name
+        visibility: applicationArguments.hasFullscreen ? Window.FullScreen : Window.Windowed
         flags: applicationArguments.hasFrameless ? Qt.FramelessWindowHint : 0
 
         Binding {
@@ -44,10 +56,11 @@ Instantiator {
         }
 
         Component.onCompleted: {
-            screen.active = true
-            units.gridUnit = 8 * screen.scale
+            //screen.active = true
+            //units.gridUnit = 8 * screen.scale
         }
-        primary: index == 0
+        primary: screen.formFactor == 1
+    }
     }
 
     property var windowManagerSurfaceManagerBinding: Binding {

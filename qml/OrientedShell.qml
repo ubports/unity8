@@ -36,6 +36,8 @@ Item {
     property alias orientations: d.orientations
     property bool lightIndicators: false
 
+    property var screen: null
+
     onWidthChanged: calculateUsageMode();
     property var overrideDeviceName: Screens.count > 1 ? "desktop" : false
 
@@ -118,23 +120,13 @@ Item {
 
         console.log("Calculating new usage mode. Pointer devices:", pointerInputDevices, "current mode:", lomiriSettings.usageMode, "old device count", miceModel.oldCount + touchPadModel.oldCount, "root width:", root.width, "height:", root.height)
         if (lomiriSettings.usageMode === "Windowed") {
-            if (Math.min(root.width, root.height) > units.gu(60)) {
-                if (pointerInputDevices === 0) {
-                    // All pointer devices have been unplugged. Move to staged.
-                    lomiriSettings.usageMode = "Staged";
-                }
-            } else {
-                // The display is not large enough, use staged.
+            if (pointerInputDevices === 0) {
+                // All pointer devices have been unplugged. Move to staged.
                 lomiriSettings.usageMode = "Staged";
             }
         } else {
-            if (Math.min(root.width, root.height) > units.gu(60)) {
-                if (pointerInputDevices > 0 && pointerInputDevices > miceModel.oldCount + touchPadModel.oldCount) {
-                    lomiriSettings.usageMode = "Windowed";
-                }
-            } else {
-                // Make sure we initialize to something sane
-                lomiriSettings.usageMode = "Staged";
+            if (pointerInputDevices > 0 && pointerInputDevices > miceModel.oldCount + touchPadModel.oldCount) {
+                lomiriSettings.usageMode = "Windowed";
             }
         }
         miceModel.oldCount = miceModel.count;
@@ -185,6 +177,25 @@ Item {
         // We need to manually update this on startup as the binding
         // below doesn't seem to have any effect at that stage
         oskSettings.disableHeight = !shell.oskEnabled || shell.usageScenario == "desktop"
+    }
+
+    Component.onDestruction: {
+        console.log("LOOK AT ME")
+
+        var from_workspaces = root.screen.workspaces
+        var from_workspaces_size = from_workspaces.count
+        //var to_workspaces = Screens.get(Screens.count - 1).workspaces
+        //var to_workspaces_size = to_workspaces.count
+
+        //console.log(from_workspaces + ", " + from_workspaces_size + ", " +
+        //            to_workspaces + ", " + to_workspaces_size)
+        for (var i = 0; i < from_workspaces_size; i++) {
+            var from = from_workspaces.get(i)
+            //var to = to_workspaces.get(i % to_workspaces_size)
+            //console.log(from + ", " + to)
+            //WorkspaceManager.moveWorkspaceContentToWorkspace(from, to)
+            WorkspaceManager.destroyWorkspace(from)
+        }
     }
 
     // we must rotate to a supported orientation regardless of shell's preference

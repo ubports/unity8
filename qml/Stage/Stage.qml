@@ -61,7 +61,7 @@ FocusScope {
     property string mode: "staged"
 
     readonly property var temporarySelectedWorkspace: state == "spread" ? screensAndWorkspaces.activeWorkspace : null
-    property bool workspaceEnabled: (mode == "windowed" || settings.forceEnableWorkspace) && settings.enableWorkspace
+    property bool workspaceEnabled: (mode == "windowed" && settings.enableWorkspace) || settings.forceEnableWorkspace
 
     // Used by the tutorial code
     readonly property real rightEdgeDragProgress: rightEdgeDragArea.dragging ? rightEdgeDragArea.progress : 0 // How far left the stage has been dragged

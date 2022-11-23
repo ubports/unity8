@@ -27,6 +27,18 @@ ScreenWindow {
     title: "Lomiri Shell"
     property bool primary: false
 
+    Connections {
+        target: Screens
+        onScreenRemoved: {
+            if (screenWindow.screen != screen)
+                return
+            //screenWindow.screen = null
+            screenWindow.visible = false
+            loader.active = false
+            screenWindow.destroy()
+        }
+    }
+
     DeviceConfiguration {
         id: deviceConfiguration
     }
@@ -36,12 +48,15 @@ ScreenWindow {
         width: screenWindow.width
         height: screenWindow.height
 
-        sourceComponent: {
-            if (Screens.count > 1 && primary && deviceConfiguration.category !== "desktop") {
+        function getSourceComponent() {
+            var count = Screens.count
+            if (count > 1 && screenWindow.primary && deviceConfiguration.category !== "desktop") {
                 return disabledScreenComponent;
             }
             return shellComponent;
         }
+
+        sourceComponent: getSourceComponent()
     }
 
     Component {
@@ -49,6 +64,7 @@ ScreenWindow {
         OrientedShell {
             implicitWidth: screenWindow.width
             implicitHeight: screenWindow.height
+            screen: screenWindow.screen
 
             deviceConfiguration {
                 overrideName: Screens.count > 1 ? "desktop" : false

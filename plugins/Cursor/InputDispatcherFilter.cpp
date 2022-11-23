@@ -64,7 +64,7 @@ bool InputDispatcherFilter::eventFilter(QObject *o, QEvent *e)
         {
             // if we don't have any pointers, filter all mouse events.
             auto pointer = currentPointer();
-            if (!pointer) return true;
+            if (!pointer || !pointer->window()) return true;
 
             QMouseEvent* me = static_cast<QMouseEvent*>(e);
 
