@@ -117,12 +117,12 @@ void XdgWatcher::onDirectoryChanged(const QString &path) {
 }
 
 void XdgWatcher::onFileChanged(const QString &path) {
-    QFileInfo file(path);
-    if (file.exists()) {
-        // The file exists, this must be an modify event
+    const auto watchedFiles = m_watcher->files();
+    if (watchedFiles.contains(path)) {
+        // The file is still watched, this must be an modify event
         Q_EMIT appInfoChanged(m_registry.value(path));
     } else {
-        // File does not exist, assume this is an remove event.
+        // File is not watched anymore, this is an remove event.
         // onDirectoryChanged will handle rename event
         Q_EMIT appRemoved(m_registry.take(path));
     }
