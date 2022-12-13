@@ -1,2 +1,6 @@
 @Library('ubports-build-tools') _
-buildAndProvideDebianPackage()
+buildAndProvideDebianPackage(
+    /* isArchIndependent */ false,
+    /* ignoredArchs */ [],
+    /* isHeavyPackage */ true
+)
