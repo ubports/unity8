@@ -8,16 +8,17 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-29 11:42-0600\n"
-"PO-Revision-Date: 2016-07-03 13:56+0000\n"
-"Last-Translator: Eltikin <eltikinuyghur@hotmail.com>\n"
-"Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
-"Language: \n"
+"PO-Revision-Date: 2022-09-05 19:21+0000\n"
+"Last-Translator: flame4 <alimjoo00@163.com>\n"
+"Language-Team: Uyghur <https://translate.ubports.com/projects/ubports/lomiri/"
+"ug/>\n"
+"Language: ug\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 3.11.3\n"
 "X-Launchpad-Export-Date: 2016-11-23 06:36+0000\n"
-"X-Generator: Launchpad (build 18269)\n"
 
 #: plugins/LightDM/Greeter.cpp:199
 msgid "Password: "
@@ -87,7 +88,7 @@ msgstr "تىزىمدىن چىق"
 #: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
-msgstr "بولدىلا"
+msgstr "ئەمەلدىن قالدۇرش"
 
 #: qml/Components/Dialogs.qml:211
 msgctxt "Title: Reboot dialog"
@@ -387,7 +388,7 @@ msgstr ""
 
 #: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
-msgstr "قۇلۇپسىزلا"
+msgstr "قۇلۇپ ئېچىش"
 
 #: qml/Greeter/DelayedLockscreen.qml:43
 msgid "Device Locked"
@@ -515,7 +516,7 @@ msgstr "قالدۇرۇۋېتىلدى"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1027
 msgid "Finished"
-msgstr "تاماملاندى"
+msgstr "تاماملانغان"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1029
 msgid "Failed, tap to retry"
@@ -538,9 +539,6 @@ msgid "Call back"
 msgstr "تىلفۇن ئۇرلىۋاتىدۇ"
 
 #: qml/Panel/PanelMenuPage.qml:92
-#, fuzzy
-#| msgctxt "Button: Go back one page in the Wizard"
-#| msgid "Back"
 msgid "Back"
 msgstr "قايتىش"
 

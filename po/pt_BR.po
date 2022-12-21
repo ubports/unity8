@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-29 11:42-0600\n"
-"PO-Revision-Date: 2020-10-29 14:24+0000\n"
-"Last-Translator: anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2022-12-20 23:13+0000\n"
+"Last-Translator: Filipe Botelho <filipebotelhos@outlook.com>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.ubports.com/projects/"
-"unity8/unity8/pt_BR/>\n"
+"ubports/lomiri/pt_BR/>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +26,7 @@ msgstr "Senha: "
 
 #: plugins/LightDM/Greeter.cpp:214
 msgid "Username"
-msgstr "Nome do Usuário"
+msgstr "Nome de usuário"
 
 #: plugins/LightDM/Greeter.cpp:258
 msgid "Failed to authenticate"
@@ -131,10 +131,8 @@ msgid "Restart"
 msgstr "Reiniciar"
 
 #: qml/Components/Dialogs.qml:276
-#, fuzzy
-#| msgid "Takes a screenshot."
 msgid "Screenshot"
-msgstr "Tira uma captura de tela."
+msgstr "Captura de tela"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
@@ -142,7 +140,7 @@ msgstr "Atalhos do teclado"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
 msgid "Lomiri"
-msgstr ""
+msgstr "Lomiri"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -154,7 +152,7 @@ msgstr "Tira uma captura de tela."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:75
 msgid "Alt + PrtScr"
-msgstr ""
+msgstr "Alt + PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
 msgid "Takes a screenshot of the current window."
@@ -186,11 +184,11 @@ msgstr "Inicia o aplicativo Terminal."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:131
 msgid "Launcher"
-msgstr "Iniciador"
+msgstr "Lançador"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:138
 msgid "Super (Hold)"
-msgstr ""
+msgstr "Super (Segurar)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:143
 msgid "Opens the launcher, displays shortcuts."
@@ -315,12 +313,12 @@ msgstr "OK"
 #: qml/Components/MediaServices/VideoPlayerControls.qml:44
 #, qt-format
 msgid "%1:%2:%3"
-msgstr ""
+msgstr "%1:%2:%3"
 
 #: qml/Components/MediaServices/VideoPlayerControls.qml:49
 #, qt-format
 msgid "%1:%2"
-msgstr ""
+msgstr "%1:%2"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:33
 msgid "Apps may have unsaved data:"
@@ -399,8 +397,8 @@ msgstr ""
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] "Por favor espere %1 minuto e tente novamente..."
-msgstr[1] "Por favor espere %1 minutos e tente novamente..."
+msgstr[0] "Por favor espere %1 minuto e tente novamente…"
+msgstr[1] "Por favor espere %1 minutos e tente novamente…"
 
 #: qml/Greeter/Greeter.qml:550
 msgid "Try again"
@@ -432,15 +430,15 @@ msgstr "Selecione o ambiente de trabalho"
 
 #: qml/Launcher/Drawer.qml:250
 msgid "Search…"
-msgstr "Pesquisar..."
+msgstr "Pesquisar…"
 
 #: qml/Launcher/PullToRefreshScopeStyle.qml:56
 msgid "Pull to refresh…"
-msgstr "Puxe para atualizar..."
+msgstr "Puxe para atualizar…"
 
 #: qml/Launcher/PullToRefreshScopeStyle.qml:61
 msgid "Release to refresh…"
-msgstr "Solte para atualizar..."
+msgstr "Solte para atualizar…"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -491,7 +489,7 @@ msgstr "%1 restantes"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1017
 msgid "In queue…"
-msgstr "Em fila..."
+msgstr "Em espera…"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1021
 msgid "Downloading"
@@ -530,9 +528,6 @@ msgid "Call back"
 msgstr "Retornar chamada"
 
 #: qml/Panel/PanelMenuPage.qml:92
-#, fuzzy
-#| msgctxt "Button: Go back one page in the Wizard"
-#| msgid "Back"
 msgid "Back"
 msgstr "Voltar"
 
@@ -583,19 +578,19 @@ msgstr "Idioma"
 #: qml/Wizard/Pages/passcode-desktop.qml:154
 #: qml/Wizard/Pages/password-set.qml:153
 msgid "Next"
-msgstr "Próximo"
+msgstr "Próxima"
 
 #: qml/Wizard/Pages/10-welcome-update.qml:91
 msgid "Welcome to "
-msgstr "Bem-vindo ao"
+msgstr "Bem-vindo ao "
 
 #: qml/Wizard/Pages/10-welcome-update.qml:106
 msgid "We will make sure your device is ready to use "
-msgstr "Vamos garantir que seu dispositivo esteja pronto para o uso"
+msgstr "Vamos garantir que seu dispositivo esteja pronto para o uso "
 
 #: qml/Wizard/Pages/11-changelog.qml:28
 msgid "What's new"
-msgstr "Quais as novidades ?"
+msgstr "Novidades"
 
 #: qml/Wizard/Pages/11-changelog.qml:74
 msgid "Loading..."
@@ -691,7 +686,7 @@ msgstr "Sistema Ubuntu Touch"
 #, qt-format
 msgctxt "version of the system update"
 msgid "Version %1"
-msgstr ""
+msgstr "Versão %1"
 
 #: qml/Wizard/Pages/79-system-update.qml:95
 msgid "This could take a few minutes..."
@@ -724,7 +719,7 @@ msgstr "Vamos começar"
 #: qml/Wizard/Pages/passcode-confirm.qml:43
 #: qml/Wizard/Pages/passcode-desktop.qml:104
 msgid "Confirm passcode"
-msgstr "Confirmar código secreto"
+msgstr "Confirmar senha"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgid "Incorrect passcode."
