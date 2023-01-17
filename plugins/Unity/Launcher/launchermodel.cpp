@@ -368,7 +368,20 @@ void LauncherModel::countChanged(const QString &appId, int count)
         }
         m_asAdapter->syncItems(m_list);
         Q_EMIT dataChanged(index(idx), index(idx), changedRoles);
-    }
+    } else {
+         // Need to create a new LauncherItem
+         UalWrapper::AppInfo appInfo = UalWrapper::getApplicationInfo(appId);
+         if (appInfo.valid) {
+             LauncherItem *item = new LauncherItem(appId,
+                                                   appInfo.name,
+                                                   appInfo.icon,
+                                                   this);
+             item->setCount(count);
+             beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+             m_list.append(item);
+             endInsertRows();
+         }
+     }
 }
 
 void LauncherModel::countVisibleChanged(const QString &appId, bool countVisible)
