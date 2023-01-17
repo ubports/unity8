@@ -377,9 +377,9 @@ void LauncherModel::countChanged(const QString &appId, int count)
                                                    appInfo.icon,
                                                    this);
              item->setCount(count);
-             beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+             //beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
              m_list.append(item);
-             endInsertRows();
+             //endInsertRows();
          }
      }
 }
