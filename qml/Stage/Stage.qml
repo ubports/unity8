@@ -2204,6 +2204,12 @@ FocusScope {
             }
         }
 
+        onDropped: {
+            if (!priv.sideStageDelegate) {
+                sideStage.hide();
+            }
+        }
+
         Component {
             id: dragComponent
             SurfaceContainer {
