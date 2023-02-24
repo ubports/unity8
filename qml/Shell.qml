@@ -649,18 +649,21 @@ StyledItem {
 
             GlobalShortcut {
                 shortcut: Qt.MetaModifier | Qt.Key_A
+                active: launcher.available
                 onTriggered: {
                     launcher.toggleDrawer(true);
                 }
             }
             GlobalShortcut {
                 shortcut: Qt.AltModifier | Qt.Key_F1
+                active: launcher.available
                 onTriggered: {
                     launcher.openForKeyboardNavigation();
                 }
             }
             GlobalShortcut {
                 shortcut: Qt.MetaModifier | Qt.Key_0
+                active: launcher.available
                 onTriggered: {
                     if (LauncherModel.get(9)) {
                         activateApplication(LauncherModel.get(9).appId);
@@ -671,6 +674,7 @@ StyledItem {
                 model: 9
                 GlobalShortcut {
                     shortcut: Qt.MetaModifier | (Qt.Key_1 + index)
+                    active: launcher.available
                     onTriggered: {
                         if (LauncherModel.get(index)) {
                             activateApplication(LauncherModel.get(index).appId);
