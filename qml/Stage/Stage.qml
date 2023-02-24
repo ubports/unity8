@@ -207,6 +207,15 @@ FocusScope {
     }
 
     GlobalShortcut {
+        id: toggleSideStageShortcut
+        shortcut: Qt.MetaModifier|Qt.Key_S
+        active: priv.sideStageEnabled
+        onTriggered: {
+           priv.toggleSideStage()
+        }
+    }
+
+    GlobalShortcut {
         id: minimizeAllShortcut
         shortcut: Qt.MetaModifier|Qt.ControlModifier|Qt.Key_D
         onTriggered: priv.minimizeAllWindows()
@@ -223,15 +232,43 @@ FocusScope {
     GlobalShortcut {
         id: maximizeWindowLeftShortcut
         shortcut: Qt.MetaModifier|Qt.ControlModifier|Qt.Key_Left
-        onTriggered: priv.focusedAppDelegate.requestMaximizeLeft()
-        active: root.state == "windowed" && priv.focusedAppDelegate && priv.focusedAppDelegate.canBeMaximizedLeftRight
+        onTriggered: {
+            switch (root.mode) {
+                case "stagedWithSideStage":
+                    if (priv.focusedAppDelegate.stage == ApplicationInfoInterface.SideStage) {
+                        priv.focusedAppDelegate.saveStage(ApplicationInfoInterface.MainStage);
+                        priv.focusedAppDelegate.focus = true;
+                    }
+                    break;
+                case "windowed":
+                    priv.focusedAppDelegate.requestMaximizeLeft()
+                    break;
+            }
+        }
+        active: (root.state == "windowed" && priv.focusedAppDelegate && priv.focusedAppDelegate.canBeMaximizedLeftRight)
+                    ||  (root.state == "stagedWithSideStage" && priv.focusedAppDelegate.stage == ApplicationInfoInterface.SideStage)
     }
 
     GlobalShortcut {
         id: maximizeWindowRightShortcut
         shortcut: Qt.MetaModifier|Qt.ControlModifier|Qt.Key_Right
-        onTriggered: priv.focusedAppDelegate.requestMaximizeRight()
-        active: root.state == "windowed" && priv.focusedAppDelegate && priv.focusedAppDelegate.canBeMaximizedLeftRight
+        onTriggered: {
+            switch (root.mode) {
+                case "stagedWithSideStage":
+                    if (priv.focusedAppDelegate.stage == ApplicationInfoInterface.MainStage) {
+                        priv.focusedAppDelegate.saveStage(ApplicationInfoInterface.SideStage);
+                        priv.focusedAppDelegate.focus = true;
+                        sideStage.show();
+                        priv.updateMainAndSideStageIndexes()
+                    }
+                    break;
+                case "windowed":
+                    priv.focusedAppDelegate.requestMaximizeRight()
+                    break;
+            }
+        }
+        active: (root.state == "windowed" && priv.focusedAppDelegate && priv.focusedAppDelegate.canBeMaximizedLeftRight)
+                    ||  (root.state == "stagedWithSideStage" && priv.focusedAppDelegate.stage == ApplicationInfoInterface.MainStage)
     }
 
     GlobalShortcut {
@@ -327,6 +364,15 @@ FocusScope {
         onSideStageDelegateChanged: {
             if (!sideStageDelegate) {
                 sideStage.hide();
+            }
+        }
+
+        function toggleSideStage() {
+            if (sideStage.shown) {
+                sideStage.hide();
+            } else  {
+                sideStage.show();
+                updateMainAndSideStageIndexes()
             }
         }
 
@@ -2189,12 +2235,7 @@ FocusScope {
         }
 
         onClicked: {
-            if (sideStage.shown) {
-                sideStage.hide();
-            } else  {
-                sideStage.show();
-                priv.updateMainAndSideStageIndexes()
-            }
+            priv.toggleSideStage()
         }
 
         onDragStarted: {
