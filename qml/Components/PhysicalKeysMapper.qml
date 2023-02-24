@@ -40,6 +40,7 @@ Item {
     signal volumeDownTriggered;
     signal volumeUpTriggered;
     signal screenshotTriggered;
+    signal mediaKey(var keyMsg);
 
     readonly property bool altTabPressed: d.altTabPressed
     readonly property bool superPressed: d.superPressed
@@ -130,7 +131,34 @@ Item {
         }
     }
 
+    function getMediaKeyBroadcastString(event) {
+        var keyStr = ""
+        switch(event.key) {
+           case Qt.Key_MediaNext:
+               keyStr = "next-track"
+               break
+           case Qt.Key_MediaPrevious:
+               keyStr = "previous-track"
+               break
+           case Qt.Key_MediaPlay:
+               keyStr = "play-pause"
+               break
+           case Qt.Key_WebCam:
+               keyStr = "camera"
+               break
+           default:
+              switch(event.nativeScanCode) {
+                  case 541: // KEY_ATTENDANT_TOGGLE
+                      keyStr = "toggle-flash"
+                      break
+              }
+              break
+        }
+        return keyStr
+    }
+
     function onKeyReleased(event, currentEventTimestamp) {
+        console.log("onKeyReleased key: " + event.key + ", scan code: " + event.nativeScanCode)
         if (event.key == Qt.Key_PowerDown || event.key == Qt.Key_PowerOff) {
             d.powerButtonPressStart = -1;
             event.accepted = true;
@@ -158,6 +186,10 @@ Item {
                 d.superTabPressed = false;
                 event.accepted = true;
             }
+        } else {
+            var keyMsg = getMediaKeyBroadcastString(event)
+            if (keyMsg != "")
+                root.mediaKey(keyMsg)
         }
     }
 }
