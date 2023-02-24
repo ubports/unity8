@@ -32,6 +32,7 @@ QtObject {
     readonly property alias invertedLandscapeOrientation: priv.invertedLandscapeOrientation
     readonly property alias portraitOrientation: priv.portraitOrientation
     readonly property alias invertedPortraitOrientation: priv.invertedPortraitOrientation
+    readonly property alias topMargin: priv.topMargin
 
     readonly property alias category: priv.category
 
@@ -55,6 +56,7 @@ QtObject {
         property int invertedPortraitOrientation: deviceConfigParser.invertedPortraitOrientation
         property string category: deviceConfigParser.category
         property bool supportsMultiColorLed: deviceConfigParser.supportsMultiColorLed
+        property int topMargin: deviceConfigParser.topMargin
 
         states: [
             State {
@@ -105,6 +107,22 @@ QtObject {
                 }
             },
             State {
+                name: "has-notch"
+                PropertyChanges {
+                    target: priv
+                    primaryOrientation: root.useNativeOrientation
+                    supportedOrientations: Qt.PortraitOrientation
+                                         | Qt.LandscapeOrientation
+                                         | Qt.InvertedLandscapeOrientation
+                    landscapeOrientation: Qt.LandscapeOrientation
+                    invertedLandscapeOrientation: Qt.InvertedLandscapeOrientation
+                    portraitOrientation: Qt.PortraitOrientation
+                    invertedPortraitOrientation: Qt.InvertedPortraitOrientation
+                    category: "phone"
+                    topMargin: 20
+                }
+            },
+            State {
                 name: "manta"
                 PropertyChanges {
                     target: priv
@@ -147,6 +165,7 @@ QtObject {
                     portraitOrientation: Qt.PortraitOrientation
                     invertedPortraitOrientation: Qt.InvertedPortraitOrientation
                     category: "desktop"
+                    topMargin: 0
                 }
             },
             State {

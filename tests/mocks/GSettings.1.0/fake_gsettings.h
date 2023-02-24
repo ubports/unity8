@@ -59,6 +59,7 @@ class GSettingsQml: public QObject, public QQmlParserStatus
     Q_PROPERTY(QVariant edgeDragWidth READ edgeDragWidth WRITE setEdgeDragWidth NOTIFY edgeDragWidthChanged)
     Q_PROPERTY(QVariant enableIndicatorMenu READ enableIndicatorMenu WRITE setEnableIndicatorMenu NOTIFY enableIndicatorMenuChanged)
     Q_PROPERTY(QVariant oskSwitchVisible READ oskSwitchVisible WRITE setOskSwitchVisible NOTIFY oskSwitchVisibleChanged)
+    Q_PROPERTY(QVariant disableTopMargin READ disableTopMargin WRITE setDisableTopMargin NOTIFY disableTopMarginChanged)
 
 public:
     GSettingsQml(QObject *parent = nullptr);
@@ -77,6 +78,7 @@ public:
     QVariant edgeDragWidth() const;
     QVariant enableIndicatorMenu() const;
     QVariant oskSwitchVisible() const;
+    QVariant disableTopMargin() const;
 
     void setDisableHeight(const QVariant &val);
     void setPictureUri(const QVariant &str);
@@ -88,6 +90,7 @@ public:
     void setEdgeDragWidth(const QVariant &edgeDragWidth);
     void setEnableIndicatorMenu(const QVariant &enableIndicatorMenu);
     void setOskSwitchVisible(const QVariant &oskSwitchVisible);
+    void setDisableTopMargin(const QVariant &disableTopMargin);
 
 Q_SIGNALS:
     void disableHeightChanged();
@@ -101,6 +104,7 @@ Q_SIGNALS:
     void edgeDragWidthChanged();
     void enableIndicatorMenuChanged();
     void oskSwitchVisibleChanged();
+    void disableTopMarginChanged();
 
 private:
     GSettingsSchemaQml* m_schema;
@@ -147,6 +151,9 @@ public:
     bool oskSwitchVisible() const;
     Q_INVOKABLE void setOskSwitchVisible(bool oskSwitchVisible);
 
+    bool disableTopMargin() const;
+    Q_INVOKABLE void setDisableTopMargin(bool disableTopMargin);
+
 Q_SIGNALS:
     void disableHeightChanged();
     void pictureUriChanged(const QString&);
@@ -158,6 +165,7 @@ Q_SIGNALS:
     void edgeDragWidthChanged(uint edgeDragWidth);
     void enableIndicatorMenuChanged(bool enableIndicatorMenu);
     void oskSwitchVisibleChanged(bool oskSwitchVisible);
+    void disableTopMarginChanged(bool disableTopMargin);
 
 private:
     GSettingsControllerQml();
@@ -172,6 +180,7 @@ private:
     uint m_edgeDragWidth;
     bool m_enableIndicatorMenu;
     bool m_oskSwitchVisible;
+    bool m_disableTopMargin;
 
     static GSettingsControllerQml* s_controllerInstance;
     QList<GSettingsQml *> m_registeredGSettings;
