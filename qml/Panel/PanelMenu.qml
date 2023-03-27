@@ -89,6 +89,23 @@ Showable {
 
     onUnitProgressChanged: d.updateState()
 
+    property alias listView: bar.listView
+    function indicatorAt(x, y) {
+        return bar.indicatorAt(x, y)
+    }
+    function selectNextItem() {
+        return bar.selectNextItem()
+    }
+    function selectPreviousItem() {
+        return bar.selectPreviousItem()
+    }
+    function setCurrentItemIndex(i) {
+        return bar.setCurrentItemIndex(i)
+    }
+    function getCurrentItemX() {
+        return bar.getCurrentItemX()
+    }
+
     Item {
         anchors {
             left: parent.left

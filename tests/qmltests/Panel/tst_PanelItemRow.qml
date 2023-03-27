@@ -61,6 +61,7 @@ PanelTest {
                 delegate: Item {
                     property int ownIndex: index
                     objectName: model.identifier + "-panelItem"
+                    visible: !(model.identifier === "notch" && indicatorsRow.expanded)
 
                     implicitWidth: indicatorsRow.expanded ? units.gu(6) : units.gu(3)
                     height: parent.height

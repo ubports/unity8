@@ -73,7 +73,7 @@ PanelTest {
 
     RowLayout {
         anchors.fill: parent
-        anchors.margins: units.gu(1)
+        //anchors.margins: units.gu(1)
         clip: true
 
         Rectangle {
@@ -87,6 +87,9 @@ PanelTest {
                 id: backgroundMouseArea
                 anchors.fill: parent
                 hoverEnabled: true
+                onClicked: { console.log(" at "+mouse.x +" " +mouse.y )
+
+                        mouse.accepted = false}
 
                 Panel {
                     id: panel
@@ -107,6 +110,86 @@ PanelTest {
                         model: root.indicatorsModel
                         hides: [ panel.applicationMenus ]
                     }
+                     onExpandedChanged: {
+                         if (expanded) {
+                             removeIndicator(6)
+                         } else {
+                             insertIndicator(6)
+                         }
+                     }
+                    Rectangle {
+                        id: notchRect
+                        anchors {
+                            top: parent.top
+                            topMargin: panel.indicators.height
+                            left: parent.horizontalCenter
+                            leftMargin: notchX.value
+                        }
+                        height: units.gu(0.5)
+                        width: notchWidth.value
+                        // x: units.gu(15) //(parent.width - width) / 2
+                        // x: (parent.width - width) / 2
+                        // x: (parent.width - width) / 2
+                        color: UbuntuColors.red
+                        visible: false
+                        // opacity: 0.5
+                        property real y1: y + height / 2
+                        // property real relX: x + width //x-panel.listView.x + width
+                        property real relX: x-panel.listView.x + width
+                        property real relY1: y1-panel.listView.y
+                        // onXChanged: {
+                        //     // console.log(x)
+                        //     update()
+                        // }
+                        // onWidthChanged: update()
+                        Component.onCompleted: update()
+                        function update() {
+                            console.log(relX, relY1)
+                            console.log("updating notch")
+                            // var i = panel.indicators.indicatorAt(relX, relY1)
+                            var i = panel.indicators.indicatorAt(relX, 0)
+                            var objName = i.objectName.split("-panelItem")[0]
+                            console.log("indicator at right "+objName)
+                            var index = getIndicatorIndexFromIdentifier(objName)
+                            console.log("indicator index at right "+index)
+
+                            var p
+                            panel.indicators.setCurrentItemIndex(index + 1)
+                            // item to the right of the notch
+                            var t_str = panel.listView.currentItem
+                            console.log("new current item (t)", t_str)
+                            var t_index = getIndicatorIndexFromIdentifier(t_str.objectName.split("-panelItem")[0])
+                            var t = panel.listView.children[t_index]
+                            console.log("t", t_index, t)
+
+                            var tX = panel.indicators.getCurrentItemX()
+
+                            //// x coords at the right of the item t
+                            // var p = t.x + t.width
+                            // x coords at the left of the item t
+                            p = panel.listView.currentItem != undefined ? tX : panel.listView.x + panel.listView.width
+                            console.log("p", panel.listView.currentItem != undefined, tX, ":", panel.listView.x +"+"+ panel.listView.width)
+                            panel.indicators.setCurrentItemIndex(index - 1)
+                            // console.log("element index at right of the notch: "+i)
+
+                            var notchIndex = getIndicatorIndexFromIdentifier("notch")
+                            console.log("notch index: " + notchIndex)
+                            if (notchIndex === index) {
+                                if (panel.listView.currentItem != undefined) {
+                                    // console.log(p, relX, panel.listView.currentItem.width)
+                                    if(p - relX > panel.listView.currentItem.width)
+                                        moveNotch(index-1)
+                                }
+                                console.log("P: ", p,"X: ", relX, "w: ", width)
+                                panel.notchW = p - relX + width
+                            }
+                            else if (i != "") {
+                                moveNotch(index)
+                                panel.notchW = width
+                            }
+                            console.log(panel.notchW)
+                        }
+                    }
                 }
             }
         }
@@ -115,16 +198,73 @@ PanelTest {
             Layout.alignment: Qt.AlignTop
             Layout.fillWidth: false
 
-            ListItem.ItemSelector {
-                id: modeSelector
+            // ListItem.ItemSelector {
+            //     id: modeSelector
+            //     Layout.fillWidth: true
+            //     activeFocusOnPress: false
+            //     text: "Mode"
+            //     model: ["staged", "windowed" ]
+            //     onSelectedIndexChanged: {
+            //         panel.mode = model[selectedIndex];
+            //         keyboardAttached.checked = panel.mode == "windowed"
+            //         windowControlsCB.checked = panel.mode == "windowed"
+            //     }
+            // }
+
+            Button {
+                id: nButton
                 Layout.fillWidth: true
-                activeFocusOnPress: false
-                text: "Mode"
-                model: ["staged", "windowed" ]
-                onSelectedIndexChanged: {
-                    panel.mode = model[selectedIndex];
-                    keyboardAttached.checked = panel.mode == "windowed"
-                    windowControlsCB.checked = panel.mode == "windowed"
+                text: "Update notch"
+                onClicked: notchRect.update()
+            }
+
+            Slider {
+                id: notchWidth
+                maximumValue: units.gu(20)
+                minimumValue: units.gu(1)
+                width: nButton.width
+                live: true
+                value: units.gu(3)
+            }
+
+            Slider {
+                id: notchX
+                maximumValue: units.gu(20)
+                minimumValue: units.gu(-20)
+                width: nButton.width
+                live: true
+                value: units.gu(0)
+            }
+            RowLayout {
+                Button {
+                    text: "<"
+                    Layout.fillWidth: true
+                    onClicked: {
+                        var notchIndex = getIndicatorIndexFromIdentifier("notch")
+                        moveNotch(notchIndex-1)
+                    }
+                }
+                Button {
+                    text: "+"
+                    Layout.fillWidth: true
+                    onClicked: {
+                        panel.notchW += units.gu(1)
+                    }
+                }
+                Button {
+                    text: "-"
+                    Layout.fillWidth: true
+                    onClicked: {
+                        panel.notchW -= units.gu(1)
+                    }
+                }
+                Button {
+                    text: ">"
+                    Layout.fillWidth: true
+                    onClicked: {
+                        var notchIndex = getIndicatorIndexFromIdentifier("notch")
+                        moveNotch(notchIndex+1)
+                    }
                 }
             }
 

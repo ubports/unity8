@@ -19,6 +19,7 @@
 
 #include "fakeindicatorsmodel.h"
 #include "indicators.h"
+#include <QDebug>
 
 FakeIndicatorsModel::FakeIndicatorsModel(QObject *parent)
     : QAbstractListModel(parent),
@@ -103,6 +104,19 @@ void FakeIndicatorsModel::remove(int row)
     Q_EMIT modelDataChanged();
 
     endRemoveRows();
+}
+void FakeIndicatorsModel::moveNotchToIndex(const int notchIndex, const int index)
+{
+    QList<QVariant> allData = m_modelData.toList();
+    // qDebug() << allData;
+    beginResetModel();
+    allData.move(notchIndex, index);
+    // qDebug() << allData;
+    m_modelData = allData;
+    Q_EMIT modelDataChanged();
+
+    endResetModel();
+    // qDebug() << m_modelData;
 }
 
 void FakeIndicatorsModel::setModelData(const QVariant& modelData)

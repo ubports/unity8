@@ -60,6 +60,7 @@ PageStack {
         if (clearModel) {
             clear();
             var model = root.submenuIndex == undefined ? menuModel : menuModel.submenu(root.submenuIndex)
+            // console.log(JSON.stringify(model))
             if (model) {
                 push(pageComponent, { "menuModel": model });
             }

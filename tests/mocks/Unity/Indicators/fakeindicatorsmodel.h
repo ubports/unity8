@@ -55,6 +55,9 @@ public:
     QModelIndex parent (const QModelIndex &index) const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
+    // Notch
+    Q_INVOKABLE void moveNotchToIndex(const int notchIndex, const int index);
+
 Q_SIGNALS:
     void countChanged();
     void profileChanged();

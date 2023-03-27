@@ -30,6 +30,7 @@ Item {
     property bool expanded: false
     readonly property alias currentItem: row.currentItem
     readonly property alias currentItemIndex: row.currentIndex
+    property alias listView: row
 
     property real unitProgress: 0.0
     property real selectionChangeBuffer: units.gu(2)
@@ -126,6 +127,10 @@ Item {
             }
         }
         return false;
+    }
+
+    function getCurrentItemX() {
+        return row.currentItem.x
     }
 
     function selectItemAt(lateralPosition) {

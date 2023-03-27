@@ -83,6 +83,15 @@ Indicators.FakeIndicatorsModel {
             }
         },
         {
+            "identifier": "notch",
+            "indicatorProperties": {
+                "enabled": true,
+                "busName": "com.canonical.indicators.fake-notch",
+                "menuObjectPath": "/com/canonical/indicators/fake-notch",
+                "actionsObjectPath": "/com/canonical/indicators/fake-notch"
+            }
+        },
+        {
             "identifier": "fake-indicator-power",
             "indicatorProperties": {
                 "enabled": true,
