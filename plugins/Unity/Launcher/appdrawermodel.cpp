@@ -78,6 +78,14 @@ void AppDrawerModel::appAdded(const QString &appId)
         // Will be replaced by the refresh result anyway.
         return;
 
+    for(int i = 0; i < m_list.count(); i++) {
+        // app already in the model, update instead of adding a copy
+        if (m_list.at(i)->appId() == appId) {
+            appInfoChanged(appId);
+            return;
+        }
+    }
+
     UalWrapper::AppInfo info = UalWrapper::getApplicationInfo(appId);
     if (!info.valid) {
         qWarning() << "App added signal received but failed to get app info for app" << appId;
